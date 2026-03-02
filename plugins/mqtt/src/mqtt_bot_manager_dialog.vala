@@ -30,6 +30,15 @@ public class MqttBotManagerDialog : Adw.Dialog {
     private MqttConnectionConfig config;
     private bool is_standalone;
 
+    /**
+     * Return the MQTT client label for the context this dialog manages.
+     * "standalone" for the general broker, or the account bare JID.
+     */
+    private string get_client_label() {
+        if (is_standalone) return "standalone";
+        return account.bare_jid.to_string();
+    }
+
     /* Per-account mode groups (for show/hide by mode selector) */
     private Adw.ComboRow mode_selector;
     private Adw.PreferencesGroup xmpp_server_group;   /* Server Type (XMPP mode) */
@@ -1090,13 +1099,14 @@ public class MqttBotManagerDialog : Adw.Dialog {
                 rule.target_jid = jid;
                 rule.alias = alias_val;
                 rule.format = format;
+                rule.client_label = get_client_label();
                 plugin.bridge_manager.add_rule(rule);
             }
         }
 
-        /* Immediately subscribe the new bridge topic on all active
-         * MQTT clients so that forwarding works without Save & Apply. */
-        plugin.subscribe_bridge_topic(topic);
+        /* Immediately subscribe the new bridge topic on the correct
+         * MQTT client so that forwarding works without Save & Apply. */
+        plugin.subscribe_bridge_topic(topic, get_client_label());
 
         /* Clear form */
         bridge_topic_entry.text = "";
@@ -1175,7 +1185,8 @@ public class MqttBotManagerDialog : Adw.Dialog {
 
         if (plugin.bridge_manager == null) return;
 
-        var rules = plugin.bridge_manager.get_rules();
+        /* Only show rules that belong to this dialog's MQTT client */
+        var rules = plugin.bridge_manager.get_rules_for_client(get_client_label());
 
         if (rules.size == 0) {
             var empty_row = new Adw.ActionRow();

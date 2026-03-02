@@ -167,11 +167,11 @@ public class MqttCommandHandler : Object {
                 break;
 
             case "bridge":
-                response = cmd_bridge(arg1, arg2);
+                response = cmd_bridge(arg1, arg2, conversation);
                 break;
 
             case "bridges":
-                response = cmd_bridges();
+                response = cmd_bridges(conversation);
                 break;
 
             case "rmbridge":
@@ -1029,7 +1029,7 @@ public class MqttCommandHandler : Object {
     /**
      * /mqtt bridge <topic> <jid>  — Create MQTT→XMPP bridge.
      */
-    private string cmd_bridge(string topic, string jid_str) {
+    private string cmd_bridge(string topic, string jid_str, Conversation conversation) {
         if (topic == "" || jid_str == "") {
             return _("Usage: /mqtt bridge <topic> <jid>\n\n" +
                    "Forward MQTT messages to an XMPP contact.\n\n" +
@@ -1048,14 +1048,20 @@ public class MqttCommandHandler : Object {
         MqttBridgeManager? bm = plugin.get_bridge_manager();
         if (bm == null) return _("Bridge manager not available.");
 
+        string label = get_connection_key(conversation);
         var rule = new BridgeRule();
         rule.topic = topic;
         rule.target_jid = jid_str;
+        rule.client_label = label;
         bm.add_rule(rule);
+
+        /* Subscribe immediately on the correct client */
+        plugin.subscribe_bridge_topic(topic, label);
 
         return _("Bridge rule created ✔\n\n" +
                "Topic: %s\n").printf(topic) +
-               _("Target: %s\n\n").printf(jid_str) +
+               _("Target: %s\n").printf(jid_str) +
+               _("Client: %s\n\n").printf(label) +
                _("MQTT messages matching this topic will be forwarded\n" +
                "as XMPP chat messages to the target contact.");
     }
@@ -1063,14 +1069,15 @@ public class MqttCommandHandler : Object {
     /**
      * /mqtt bridges — List all bridge rules.
      */
-    private string cmd_bridges() {
+    private string cmd_bridges(Conversation conversation) {
         MqttBridgeManager? bm = plugin.get_bridge_manager();
         if (bm == null) return _("Bridge manager not available.");
 
-        var rules = bm.get_rules();
+        string label = get_connection_key(conversation);
+        var rules = bm.get_rules_for_client(label);
         if (rules.size == 0) {
-            return _("No bridge rules defined.\n\n" +
-                   "Use /mqtt bridge <topic> <jid> to create one.");
+            return _("No bridge rules for this connection (%s).\n\n" +
+                   "Use /mqtt bridge <topic> <jid> to create one.").printf(label);
         }
 
         var sb = new StringBuilder();

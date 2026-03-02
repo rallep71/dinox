@@ -24,17 +24,19 @@ namespace Dino.Plugins.Mqtt {
  */
 public class BridgeRule : Object {
     public string id;
-    public string topic;       /* MQTT topic pattern (exact or wildcard) */
-    public string target_jid;  /* Bare JID of the XMPP recipient */
+    public string topic;        /* MQTT topic pattern (exact or wildcard) */
+    public string target_jid;   /* Bare JID of the XMPP recipient */
     public bool enabled;
-    public string? format;     /* Optional format: "full" (default), "payload", "short" */
-    public string? alias;      /* Human-readable display name for the topic */
+    public string? format;      /* Optional format: "full" (default), "payload", "short" */
+    public string? alias;       /* Human-readable display name for the topic */
+    public string client_label; /* Which MQTT client owns this rule: "standalone" or account bare JID */
 
     public BridgeRule() {
         id = Xmpp.random_uuid();
         enabled = true;
         format = "full";
         alias = null;
+        client_label = "standalone";
     }
 
     /**
@@ -62,6 +64,7 @@ public class BridgeRule : Object {
         obj.set_boolean_member("enabled", enabled);
         if (format != null) obj.set_string_member("format", format);
         if (alias != null) obj.set_string_member("alias", alias);
+        obj.set_string_member("client_label", client_label);
         return obj;
     }
 
@@ -85,6 +88,8 @@ public class BridgeRule : Object {
             rule.format = obj.get_string_member("format");
         if (obj.has_member("alias"))
             rule.alias = obj.get_string_member("alias");
+        if (obj.has_member("client_label"))
+            rule.client_label = obj.get_string_member("client_label");
 
         return rule;
     }
@@ -165,6 +170,20 @@ public class MqttBridgeManager : Object {
     }
 
     /**
+     * Get bridge rules filtered by client label.
+     * Returns only rules belonging to the specified MQTT client.
+     */
+    public ArrayList<BridgeRule> get_rules_for_client(string client_label) {
+        var filtered = new ArrayList<BridgeRule>();
+        foreach (var rule in rules) {
+            if (rule.client_label == client_label) {
+                filtered.add(rule);
+            }
+        }
+        return filtered;
+    }
+
+    /**
      * Update an existing bridge rule by its UUID.
      * Returns true if the rule was found and updated.
      */
@@ -176,6 +195,8 @@ public class MqttBridgeManager : Object {
                 rule.target_jid = target_jid;
                 rule.format = format ?? "full";
                 rule.alias = alias;
+                /* client_label is NOT changed on edit — the rule stays
+                 * bound to the same MQTT client it was created for. */
                 save_rules();
                 return true;
             }
@@ -206,6 +227,9 @@ public class MqttBridgeManager : Object {
     public void evaluate(string source, string topic, string payload) {
         foreach (var rule in rules) {
             if (!rule.enabled) continue;
+            /* Only evaluate rules belonging to the MQTT client that
+             * received this message — prevents cross-broker duplicates. */
+            if (rule.client_label != source) continue;
             if (!rule.matches_topic(topic)) continue;
 
             /* Rate limiting */
@@ -382,6 +406,7 @@ public class MqttBridgeManager : Object {
                 rule.format = plugin.mqtt_db.bridge_rules.format[row];
                 rule.enabled = plugin.mqtt_db.bridge_rules.enabled[row];
                 rule.alias = plugin.mqtt_db.bridge_rules.alias[row];
+                rule.client_label = plugin.mqtt_db.bridge_rules.client_label[row];
                 rules.add(rule);
             }
 
@@ -444,6 +469,7 @@ public class MqttBridgeManager : Object {
                         .value(plugin.mqtt_db.bridge_rules.format, rule.format ?? "full")
                         .value(plugin.mqtt_db.bridge_rules.enabled, rule.enabled)
                         .value(plugin.mqtt_db.bridge_rules.alias, rule.alias)
+                        .value(plugin.mqtt_db.bridge_rules.client_label, rule.client_label)
                         .value(plugin.mqtt_db.bridge_rules.created_at, now)
                         .perform();
                 }

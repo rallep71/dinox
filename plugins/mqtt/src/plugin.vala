@@ -527,7 +527,7 @@ public class Plugin : RootInterface, Object {
                 && !conn_changed) {
                 /* Same connection params — just re-sync topics */
                 message("[STANDALONE] No connection change — syncing topics only");
-                sync_topics_to_client_cfg(standalone_client, standalone_config);
+                sync_topics_to_client_cfg(standalone_client, standalone_config, "standalone");
                 /* NOTE: Do NOT return here! Per-account handling follows below
                  * and must not be skipped just because standalone didn't change. */
             } else {
@@ -587,7 +587,7 @@ public class Plugin : RootInterface, Object {
                     });
                 } else if (account_clients.has_key(jid)) {
                     /* Already connected — re-sync topics */
-                    sync_topics_to_client_cfg(account_clients[jid], acfg);
+                    sync_topics_to_client_cfg(account_clients[jid], acfg, jid);
                 }
             } else if (!acfg.enabled && account_clients.has_key(jid)) {
                 /* Disabled → disconnect */
@@ -621,7 +621,7 @@ public class Plugin : RootInterface, Object {
      * replayed on reconnect by handle_connect().  Without this, a topic
      * deletion saved while the connection is briefly down would be lost.
      */
-    private void sync_topics_to_client_cfg(MqttClient client, MqttConnectionConfig cfg) {
+    private void sync_topics_to_client_cfg(MqttClient client, MqttConnectionConfig cfg, string label) {
         /* Build set of wanted topics from the config's topic string */
         var wanted = new Gee.HashSet<string>();
         foreach (string t in cfg.get_topic_list()) {
@@ -642,9 +642,10 @@ public class Plugin : RootInterface, Object {
 
         /* Preserve bridge rule topics — ensure forwarding survives reconnect.
          * BUG-FIX: Bridge rules were never auto-subscribed, so messages
-         * on bridge-only topics were silently lost after reconnect. */
+         * on bridge-only topics were silently lost after reconnect.
+         * Only include rules belonging to THIS client (scoped by label). */
         if (bridge_manager != null) {
-            foreach (var rule in bridge_manager.get_rules()) {
+            foreach (var rule in bridge_manager.get_rules_for_client(label)) {
                 if (rule.enabled && rule.topic.strip() != "") {
                     wanted.add(rule.topic.strip());
                 }
@@ -678,20 +679,27 @@ public class Plugin : RootInterface, Object {
     }
 
     /**
-     * Immediately subscribe a bridge topic on all active MQTT clients.
+     * Immediately subscribe a bridge topic on the correct MQTT client.
      * Called from dialog when a new bridge rule is added, so that
      * forwarding works immediately without requiring Save & Apply.
+     *
+     * @param topic        The MQTT topic to subscribe
+     * @param client_label "standalone" or account bare JID
      */
-    public void subscribe_bridge_topic(string topic) {
+    public void subscribe_bridge_topic(string topic, string client_label) {
         string t = topic.strip();
         if (t == "") return;
 
-        if (standalone_client != null && standalone_client.is_connected) {
-            standalone_client.subscribe(t, 0);
-        }
-        foreach (var entry in account_clients.entries) {
-            if (entry.value.is_connected) {
-                entry.value.subscribe(t, 0);
+        if (client_label == "standalone") {
+            if (standalone_client != null && standalone_client.is_connected) {
+                standalone_client.subscribe(t, 0);
+            }
+        } else {
+            if (account_clients.has_key(client_label)) {
+                var client = account_clients[client_label];
+                if (client.is_connected) {
+                    client.subscribe(t, 0);
+                }
             }
         }
     }
@@ -837,7 +845,7 @@ public class Plugin : RootInterface, Object {
                 string jid = account.bare_jid.to_string();
                 if (account_clients.has_key(jid)) {
                     /* Already connected — re-sync topics (subscribe new, unsubscribe removed) */
-                    sync_topics_to_client_cfg(account_clients[jid], cfg);
+                    sync_topics_to_client_cfg(account_clients[jid], cfg, jid);
                 } else if (!connecting_accounts.contains(jid)) {
                     connecting_accounts.add(jid);
                     start_per_account.begin(account, (obj, res) => {
@@ -1091,9 +1099,10 @@ public class Plugin : RootInterface, Object {
         /* BUG-FIX: Auto-subscribe bridge rule topics so that MQTT→XMPP
          * forwarding works even if the bridge topic isn't in the user's
          * explicit topic list.  Without this, bridge rules on topics not
-         * in the config are silently inactive. */
+         * in the config are silently inactive.
+         * Only subscribe rules belonging to THIS client (scoped by label). */
         if (bridge_manager != null) {
-            foreach (var rule in bridge_manager.get_rules()) {
+            foreach (var rule in bridge_manager.get_rules_for_client(label)) {
                 if (rule.enabled && rule.topic.strip() != "") {
                     client.subscribe(rule.topic.strip(), 0);
                 }

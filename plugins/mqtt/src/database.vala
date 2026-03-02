@@ -28,7 +28,7 @@ namespace Dino.Plugins.Mqtt {
 
 public class MqttDatabase : Qlite.Database {
 
-    private const int VERSION = 2;
+    private const int VERSION = 3;
 
     /* ══════════════════════════════════════════════════════════════════
      *  Table 1: mqtt_messages — Received MQTT messages
@@ -185,11 +185,12 @@ public class MqttDatabase : Qlite.Database {
         public Column<string> format = new Column.NonNullText("format") { default = "'full'" };
         public Column<bool> enabled = new Column.BoolInt("enabled") { default = "1" };
         public Column<string?> alias = new Column.Text("alias");  /* v2: human-readable name */
+        public Column<string> client_label = new Column.NonNullText("client_label") { default = "'standalone'" };  /* v3: which MQTT client */
         public Column<long> created_at = new Column.Long("created_at") { default = "0" };
 
         internal BridgeRulesTable(MqttDatabase db) {
             base(db, "mqtt_bridge_rules");
-            init({id, connection_id, topic, target_jid, format, enabled, alias, created_at});
+            init({id, connection_id, topic, target_jid, format, enabled, alias, client_label, created_at});
             index("mqtt_bridge_rules_topic_idx", {topic});
         }
     }
@@ -329,6 +330,16 @@ public class MqttDatabase : Qlite.Database {
                 exec("ALTER TABLE mqtt_bridge_rules ADD COLUMN alias TEXT DEFAULT NULL");
             } catch (Error e) {
                 warning("MqttDatabase migrate v2: %s", e.message);
+            }
+        }
+        if (old_version < 3) {
+            /* v3: Add client_label column to bridge_rules table.
+             * Existing rules default to 'standalone' — safe because
+             * before this version all rules were global anyway. */
+            try {
+                exec("ALTER TABLE mqtt_bridge_rules ADD COLUMN client_label TEXT NOT NULL DEFAULT 'standalone'");
+            } catch (Error e) {
+                warning("MqttDatabase migrate v3: %s", e.message);
             }
         }
     }
