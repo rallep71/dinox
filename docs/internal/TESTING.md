@@ -3,7 +3,7 @@
 Complete inventory of all automated tests in the DinoX project.
 Every test references its authoritative specification or contract.
 
-**Status: v1.1.5.0 -- 640 Meson tests + 136 standalone tests = 776 automated tests, 0 failures**
+**Status: v1.1.5.0 -- 689 Meson tests + 136 standalone tests = 825 automated tests, 0 failures**
 
 ---
 
@@ -13,7 +13,7 @@ Every test references its authoritative specification or contract.
 # All tests at once (recommended)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (8 suites, 640 tests)
+# Only Meson-registered tests (8 suites, 689 tests)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136 standalone)
@@ -31,7 +31,7 @@ Use it as a cheat sheet when working on DinoX.
 
 | Script | Language | Tests | What it does |
 |--------|----------|-------|--------------|
-| `scripts/run_all_tests.sh` | Bash | 678 | **Master runner** -- builds, runs all Meson suites + DB tests, prints color-coded summary |
+| `scripts/run_all_tests.sh` | Bash | 825 | **Master runner** -- builds, runs all Meson suites + DB tests, prints color-coded summary |
 | `scripts/test_db_maintenance.sh` | Bash | 71 | SQLCipher CLI tests: rekey, reset, WAL checkpoint, backup |
 | `scripts/run_db_integration_tests.sh` | Bash+Vala | 65 | Compiles + runs Vala integration tests against `libqlite.so` |
 | `check_translations.py` | Python | -- | Checks `.po` files for missing/fuzzy translations via `msgfmt` |
@@ -52,7 +52,7 @@ After `ninja -C build`, these binaries are ready:
 | `build/libdino/libdino-test` | libdino | 50 | Crypto, key derivation, file transfer, SRTP, data structures |
 | `build/plugins/http-files/http-files-test` | http-files | 25 | URL regex, filename extraction, log sanitization |
 | `build/plugins/bot-features/bot-features-test` | bot-features | 24 | Rate limiter, crypto hashes, JSON escaping |
-| `build/plugins/mqtt/mqtt-test` | mqtt | 52 | MQTT topic matching, Prosody format, sparklines, bridge format |
+| `build/plugins/mqtt/mqtt-test` | mqtt | 101 | MQTT topic matching, Prosody format, sparklines, bridge format, config, port validation, alias |
 
 **Important:** Before running binaries directly, set the library path:
 
@@ -150,11 +150,11 @@ spec, open the source file and check the assertion against the referenced RFC/XE
 | `plugins/http-files/tests/http_files_test.vala` | UrlRegex (13), FileNameExtraction (6), SanitizeLog (6) | XEP-0363, OMEMO aesgcm://, contract |
 | `plugins/http-files/tests/common.vala` | -- | Test registration (main entry point) |
 
-#### mqtt (7 suites, 52 tests)
+#### mqtt (12 suites, 101 tests)
 
 | Source File | Suite(s) | Spec Coverage |
 |-------------|----------|---------------|
-| `plugins/mqtt/tests/mqtt_tests.vala` | MqttTopicMatch (15), ProsodyFormat (7), NumericExtract (10), Sparkline (8), SparkChars (2), BridgeFormat (5), TruncateStr (5) | MQTT 3.1.1 §4.7, Prosody mod_pubsub_mqtt, contract |
+| `plugins/mqtt/tests/mqtt_tests.vala` | MqttTopicMatch (15), ProsodyFormat (7), NumericExtract (10), Sparkline (8), SparkChars (2), BridgeFormat (5), TruncateStr (5), LocalHost (15), ConnectionConfig (11), PortValidation (8), TruncateEdge (7), AliasMap (8) | MQTT 3.1.1 §4.7, Prosody mod_pubsub_mqtt, contract, audit |
 | `plugins/mqtt/tests/common.vala` | -- | Test registration (main entry point) |
 
 #### Scripts and Standalone Tests
@@ -192,7 +192,7 @@ spec, open the source file and check the assertion against the referenced RFC/XE
 #### Full regression check
 
 ```bash
-# All 776 tests -- Meson + DB
+# All 825 tests -- Meson + DB
 ./scripts/run_all_tests.sh
 ```
 
@@ -277,7 +277,7 @@ python3 scripts/scan_unicode.py --verbose   # show details
   Commit:  0e0b766a
 
 ============================================
- Meson Tests (8 suites, 640 tests)
+ Meson Tests (8 suites, 689 tests)
 ============================================
 >>> main-test (62 UI ViewModel + helper tests)
     OK
@@ -294,7 +294,7 @@ python3 scripts/scan_unicode.py --verbose   # show details
   PASS  openpgp-test (48 OpenPGP stream + armor tests)
   PASS  bot-features-test (24 rate limiter + crypto tests)
   PASS  http-files-test (25 URL regex + sanitize tests)
-  PASS  mqtt-test (52 MQTT utility tests)
+  PASS  mqtt-test (101 MQTT utility tests)
   PASS  DB CLI tests (71 bash tests)
   PASS  DB Integration tests (65 Vala tests)
 
@@ -377,7 +377,7 @@ build/plugins/omemo/omemo-test      # 102 tests
 build/plugins/openpgp/openpgp-test  # 48 tests
 build/plugins/bot-features/bot-features-test  # 24 tests
 build/plugins/http-files/http-files-test      # 25 tests
-build/plugins/mqtt/mqtt-test                  # 52 tests
+build/plugins/mqtt/mqtt-test                  # 101 tests
 ```
 
 ### Running a single test by name
@@ -420,7 +420,7 @@ build/xmpp-vala/xmpp-vala-test --verbose
 
 ---
 
-## 1. Meson-Registered Tests (640 Tests)
+## 1. Meson-Registered Tests (689 Tests)
 
 Compiled and executed via `ninja -C build test`.
 Framework: GLib.Test + `Gee.TestCase` with `add_async_test()` for async XML parsing.
@@ -1313,18 +1313,25 @@ initialization for static Regex fields when linked via internal VAPI.
 
 ---
 
-### 1.8 MQTT Plugin (52 Tests)
+### 1.8 MQTT Plugin (101 Tests)
 
 **Target:** `mqtt-test` -- `plugins/mqtt/meson.build`
 
 Tests the MQTT plugin utility functions: topic filter matching (MQTT 3.1.1 §4.7
 wildcard semantics), Prosody mod_pubsub_mqtt topic display formatting, numeric
 payload extraction (plain + JSON), Unicode sparkline chart generation, bridge
-message formatting, and string truncation.
+message formatting, string truncation, local-host detection,
+`MqttConnectionConfig` model, port validation, truncation edge cases, and
+topic alias CRUD.
 
 **Note:** All functions under test are pure static methods in `MqttUtils`
-(`plugins/mqtt/src/mqtt_utils.vala`). No MQTT broker, database, or UI
+(`plugins/mqtt/src/mqtt_utils.vala`) or `MqttConnectionConfig`
+(`plugins/mqtt/src/connection_config.vala`). No MQTT broker, database, or UI
 dependencies are required.
+
+**Not unit-testable** (due to `Plugin` class dependency in `alert_manager.vala`):
+`MqttPriority` enum roundtrip, `AlertOperator` enum roundtrip,
+`AlertRule.evaluate()` logic. These are verified via manual/integration testing.
 
 #### MqttTopicMatch (15 Tests) -- MQTT 3.1.1 §4.7
 
@@ -1412,6 +1419,95 @@ dependencies are required.
 | 50 | `CONTRACT_over_length_truncated` | CONTRACT | String over limit truncated |
 | 51 | `CONTRACT_ellipsis_appended` | CONTRACT | Truncation appends `...` |
 | 52 | `CONTRACT_truncated_length_exact` | CONTRACT | Result length = max_len exactly |
+
+#### LocalHost (15 Tests) -- CONTRACT (TLS Warning)
+
+**Target:** `MqttUtils.is_local_host()` -- detects local/private addresses to warn
+about unencrypted MQTT connections.
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 53 | `LOCAL_localhost` | CONTRACT | "localhost" → true |
+| 54 | `LOCAL_127_0_0_1` | CONTRACT | "127.0.0.1" → true |
+| 55 | `LOCAL_ipv6_loopback` | CONTRACT | "::1" → true |
+| 56 | `LOCAL_192_168_x` | CONTRACT | "192.168.1.100" → true |
+| 57 | `LOCAL_10_x` | CONTRACT | "10.0.0.1" → true |
+| 58 | `LOCAL_172_16_x` | CONTRACT | "172.16.0.1" → true |
+| 59 | `LOCAL_172_31_x` | CONTRACT | "172.31.255.255" → true |
+| 60 | `NON_LOCAL_172_32_x` | CONTRACT | "172.32.0.1" → false (outside RFC 1918) |
+| 61 | `LOCAL_dot_local` | CONTRACT | "myserver.local" → true |
+| 62 | `LOCAL_dot_lan` | CONTRACT | "mqtt.lan" → true |
+| 63 | `LOCAL_dot_home` | CONTRACT | "broker.home" → true |
+| 64 | `NON_LOCAL_public_ip` | CONTRACT | "8.8.8.8" → false |
+| 65 | `NON_LOCAL_domain` | CONTRACT | "mqtt.example.com" → false |
+| 66 | `LOCAL_empty_string` | CONTRACT | "" → true (edge case) |
+| 67 | `LOCAL_case_insensitive` | CONTRACT | "LOCALHOST" / ".LOCAL" → true |
+
+#### ConnectionConfig (11 Tests) -- CONTRACT
+
+**Target:** `MqttConnectionConfig` model -- defaults, copy, connection_differs, topic list.
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 68 | `CONFIG_defaults` | CONTRACT | Default values for all properties |
+| 69 | `CONFIG_copy_preserves_all` | CONTRACT | `copy()` preserves all fields |
+| 70 | `CONFIG_copy_is_independent` | CONTRACT | Modifying copy doesn't affect original |
+| 71 | `CONFIG_connection_differs_host` | CONTRACT | Different host → `connection_differs()` true |
+| 72 | `CONFIG_connection_differs_port` | CONTRACT | Different port → `connection_differs()` true |
+| 73 | `CONFIG_connection_differs_tls` | CONTRACT | Different TLS → `connection_differs()` true |
+| 74 | `CONFIG_connection_same` | CONTRACT | Same connection + different topics → false |
+| 75 | `CONFIG_get_topic_list_basic` | CONTRACT | Comma-separated → string array |
+| 76 | `CONFIG_get_topic_list_whitespace` | CONTRACT | Whitespace trimmed from topics |
+| 77 | `CONFIG_get_topic_list_empty` | CONTRACT | Empty string → empty array |
+| 78 | `CONFIG_to_debug_string` | CONTRACT | Debug string contains key fields |
+
+#### PortValidation (8 Tests) -- AUDIT (Security)
+
+**Target:** `MqttConnectionConfig.broker_port` setter -- clamps to 1–65535 range.
+Audit fix: commit `030cc9d9` added `.clamp(1, 65535)`.
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 79 | `AUDIT_default_port_1883` | AUDIT | Default port is 1883 |
+| 80 | `AUDIT_valid_port_8883` | AUDIT | TLS port 8883 accepted |
+| 81 | `AUDIT_min_port_1` | AUDIT | Minimum valid port 1 accepted |
+| 82 | `AUDIT_max_port_65535` | AUDIT | Maximum valid port 65535 accepted |
+| 83 | `AUDIT_zero_clamped_to_1` | AUDIT | Port 0 → clamped to 1 |
+| 84 | `AUDIT_negative_clamped_to_1` | AUDIT | Port -100 → clamped to 1 |
+| 85 | `AUDIT_over_65535_clamped` | AUDIT | Port 65536 → clamped to 65535 |
+| 86 | `AUDIT_huge_port_clamped` | AUDIT | Port 999999 → clamped to 65535 |
+
+#### TruncateEdge (7 Tests) -- AUDIT
+
+**Target:** `MqttUtils.truncate_string()` -- edge case when `max_len` ≤ 3.
+Audit fix: commit `030cc9d9` added guard for `max_len <= 3` returning original.
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 87 | `AUDIT_max_len_3_returns_original` | AUDIT | max_len=3 → can't append "...", return as-is |
+| 88 | `AUDIT_max_len_2_returns_original` | AUDIT | max_len=2 → return as-is |
+| 89 | `AUDIT_max_len_1_returns_original` | AUDIT | max_len=1 → return as-is |
+| 90 | `AUDIT_max_len_0_returns_original` | AUDIT | max_len=0 → return as-is |
+| 91 | `AUDIT_max_len_negative_returns_original` | AUDIT | max_len=-5 → return as-is |
+| 92 | `AUDIT_max_len_4_truncates` | AUDIT | max_len=4 → "a..." (boundary) |
+| 93 | `AUDIT_empty_string_unchanged` | AUDIT | Empty string → unchanged regardless of max_len |
+
+#### AliasMap (8 Tests) -- AUDIT
+
+**Target:** `MqttConnectionConfig` alias methods -- `get_aliases_map()`, `set_alias()`,
+`remove_alias()`, `resolve_alias()`, and JSON roundtrip.
+Audit fix: commit `030cc9d9` verified alias CRUD and wildcard resolve correctness.
+
+| # | Test | Spec | Verifies |
+|---|------|------|----------|
+| 94 | `AUDIT_empty_json_empty_map` | AUDIT | Default config → empty alias map |
+| 95 | `AUDIT_set_and_get_alias` | AUDIT | `set_alias` + `get_aliases_map` roundtrip |
+| 96 | `AUDIT_remove_alias` | AUDIT | `remove_alias()` removes, second call returns false |
+| 97 | `AUDIT_resolve_exact_match` | AUDIT | Exact topic → alias returned |
+| 98 | `AUDIT_resolve_wildcard_prefix` | AUDIT | `home/#` → "Haus / living/temp" |
+| 99 | `AUDIT_resolve_no_match_null` | AUDIT | Non-matching topic → null |
+| 100 | `AUDIT_alias_length_clamped` | AUDIT | Alias > MAX_ALIAS_LENGTH → clamped to 50 |
+| 101 | `AUDIT_json_roundtrip` | AUDIT | Set aliases → read JSON → parse in new config → identical |
 
 ---
 
@@ -1509,7 +1605,8 @@ Every test references its authoritative source:
 | **XEP-0448** | Encrypted File Sharing | 2 |
 | **XEP-0454** | OMEMO Media Sharing | 3 |
 | **Signal Protocol** | Double Ratchet, PreKeys | 5 |
-| **Contract** | Data structure/API contracts (WeakMap, RateLimiter, arr_to_str, rgba_to_hex, ws, matching chars, markup, MQTT utils) | 89 |
+| **Contract** | Data structure/API contracts (WeakMap, RateLimiter, arr_to_str, rgba_to_hex, ws, matching chars, markup, MQTT utils, ConnectionConfig, LocalHost) | 115 |
+| **AUDIT** | Security audit regression tests (port validation, truncate edge, alias CRUD) | 23 |
 | **MQTT 3.1.1** | Topic Filter Matching (§4.7 wildcards +, #) | 15 |
 | **Prosody** | mod_pubsub_mqtt topic display format | 7 |
 | **GObject** | Property/signal contract (PreferencesRow) | 16 |
@@ -1525,7 +1622,7 @@ Every test references its authoritative source:
 ## 5. Test Architecture
 
 ```
-ninja -C build test                    Meson-registered (640 tests)
+ninja -C build test                    Meson-registered (689 tests)
   |-- xmpp-vala-test                   20 suites, 277 tests (GLib.Test)
   |     |-- Stanza (4)                   RFC 6120 S4 stream/namespace
   |     |-- util (5)                     xs:hexBinary parsing contract
@@ -1592,14 +1689,19 @@ ninja -C build test                    Meson-registered (640 tests)
   |     |-- FileNameExtraction (6)       CONTRACT filename from URL path
   |     +-- SanitizeLog (6)              CONTRACT secret stripping for logs
   |
-  +-- mqtt-test                        7 suites, 52 tests (GLib.Test)
+  +-- mqtt-test                        12 suites, 101 tests (GLib.Test)
         |-- MqttTopicMatch (15)          MQTT 3.1.1 §4.7 wildcard topic matching
         |-- ProsodyFormat (7)            Prosody mod_pubsub_mqtt topic display
         |-- NumericExtract (10)          Payload numeric extraction (plain + JSON)
         |-- Sparkline (8)                Unicode sparkline chart generation
         |-- SparkChars (2)               Spark character array validation
         |-- BridgeFormat (5)             Bridge message formatting (full/payload/short)
-        +-- TruncateStr (5)              String truncation with ellipsis
+        |-- TruncateStr (5)              String truncation with ellipsis
+        |-- LocalHost (15)               Local/private host detection (TLS warning)
+        |-- ConnectionConfig (11)        MqttConnectionConfig model contract
+        |-- PortValidation (8)           [AUDIT] Port range clamp 1–65535
+        |-- TruncateEdge (7)             [AUDIT] truncate_string() with max_len ≤ 3
+        +-- AliasMap (8)                 [AUDIT] Alias CRUD + wildcard resolve
 
 scripts/test_db_maintenance.sh         Bash CLI, 71 tests
 scripts/run_db_integration_tests.sh    Vala, 65 tests (Qlite)
@@ -1628,8 +1730,8 @@ future test ideas: see `docs/internal/TESTING_GAPS.md` (not tracked in Git).
 
 | Workflow | Trigger | Tests |
 |----------|---------|-------|
-| `build.yml` | push, PR | `meson test` (640 tests) |
-| `build.yml` (Vala nightly) | push, PR | `meson test` (640 tests) |
+| `build.yml` | push, PR | `meson test` (689 tests) |
+| `build.yml` (Vala nightly) | push, PR | `meson test` (689 tests) |
 | `build-flatpak.yml` | push | Build only |
 | `build-appimage.yml` | Tag | Build only |
 | `windows-build.yml` | push | Build only |
@@ -1643,10 +1745,10 @@ future test ideas: see `docs/internal/TESTING_GAPS.md` (not tracked in Git).
 Script: `scripts/run_all_tests.sh`
 
 ```bash
-# All 776 tests (Meson + DB)
+# All 825 tests (Meson + DB)
 ./scripts/run_all_tests.sh
 
-# Only Meson-registered tests (640)
+# Only Meson-registered tests (689)
 ./scripts/run_all_tests.sh --meson
 
 # Only DB maintenance tests (136)
@@ -1801,4 +1903,4 @@ Examples:
 
 ---
 
-*Last updated: 28 February 2026 -- v1.1.5.0, 640 Meson + 136 standalone = 776 tests, 0 failures, MQTT plugin utility tests added (7 suites, 52 tests: topic matching, Prosody format, numeric extraction, sparklines, bridge format)*
+*Last updated: 2 March 2026 -- v1.1.5.0, 689 Meson + 136 standalone = 825 tests, 0 failures, MQTT plugin tests expanded (12 suites, 101 tests: +LocalHost, ConnectionConfig, PortValidation, TruncateEdge, AliasMap from security audit)*
