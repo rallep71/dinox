@@ -1392,8 +1392,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
                     account.bare_jid.to_string(), config.enabled.to_string());
         }
 
-        /* Close dialog */
-        this.close();
+        /* Don't auto-close — user closes manually via X button */
     }
 
     /* ── TLS / Prosody warnings ─────────────────────────────────── */
