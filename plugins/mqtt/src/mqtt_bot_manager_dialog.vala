@@ -56,6 +56,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
     private Adw.PreferencesGroup topics_group;
     private Gee.ArrayList<Gtk.Widget> topic_rows = new Gee.ArrayList<Gtk.Widget>();
     private Entry topic_entry;
+    private Entry topic_alias_entry;
     private DropDown qos_dropdown;
 
     /* Alerts page widgets */
@@ -263,6 +264,21 @@ public class MqttBotManagerDialog : Adw.Dialog {
                 }
             });
             bot_btn_group.add(show_bot_btn);
+
+            /* Reconnect button (per-account) */
+            var reconnect_btn_pa = new Button.with_label(_("Reconnect"));
+            reconnect_btn_pa.add_css_class("flat");
+            reconnect_btn_pa.add_css_class("pill");
+            reconnect_btn_pa.halign = Align.CENTER;
+            reconnect_btn_pa.tooltip_text = _("Disconnect and reconnect to the MQTT broker");
+            reconnect_btn_pa.clicked.connect(() => {
+                if (account != null) {
+                    var pa_cfg = plugin.get_account_config(account);
+                    plugin.apply_account_config_change(account, pa_cfg);
+                }
+            });
+            bot_btn_group.add(reconnect_btn_pa);
+
             page.add(bot_btn_group);
         } else {
             /* ── Standalone: just show status ─────────────────────── */
@@ -290,6 +306,18 @@ public class MqttBotManagerDialog : Adw.Dialog {
                 }
             });
             status_group.add(show_bot_btn_sa);
+
+            /* Reconnect button (standalone) */
+            var reconnect_btn_sa = new Button.with_label(_("Reconnect"));
+            reconnect_btn_sa.add_css_class("flat");
+            reconnect_btn_sa.add_css_class("pill");
+            reconnect_btn_sa.halign = Align.CENTER;
+            reconnect_btn_sa.tooltip_text = _("Disconnect and reconnect to the MQTT broker");
+            reconnect_btn_sa.clicked.connect(() => {
+                plugin.apply_settings();
+                status_row.subtitle = _("Reconnecting…");
+            });
+            status_group.add(reconnect_btn_sa);
 
             page.add(status_group);
         }
@@ -339,6 +367,24 @@ public class MqttBotManagerDialog : Adw.Dialog {
         sections_group.add(bridges_nav);
 
         page.add(sections_group);
+
+        /* ── 4a. Pause/Resume toggle ──────────────────────────── */
+        var runtime_group = new Adw.PreferencesGroup();
+        runtime_group.title = _("Runtime");
+
+        var pause_switch = new Adw.SwitchRow();
+        pause_switch.title = _("Pause Messages");
+        pause_switch.subtitle = _("Incoming MQTT messages are recorded but not shown in chat");
+        MqttAlertManager? am = plugin.get_alert_manager();
+        pause_switch.active = (am != null) ? am.paused : false;
+        pause_switch.notify["active"].connect(() => {
+            MqttAlertManager? alert_mgr = plugin.get_alert_manager();
+            if (alert_mgr != null) {
+                alert_mgr.paused = pause_switch.active;
+            }
+        });
+        runtime_group.add(pause_switch);
+        page.add(runtime_group);
 
         /* ── 4b. HA Discovery (per-account only — standalone has it on Settings Page) ── */
         if (!is_standalone) {
@@ -418,6 +464,19 @@ public class MqttBotManagerDialog : Adw.Dialog {
         add_box.append(add_btn);
 
         add_group.add(add_box);
+
+        /* Alias entry row */
+        var alias_box = new Box(Orientation.HORIZONTAL, 6);
+        alias_box.margin_bottom = 6;
+
+        topic_alias_entry = new Entry();
+        topic_alias_entry.placeholder_text = _("Alias (optional, e.g. 🌡 Living Room)");
+        topic_alias_entry.hexpand = true;
+        topic_alias_entry.max_length = MqttConnectionConfig.MAX_ALIAS_LENGTH;
+        alias_box.append(topic_alias_entry);
+
+        add_group.add(alias_box);
+
         page.add(add_group);
 
         /* Active subscriptions list */
@@ -738,6 +797,9 @@ public class MqttBotManagerDialog : Adw.Dialog {
 
     /* ── Topic list ───────────────────────────────────────────────── */
 
+    /** Priority labels for the per-topic dropdown. Index = MqttPriority ordinal. */
+    private const string[] PRIORITY_LABELS = { "Silent", "Normal", "Alert", "Critical" };
+
     private void populate_topics_list() {
         /* Clear tracked rows — get_first_child() doesn't work on
          * Adw.PreferencesGroup because rows live inside an internal
@@ -757,16 +819,71 @@ public class MqttBotManagerDialog : Adw.Dialog {
             return;
         }
 
-        /* Parse QoS map */
+        /* Parse QoS, priority and alias maps */
         HashMap<string, int> qos_map = parse_qos_map(config.topic_qos_json);
+        HashMap<string, string> prio_map = parse_priority_map(config.topic_priorities_json);
+        HashMap<string, string> aliases = config.get_aliases_map();
 
         foreach (string topic in topic_list) {
             int qos = qos_map.has_key(topic) ? qos_map[topic] : 0;
+            string prio_str = prio_map.has_key(topic) ? prio_map[topic] : "normal";
+            MqttPriority prio = MqttPriority.from_string(prio_str);
+            string? alias = aliases.has_key(topic) ? aliases[topic] : null;
 
             var row = new Adw.ActionRow();
-            row.title = topic;
-            row.subtitle = "QoS %d".printf(qos);
+            if (alias != null && alias != "") {
+                row.title = alias;
+                row.subtitle = topic;
+            } else {
+                row.title = topic;
+            }
 
+            /* Suffix box: QoS dropdown + Priority dropdown + edit + delete */
+            var suffix_box = new Box(Orientation.HORIZONTAL, 4);
+            suffix_box.valign = Align.CENTER;
+
+            /* QoS dropdown */
+            string[] qos_labels = { "QoS 0", "QoS 1", "QoS 2" };
+            var qos_dd = new DropDown.from_strings(qos_labels);
+            qos_dd.selected = qos;
+            qos_dd.tooltip_text = _("Quality of Service level");
+            string t_qos = topic; /* capture for closure */
+            qos_dd.notify["selected"].connect(() => {
+                var qm = parse_qos_map(config.topic_qos_json);
+                qm[t_qos] = (int) qos_dd.selected;
+                config.topic_qos_json = build_qos_json(qm);
+            });
+            suffix_box.append(qos_dd);
+
+            /* Priority dropdown */
+            var prio_dd = new DropDown.from_strings(PRIORITY_LABELS);
+            prio_dd.selected = (uint) prio;
+            prio_dd.tooltip_text = _("Notification priority");
+            string t_prio = topic;
+            prio_dd.notify["selected"].connect(() => {
+                var pm = parse_priority_map(config.topic_priorities_json);
+                MqttPriority new_prio = (MqttPriority) prio_dd.selected;
+                if (new_prio == MqttPriority.NORMAL) {
+                    pm.unset(t_prio);
+                } else {
+                    pm[t_prio] = new_prio.to_string_key();
+                }
+                config.topic_priorities_json = build_priority_json(pm);
+            });
+            suffix_box.append(prio_dd);
+
+            /* Edit-alias button */
+            var edit_btn = new Button.from_icon_name("document-edit-symbolic");
+            edit_btn.valign = Align.CENTER;
+            edit_btn.add_css_class("flat");
+            edit_btn.tooltip_text = _("Edit alias");
+            string t_edit = topic;
+            edit_btn.clicked.connect(() => {
+                show_alias_editor(t_edit);
+            });
+            suffix_box.append(edit_btn);
+
+            /* Delete button */
             var remove_btn = new Button.from_icon_name("user-trash-symbolic");
             remove_btn.valign = Align.CENTER;
             remove_btn.add_css_class("flat");
@@ -775,11 +892,57 @@ public class MqttBotManagerDialog : Adw.Dialog {
             remove_btn.clicked.connect(() => {
                 remove_topic(t);
             });
-            row.add_suffix(remove_btn);
+            suffix_box.append(remove_btn);
+
+            row.add_suffix(suffix_box);
 
             topics_group.add(row);
             topic_rows.add(row);
         }
+    }
+
+    /**
+     * Show a simple inline editor to set/change/remove an alias for a topic.
+     */
+    private void show_alias_editor(string topic) {
+        var aliases = config.get_aliases_map();
+        string current = aliases.has_key(topic) ? aliases[topic] : "";
+
+        var dialog = new Adw.AlertDialog(
+            _("Topic Alias"),
+            _("Set a display alias for:\n%s").printf(topic));
+
+        var entry = new Entry();
+        entry.text = current;
+        entry.placeholder_text = _("e.g. 🌡 Living Room");
+        entry.max_length = MqttConnectionConfig.MAX_ALIAS_LENGTH;
+        entry.margin_top = 12;
+        entry.margin_start = 12;
+        entry.margin_end = 12;
+        dialog.set_extra_child(entry);
+
+        dialog.add_response("cancel", _("Cancel"));
+        dialog.add_response("clear", _("Remove Alias"));
+        dialog.add_response("save", _("Save"));
+        dialog.set_response_appearance("save", Adw.ResponseAppearance.SUGGESTED);
+        dialog.set_response_appearance("clear", Adw.ResponseAppearance.DESTRUCTIVE);
+
+        dialog.response.connect((response_id) => {
+            if (response_id == "save") {
+                string new_alias = entry.text.strip();
+                if (new_alias != "") {
+                    config.set_alias(topic, new_alias);
+                } else {
+                    config.remove_alias(topic);
+                }
+                populate_topics_list();
+            } else if (response_id == "clear") {
+                config.remove_alias(topic);
+                populate_topics_list();
+            }
+        });
+
+        dialog.present(this);
     }
 
     private void on_add_topic() {
@@ -792,6 +955,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
         foreach (string t in current) {
             if (t == new_topic) {
                 topic_entry.text = "";
+                topic_alias_entry.text = "";
                 return;
             }
         }
@@ -808,7 +972,14 @@ public class MqttBotManagerDialog : Adw.Dialog {
         qos_map[new_topic] = qos;
         config.topic_qos_json = build_qos_json(qos_map);
 
+        /* Save alias if provided */
+        string alias_text = topic_alias_entry.text.strip();
+        if (alias_text != "") {
+            config.set_alias(new_topic, alias_text);
+        }
+
         topic_entry.text = "";
+        topic_alias_entry.text = "";
         populate_topics_list();
     }
 
@@ -824,6 +995,9 @@ public class MqttBotManagerDialog : Adw.Dialog {
         HashMap<string, int> qos_map = parse_qos_map(config.topic_qos_json);
         qos_map.unset(topic);
         config.topic_qos_json = build_qos_json(qos_map);
+
+        /* Remove alias if set */
+        config.remove_alias(topic);
 
         populate_topics_list();
     }
@@ -917,10 +1091,16 @@ public class MqttBotManagerDialog : Adw.Dialog {
 
         foreach (var rule in rules) {
             var row = new Adw.ActionRow();
+            string? alias = config.resolve_alias(rule.topic);
+            string display_topic = (alias != null) ? alias : rule.topic;
             row.title = "%s — \"%s\"".printf(
-                rule.topic, rule.threshold);
-            row.subtitle = "Priority: %s | Op: %s".printf(
+                display_topic, rule.threshold);
+            string subtitle = "Priority: %s | Op: %s".printf(
                 rule.priority.to_string_key(), rule.op.to_symbol());
+            if (alias != null) {
+                subtitle += " | %s".printf(rule.topic);
+            }
+            row.subtitle = subtitle;
 
             var remove_btn = new Button.from_icon_name("user-trash-symbolic");
             remove_btn.valign = Align.CENTER;
@@ -963,8 +1143,14 @@ public class MqttBotManagerDialog : Adw.Dialog {
 
         foreach (var rule in rules) {
             var row = new Adw.ActionRow();
-            row.title = "%s → %s".printf(rule.topic, rule.target_jid);
-            row.subtitle = "Format: %s".printf(rule.format ?? "full");
+            string? alias = config.resolve_alias(rule.topic);
+            string display_topic = (alias != null) ? alias : rule.topic;
+            row.title = "%s → %s".printf(display_topic, rule.target_jid);
+            string subtitle = "Format: %s".printf(rule.format ?? "full");
+            if (alias != null) {
+                subtitle += " | %s".printf(rule.topic);
+            }
+            row.subtitle = subtitle;
 
             var remove_btn = new Button.from_icon_name("user-trash-symbolic");
             remove_btn.valign = Align.CENTER;
@@ -1192,6 +1378,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
             sa.publish_presets_json = config.publish_presets_json;
             sa.topic_qos_json = config.topic_qos_json;
             sa.topic_priorities_json = config.topic_priorities_json;
+            sa.topic_aliases_json = config.topic_aliases_json;
             sa.alerts_json = config.alerts_json;
             sa.bridges_json = config.bridges_json;
             plugin.save_standalone_config();
@@ -1247,6 +1434,39 @@ public class MqttBotManagerDialog : Adw.Dialog {
         foreach (var entry in map.entries) {
             builder.set_member_name(entry.key);
             builder.add_int_value(entry.value);
+        }
+        builder.end_object();
+        var gen = new Json.Generator();
+        gen.set_root(builder.get_root());
+        return gen.to_data(null);
+    }
+
+    private HashMap<string, string> parse_priority_map(string json) {
+        var map = new HashMap<string, string>();
+        if (json == null || json.strip() == "" || json == "{}") return map;
+        try {
+            var parser = new Json.Parser();
+            parser.load_from_data(json, -1);
+            var root = parser.get_root();
+            if (root != null && root.get_node_type() == Json.NodeType.OBJECT) {
+                var obj = root.get_object();
+                foreach (string member in obj.get_members()) {
+                    string? val = obj.get_string_member(member);
+                    if (val != null) map[member] = val;
+                }
+            }
+        } catch (Error e) {
+            warning("MqttBotManagerDialog: parse priority JSON: %s", e.message);
+        }
+        return map;
+    }
+
+    private string build_priority_json(HashMap<string, string> map) {
+        var builder = new Json.Builder();
+        builder.begin_object();
+        foreach (var entry in map.entries) {
+            builder.set_member_name(entry.key);
+            builder.add_string_value(entry.value);
         }
         builder.end_object();
         var gen = new Json.Generator();

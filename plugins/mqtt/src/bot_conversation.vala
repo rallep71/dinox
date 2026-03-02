@@ -434,8 +434,11 @@ public class MqttBotConversation : Object {
     public void inject_mqtt_message(Conversation conversation,
                                      string topic, string payload,
                                      MqttPriority priority = MqttPriority.NORMAL) {
+        /* Resolve topic alias from the connection's config */
+        string display_topic = resolve_topic_alias(conversation, topic);
+
         /* Format: topic on first line, payload on second */
-        string body = format_mqtt_message(topic, payload, priority);
+        string body = format_mqtt_message(display_topic, payload, priority);
 
         if (priority == MqttPriority.SILENT) {
             inject_silent_message(conversation, body);
@@ -572,15 +575,15 @@ public class MqttBotConversation : Object {
      * Format an MQTT message for display in the chat bubble.
      * Topic is shown as a bracketed header, payload below.
      * Alert/Critical messages get a priority icon prefix.
+     *
+     * @param display_topic  Resolved alias or formatted topic name
      */
-    private string format_mqtt_message(string topic, string payload,
+    private string format_mqtt_message(string display_topic,
+                                        string payload,
                                         MqttPriority priority = MqttPriority.NORMAL) {
         string trimmed = payload.strip();
         string icon = priority.to_icon();
         string prefix = (icon != "") ? "%s ".printf(icon) : "";
-
-        /* Format topic — Prosody uses HOST/TYPE/NODE format */
-        string display_topic = format_topic_display(topic);
 
         /* Try to detect JSON and pretty-print key values */
         if (trimmed.has_prefix("{") && trimmed.has_suffix("}")) {
@@ -595,6 +598,33 @@ public class MqttBotConversation : Object {
             return "%s[%s]\n%s".printf(prefix, display_topic, trimmed);
         }
         return "%s[%s] %s".printf(prefix, display_topic, _("(empty)"));
+    }
+
+    /**
+     * Resolve a topic to its display name using the connection's alias map.
+     * Falls back to format_topic_display() if no alias is set.
+     */
+    private string resolve_topic_alias(Conversation conversation, string topic) {
+        string? key = get_connection_key(conversation);
+        if (key != null) {
+            MqttConnectionConfig? cfg = null;
+            if (key == STANDALONE_KEY) {
+                cfg = plugin.get_standalone_config();
+            } else {
+                var accounts = plugin.app.stream_interactor.get_accounts();
+                foreach (var acct in accounts) {
+                    if (acct.bare_jid.to_string() == key) {
+                        cfg = plugin.get_account_config(acct);
+                        break;
+                    }
+                }
+            }
+            if (cfg != null) {
+                string? alias = cfg.resolve_alias(topic);
+                if (alias != null) return alias;
+            }
+        }
+        return format_topic_display(topic);
     }
 
     /**

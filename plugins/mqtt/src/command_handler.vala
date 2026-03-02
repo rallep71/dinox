@@ -213,6 +213,22 @@ public class MqttCommandHandler : Object {
                 response = cmd_reconnect(conversation);
                 break;
 
+            case "alias":
+                /* /mqtt alias <topic> <name...> — arg1=topic, arg2+arg3=name */
+                string alias_name = arg2;
+                if (arg3 != "") alias_name = "%s %s".printf(arg2, arg3);
+                response = cmd_alias(arg1, alias_name, conversation);
+                break;
+
+            case "aliases":
+                response = cmd_aliases(conversation);
+                break;
+
+            case "rmalias":
+            case "delalias":
+                response = cmd_rmalias(arg1, conversation);
+                break;
+
             case "help":
             case "?":
                 response = cmd_help();
@@ -371,6 +387,8 @@ public class MqttCommandHandler : Object {
         sb.append("─────────────────────────\n");
 
         MqttAlertManager? am = plugin.get_alert_manager();
+        HashMap<string, string> aliases = (cfg != null) ?
+            cfg.get_aliases_map() : new HashMap<string, string>();
 
         int i = 1;
         foreach (string t in topics) {
@@ -383,7 +401,12 @@ public class MqttCommandHandler : Object {
                 if (prio != MqttPriority.NORMAL) {
                     extras += ", %s".printf(prio.to_string_key());
                 }
-                sb.append_printf("%d. %s  [%s]\n", i++, trimmed, extras);
+                string? alias = aliases.has_key(trimmed) ? aliases[trimmed] : null;
+                if (alias != null && alias != "") {
+                    sb.append_printf("%d. %s (%s)  [%s]\n", i++, alias, trimmed, extras);
+                } else {
+                    sb.append_printf("%d. %s  [%s]\n", i++, trimmed, extras);
+                }
             }
         }
 
@@ -398,6 +421,9 @@ public class MqttCommandHandler : Object {
                "/mqtt unsubscribe <topic> — Unsubscribe from a topic\n" +
                "/mqtt publish <t> <msg>   — Publish to a topic\n" +
                "/mqtt topics              — List subscriptions\n" +
+               "/mqtt alias <topic> <name>— Set topic display alias\n" +
+               "/mqtt aliases             — List all aliases\n" +
+               "/mqtt rmalias <topic>     — Remove alias\n" +
                "/mqtt qos <topic> <0|1|2> — Set topic QoS level\n" +
                "/mqtt chart <topic> [N]   — Sparkline chart\n" +
                "/mqtt bridge <topic> <jid>— Forward to XMPP contact\n" +
@@ -443,10 +469,79 @@ public class MqttCommandHandler : Object {
                "QoS levels: 0 (fire&forget), 1 (ack), 2 (exactly once)\n" +
                "Priority levels: silent, normal, alert, critical\n" +
                "\n" +
+               "Alias example:\n" +
+               "  /mqtt alias home/temp 🌡 Wohnzimmer\n" +
+               "\n" +
                "HA Discovery:\n" +
                "  /mqtt discovery         — Show discovery status\n" +
                "  /mqtt discovery on      — Enable & publish\n" +
                "  /mqtt discovery off     — Disable & remove");
+    }
+
+    /* ── Alias Command Implementations ───────────────────────────── */
+
+    /**
+     * /mqtt alias <topic> <name>  — Set display alias for a topic.
+     * Alias length is clamped to MAX_ALIAS_LENGTH.
+     */
+    private string cmd_alias(string topic, string alias_name,
+                              Conversation conversation) {
+        if (topic == "") {
+            return _("Usage: /mqtt alias <topic> <name>\n\n" +
+                     "Example:\n  /mqtt alias home/sensors/temp 🌡 Wohnzimmer");
+        }
+        if (alias_name.strip() == "") {
+            return _("Usage: /mqtt alias <topic> <name>\n\nAlias name cannot be empty.");
+        }
+
+        var cfg = get_config_for_conversation(conversation);
+        if (cfg == null) return _("No config available for this connection.");
+
+        cfg.set_alias(topic, alias_name.strip());
+        save_config_for_conversation(conversation, cfg);
+
+        return _("Alias set: %s → %s ✔").printf(topic, alias_name.strip());
+    }
+
+    /**
+     * /mqtt aliases — List all topic aliases.
+     */
+    private string cmd_aliases(Conversation conversation) {
+        var cfg = get_config_for_conversation(conversation);
+        if (cfg == null) return _("No config available for this connection.");
+
+        var aliases = cfg.get_aliases_map();
+        if (aliases.size == 0) {
+            return _("No topic aliases configured.\n\n" +
+                     "Use /mqtt alias <topic> <name> to set one.");
+        }
+
+        var sb = new StringBuilder();
+        sb.append(_("Topic Aliases\n"));
+        sb.append("─────────────\n");
+        int i = 1;
+        foreach (var entry in aliases.entries) {
+            sb.append_printf("%d. %s → %s\n", i++, entry.key, entry.value);
+        }
+        return sb.str;
+    }
+
+    /**
+     * /mqtt rmalias <topic> — Remove alias for a topic.
+     */
+    private string cmd_rmalias(string topic, Conversation conversation) {
+        if (topic == "") {
+            return _("Usage: /mqtt rmalias <topic>");
+        }
+
+        var cfg = get_config_for_conversation(conversation);
+        if (cfg == null) return _("No config available for this connection.");
+
+        if (cfg.remove_alias(topic)) {
+            save_config_for_conversation(conversation, cfg);
+            return _("Alias removed for: %s ✔").printf(topic);
+        }
+        return _("No alias found for: %s").printf(topic);
     }
 
     /* ── Phase 3: New Command Implementations ────────────────────── */

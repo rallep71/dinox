@@ -225,6 +225,17 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
         status_row.add_suffix(status_label);
         status_group.add(status_row);
 
+        /* Reconnect button */
+        var reconnect_btn = new Gtk.Button.with_label(_("Reconnect"));
+        reconnect_btn.add_css_class("flat");
+        reconnect_btn.halign = Align.CENTER;
+        reconnect_btn.margin_top = 6;
+        reconnect_btn.clicked.connect(() => {
+            plugin.apply_settings();
+            status_label.label = _("Reconnecting…");
+        });
+        status_group.add(reconnect_btn);
+
         /* Update status periodically and on connection changes */
         update_status();
         status_timer_id = Timeout.add_seconds(3, () => {

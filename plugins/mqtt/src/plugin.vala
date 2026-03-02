@@ -296,6 +296,7 @@ public class Plugin : RootInterface, Object {
         cfg.bridges_json   = db.account_settings.get_value(account.id, AccountKey.BRIDGES) ?? "[]";
         cfg.topic_qos_json = db.account_settings.get_value(account.id, AccountKey.TOPIC_QOS) ?? "{}";
         cfg.topic_priorities_json = db.account_settings.get_value(account.id, AccountKey.TOPIC_PRIORITIES) ?? "{}";
+        cfg.topic_aliases_json    = db.account_settings.get_value(account.id, AccountKey.TOPIC_ALIASES) ?? "{}";
         cfg.publish_presets_json  = db.account_settings.get_value(account.id, AccountKey.PUBLISH_PRESETS) ?? "[]";
         cfg.freetext_enabled       = db.account_settings.get_value(account.id, AccountKey.FREETEXT_ENABLED) == "1";
         cfg.freetext_publish_topic = db.account_settings.get_value(account.id, AccountKey.FREETEXT_PUBLISH_TOPIC) ?? "";
@@ -333,6 +334,7 @@ public class Plugin : RootInterface, Object {
         upsert_account(t, account.id, AccountKey.BRIDGES,           cfg.bridges_json);
         upsert_account(t, account.id, AccountKey.TOPIC_QOS,         cfg.topic_qos_json);
         upsert_account(t, account.id, AccountKey.TOPIC_PRIORITIES,  cfg.topic_priorities_json);
+        upsert_account(t, account.id, AccountKey.TOPIC_ALIASES,     cfg.topic_aliases_json);
         upsert_account(t, account.id, AccountKey.PUBLISH_PRESETS,   cfg.publish_presets_json);
         upsert_account(t, account.id, AccountKey.FREETEXT_ENABLED,       cfg.freetext_enabled ? "1" : "0");
         upsert_account(t, account.id, AccountKey.FREETEXT_PUBLISH_TOPIC, cfg.freetext_publish_topic);
@@ -385,6 +387,7 @@ public class Plugin : RootInterface, Object {
         cfg.bridges_json = get_db_setting(StandaloneKey.BRIDGES) ?? "[]";
         cfg.topic_qos_json = get_db_setting(StandaloneKey.TOPIC_QOS) ?? "{}";
         cfg.topic_priorities_json = get_db_setting(StandaloneKey.TOPIC_PRIORITIES) ?? "{}";
+        cfg.topic_aliases_json    = get_db_setting(StandaloneKey.TOPIC_ALIASES) ?? "{}";
         cfg.publish_presets_json = get_db_setting(StandaloneKey.PUBLISH_PRESETS) ?? "[]";
         cfg.freetext_enabled       = get_db_setting(StandaloneKey.FREETEXT_ENABLED) == "1";
         cfg.freetext_publish_topic = get_db_setting(StandaloneKey.FREETEXT_PUBLISH_TOPIC) ?? "";
@@ -434,6 +437,7 @@ public class Plugin : RootInterface, Object {
         save_db_setting(StandaloneKey.BRIDGES,   standalone_config.bridges_json);
         save_db_setting(StandaloneKey.TOPIC_QOS, standalone_config.topic_qos_json);
         save_db_setting(StandaloneKey.TOPIC_PRIORITIES, standalone_config.topic_priorities_json);
+        save_db_setting(StandaloneKey.TOPIC_ALIASES, standalone_config.topic_aliases_json);
         save_db_setting(StandaloneKey.PUBLISH_PRESETS, standalone_config.publish_presets_json);
         save_db_setting(StandaloneKey.FREETEXT_ENABLED, standalone_config.freetext_enabled ? "1" : "0");
         save_db_setting(StandaloneKey.FREETEXT_PUBLISH_TOPIC, standalone_config.freetext_publish_topic);
