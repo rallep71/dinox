@@ -903,14 +903,16 @@ public class MqttBotManagerDialog : Adw.Dialog {
             });
             suffix_box.append(prio_dd);
 
-            /* Edit-alias button */
+            /* Edit button (topic + alias + QoS) */
             var edit_btn = new Button.from_icon_name("document-edit-symbolic");
             edit_btn.valign = Align.CENTER;
             edit_btn.add_css_class("flat");
-            edit_btn.tooltip_text = _("Edit alias");
+            edit_btn.tooltip_text = _("Edit subscription");
             string t_edit = topic;
+            int qos_edit = qos;
+            string? alias_edit = alias;
             edit_btn.clicked.connect(() => {
-                show_alias_editor(t_edit);
+                show_topic_editor(t_edit, qos_edit, alias_edit);
             });
             suffix_box.append(edit_btn);
 
@@ -933,44 +935,111 @@ public class MqttBotManagerDialog : Adw.Dialog {
     }
 
     /**
-     * Show a simple inline editor to set/change/remove an alias for a topic.
+     * Show an editor to change topic path, alias, and QoS of a subscription.
      */
-    private void show_alias_editor(string topic) {
-        var aliases = config.get_aliases_map();
-        string current = aliases.has_key(topic) ? aliases[topic] : "";
-
+    private void show_topic_editor(string old_topic, int old_qos, string? old_alias) {
         var dialog = new Adw.AlertDialog(
-            _("Topic Alias"),
-            _("Set a display alias for:\n%s").printf(topic));
+            _("Edit Subscription"),
+            _("Edit topic, alias and QoS for this subscription."));
 
-        var entry = new Entry();
-        entry.text = current;
-        entry.placeholder_text = _("e.g. 🌡 Living Room");
-        entry.max_length = MqttConnectionConfig.MAX_ALIAS_LENGTH;
-        entry.margin_top = 12;
-        entry.margin_start = 12;
-        entry.margin_end = 12;
-        dialog.set_extra_child(entry);
+        var box = new Box(Orientation.VERTICAL, 8);
+        box.margin_top = 12;
+        box.margin_start = 12;
+        box.margin_end = 12;
+
+        /* Topic entry */
+        var topic_lbl = new Label(_("Topic"));
+        topic_lbl.xalign = 0;
+        box.append(topic_lbl);
+
+        var topic_ent = new Entry();
+        topic_ent.text = old_topic;
+        topic_ent.placeholder_text = "home/sensors/#";
+        topic_ent.hexpand = true;
+        box.append(topic_ent);
+
+        /* Alias entry */
+        var alias_lbl = new Label(_("Alias (optional)"));
+        alias_lbl.xalign = 0;
+        alias_lbl.margin_top = 6;
+        box.append(alias_lbl);
+
+        var alias_ent = new Entry();
+        alias_ent.text = old_alias ?? "";
+        alias_ent.placeholder_text = _("e.g. 🌡 Living Room");
+        alias_ent.max_length = MqttConnectionConfig.MAX_ALIAS_LENGTH;
+        box.append(alias_ent);
+
+        /* QoS dropdown */
+        var qos_lbl = new Label(_("QoS"));
+        qos_lbl.xalign = 0;
+        qos_lbl.margin_top = 6;
+        box.append(qos_lbl);
+
+        string[] qos_opts = { "QoS 0", "QoS 1", "QoS 2" };
+        var qos_dd = new DropDown.from_strings(qos_opts);
+        qos_dd.selected = old_qos;
+        box.append(qos_dd);
+
+        dialog.set_extra_child(box);
 
         dialog.add_response("cancel", _("Cancel"));
-        dialog.add_response("clear", _("Remove Alias"));
         dialog.add_response("save", _("Save"));
         dialog.set_response_appearance("save", Adw.ResponseAppearance.SUGGESTED);
-        dialog.set_response_appearance("clear", Adw.ResponseAppearance.DESTRUCTIVE);
 
         dialog.response.connect((response_id) => {
-            if (response_id == "save") {
-                string new_alias = entry.text.strip();
-                if (new_alias != "") {
-                    config.set_alias(topic, new_alias);
-                } else {
-                    config.remove_alias(topic);
+            if (response_id != "save") return;
+
+            string new_topic = topic_ent.text.strip();
+            if (new_topic == "") return;
+
+            string new_alias = alias_ent.text.strip();
+            int new_qos = (int) qos_dd.selected;
+
+            /* If topic path changed, swap the entry in the topic list */
+            if (new_topic != old_topic) {
+                /* Replace in config.topics */
+                string[] current = config.get_topic_list();
+                string[] updated = {};
+                foreach (string t in current) {
+                    updated += (t == old_topic) ? new_topic : t;
                 }
-                populate_topics_list();
-            } else if (response_id == "clear") {
-                config.remove_alias(topic);
-                populate_topics_list();
+                config.topics = string.joinv(", ", updated);
+
+                /* Migrate QoS map */
+                HashMap<string, int> qm = parse_qos_map(config.topic_qos_json);
+                qm.unset(old_topic);
+                qm[new_topic] = new_qos;
+                config.topic_qos_json = build_qos_json(qm);
+
+                /* Migrate priority map */
+                HashMap<string, string> pm = parse_priority_map(config.topic_priorities_json);
+                if (pm.has_key(old_topic)) {
+                    string pv = pm[old_topic];
+                    pm.unset(old_topic);
+                    pm[new_topic] = pv;
+                    config.topic_priorities_json = build_priority_json(pm);
+                }
+
+                /* Migrate alias */
+                config.remove_alias(old_topic);
+                if (new_alias != "") {
+                    config.set_alias(new_topic, new_alias);
+                }
+            } else {
+                /* Topic unchanged — just update QoS and alias */
+                HashMap<string, int> qm = parse_qos_map(config.topic_qos_json);
+                qm[old_topic] = new_qos;
+                config.topic_qos_json = build_qos_json(qm);
+
+                if (new_alias != "") {
+                    config.set_alias(old_topic, new_alias);
+                } else {
+                    config.remove_alias(old_topic);
+                }
             }
+
+            populate_topics_list();
         });
 
         dialog.present(this);
