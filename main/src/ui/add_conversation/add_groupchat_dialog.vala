@@ -81,10 +81,14 @@ protected class AddGroupchatDialog : Adw.Dialog {
             conference.autojoin = true;
             stream_interactor.get_module<MucManager>(MucManager.IDENTITY).add_bookmark(account_combobox.active_account, conference);
             
-            // If "Create as private room" is checked or avatar is selected, configure the room after joining
-            if (private_room_checkbutton.active || selected_avatar_file != null) {
-                configure_room(account_combobox.active_account, conference.jid);
-            }
+            // Capture widget state before close() destroys the dialog
+            bool want_private = private_room_checkbutton.active;
+            File? avatar_file = selected_avatar_file;
+            
+            // Always configure the room after joining to set explicit privacy and persistence.
+            // Without this, the server applies its own defaults which may include members-only
+            // (= private room) even when the user did NOT check the "private" checkbox.
+            configure_room(account_combobox.active_account, conference.jid, want_private, avatar_file);
             
             close();
         } catch (InvalidJidError e) {
@@ -92,10 +96,10 @@ protected class AddGroupchatDialog : Adw.Dialog {
         }
     }
     
-    private void configure_room(Account account, Jid room_jid) {
+    private void configure_room(Account account, Jid room_jid, bool want_private, File? avatar_file) {
         // Wait a bit for the room to be joined, then configure it
         Timeout.add_seconds(2, () => {
-            configure_room_async.begin(account, room_jid);
+            configure_room_async.begin(account, room_jid, want_private, avatar_file);
             return Source.REMOVE;
         });
     }
@@ -122,39 +126,40 @@ protected class AddGroupchatDialog : Adw.Dialog {
         });
     }
     
-    private async void configure_room_async(Account account, Jid room_jid) {
-        if (private_room_checkbutton.active) {
-            Xep.DataForms.DataForm? data_form = yield stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_config_form(account, room_jid);
-            if (data_form != null) {
-                // Configure as private room (members-only + non-anonymous + persistent)
-                foreach (Xep.DataForms.DataForm.Field field in data_form.fields) {
-                    switch (field.var) {
-                        case "muc#roomconfig_membersonly":
-                            if (field.type_ == Xep.DataForms.DataForm.Type.BOOLEAN) {
-                                ((Xep.DataForms.DataForm.BooleanField) field).value = true;
-                            }
-                            break;
-                        case "muc#roomconfig_whois":
-                            if (field.type_ == Xep.DataForms.DataForm.Type.LIST_SINGLE) {
-                                ((Xep.DataForms.DataForm.ListSingleField) field).value = "anyone";
-                            }
-                            break;
-                        case "muc#roomconfig_persistentroom":
-                            if (field.type_ == Xep.DataForms.DataForm.Type.BOOLEAN) {
-                                ((Xep.DataForms.DataForm.BooleanField) field).value = true;
-                            }
-                            break;
-                    }
+    private async void configure_room_async(Account account, Jid room_jid, bool want_private, File? avatar_file) {
+        Xep.DataForms.DataForm? data_form = yield stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_config_form(account, room_jid);
+        if (data_form != null) {
+            // Always set explicit room configuration so the server's defaults
+            // don't surprise the user (many servers default to members-only).
+            foreach (Xep.DataForms.DataForm.Field field in data_form.fields) {
+                switch (field.var) {
+                    case "muc#roomconfig_membersonly":
+                        if (field.type_ == Xep.DataForms.DataForm.Type.BOOLEAN) {
+                            ((Xep.DataForms.DataForm.BooleanField) field).value = want_private;
+                        }
+                        break;
+                    case "muc#roomconfig_whois":
+                        if (field.type_ == Xep.DataForms.DataForm.Type.LIST_SINGLE) {
+                            // Private rooms: "anyone" (non-anonymous) — needed for OMEMO
+                            // Public rooms: "moderators" (semi-anonymous) — standard default
+                            ((Xep.DataForms.DataForm.ListSingleField) field).value = want_private ? "anyone" : "moderators";
+                        }
+                        break;
+                    case "muc#roomconfig_persistentroom":
+                        if (field.type_ == Xep.DataForms.DataForm.Type.BOOLEAN) {
+                            ((Xep.DataForms.DataForm.BooleanField) field).value = true;
+                        }
+                        break;
                 }
-                yield stream_interactor.get_module<MucManager>(MucManager.IDENTITY).set_config_form(account, room_jid, data_form);
             }
+            yield stream_interactor.get_module<MucManager>(MucManager.IDENTITY).set_config_form(account, room_jid, data_form);
         }
 
-        if (selected_avatar_file != null) {
+        if (avatar_file != null) {
             try {
                 // Resize image if necessary (limit to 192px)
                 const int MAX_PIXEL = 192;
-                var file_stream = yield selected_avatar_file.read_async();
+                var file_stream = yield avatar_file.read_async();
                 var pixbuf = yield new Gdk.Pixbuf.from_stream_async(file_stream);
                 yield file_stream.close_async();
 
