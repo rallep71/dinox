@@ -4,7 +4,7 @@
 |---|---|
 | **Date** | February 17, 2026 (manual audit), February 23, 2026 (test suite), March 2, 2026 (MQTT audit) |
 | **Scope** | 39 crypto-related files (OMEMO v1/v2, Signal Protocol, SASL, file transfer, GCrypt wrapper) + OpenPGP plugin (15 files) + MQTT plugin (15 files) |
-| **Findings** | 6 Critical/High, 11 Medium, 3 Low (manual audit) + 3 Medium OpenPGP + 21 bugs from test suite + 11 MQTT (4 Critical, 2 High, 3 Medium, 2 Low) |
+| **Findings** | **55 total (all fixed):** 7 Critical, 5 High, 16 Medium, 6 Low (manual audits: crypto + OpenPGP + MQTT) + 21 bugs from automated test suite (1 High, 13 Medium, 7 Low) |
 | **Status** | All fixed |
 | **Test Suite** | [docs/internal/TESTING.md](docs/internal/TESTING.md) — 689 Meson tests + 136 standalone = 825 total, 0 failures |
 | **Website** | [dinox.handwerker.jetzt/security-audit.html](https://dinox.handwerker.jetzt/security-audit.html) |
@@ -428,5 +428,5 @@ Full test inventory, spec references, and reproduction steps:
 | XML/Stanza (RFC 6120) | 21 | T-20 |
 | Crypto Hashes (XEP-0300) | 15 | T-21 |
 | UI Helpers, Data Structures, Misc | 194 | 0 |
-| MQTT Plugin (12 suites) | 101 | M1–M4 (see §MQTT Audit below) |
-| **Total** | **689** | **21 + 4 MQTT** |
+| MQTT Plugin (12 suites) | 101 | 0 (audit bugs found by code review, not test suite) |
+| **Total** | **689** | **21** |
