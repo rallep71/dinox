@@ -105,6 +105,16 @@ public class MqttBridgeManager : Object {
         new HashMap<string, int64?>();
     private const int64 MIN_SEND_INTERVAL_SECS = 2;
 
+    /* Pending messages queued when no XMPP account is connected.
+     * Drained automatically when an account connects (flush_pending). */
+    private struct PendingMsg {
+        public string source;
+        public string target_jid;
+        public string body;
+    }
+    private ArrayList<PendingMsg?> pending_messages = new ArrayList<PendingMsg?>();
+    private const int MAX_PENDING = 50;  /* prevent unbounded growth */
+
     /* ── Construction ────────────────────────────────────────────── */
 
     public MqttBridgeManager(Plugin plugin) {
@@ -181,6 +191,7 @@ public class MqttBridgeManager : Object {
 
     /**
      * Send a chat message to an XMPP contact.
+     * If no XMPP account is connected, queues the message for later delivery.
      */
     private void send_xmpp_message(string source, string target_jid_str,
                                     string body) {
@@ -190,39 +201,94 @@ public class MqttBridgeManager : Object {
             /* Find the right account to send from */
             Account? account = find_account(source);
             if (account == null) {
-                warning("MQTT Bridge: No account to send from (%s)", source);
+                /* Queue for later delivery instead of silently dropping */
+                if (pending_messages.size < MAX_PENDING) {
+                    PendingMsg pm = PendingMsg();
+                    pm.source = source;
+                    pm.target_jid = target_jid_str;
+                    pm.body = body;
+                    pending_messages.add(pm);
+                    message("MQTT Bridge: Queued message for %s (no XMPP account connected, %d pending)",
+                            target_jid_str, pending_messages.size);
+                } else {
+                    warning("MQTT Bridge: Pending queue full (%d), dropping message for %s",
+                            MAX_PENDING, target_jid_str);
+                }
                 return;
             }
 
-            /* Get the conversation (or create one) */
-            var cm = plugin.app.stream_interactor.get_module<ConversationManager>(
-                ConversationManager.IDENTITY);
-            Conversation conv = cm.create_conversation(
-                target_jid, account, Conversation.Type.CHAT);
-            conv.encryption = Encryption.NONE;
-
-            /* Send via MessageProcessor — create + send on main loop */
-            var mp = plugin.app.stream_interactor.get_module<MessageProcessor>(
-                MessageProcessor.IDENTITY);
-            var cis = plugin.app.stream_interactor.get_module<ContentItemStore>(
-                ContentItemStore.IDENTITY);
-
-            string body_copy = body;
-            Conversation conv_ref = conv;
-            Idle.add(() => {
-                Message out_msg = mp.create_out_message(body_copy, conv_ref);
-                cis.insert_message(out_msg, conv_ref);
-                mp.send_xmpp_message(out_msg, conv_ref);
-                mp.message_sent(out_msg, conv_ref);
-                return false;
-            });
-
-            message("MQTT Bridge: Forwarded [%s] → %s (%d chars)",
-                    source, target_jid_str, body.length);
+            deliver_message(account, target_jid, body, source);
 
         } catch (InvalidJidError e) {
             warning("MQTT Bridge: Invalid JID '%s': %s",
                     target_jid_str, e.message);
+        }
+    }
+
+    /**
+     * Actually deliver a bridge message via XMPP.
+     */
+    private void deliver_message(Account account, Jid target_jid,
+                                  string body, string source) {
+        /* Get the conversation (or create one) */
+        var cm = plugin.app.stream_interactor.get_module<ConversationManager>(
+            ConversationManager.IDENTITY);
+        Conversation conv = cm.create_conversation(
+            target_jid, account, Conversation.Type.CHAT);
+        conv.encryption = Encryption.NONE;
+
+        /* Send via MessageProcessor — create + send on main loop */
+        var mp = plugin.app.stream_interactor.get_module<MessageProcessor>(
+            MessageProcessor.IDENTITY);
+        var cis = plugin.app.stream_interactor.get_module<ContentItemStore>(
+            ContentItemStore.IDENTITY);
+
+        string body_copy = body;
+        Conversation conv_ref = conv;
+        Idle.add(() => {
+            Message out_msg = mp.create_out_message(body_copy, conv_ref);
+            cis.insert_message(out_msg, conv_ref);
+            mp.send_xmpp_message(out_msg, conv_ref);
+            mp.message_sent(out_msg, conv_ref);
+            return false;
+        });
+
+        message("MQTT Bridge: Forwarded [%s] → %s (%d chars)",
+                source, target_jid.to_string(), body.length);
+    }
+
+    /**
+     * Flush pending bridge messages.
+     * Called when an XMPP account connects (from Plugin connection_state_changed).
+     */
+    public void flush_pending() {
+        if (pending_messages.size == 0) return;
+
+        int delivered = 0;
+        var still_pending = new ArrayList<PendingMsg?>();
+
+        foreach (var pm in pending_messages) {
+            try {
+                Account? acct = find_account(pm.source);
+                if (acct != null) {
+                    Jid jid = new Jid(pm.target_jid);
+                    deliver_message(acct, jid, pm.body, pm.source);
+                    delivered++;
+                } else {
+                    still_pending.add(pm);
+                }
+            } catch (InvalidJidError e) {
+                warning("MQTT Bridge: flush_pending: Invalid JID '%s': %s",
+                        pm.target_jid, e.message);
+            }
+        }
+
+        pending_messages.clear();
+        pending_messages.add_all(still_pending);
+
+        if (delivered > 0) {
+            message("MQTT Bridge: Flushed %d pending messages (%d still pending)",
+                    delivered, still_pending.size);
         }
     }
 

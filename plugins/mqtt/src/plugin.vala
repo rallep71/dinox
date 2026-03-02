@@ -292,8 +292,8 @@ public class Plugin : RootInterface, Object {
         cfg.topics         = db.account_settings.get_value(account.id, AccountKey.TOPICS) ?? "";
         cfg.server_type    = db.account_settings.get_value(account.id, AccountKey.SERVER_TYPE) ?? "unknown";
         cfg.bot_name       = db.account_settings.get_value(account.id, AccountKey.BOT_NAME) ?? "MQTT Bot";
-        cfg.alerts_json    = db.account_settings.get_value(account.id, AccountKey.ALERTS) ?? "[]";
-        cfg.bridges_json   = db.account_settings.get_value(account.id, AccountKey.BRIDGES) ?? "[]";
+        /* alerts_json and bridges_json are NOT loaded here — those are
+         * managed exclusively by AlertManager / BridgeManager via mqtt.db. */
         cfg.topic_qos_json = db.account_settings.get_value(account.id, AccountKey.TOPIC_QOS) ?? "{}";
         cfg.topic_priorities_json = db.account_settings.get_value(account.id, AccountKey.TOPIC_PRIORITIES) ?? "{}";
         cfg.topic_aliases_json    = db.account_settings.get_value(account.id, AccountKey.TOPIC_ALIASES) ?? "{}";
@@ -330,8 +330,8 @@ public class Plugin : RootInterface, Object {
         upsert_account(t, account.id, AccountKey.TOPICS,            cfg.topics);
         upsert_account(t, account.id, AccountKey.SERVER_TYPE,       cfg.server_type);
         upsert_account(t, account.id, AccountKey.BOT_NAME,          cfg.bot_name);
-        upsert_account(t, account.id, AccountKey.ALERTS,            cfg.alerts_json);
-        upsert_account(t, account.id, AccountKey.BRIDGES,           cfg.bridges_json);
+        /* NOTE: alerts_json and bridges_json are NOT saved here.
+         * AlertManager and BridgeManager own their data in mqtt.db. */
         upsert_account(t, account.id, AccountKey.TOPIC_QOS,         cfg.topic_qos_json);
         upsert_account(t, account.id, AccountKey.TOPIC_PRIORITIES,  cfg.topic_priorities_json);
         upsert_account(t, account.id, AccountKey.TOPIC_ALIASES,     cfg.topic_aliases_json);
@@ -383,8 +383,8 @@ public class Plugin : RootInterface, Object {
         cfg.topics      = get_db_setting(StandaloneKey.TOPICS) ?? "";
         cfg.bot_enabled = get_db_setting(StandaloneKey.BOT_ENABLED) != "0";
         cfg.bot_name    = get_db_setting(StandaloneKey.BOT_NAME) ?? "MQTT Bot";
-        cfg.alerts_json = get_db_setting(StandaloneKey.ALERTS) ?? "[]";
-        cfg.bridges_json = get_db_setting(StandaloneKey.BRIDGES) ?? "[]";
+        /* alerts_json and bridges_json are NOT loaded here — those are
+         * managed exclusively by AlertManager / BridgeManager via mqtt.db. */
         cfg.topic_qos_json = get_db_setting(StandaloneKey.TOPIC_QOS) ?? "{}";
         cfg.topic_priorities_json = get_db_setting(StandaloneKey.TOPIC_PRIORITIES) ?? "{}";
         cfg.topic_aliases_json    = get_db_setting(StandaloneKey.TOPIC_ALIASES) ?? "{}";
@@ -433,8 +433,12 @@ public class Plugin : RootInterface, Object {
         save_db_setting(StandaloneKey.TOPICS,    standalone_config.topics);
         save_db_setting(StandaloneKey.BOT_ENABLED, standalone_config.bot_enabled ? "1" : "0");
         save_db_setting(StandaloneKey.BOT_NAME,  standalone_config.bot_name);
-        save_db_setting(StandaloneKey.ALERTS,    standalone_config.alerts_json);
-        save_db_setting(StandaloneKey.BRIDGES,   standalone_config.bridges_json);
+        /* NOTE: alerts_json and bridges_json are NOT saved here.
+         * AlertManager and BridgeManager persist their own data to
+         * mqtt.db tables (mqtt_alert_rules, mqtt_bridge_rules).
+         * The StandaloneKey.ALERTS / BRIDGES keys in the settings table
+         * are legacy dead fields — writing "[]" here would be misleading
+         * and risk data loss if anyone later reads from these keys. */
         save_db_setting(StandaloneKey.TOPIC_QOS, standalone_config.topic_qos_json);
         save_db_setting(StandaloneKey.TOPIC_PRIORITIES, standalone_config.topic_priorities_json);
         save_db_setting(StandaloneKey.TOPIC_ALIASES, standalone_config.topic_aliases_json);
@@ -636,6 +640,17 @@ public class Plugin : RootInterface, Object {
             wanted.add_all(entry.value.get_system_topics());
         }
 
+        /* Preserve bridge rule topics — ensure forwarding survives reconnect.
+         * BUG-FIX: Bridge rules were never auto-subscribed, so messages
+         * on bridge-only topics were silently lost after reconnect. */
+        if (bridge_manager != null) {
+            foreach (var rule in bridge_manager.get_rules()) {
+                if (rule.enabled && rule.topic.strip() != "") {
+                    wanted.add(rule.topic.strip());
+                }
+            }
+        }
+
         /* Unsubscribe topics that are no longer wanted.
          * Collect first, then unsubscribe — avoids modifying the set during iteration. */
         var current = client.get_subscribed_topics();
@@ -833,6 +848,12 @@ public class Plugin : RootInterface, Object {
         if (state == ConnectionManager.ConnectionState.CONNECTED) {
             /* Run server detection in background (non-blocking) */
             run_server_detection.begin(account);
+
+            /* Flush pending bridge messages — MQTT may have queued messages
+             * while waiting for an XMPP account to come online. */
+            if (bridge_manager != null) {
+                bridge_manager.flush_pending();
+            }
 
             /* NOTE: Standalone MQTT auto-connects at startup in registered(),
              * completely independent of XMPP accounts. No standalone logic here. */
@@ -1045,6 +1066,18 @@ public class Plugin : RootInterface, Object {
             string frt = cfg.freetext_response_topic.strip();
             if (frt != "") {
                 client.subscribe(frt, 0);
+            }
+        }
+
+        /* BUG-FIX: Auto-subscribe bridge rule topics so that MQTT→XMPP
+         * forwarding works even if the bridge topic isn't in the user's
+         * explicit topic list.  Without this, bridge rules on topics not
+         * in the config are silently inactive. */
+        if (bridge_manager != null) {
+            foreach (var rule in bridge_manager.get_rules()) {
+                if (rule.enabled && rule.topic.strip() != "") {
+                    client.subscribe(rule.topic.strip(), 0);
+                }
             }
         }
 

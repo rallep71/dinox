@@ -1379,8 +1379,12 @@ public class MqttBotManagerDialog : Adw.Dialog {
             sa.topic_qos_json = config.topic_qos_json;
             sa.topic_priorities_json = config.topic_priorities_json;
             sa.topic_aliases_json = config.topic_aliases_json;
-            sa.alerts_json = config.alerts_json;
-            sa.bridges_json = config.bridges_json;
+            /* NOTE: alerts_json and bridges_json are NOT copied here.
+             * AlertManager and BridgeManager own their data and persist
+             * directly to mqtt.db.  The config.alerts_json / bridges_json
+             * fields are legacy dead fields that were never synchronized
+             * with the managers — copying them would overwrite good data
+             * with stale "[]". */
             plugin.save_standalone_config();
             plugin.apply_settings();
             message("MQTT Bot Manager: Saved standalone config (enabled=%s)",
