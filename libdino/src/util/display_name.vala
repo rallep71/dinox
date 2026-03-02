@@ -15,6 +15,10 @@ using Xmpp;
 namespace Dino {
     public static string get_conversation_display_name(StreamInteractor stream_interactor, Conversation conversation, string? muc_pm_format) {
         if (conversation.type_ == Conversation.Type.CHAT) {
+            // Plugin-set display name override (e.g. MQTT bot conversations)
+            if (conversation.nickname != null && conversation.nickname.strip() != "") {
+                return conversation.nickname;
+            }
             string? display_name = get_real_display_name(stream_interactor, conversation.account, conversation.counterpart);
             if (display_name != null) return display_name;
             return conversation.counterpart.to_string();
@@ -30,6 +34,11 @@ namespace Dino {
 
     public static string get_participant_display_name(StreamInteractor stream_interactor, Conversation conversation, Jid participant, string? self_word = null) {
         if (conversation.type_ == Conversation.Type.CHAT) {
+            // Plugin-set display name override (e.g. MQTT bot conversations)
+            if (conversation.nickname != null && conversation.nickname.strip() != ""
+                    && participant.equals_bare(conversation.counterpart)) {
+                return conversation.nickname;
+            }
             return get_real_display_name(stream_interactor, conversation.account, participant, self_word) ?? participant.bare_jid.to_string();
         }
         if ((conversation.type_ == Conversation.Type.GROUPCHAT || conversation.type_ == Conversation.Type.GROUPCHAT_PM)) {

@@ -162,9 +162,9 @@ if (conversation != null) { ... }
 
 | Method | When to use | Example |
 |--------|------------|---------|
-| `error()` | Unrecoverable — app terminates | DB migration failed |
+| `error()` | Unrecoverable — app terminates | Schema migration failed (ALTER TABLE) |
 | `critical()` | Severe error, app continues | SQL error in qlite |
-| `warning()` | Expected error, handled | Invalid JID from server |
+| `warning()` | Expected error, handled | Invalid JID, data-cleanup migration failure |
 | `debug()` | Diagnostic information | Stanza details |
 | `throws` | Caller must decide | I/O operations, network |
 | `return null` | "Not found" semantics | Entity lookup |
@@ -278,6 +278,15 @@ int deleted = db.changes();
 3. **`changes()` instead of `COUNT(*)`** when you only need whether/how many rows were affected (Bug P5)
 4. **No string concatenation** in queries — always use `.with()` parameters (SQL injection!)
 5. **Raw SQL (`exec()`)** only for PRAGMA and migrations
+6. **`INSERT OR IGNORE` + `last_insert_rowid()` is DANGEROUS** — when the INSERT is silently
+   ignored (UNIQUE conflict), `last_insert_rowid()` returns the rowid of the *last successful*
+   INSERT, which belongs to an *unrelated* row.  Always verify the returned ID matches the
+   expected entity, or look up the existing row first to avoid ID collisions
+   (BUG-CRITICAL: cross-chat message leak via stale rowid)
+7. **Migration severity:** Schema-changing migrations (`ALTER TABLE`, `CREATE TABLE`) should use
+   `error()` on failure — corruption is unrecoverable.  Data-cleanup migrations (DELETE orphans,
+   UPDATE dangling references) should use `warning()` — the DB schema is intact, only cosmetic
+   leftovers persist on failure.  Never terminate the app for a non-critical cleanup step.
 
 ---
 
@@ -310,6 +319,58 @@ container.append(button);
 4. **Mouse handlers:** Return early when result found (Bug P6: `break` after match)
 5. **Check for division by zero** with dynamic sizes (Bug #109: `size==0`)
 6. **Watch out for integer division** in size calculations (Bug #117: `150/100==1`)
+7. **Switch signals: Use `notify["active"]`**, not `state_set` + `return true`:
+   ```vala
+   // CORRECT: notify fires AFTER the widget updates its visual state.
+   // The switch animation is not blocked.
+   my_switch.notify["active"].connect(() => {
+       if (loading) return;  // guard against programmatic changes
+       do_work(my_switch.active);
+   });
+
+   // WRONG: state_set + return true blocks the GTK animation.
+   // Causes visible toggle lag and GTK focus-out warnings.
+   // my_switch.state_set.connect((state) => {
+   //     my_switch.state = state;
+   //     do_work(state);
+   //     return true;  // <-- BLOCKS animation!
+   // });
+   ```
+8. **Debounce UI → backend actions** with tracked source IDs:
+   ```vala
+   private uint action_idle_id = 0;
+
+   // Cancel previous pending action before queuing a new one:
+   if (action_idle_id != 0) {
+       Source.remove(action_idle_id);
+       action_idle_id = 0;
+   }
+   action_idle_id = Idle.add(() => {
+       action_idle_id = 0;
+       perform_action();
+       return false;
+   });
+
+   // Clean up in destructor / dispose():
+   // if (action_idle_id != 0) Source.remove(action_idle_id);
+   ```
+9. **Every `Idle.add()` / `Timeout.add()` must be tracked** — store the returned source ID
+   in a field and clean up in destructor (Bug: orphaned callbacks after widget destruction)
+10. **`Adw.PreferencesGroup` row removal** — `get_first_child()` returns internal wrapper
+    widgets (GtkListBox), NOT the rows you added via `.add()`.  Never use `get_first_child()`
+    / `get_next_sibling()` to enumerate rows.  Instead, track all added rows in an
+    `ArrayList<Widget>` and iterate that list for removal:
+    ```vala
+    private Gee.ArrayList<Gtk.Widget> tracked_rows = new Gee.ArrayList<Gtk.Widget>();
+
+    private void repopulate() {
+        foreach (var w in tracked_rows) group.remove(w);
+        tracked_rows.clear();
+        // ... add new rows ...
+        group.add(row);
+        tracked_rows.add(row);
+    }
+    ```
 
 ---
 
@@ -356,6 +417,9 @@ public void add(Entity entity) {
 1. **Every cache needs an eviction strategy** (LRU, time-based, or explicit purge)
 2. **Clear cache on disconnect / logout** (Bug D8: mam_times grows unbounded)
 3. **Avoid N+1:** Instead of a loop with individual lookups, use a JOIN or batch query
+4. **Validate cached entries on access** — external state can change behind the cache.
+   E.g. a cached `Conversation` can become `active=false` when the user closes it in the
+   sidebar.  Always check validity before returning (reactivate, refresh, or evict stale entries).
 
 ---
 
@@ -391,6 +455,22 @@ if (iq.from != null && !iq.from.equals(expected_from)) {
     warning("IQ response from unexpected sender: %s", iq.from.to_string());
     return;
 }
+```
+
+### Bare vs Full JID in HashMap Keys
+```vala
+// CRITICAL: After DB reload, CHAT-type conversations lose their resource.
+// Conversation.from_row() strips the resource: user@host/res -> user@host
+// A HashMap keyed by full JID will NOT find the DB-loaded bare-JID entry.
+//
+// ALWAYS search by bare JID first when looking up conversations:
+Conversation? existing = cm.get_conversation(
+    jid.bare_jid, account, Conversation.Type.CHAT);
+if (existing != null) {
+    // Reuse — do NOT create a new one (leads to ID collision, see §7 rule 6)
+}
+
+// NEVER assume that a full-JID lookup covers bare-JID entries.
 ```
 
 ---
@@ -449,3 +529,5 @@ Category: Short description (max 72 characters)
 | 8 | DB column without index | 3 bugs | Index for every WHERE / ORDER BY column |
 | 9 | Blocking I/O on main thread | 4+ sites | `async` / `yield` or background thread |
 | 10 | Empty catch block | 5+ sites | At least `warning()` or cleanup comment |
+| 11 | Magic strings duplicated across files | 3+ sites | Define a `const string` in the owning class and reference it. Exception: when referencing the constant would create a wrong-direction dependency (e.g. core → plugin), document the duplication with a comment pointing to the source of truth |
+| 12 | `Adw.PreferencesGroup.get_first_child()` misuse | 4 sites | `get_first_child()` returns internal wrapper widgets, not the rows you added. Always track added rows in an `ArrayList<Widget>` and iterate that list for removal |

@@ -40,8 +40,9 @@ namespace Dino.Ui.ConversationDetails {
     public void bind_dialog(Model.ConversationDetails model, ViewModel.ConversationDetails view_model, StreamInteractor stream_interactor) {
         // Set some data once
         view_model.avatar = new ViewModel.CompatAvatarPictureModel(stream_interactor).set_conversation(model.conversation);
-        view_model.show_blocked = model.conversation.type_ == Conversation.Type.CHAT && stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).is_supported(model.conversation.account);
-        view_model.show_remove_contact = model.conversation.type_ == Conversation.Type.CHAT;  // Only show for 1:1 chats
+        bool is_synthetic_bot = (model.conversation.counterpart.domainpart == "mqtt.local");
+        view_model.show_blocked = !is_synthetic_bot && model.conversation.type_ == Conversation.Type.CHAT && stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).is_supported(model.conversation.account);
+        view_model.show_remove_contact = !is_synthetic_bot && model.conversation.type_ == Conversation.Type.CHAT;  // Only show for 1:1 chats
         view_model.members_sorted.set_model(model.members);
         view_model.members.set_map_func((item) => {
             var conference_member = (Ui.Model.ConferenceMember) item;
@@ -165,6 +166,8 @@ namespace Dino.Ui.ConversationDetails {
     }
 
     public void set_about_rows(Model.ConversationDetails model, ViewModel.ConversationDetails view_model, StreamInteractor stream_interactor, Gtk.Widget? parent) {
+        bool is_synthetic_bot = (model.conversation.counterpart.domainpart == "mqtt.local");
+
         var xmpp_addr_row = new ViewModel.PreferencesRow.Text();
         xmpp_addr_row.title = _("XMPP Address");
         xmpp_addr_row.text = model.conversation.counterpart.to_string();
@@ -206,7 +209,7 @@ namespace Dino.Ui.ConversationDetails {
             }
         }
 
-        if (model.conversation.type_ == Conversation.Type.CHAT) {
+        if (model.conversation.type_ == Conversation.Type.CHAT && !is_synthetic_bot) {
             var about_row = new ViewModel.PreferencesRow.Entry() {
                 title = _("Display name"),
                 text = model.display_name.display_name

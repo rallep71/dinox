@@ -37,6 +37,19 @@ namespace Dino {
             stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).updated_roster_item.connect((account, jid, roster_item) => {
                 check_update_models(account, jid, Conversation.Type.CHAT);
             });
+
+            /* React to plugin-set nickname changes (e.g. MQTT bot conversations) */
+            stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_activated.connect((conversation) => {
+                if (conversation.nickname != null && conversation.nickname.strip() != "") {
+                    var display_name_model = conversation_models[conversation];
+                    if (display_name_model != null) {
+                        string new_name = Dino.get_conversation_display_name(stream_interactor, conversation, "%s (%s)");
+                        if (display_name_model.display_name != new_name) {
+                            display_name_model.display_name = new_name;
+                        }
+                    }
+                }
+            });
         }
 
         private void check_update_models(Account account, Jid jid, Conversation.Type conversation_ty) {

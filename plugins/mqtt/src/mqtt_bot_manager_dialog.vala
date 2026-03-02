@@ -54,17 +54,28 @@ public class MqttBotManagerDialog : Adw.Dialog {
 
     /* Topics page widgets */
     private Adw.PreferencesGroup topics_group;
+    private Gee.ArrayList<Gtk.Widget> topic_rows = new Gee.ArrayList<Gtk.Widget>();
     private Entry topic_entry;
     private DropDown qos_dropdown;
 
     /* Alerts page widgets */
     private Adw.PreferencesGroup alerts_group;
+    private Gee.ArrayList<Gtk.Widget> alert_rows = new Gee.ArrayList<Gtk.Widget>();
+    private Adw.EntryRow alert_topic_entry;
+    private Adw.EntryRow alert_threshold_entry;
+    private Adw.EntryRow alert_field_entry;
+    private DropDown alert_op_dropdown;
+    private DropDown alert_priority_dropdown;
 
     /* Bridges page widgets */
     private Adw.PreferencesGroup bridges_group;
+    private Gee.ArrayList<Gtk.Widget> bridge_rows = new Gee.ArrayList<Gtk.Widget>();
+    private Adw.EntryRow bridge_topic_entry;
+    private Adw.EntryRow bridge_jid_entry;
 
     /* Publish page widgets */
     private Adw.PreferencesGroup presets_group;
+    private Gee.ArrayList<Gtk.Widget> preset_rows = new Gee.ArrayList<Gtk.Widget>();
     private Adw.SwitchRow freetext_enable_switch;
     private Adw.EntryRow freetext_pub_topic_entry;
     private Adw.EntryRow freetext_resp_topic_entry;
@@ -135,6 +146,12 @@ public class MqttBotManagerDialog : Adw.Dialog {
             enable_switch = new Adw.SwitchRow();
             enable_switch.title = _("Enable MQTT");
             enable_switch.subtitle = _("Activate the MQTT client for this account");
+            /* Immediate visual feedback when toggling — update widget
+             * sensitivity so the user sees the change right away,
+             * not only after pressing Save & Apply. */
+            enable_switch.notify["active"].connect(() => {
+                update_connection_sensitivity();
+            });
             conn_group.add(enable_switch);
 
             /* Mode selector: XMPP Server vs Custom Broker */
@@ -323,30 +340,32 @@ public class MqttBotManagerDialog : Adw.Dialog {
 
         page.add(sections_group);
 
-        /* ── 4b. HA Discovery ─────────────────────────────────── */
-        disc_group = new Adw.PreferencesGroup();
-        disc_group.title = _("Home Assistant Discovery");
-        disc_group.description = _("Auto-announce DinoX as a device in HA.");
+        /* ── 4b. HA Discovery (per-account only — standalone has it on Settings Page) ── */
+        if (!is_standalone) {
+            disc_group = new Adw.PreferencesGroup();
+            disc_group.title = _("Home Assistant Discovery");
+            disc_group.description = _("Auto-announce DinoX as a device in HA.");
 
-        var disc_enable = new Adw.SwitchRow();
-        disc_enable.title = _("Enable Discovery");
-        disc_enable.subtitle = _("Publish device &amp; entity configs via MQTT");
-        disc_enable.active = config.discovery_enabled;
-        disc_enable.notify["active"].connect(() => {
-            config.discovery_enabled = disc_enable.active;
-        });
-        disc_group.add(disc_enable);
+            var disc_enable = new Adw.SwitchRow();
+            disc_enable.title = _("Enable Discovery");
+            disc_enable.subtitle = _("Publish device &amp; entity configs via MQTT");
+            disc_enable.active = config.discovery_enabled;
+            disc_enable.notify["active"].connect(() => {
+                config.discovery_enabled = disc_enable.active;
+            });
+            disc_group.add(disc_enable);
 
-        var disc_prefix_row = new Adw.EntryRow();
-        disc_prefix_row.title = _("Discovery Prefix");
-        disc_prefix_row.text = config.discovery_prefix != "" ? config.discovery_prefix : "homeassistant";
-        disc_prefix_row.changed.connect(() => {
-            string val = disc_prefix_row.text.strip();
-            config.discovery_prefix = val != "" ? val : "homeassistant";
-        });
-        disc_group.add(disc_prefix_row);
+            var disc_prefix_row = new Adw.EntryRow();
+            disc_prefix_row.title = _("Discovery Prefix");
+            disc_prefix_row.text = config.discovery_prefix != "" ? config.discovery_prefix : "homeassistant";
+            disc_prefix_row.changed.connect(() => {
+                string val = disc_prefix_row.text.strip();
+                config.discovery_prefix = val != "" ? val : "homeassistant";
+            });
+            disc_group.add(disc_prefix_row);
 
-        page.add(disc_group);
+            page.add(disc_group);
+        }
 
         /* ── 5. Save button ───────────────────────────────────── */
         var save_group = new Adw.PreferencesGroup();
@@ -491,20 +510,62 @@ public class MqttBotManagerDialog : Adw.Dialog {
 
         var page = new Adw.PreferencesPage();
 
+        /* ── Add Alert form ──────────────────────────────────────── */
+        var add_group = new Adw.PreferencesGroup();
+        add_group.title = _("New Alert Rule");
+        add_group.description = _("Trigger a notification when an MQTT message matches");
+
+        alert_topic_entry = new Adw.EntryRow();
+        alert_topic_entry.title = _("Topic pattern");
+        alert_topic_entry.text = "";
+        add_group.add(alert_topic_entry);
+
+        alert_field_entry = new Adw.EntryRow();
+        alert_field_entry.title = _("JSON field (optional)");
+        alert_field_entry.text = "";
+        add_group.add(alert_field_entry);
+
+        /* Operator dropdown */
+        string[] op_labels = { "contains", "==", "!=", ">", ">=", "<", "<=" };
+        alert_op_dropdown = new DropDown.from_strings(op_labels);
+        alert_op_dropdown.selected = 0;
+        var op_row = new Adw.ActionRow();
+        op_row.title = _("Operator");
+        op_row.add_suffix(alert_op_dropdown);
+        alert_op_dropdown.valign = Align.CENTER;
+        add_group.add(op_row);
+
+        alert_threshold_entry = new Adw.EntryRow();
+        alert_threshold_entry.title = _("Threshold / keyword");
+        alert_threshold_entry.text = "";
+        add_group.add(alert_threshold_entry);
+
+        /* Priority dropdown */
+        string[] prio_labels = { "normal", "alert", "urgent" };
+        alert_priority_dropdown = new DropDown.from_strings(prio_labels);
+        alert_priority_dropdown.selected = 1; /* default: alert */
+        var prio_row = new Adw.ActionRow();
+        prio_row.title = _("Priority");
+        prio_row.add_suffix(alert_priority_dropdown);
+        alert_priority_dropdown.valign = Align.CENTER;
+        add_group.add(prio_row);
+
+        var add_btn = new Button.with_label(_("Add Alert"));
+        add_btn.add_css_class("suggested-action");
+        add_btn.halign = Align.END;
+        add_btn.margin_top = 8;
+        add_btn.clicked.connect(on_add_alert);
+        add_group.add(add_btn);
+
+        page.add(add_group);
+
+        /* ── Existing rules list ───────────────────────────────── */
         alerts_group = new Adw.PreferencesGroup();
         alerts_group.title = _("Alert Rules");
         alerts_group.description = _("Rules that trigger notifications when MQTT messages match patterns");
         page.add(alerts_group);
 
         populate_alerts_list();
-
-        /* Add alert button */
-        var add_group = new Adw.PreferencesGroup();
-        var info_row = new Adw.ActionRow();
-        info_row.title = _("Add via Chat Command");
-        info_row.subtitle = _("Use /mqtt alert <topic_pattern> <keyword> [priority] in the bot chat");
-        add_group.add(info_row);
-        page.add(add_group);
 
         toolbar_view.set_content(page);
         var nav_page = new Adw.NavigationPage.with_tag(toolbar_view, "alerts", _("Alert Rules"));
@@ -520,20 +581,37 @@ public class MqttBotManagerDialog : Adw.Dialog {
 
         var page = new Adw.PreferencesPage();
 
+        /* ── Add Bridge form ─────────────────────────────────────── */
+        var add_group = new Adw.PreferencesGroup();
+        add_group.title = _("New Bridge Rule");
+        add_group.description = _("Forward MQTT messages to an XMPP contact or MUC");
+
+        bridge_topic_entry = new Adw.EntryRow();
+        bridge_topic_entry.title = _("Topic pattern");
+        bridge_topic_entry.text = "";
+        add_group.add(bridge_topic_entry);
+
+        bridge_jid_entry = new Adw.EntryRow();
+        bridge_jid_entry.title = _("XMPP JID");
+        bridge_jid_entry.text = "";
+        add_group.add(bridge_jid_entry);
+
+        var add_btn = new Button.with_label(_("Add Bridge"));
+        add_btn.add_css_class("suggested-action");
+        add_btn.halign = Align.END;
+        add_btn.margin_top = 8;
+        add_btn.clicked.connect(on_add_bridge);
+        add_group.add(add_btn);
+
+        page.add(add_group);
+
+        /* ── Existing rules list ───────────────────────────────── */
         bridges_group = new Adw.PreferencesGroup();
         bridges_group.title = _("Bridge Rules");
         bridges_group.description = _("Forward MQTT messages to XMPP contacts or MUCs");
         page.add(bridges_group);
 
         populate_bridges_list();
-
-        /* Info */
-        var info_group = new Adw.PreferencesGroup();
-        var info_row = new Adw.ActionRow();
-        info_row.title = _("Add via Chat Command");
-        info_row.subtitle = _("Use /mqtt bridge <topic_pattern> <xmpp_jid> in the bot chat");
-        info_group.add(info_row);
-        page.add(info_group);
 
         toolbar_view.set_content(page);
         var nav_page = new Adw.NavigationPage.with_tag(toolbar_view, "bridges", _("Bridge Rules"));
@@ -547,10 +625,13 @@ public class MqttBotManagerDialog : Adw.Dialog {
             enable_switch.active = config.enabled;
         }
 
-        /* Mode selector: XMPP mode if use_xmpp_auth OR empty broker_host */
+        /* Mode selector: Use the persisted use_xmpp_auth flag as the
+         * canonical indicator of which mode the user chose last time.
+         * Do NOT infer from credential data — that causes the dialog
+         * to flip to XMPP mode when the user hasn't entered
+         * credentials yet but explicitly chose Custom mode. */
         if (mode_selector != null) {
-            bool xmpp_mode = config.use_xmpp_auth || config.broker_host.strip() == "";
-            mode_selector.selected = xmpp_mode ? 0 : 1;
+            mode_selector.selected = config.use_xmpp_auth ? 0 : 1;
         }
 
         if (broker_host_entry != null) {
@@ -576,6 +657,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
         }
 
         update_mode_visibility();
+        update_connection_sensitivity();
         update_status_display();
         check_tls_warning();
     }
@@ -630,6 +712,22 @@ public class MqttBotManagerDialog : Adw.Dialog {
         }
     }
 
+    /**
+     * Update widget sensitivity based on enable_switch state.
+     * Dims all configuration when MQTT is disabled so the user
+     * gets immediate visual feedback when toggling.
+     */
+    private void update_connection_sensitivity() {
+        if (enable_switch == null) return;
+        bool enabled = enable_switch.active;
+
+        if (mode_selector != null) mode_selector.sensitive = enabled;
+        if (xmpp_server_group != null) xmpp_server_group.sensitive = enabled;
+        if (broker_group != null) broker_group.sensitive = enabled;
+        if (auth_group != null) auth_group.sensitive = enabled;
+        if (disc_group != null) disc_group.sensitive = enabled;
+    }
+
     private string format_server_type(string type) {
         switch (type) {
             case "ejabberd": return _("ejabberd (mod_mqtt)");
@@ -641,16 +739,13 @@ public class MqttBotManagerDialog : Adw.Dialog {
     /* ── Topic list ───────────────────────────────────────────────── */
 
     private void populate_topics_list() {
-        /* Clear existing children */
-        Widget? child = topics_group.get_first_child();
-        while (child != null) {
-            Widget? next = child.get_next_sibling();
-            /* Only remove AdwActionRow children (keep group header) */
-            if (child is Adw.ActionRow) {
-                topics_group.remove(child);
-            }
-            child = next;
+        /* Clear tracked rows — get_first_child() doesn't work on
+         * Adw.PreferencesGroup because rows live inside an internal
+         * GtkListBox, not as direct children.  Use explicit tracking. */
+        foreach (var w in topic_rows) {
+            topics_group.remove(w);
         }
+        topic_rows.clear();
 
         string[] topic_list = config.get_topic_list();
         if (topic_list.length == 0) {
@@ -658,6 +753,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
             empty_row.title = _("No topics subscribed");
             empty_row.subtitle = _("Add a topic above");
             topics_group.add(empty_row);
+            topic_rows.add(empty_row);
             return;
         }
 
@@ -682,6 +778,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
             row.add_suffix(remove_btn);
 
             topics_group.add(row);
+            topic_rows.add(row);
         }
     }
 
@@ -731,17 +828,78 @@ public class MqttBotManagerDialog : Adw.Dialog {
         populate_topics_list();
     }
 
+    /* ── Add Alert handler ────────────────────────────────────────── */
+
+    private void on_add_alert() {
+        string topic = alert_topic_entry.text.strip();
+        string threshold = alert_threshold_entry.text.strip();
+        if (topic == "" || threshold == "") return;
+
+        /* Map dropdown index to operator string */
+        string[] op_values = { "contains", "==", "!=", ">", ">=", "<", "<=" };
+        int op_idx = (int) alert_op_dropdown.selected;
+        string op_str = op_values[op_idx];
+        AlertOperator? op = AlertOperator.from_string(op_str);
+        if (op == null) op = AlertOperator.CONTAINS;
+
+        /* Map priority dropdown */
+        string[] prio_values = { "normal", "alert", "urgent" };
+        int prio_idx = (int) alert_priority_dropdown.selected;
+        MqttPriority prio = MqttPriority.from_string(prio_values[prio_idx]);
+
+        var rule = new AlertRule();
+        rule.topic = topic;
+        rule.field = alert_field_entry.text.strip();
+        if (rule.field == "") rule.field = null;
+        rule.op = op;
+        rule.threshold = threshold;
+        rule.priority = prio;
+
+        if (plugin.alert_manager != null) {
+            plugin.alert_manager.add_rule(rule);
+        }
+
+        /* Clear form */
+        alert_topic_entry.text = "";
+        alert_field_entry.text = "";
+        alert_threshold_entry.text = "";
+        alert_op_dropdown.selected = 0;
+        alert_priority_dropdown.selected = 1;
+
+        populate_alerts_list();
+    }
+
+    /* ── Add Bridge handler ───────────────────────────────────────── */
+
+    private void on_add_bridge() {
+        string topic = bridge_topic_entry.text.strip();
+        string jid = bridge_jid_entry.text.strip();
+        if (topic == "" || jid == "") return;
+
+        var rule = new BridgeRule();
+        rule.topic = topic;
+        rule.target_jid = jid;
+
+        if (plugin.bridge_manager != null) {
+            plugin.bridge_manager.add_rule(rule);
+        }
+
+        /* Clear form */
+        bridge_topic_entry.text = "";
+        bridge_jid_entry.text = "";
+
+        populate_bridges_list();
+    }
+
     /* ── Alerts list ──────────────────────────────────────────────── */
 
     private void populate_alerts_list() {
-        Widget? child = alerts_group.get_first_child();
-        while (child != null) {
-            Widget? next = child.get_next_sibling();
-            if (child is Adw.ActionRow) {
-                alerts_group.remove(child);
-            }
-            child = next;
+        /* Use tracked rows for clean removal (get_first_child doesn't
+         * work on Adw.PreferencesGroup internal container). */
+        foreach (var w in alert_rows) {
+            alerts_group.remove(w);
         }
+        alert_rows.clear();
 
         /* Read alert rules from alert_manager */
         if (plugin.alert_manager == null) return;
@@ -751,8 +909,9 @@ public class MqttBotManagerDialog : Adw.Dialog {
         if (rules.size == 0) {
             var empty_row = new Adw.ActionRow();
             empty_row.title = _("No alert rules configured");
-            empty_row.subtitle = _("Use /mqtt alert in the bot chat to add rules");
+            empty_row.subtitle = _("Add a rule above");
             alerts_group.add(empty_row);
+            alert_rows.add(empty_row);
             return;
         }
 
@@ -777,20 +936,17 @@ public class MqttBotManagerDialog : Adw.Dialog {
             row.add_suffix(remove_btn);
 
             alerts_group.add(row);
+            alert_rows.add(row);
         }
     }
 
     /* ── Bridges list ─────────────────────────────────────────────── */
 
     private void populate_bridges_list() {
-        Widget? child = bridges_group.get_first_child();
-        while (child != null) {
-            Widget? next = child.get_next_sibling();
-            if (child is Adw.ActionRow) {
-                bridges_group.remove(child);
-            }
-            child = next;
+        foreach (var w in bridge_rows) {
+            bridges_group.remove(w);
         }
+        bridge_rows.clear();
 
         if (plugin.bridge_manager == null) return;
 
@@ -799,8 +955,9 @@ public class MqttBotManagerDialog : Adw.Dialog {
         if (rules.size == 0) {
             var empty_row = new Adw.ActionRow();
             empty_row.title = _("No bridge rules configured");
-            empty_row.subtitle = _("Use /mqtt bridge in the bot chat to add rules");
+            empty_row.subtitle = _("Add a rule above");
             bridges_group.add(empty_row);
+            bridge_rows.add(empty_row);
             return;
         }
 
@@ -823,21 +980,20 @@ public class MqttBotManagerDialog : Adw.Dialog {
             row.add_suffix(remove_btn);
 
             bridges_group.add(row);
+            bridge_rows.add(row);
         }
     }
 
     /* ── Presets list ─────────────────────────────────────────────── */
 
     private void populate_presets_list() {
-        /* Clear existing rows */
-        Widget? child = presets_group.get_first_child();
-        while (child != null) {
-            Widget? next = child.get_next_sibling();
-            if (child is Adw.ActionRow) {
-                presets_group.remove(child);
-            }
-            child = next;
+        /* Clear tracked rows — get_first_child() doesn't work on
+         * Adw.PreferencesGroup because rows live inside an internal
+         * GtkListBox, not as direct children.  Use explicit tracking. */
+        foreach (var w in preset_rows) {
+            presets_group.remove(w);
         }
+        preset_rows.clear();
 
         /* Parse publish presets from config JSON */
         try {
@@ -875,6 +1031,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
                 row.add_suffix(del_btn);
 
                 presets_group.add(row);
+                preset_rows.add(row);
             }
         } catch (Error e) {
             add_empty_presets_row();
@@ -886,6 +1043,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
         row.title = _("No publish presets");
         row.subtitle = _("Use the form below to add a preset");
         presets_group.add(row);
+        preset_rows.add(row);
     }
 
     /**
@@ -974,19 +1132,27 @@ public class MqttBotManagerDialog : Adw.Dialog {
     /* ── Save ─────────────────────────────────────────────────────── */
 
     private void on_save_clicked() {
+        /* Grab focus on the save button area to ensure all entry rows
+         * fire their changed signals and release focus properly.
+         * This fixes the GTK WARNING "GtkText - did not receive
+         * a focus-out event" that happens when saving while an entry
+         * still has keyboard focus. */
+        if (nav_view != null) {
+            nav_view.grab_focus();
+        }
+
         /* Read values from widgets back to config (connection widgets only for per-account) */
         if (!is_standalone) {
             config.enabled = enable_switch.active;
 
             bool is_xmpp = (mode_selector != null && mode_selector.selected == 0);
             if (is_xmpp) {
-                /* XMPP mode: auto-detect broker, use XMPP credentials */
-                config.broker_host = "";
-                config.broker_port = 1883;
-                config.tls = false;
+                /* XMPP mode: auto-detect broker, use XMPP credentials.
+                 * Keep any previously entered custom credentials intact
+                 * so they are still there if the user switches back to
+                 * Custom mode later.  Only set use_xmpp_auth = true so
+                 * the connection logic knows to use XMPP creds. */
                 config.use_xmpp_auth = true;
-                config.username = "";
-                config.password = "";
                 /* HA Discovery cannot work with XMPP-MQTT (no retain/LWT) */
                 config.discovery_enabled = false;
             } else {
@@ -1022,8 +1188,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
             sa.freetext_response_topic = config.freetext_response_topic;
             sa.freetext_qos = config.freetext_qos;
             sa.freetext_retain = config.freetext_retain;
-            sa.discovery_enabled = config.discovery_enabled;
-            sa.discovery_prefix = config.discovery_prefix;
+            /* Discovery for standalone is managed by Settings Page — don't overwrite here */
             sa.publish_presets_json = config.publish_presets_json;
             sa.topic_qos_json = config.topic_qos_json;
             sa.topic_priorities_json = config.topic_priorities_json;

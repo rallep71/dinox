@@ -185,7 +185,7 @@ public class Plugin : RootInterface, Object {
         /* Register account MQTT Bot manager signal */
         app.open_account_mqtt_manager.connect(on_open_account_mqtt_manager);
 
-        /* Listen for XMPP connection state changes */
+        /* Listen for XMPP connection state changes (per-account MQTT lifecycle) */
         app.stream_interactor.connection_manager.connection_state_changed.connect(
             on_xmpp_connection_state_changed);
 
@@ -193,6 +193,21 @@ public class Plugin : RootInterface, Object {
         app.stream_interactor.get_module<MessageProcessor>(
             MessageProcessor.IDENTITY).pre_message_send.connect(
                 on_pre_message_send);
+
+        /* ── Standalone auto-connect ──────────────────────────────
+         * Standalone MQTT is independent of XMPP accounts.
+         * Connect immediately at startup if enabled. */
+        if (standalone_config.enabled && standalone_config.broker_host != "") {
+            message("[STANDALONE] Auto-connecting to %s:%d (independent of XMPP)",
+                    standalone_config.broker_host, standalone_config.broker_port);
+            standalone_connecting = true;
+            start_standalone.begin((obj, res) => {
+                start_standalone.end(res);
+                standalone_connecting = false;
+                connection_changed("standalone",
+                    standalone_client != null && standalone_client.is_connected);
+            });
+        }
     }
 
     public void shutdown() {
@@ -473,7 +488,7 @@ public class Plugin : RootInterface, Object {
     public void reload_config() {
         load_standalone_config();
         load_legacy_config();
-        message("MQTT: Config reloaded — standalone=%s per_account=%s",
+        message("[MQTT] Config reloaded — standalone.enabled=%s per_account=%s",
                 standalone_config.enabled.to_string(),
                 mode_per_account.to_string());
     }
@@ -487,49 +502,66 @@ public class Plugin : RootInterface, Object {
     public void apply_settings() {
         /* Snapshot old state */
         var old_sa = standalone_config.copy();
-        bool was_enabled = mqtt_enabled;
 
         /* Reload from DB */
         reload_config();
 
-        /* ── Standalone handling ─────────────────────────────────── */
+        message("[STANDALONE] apply_settings: enabled=%s client=%s | [ACCOUNTS] per_account=%s",
+                standalone_config.enabled.to_string(),
+                (standalone_client != null).to_string(),
+                mode_per_account.to_string());
+
+        /* ── Standalone handling (independent of per-account) ────── */
         if (standalone_config.enabled) {
-            bool conn_changed = old_sa.connection_differs(standalone_config) || !was_enabled;
+            bool conn_changed = old_sa.connection_differs(standalone_config) || !old_sa.enabled;
 
             if (standalone_client != null && standalone_client.is_connected
                 && !conn_changed) {
                 /* Same connection params — just re-sync topics */
+                message("[STANDALONE] No connection change — syncing topics only");
                 sync_topics_to_client_cfg(standalone_client, standalone_config);
-                return;
-            }
+                /* NOTE: Do NOT return here! Per-account handling follows below
+                 * and must not be skipped just because standalone didn't change. */
+            } else {
+                /* Need (re)connect */
+                message("[STANDALONE] Connection change detected → (re)connecting");
+                if (standalone_client != null) {
+                    standalone_client.disconnect_sync();
+                    standalone_client = null;
+                }
 
-            /* Need (re)connect */
-            if (standalone_client != null) {
-                standalone_client.disconnect_sync();
-                standalone_client = null;
-            }
-
-            if (standalone_config.broker_host != "" && !standalone_connecting) {
-                standalone_connecting = true;
-                start_standalone.begin((obj, res) => {
-                    start_standalone.end(res);
-                    standalone_connecting = false;
-                    connection_changed("standalone",
-                        standalone_client != null && standalone_client.is_connected);
-                });
+                if (standalone_config.broker_host != "" && !standalone_connecting) {
+                    standalone_connecting = true;
+                    start_standalone.begin((obj, res) => {
+                        start_standalone.end(res);
+                        standalone_connecting = false;
+                        connection_changed("standalone",
+                            standalone_client != null && standalone_client.is_connected);
+                    });
+                }
             }
         } else {
             /* Standalone disabled → disconnect if running */
             if (standalone_client != null) {
+                message("[STANDALONE] Disabled → disconnecting");
                 standalone_client.disconnect_sync();
                 standalone_client = null;
                 /* Note: disconnect_sync() already fires connection_changed
                  * via the on_connection_changed handler in create_client.
                  * No explicit signal emit needed here (BUG-6 fix). */
             }
+            /* Remove the standalone bot conversation specifically.
+             * The old code only removed bots when ALL MQTT was disabled
+             * (!mqtt_enabled), but when per-account MQTT is still active
+             * the standalone bot stayed visible after standalone was
+             * toggled off. */
+            if (bot_conversation != null) {
+                bot_conversation.remove_conversation(
+                    MqttBotConversation.STANDALONE_KEY);
+            }
         }
 
-        /* ── Per-account handling ────────────────────────────────── */
+        /* ── Per-account handling (independent of standalone) ────── */
         var accounts = app.stream_interactor.get_accounts();
         foreach (var acct in accounts) {
             var acfg = get_account_config(acct);
@@ -539,6 +571,7 @@ public class Plugin : RootInterface, Object {
             if (acfg.enabled && state == ConnectionManager.ConnectionState.CONNECTED) {
                 if (!account_clients.has_key(jid) &&
                     !connecting_accounts.contains(jid)) {
+                    message("[ACCT:%s] Enabled + XMPP online → connecting MQTT", jid);
                     connecting_accounts.add(jid);
                     start_per_account.begin(acct, (obj, res) => {
                         start_per_account.end(res);
@@ -550,15 +583,23 @@ public class Plugin : RootInterface, Object {
                 }
             } else if (!acfg.enabled && account_clients.has_key(jid)) {
                 /* Disabled → disconnect */
+                message("[ACCT:%s] Disabled → disconnecting MQTT", jid);
                 account_clients[jid].disconnect_sync();
                 account_clients.unset(jid);
+                /* Remove per-account bot conversation */
+                if (bot_conversation != null) {
+                    bot_conversation.remove_conversation(jid);
+                }
                 /* Note: disconnect_sync() already fires connection_changed
                  * via the on_connection_changed handler (BUG-6 fix). */
             }
         }
 
-        /* If nothing is enabled, clean up bot conversations */
-        if (!mqtt_enabled) {
+        /* Clean up bot conversations for modes that have no active connections.
+         * Each mode manages its own bot conversation independently.
+         * Only remove_all() if BOTH standalone and per-account are disabled. */
+        if (!standalone_config.enabled && !mode_per_account) {
+            message("[MQTT] All modes disabled → removing all bot conversations");
             if (bot_conversation != null) {
                 bot_conversation.remove_all();
             }
@@ -731,7 +772,7 @@ public class Plugin : RootInterface, Object {
             if (account_clients.has_key(acct_jid)) {
                 account_clients[acct_jid].disconnect_sync();
                 account_clients.unset(acct_jid);
-                message("MQTT: Disabled per-account for %s (disconnected)", acct_jid);
+                message("[ACCT:%s] Disabled → disconnected", acct_jid);
             }
             /* Remove bot conversation */
             if (bot_conversation != null) {
@@ -774,22 +815,15 @@ public class Plugin : RootInterface, Object {
             /* Run server detection in background (non-blocking) */
             run_server_detection.begin(account);
 
-            /* Standalone: connect once (first XMPP account triggers it) */
-            if (standalone_config.enabled) {
-                if (standalone_client == null && !standalone_connecting) {
-                    standalone_connecting = true;
-                    start_standalone.begin((obj, res) => {
-                        start_standalone.end(res);
-                        standalone_connecting = false;
-                    });
-                }
-            }
+            /* NOTE: Standalone MQTT auto-connects at startup in registered(),
+             * completely independent of XMPP accounts. No standalone logic here. */
 
             /* Per-account: connect MQTT for this specific account if enabled */
             var acfg = get_account_config(account);
             if (acfg.enabled) {
                 if (!account_clients.has_key(jid) &&
                     !connecting_accounts.contains(jid)) {
+                    message("[ACCT:%s] XMPP online → starting per-account MQTT", jid);
                     connecting_accounts.add(jid);
                     start_per_account.begin(account, (obj, res) => {
                         start_per_account.end(res);
@@ -800,12 +834,12 @@ public class Plugin : RootInterface, Object {
         } else if (state == ConnectionManager.ConnectionState.DISCONNECTED) {
             /* Per-account: disconnect MQTT when XMPP goes offline */
             if (account_clients.has_key(jid)) {
-                message("MQTT: Account %s offline — disconnecting MQTT", jid);
+                message("[ACCT:%s] XMPP offline → disconnecting per-account MQTT", jid);
                 account_clients[jid].disconnect_sync();
                 account_clients.unset(jid);
                 connection_changed(jid, false);
             }
-            /* Standalone mode: keep MQTT connected regardless */
+            /* NOTE: Standalone MQTT is NOT affected by XMPP disconnect */
         }
     }
 
@@ -881,7 +915,8 @@ public class Plugin : RootInterface, Object {
 
     private async void start_standalone() {
         var cfg = standalone_config;
-        message("MQTT: Connecting standalone to %s:%d…", cfg.broker_host, cfg.broker_port);
+        message("[STANDALONE] Connecting to %s:%d (tls=%s)…",
+                cfg.broker_host, cfg.broker_port, cfg.tls.to_string());
 
         standalone_client = create_client("standalone", cfg);
 
@@ -927,7 +962,8 @@ public class Plugin : RootInterface, Object {
             pass = acfg.password;
         }
 
-        message("MQTT: Connecting per-account for %s → %s:%d…", jid, host, port);
+        message("[ACCT:%s] Connecting to %s:%d (tls=%s, xmpp_auth=%s)…",
+                jid, host, port, tls.to_string(), acfg.use_xmpp_auth.to_string());
 
         var client = create_client(jid, acfg);
 
@@ -1004,8 +1040,9 @@ public class Plugin : RootInterface, Object {
             }
 
             if (connected) {
-                message("MQTT [%s]: Connected — %d topics pre-subscribed",
-                        label, topics_snapshot.length);
+                string prefix = (label == "standalone") ? "[STANDALONE]" : "[ACCT:%s]".printf(label);
+                message("%s Connected — %d topics pre-subscribed",
+                        prefix, topics_snapshot.length);
 
                 /* HA Discovery: publish birth + configs + states */
                 var dm = discovery_managers.has_key(label) ?

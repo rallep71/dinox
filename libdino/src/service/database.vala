@@ -16,7 +16,7 @@ using Dino.Entities;
 namespace Dino {
 
 public class Database : Qlite.Database {
-    private const int VERSION = 39;
+    private const int VERSION = 40;
 
     public class AccountTable : Table {
         public Column<int> id = new Column.Integer("id") { primary_key = true, auto_increment = true };
@@ -829,6 +829,30 @@ public class Database : Qlite.Database {
             } else {
                 // FTS5 not available — keep FTS4, just rebuild index
                 message.fts_rebuild();
+            }
+        }
+        if (oldVersion < 40) {
+            // B4: Clean up orphaned content_items referencing non-existent messages
+            // This can happen when messages are deleted but content_items remain
+            // (e.g. from the old persist()/last_insert_rowid() bug)
+            try {
+                exec("DELETE FROM content_item WHERE content_type = 1 AND foreign_id NOT IN (SELECT id FROM message)");
+            } catch (Error e) {
+                warning("Failed to clean up orphaned content_items: %s", e.message);
+            }
+
+            // B5: Fix conversation read_up_to_item pointing to deleted content_items
+            try {
+                exec("UPDATE conversation SET read_up_to_item = -1 WHERE read_up_to_item > 0 AND read_up_to_item NOT IN (SELECT id FROM content_item)");
+            } catch (Error e) {
+                warning("Failed to fix dangling read_up_to_item: %s", e.message);
+            }
+
+            // B6: Fix conversation read_up_to pointing to deleted messages
+            try {
+                exec("UPDATE conversation SET read_up_to = NULL WHERE read_up_to IS NOT NULL AND read_up_to NOT IN (SELECT id FROM message)");
+            } catch (Error e) {
+                warning("Failed to fix dangling read_up_to: %s", e.message);
             }
         }
     }

@@ -210,7 +210,22 @@ db.message.select()
 db.exec("PRAGMA journal_mode = WAL");
 ```
 
-### 5.2 Data Integrity
+### 5.2 Entity ID Integrity
+
+```vala
+// After persist() or INSERT, verify that the assigned ID belongs to the
+// expected entity. INSERT OR IGNORE + last_insert_rowid() can return a
+// STALE rowid from an unrelated row when the insert was silently ignored
+// (UNIQUE constraint conflict). This leads to cross-entity data leaks.
+//
+// ALWAYS: Look up existing row first, only create if not found.
+// ALWAYS: Sanity-check id > 0 after persist.
+if (entity.id <= 0) {
+    warning("Persist returned invalid ID — possible DB conflict");
+}
+```
+
+### 5.3 Data Integrity
 
 ```vala
 // Activate WAL mode BEFORE migrations (Bug P1):
@@ -308,7 +323,11 @@ label.label = Markup.escape_text(message.body);
 // API tokens: At least 32 bytes of entropy
 // Rate limiting: Always enabled (Bug from audit: missing limits)
 // Webhook URLs: Allow only https://
-// MQTT: Mandatory TLS for broker connections
+// MQTT broker: TLS strongly recommended for non-local connections.
+//   When TLS is disabled for a non-local host, the UI MUST show
+//   a prominent warning ("Credentials sent in plain text").
+//   Local hosts (localhost, 127.*, 192.168.*, 10.*) may use plain
+//   MQTT for development/LAN setups.
 
 // Token validation:
 if (token == null || token.length < 32) {

@@ -58,8 +58,9 @@ var row = table.row_with(id);      // -> may not exist!
 | 3.2 | [ ] `LIMIT` on potentially large SELECT results? | Without LIMIT a query can load thousands of rows |
 | 3.3 | [ ] Index for every new WHERE / ORDER BY column? | In `Table` constructor: `index("name", {column})` |
 | 3.4 | [ ] `changes()` instead of extra `COUNT(*)` when only count matters? | First DELETE, then `db.changes()` |
-| 3.5 | [ ] Migration robust? `error()` on failure? | Not `warning()` — DB corruption is fatal |
+| 3.5 | [ ] Migration robust? Correct severity on failure? | Schema changes (ALTER TABLE, CREATE TABLE): `error()` — corruption is fatal. Data-cleanup migrations (DELETE orphans, UPDATE dangling refs): `warning()` is OK — DB remains valid, only cosmetic leftovers on failure |
 | 3.6 | [ ] New table with correct column types? | `Column.Integer` vs `Column.Long` vs `Column.BoolInt` |
+| 3.7 | [ ] `last_insert_rowid()` safe after `INSERT OR IGNORE`? | Returns stale rowid when INSERT is silently ignored — verify ID or lookup existing row first |
 
 ---
 
@@ -86,6 +87,10 @@ var row = table.row_with(id);      // -> may not exist!
 | 5.5 | [ ] Widget cleanup on removal? | `container.remove(widget)` when no longer needed |
 | 5.6 | [ ] Loop optimization? | `break` after find, don't keep iterating (Bug P6) |
 | 5.7 | [ ] User-visible strings translatable? | Use `_("text")` macro |
+| 5.8 | [ ] Switch uses `notify["active"]`, not `state_set`? | `state_set` + `return true` blocks animation, causes lag + GTK warnings |
+| 5.9 | [ ] Every `Idle.add()` / `Timeout.add()` source tracked? | Store ID, cancel previous, clean up in destructor |
+| 5.10 | [ ] Entry focus released before save? | `grab_focus()` on parent or `nav_view.grab_focus()` before reading entry text |
+| 5.11 | [ ] `Adw.PreferencesGroup` rows tracked for removal? | `get_first_child()` returns internal wrapper widgets. Track added rows in `ArrayList<Widget>` and iterate for removal |
 
 ---
 
@@ -126,6 +131,7 @@ var row = table.row_with(id);      // -> may not exist!
 | 8.4 | [ ] No unnecessary object creation in hot path? | Especially in render loops |
 | 8.5 | [ ] DB index for new query? | Test with `explain query plan` if in doubt |
 | 8.6 | [ ] Async for I/O > 16 ms? | File, network, crypto |
+| 8.7 | [ ] Cached entries validated on access? | External state (e.g. `active=false`) can change behind the cache — reactivate or evict stale entries |
 
 ---
 

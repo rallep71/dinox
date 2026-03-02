@@ -629,20 +629,28 @@ public class ConversationSelectorRow : ListBoxRow {
             
         } else {
             // 1:1 Chat options
+            bool is_synthetic_bot = (conversation.counterpart.domainpart == "mqtt.local");
+
             menu.append(_("Conversation Details"), "row.details");
-            menu.append(_("Edit Alias"), "row.edit");
+            if (!is_synthetic_bot) {
+                menu.append(_("Edit Alias"), "row.edit");
+            }
             
             // Mute/Unmute
             bool is_muted = (conversation.notify_setting == Conversation.NotifySetting.OFF);
             menu.append(is_muted ? _("Unmute") : _("Mute"), "row.mute");
             
-            // Block/Unblock
-            bool is_blocked = stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).is_blocked(conversation.account, conversation.counterpart);
-            menu.append(is_blocked ? _("Unblock") : _("Block"), "row.block");
+            if (!is_synthetic_bot) {
+                // Block/Unblock
+                bool is_blocked = stream_interactor.get_module<BlockingManager>(BlockingManager.IDENTITY).is_blocked(conversation.account, conversation.counterpart);
+                menu.append(is_blocked ? _("Unblock") : _("Block"), "row.block");
+            }
             
             menu.append(_("Delete Conversation History"), "row.clear");
             menu.append(_("Close"), "row.close");
-            menu.append(_("Remove Contact"), "row.remove");
+            if (!is_synthetic_bot) {
+                menu.append(_("Remove Contact"), "row.remove");
+            }
             
             // Details action
             var details_action = new SimpleAction("details", null);
