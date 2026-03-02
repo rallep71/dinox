@@ -235,7 +235,9 @@ public class Dino.HistorySync {
             if (page_result.stanzas == null) return null;
 
             string latest_mam_id = page_result.query_result.last;
-            long latest_mam_time = (long) mam_times[account][latest_mam_id].to_unix();
+            DateTime? latest_mam_dt = mam_times.has_key(account) && mam_times[account].has_key(latest_mam_id) ? mam_times[account][latest_mam_id] : null;
+            if (latest_mam_dt == null) return null;
+            long latest_mam_time = (long) latest_mam_dt.to_unix();
 
             var query = db.mam_catchup.update()
                     .with(db.mam_catchup.id, "=", latest_row_id)
@@ -347,7 +349,8 @@ public class Dino.HistorySync {
             if (page_result.page_result == PageResult.Error || page_result.page_result == PageResult.Cancelled) return page_result;
 
             string earliest_mam_id = page_result.query_result.first;
-            long earliest_mam_time = earliest_mam_id != null ? (long)mam_times[account][earliest_mam_id].to_unix() : 0;
+            DateTime? earliest_mam_dt = (earliest_mam_id != null && mam_times.has_key(account) && mam_times[account].has_key(earliest_mam_id)) ? mam_times[account][earliest_mam_id] : null;
+            long earliest_mam_time = (earliest_mam_dt != null) ? (long)earliest_mam_dt.to_unix() : 0;
 
             var query = db.mam_catchup.update()
                     .with(db.mam_catchup.id, "=", db_id);
