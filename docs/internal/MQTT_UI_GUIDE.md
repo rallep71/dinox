@@ -1,7 +1,7 @@
 # DinoX MQTT Plugin -- User Guide
 
-**Version:** 1.5.0
-**Last updated:** 2026-03-02
+**Version:** 1.6.0
+**Last updated:** 2026-03-05
 
 ---
 
@@ -138,7 +138,8 @@ messages or LWT, which HA Discovery requires. When XMPP mode is selected,
 the group is hidden and Discovery is automatically disabled.
 
 **Save and Apply** button at the bottom saves all changes and immediately
-connects, disconnects, or reconnects as needed.
+connects, disconnects, or reconnects as needed. The dialog stays open after
+saving — close it manually via the X button when done.
 
 ### 3.3 Topics Page
 
@@ -308,7 +309,8 @@ conversation list. Per-account bots show the account JID in the name
 
 Incoming MQTT messages appear as chat bubbles from the bot, with the topic
 name as a header and the payload as the message body. JSON payloads are
-automatically formatted for readability.
+automatically formatted for readability. If a topic has an alias set
+(see Section 11), the alias is shown instead of the raw topic path.
 
 ### 6.2 Sending Commands
 
@@ -347,6 +349,9 @@ affect that connection.
 | `/mqtt unsubscribe <topic>` | Unsubscribe from a topic |
 | `/mqtt topics` | List all active subscriptions with last received values |
 | `/mqtt manager` | Open the visual topic/bridge/alert manager dialog |
+| `/mqtt alias <topic> <name>` | Set a display alias for a topic |
+| `/mqtt aliases` | List all topic aliases |
+| `/mqtt rmalias <topic>` | Remove a topic alias |
 
 ### 7.3 Publishing
 
@@ -598,6 +603,44 @@ forwarded messages per rule.
 - `/mqtt rmbridge <index>` -- remove a rule by index
 - Bridge rules can also be removed in the Bridge Rules page of the
   MqttBotManagerDialog
+
+---
+
+## 11. Topic Aliases
+
+### 11.1 What Are Topic Aliases?
+
+Topic aliases let you assign short, human-readable display names to MQTT
+topics. When an alias is set, the bot conversation shows the alias instead
+of the raw topic path (e.g. "🌡 Wohnzimmer" instead of
+`home/sensors/temperature/living_room`).
+
+Aliases are stored per connection and do not affect the actual MQTT
+subscription -- they are purely cosmetic.
+
+### 11.2 Setting Aliases
+
+```
+/mqtt alias home/sensors/temperature/living_room 🌡 Wohnzimmer
+/mqtt alias home/door/front 🚪 Haustür
+```
+
+Alias names can contain spaces and emoji.
+
+### 11.3 Listing and Removing Aliases
+
+```
+/mqtt aliases           -- list all aliases for this connection
+/mqtt rmalias home/sensors/temperature/living_room  -- remove alias
+```
+
+### 11.4 How Aliases Display
+
+When a message arrives on a topic with an alias:
+
+- The bot chat bubble shows the **alias** as the topic header
+- `/mqtt topics` shows the alias in parentheses next to the topic
+- The raw topic is always available in the message details
 
 ---
 

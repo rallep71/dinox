@@ -1,9 +1,9 @@
 # DinoX MQTT Plugin -- Developer Documentation
 
-**Status:** Implemented (Phase 1-5 complete, HA Discovery + Command Topics)
+**Status:** Implemented (Phase 1-6 complete, HA Discovery + Command Topics + Topic Aliases)
 **Created:** 2026-02-26
-**Last updated:** 2026-03-02
-**Version:** v1.5.0
+**Last updated:** 2026-03-05
+**Version:** v1.6.0
 
 See also: [MQTT User Guide](MQTT_UI_GUIDE.md)
 
@@ -236,14 +236,14 @@ simultaneously without conflicts. XMPP mode clients cannot use Discovery.
 |-------|------|-------|---------|
 | `Plugin` | `plugin.vala` | 1397 | Main plugin class: lifecycle, config, routing, discovery integration |
 | `MqttClient` | `mqtt_client.vala` | 656 | libmosquitto wrapper: MQTT 5.0, LWT, GLib main loop, auto-reconnect |
-| `MqttConnectionConfig` | `connection_config.vala` | 248 | Per-connection config model (26 properties incl. discovery) |
+| `MqttConnectionConfig` | `connection_config.vala` | 371 | Per-connection config model (27 properties incl. discovery + aliases) |
 | `MqttDatabase` | `database.vala` | 709 | Encrypted SQLite database (9 tables), auto-purge, retention |
 | `ServerDetector` | `server_detector.vala` | 175 | XEP-0030 disco for ejabberd/Prosody MQTT detection |
 | `MqttBotConversation` | `bot_conversation.vala` | 475 | Virtual bot contact per connection, message injection |
-| `MqttCommandHandler` | `command_handler.vala` | 1475 | 26 chat commands (`/mqtt help` for full list) |
+| `MqttCommandHandler` | `command_handler.vala` | 1593 | 29 chat commands (`/mqtt help` for full list) |
 | `MqttAlertManager` | `alert_manager.vala` | 948 | Threshold alerts, 4 priorities, 7 operators, sparklines |
 | `MqttBridgeManager` | `bridge_manager.vala` | 374 | MQTT-to-XMPP bridge with wildcard matching, rate limiting |
-| `MqttDiscoveryManager` | `discovery_manager.vala` | 633 | HA Device Discovery (8 entities), command topics, LWT |
+| `MqttDiscoveryManager` | `discovery_manager.vala` | 660 | HA Device Discovery (8 entities), command topics, LWT, system topic tracking |
 | `MqttBotManagerDialog` | `mqtt_bot_manager_dialog.vala` | 996 | Adw.Dialog: 5-page MQTT management dialog (per-account + standalone) |
 | `MqttTopicManagerDialog` | `topic_manager_dialog.vala` | 413 | Adw.Dialog: visual topic/bridge/alert management |
 | `MqttStandaloneSettingsPage` | `settings_page.vala` | 513 | Adw.PreferencesPage: standalone broker config + discovery |
@@ -292,7 +292,7 @@ with 26 properties:
 |----------|------------|
 | Connection | `enabled`, `broker_host`, `broker_port`, `tls` |
 | Auth | `use_xmpp_auth`, `username`, `password` |
-| Topics | `topics`, `topic_qos_json`, `topic_priorities_json` |
+| Topics | `topics`, `topic_qos_json`, `topic_priorities_json`, `topic_aliases_json` |
 | Bot | `bot_enabled`, `bot_name` |
 | Server | `server_type` |
 | Freetext | `freetext_enabled`, `freetext_publish_topic`, `freetext_response_topic`, `freetext_qos`, `freetext_retain` |
@@ -448,6 +448,9 @@ conversation scope to that connection only.
 | `/mqtt presets` | | List all publish presets |
 | `/mqtt config` | | Show current connection configuration |
 | `/mqtt discovery <on/off/refresh/prefix>` | | Manage HA Discovery |
+| `/mqtt alias <topic> <name>` | | Set display alias for a topic |
+| `/mqtt aliases` | | List all topic aliases |
+| `/mqtt rmalias <topic>` | `delalias` | Remove a topic alias |
 | `/mqtt reconnect` | | Force disconnect and reconnect |
 | `/mqtt help` | `?` | Show command reference |
 
@@ -692,6 +695,16 @@ All phases are complete.
 - LWT for availability, HA birth message subscription
 - Discovery UI in both settings page and bot manager dialog
 - `/mqtt discovery` command (on/off/refresh/prefix)
+
+### Phase 6: Topic Aliases and Reliability (v1.6.0)
+- Topic Aliases: `/mqtt alias`, `/mqtt aliases`, `/mqtt rmalias` commands
+- Aliases stored in `topic_aliases_json` per connection config
+- Bot conversation displays alias instead of raw topic when set
+- `sync_topics_to_client_cfg()` no longer silently skips when client briefly disconnected
+- Per-account topic sync applied to already-connected clients on config change
+- System topics (freetext response + HA Discovery) preserved during topic sync
+- `MqttDiscoveryManager.get_system_topics()` returns HA status + command topics
+- MqttBotManagerDialog no longer auto-closes after "Save & Apply"
 
 ---
 
