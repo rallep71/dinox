@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 2, 2026 (v1.1.4.7)
+> **Last Updated**: March 3, 2026 (v1.1.4.8)
 > **Current Release Line**: 1.1.4.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.4.7 |
+| **Current Version** | 1.1.4.8 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,13 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.4.8 (MQTT Re-Audit, UX Fixes, Node-RED Examples)
+
+- **MQTT Re-Audit (8 findings)**: 1 HIGH + 3 MEDIUM + 4 LOW — enable switch bypass, discovery command, QoS scope, port/freetext clamping, server_detector post-yield, discovery_prefix sanitizing
+- **UX Fixes**: Enable switch lag (Idle.add), GTK focus-out warnings (3 dialogs)
+- **Node-RED Integration**: Two example flows (DinoX Bot + Tankerkoenig fuel prices), NODERED_FLOWS.md with embedded JSON + ejabberd config
+- 9 files changed, 425 insertions, 42 deletions
 
 ### v1.1.4.7 (MQTT Self-Audit, 23 New Tests, GitHub Templates)
 

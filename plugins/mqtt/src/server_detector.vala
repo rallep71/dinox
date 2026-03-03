@@ -104,6 +104,14 @@ public class ServerDetector {
         ServiceDiscovery.InfoResult? server_info =
             yield disco.request_info(stream, server_jid);
 
+        /* Re-validate stream after yield — account may have disconnected
+         * during the async disco request.  (Audit Finding 4) */
+        stream = stream_interactor.get_stream(account);
+        if (stream == null) {
+            result.info = "Stream lost during server identity query";
+            return result;
+        }
+
         if (server_info != null) {
             /* Check identities for server type hints */
             foreach (var identity in server_info.identities) {
@@ -128,10 +136,26 @@ public class ServerDetector {
         /* Step 2: Enumerate disco#items for PubSub / MQTT components */
         ServiceDiscovery.ItemsResult? items =
             yield disco.request_items(stream, server_jid);
+
+        /* Re-validate stream after yield (Audit Finding 4) */
+        stream = stream_interactor.get_stream(account);
+        if (stream == null) {
+            result.info = "Stream lost during items query";
+            return result;
+        }
+
         if (items != null) {
             foreach (var item in items.items) {
                 ServiceDiscovery.InfoResult? item_info =
                     yield disco.request_info(stream, item.jid);
+
+                /* Re-validate stream after each sub-yield (Audit Finding 4) */
+                stream = stream_interactor.get_stream(account);
+                if (stream == null) {
+                    result.info = "Stream lost during component query";
+                    return result;
+                }
+
                 if (item_info == null) continue;
 
                 foreach (var id in item_info.identities) {

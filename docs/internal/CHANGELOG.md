@@ -5,6 +5,29 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4.8] - 2026-03-03
+
+### Fixed
+- **MQTT Enable Switch bypass**: `update_status()` used UI widget state (`enable_switch.active`) instead of saved config — status changed before Save & Apply. Now reads `plugin.get_standalone_config().enabled`
+- **MQTT Enable Switch lag**: 6 widgets' `.sensitive` changes in `notify["active"]` caused CSS restyling that blocked Switch animation. Deferred `update_sensitivity()` to next frame via `Idle.add()`
+- **MQTT Discovery command**: `/mqtt discovery on` called `reload_config()` (read-only) instead of `apply_settings()` — LWT was never set. Changed to `apply_settings()`
+- **MQTT QoS scope**: `/mqtt qos` subscribed on all connections — now scoped to conversation's connection via `connection_key`
+- **MQTT freetext_qos unclamped**: Could pass invalid values (outside 0–2) to `mosquitto_publish`. Added `.clamp(0, 2)` setter
+- **MQTT port not clamped in mqtt_connect()**: Raw port parameter passed to `connect_async()`. Now pre-clamped with `port.clamp(1, 65535)`
+- **MQTT server_detector post-yield**: Stream could be torn down during async disco requests. Added stream re-validation + null check after each yield point
+- **MQTT discovery_prefix unsafe**: Could contain MQTT wildcards (#, +, null, space). Added sanitizing setter
+- **GTK focus-out warning**: Entry rows didn't receive focus-out when page/dialog closed. Added `unmap`/`closed` signal handlers in settings_page, bot_manager_dialog, topic_manager_dialog
+- **MQTT database migration v4**: Added justifying comment for `exec()` call (Qlite ORM can't express column-to-column copy)
+
+### Added
+- **Node-RED Examples**: Two example flows for DinoX MQTT bot integration — DinoX Bot flow (help, time, ping, joke, echo) and Tankerkoenig fuel price monitoring flow with auto-alerts
+- **NODERED_FLOWS.md**: Documentation with embedded flow JSON, ejabberd mod_mqtt config, screenshots, import instructions
+
+### Changed
+- **Version**: 1.1.4.7 → 1.1.4.8
+
+---
+
 ## [1.1.4.7] - 2026-03-02
 
 ### Fixed

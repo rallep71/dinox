@@ -48,6 +48,12 @@ public class MqttTopicManagerDialog : Adw.Dialog {
 
         build_ui();
         populate();
+
+        /* Release entry focus on close to prevent GTK
+         * "GtkText - did not receive a focus-out event" warnings. */
+        this.closed.connect(() => {
+            this.grab_focus();
+        });
     }
 
     private void build_ui() {
@@ -295,9 +301,13 @@ public class MqttTopicManagerDialog : Adw.Dialog {
         string? existing = get_topics_string();
         string new_topics;
         if (existing != null && existing != "") {
-            /* Check duplicate */
+            /* Check duplicate — clear entry as visual feedback
+             * so the user knows it was recognized.  (Audit Finding 8) */
             foreach (string p in existing.split(",")) {
-                if (p.strip() == topic) return;  /* already subscribed */
+                if (p.strip() == topic) {
+                    topic_entry.text = "";
+                    return;
+                }
             }
             new_topics = existing + "," + topic;
         } else {

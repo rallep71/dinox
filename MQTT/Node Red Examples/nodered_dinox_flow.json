@@ -1,0 +1,207 @@
+[
+    {
+        "id": "dinox_tab",
+        "type": "tab",
+        "label": "DinoX MQTT Bot",
+        "disabled": false,
+        "info": "Bidirectional communication with DinoX via MQTT.\n\nReceives messages from dinox/chat and replies on dinox/response."
+    },
+    {
+        "id": "mqtt_in_dinox",
+        "type": "mqtt in",
+        "z": "dinox_tab",
+        "name": "📥 dinox/chat",
+        "topic": "dinox/chat",
+        "qos": "1",
+        "datatype": "utf8",
+        "broker": "",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 200,
+        "wires": [
+            ["debug_in", "cmd_switch"]
+        ]
+    },
+    {
+        "id": "debug_in",
+        "type": "debug",
+        "z": "dinox_tab",
+        "name": "📋 Incoming",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 350,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "cmd_switch",
+        "type": "switch",
+        "z": "dinox_tab",
+        "name": "🔀 Command?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            { "t": "cont", "v": "time", "vt": "str" },
+            { "t": "cont", "v": "help", "vt": "str" },
+            { "t": "cont", "v": "ping", "vt": "str" },
+            { "t": "cont", "v": "joke", "vt": "str" },
+            { "t": "else" }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 5,
+        "x": 350,
+        "y": 260,
+        "wires": [
+            ["cmd_time"],
+            ["cmd_help"],
+            ["cmd_ping"],
+            ["cmd_joke"],
+            ["cmd_echo"]
+        ]
+    },
+    {
+        "id": "cmd_time",
+        "type": "function",
+        "z": "dinox_tab",
+        "name": "🕐 Time",
+        "func": "const now = new Date();\nconst opts = { \n    weekday: 'long', year: 'numeric', \n    month: 'long', day: 'numeric',\n    hour: '2-digit', minute: '2-digit', second: '2-digit',\n    timeZone: 'Europe/Berlin'\n};\nmsg.payload = '🕐 ' + now.toLocaleDateString('en-US', opts) + ', ' + now.toLocaleTimeString('en-US', opts);\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 140,
+        "wires": [
+            ["mqtt_out_dinox"]
+        ]
+    },
+    {
+        "id": "cmd_help",
+        "type": "function",
+        "z": "dinox_tab",
+        "name": "❓ Help",
+        "func": "msg.payload = '📖 DinoX Node-RED Bot\\n\\n' +\n    'Available commands:\\n' +\n    '• time — Current date & time\\n' +\n    '• ping — Pong!\\n' +\n    '• joke — Random joke\\n' +\n    '• help — This help\\n' +\n    '• Anything else → Echo\\n\\n' +\n    '⛽ Fuel Prices (separate flow):\\n' +\n    '• sprit / tanken / preise — All prices\\n' +\n    '• e5 / e10 / diesel — Specific fuel\\n' +\n    '• sprit reset — Reset price baseline';\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 200,
+        "wires": [
+            ["mqtt_out_dinox"]
+        ]
+    },
+    {
+        "id": "cmd_ping",
+        "type": "function",
+        "z": "dinox_tab",
+        "name": "🏓 Ping",
+        "func": "const start = Date.now();\nmsg.payload = '🏓 Pong! (Node-RED antwortet in ' + (Date.now() - start) + 'ms)';\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 260,
+        "wires": [
+            ["mqtt_out_dinox"]
+        ]
+    },
+    {
+        "id": "cmd_joke",
+        "type": "function",
+        "z": "dinox_tab",
+        "name": "😂 Joke",
+        "func": "const jokes = [\n    `😂 Why do ghosts make bad liars? Because you can see right through them.`,\n    `😂 What does an IT guy say when he's cold? \"Hold on, let me open a few Windows.\"`,\n    `😂 What do you call a boomerang that doesn't come back? A stick.`,\n    `😂 Why do programmers prefer dark mode? Because light attracts bugs.`,\n    `😂 Two magnets walk into a bar. One says: What should I wear today?`,\n    `😂 Why do programmers drink so much coffee? Because Java doesn't run without it.`,\n    `😂 What's on a mathematician's tombstone? He didn't count on that.`,\n];\nconst idx = Math.floor(Math.random() * jokes.length);\nmsg.payload = jokes[idx];\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 320,
+        "wires": [
+            ["mqtt_out_dinox"]
+        ]
+    },
+    {
+        "id": "cmd_echo",
+        "type": "function",
+        "z": "dinox_tab",
+        "name": "🔁 Echo",
+        "func": "msg.payload = '📨 You wrote: \"' + msg.payload + '\"\\n\\nTip: Type \"help\" for available commands.';\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 380,
+        "wires": [
+            ["mqtt_out_dinox"]
+        ]
+    },
+    {
+        "id": "mqtt_out_dinox",
+        "type": "mqtt out",
+        "z": "dinox_tab",
+        "name": "📤 dinox/response",
+        "topic": "dinox/response",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "",
+        "x": 830,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "debug_out",
+        "type": "debug",
+        "z": "dinox_tab",
+        "name": "📋 Outgoing",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 830,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "comment_info",
+        "type": "comment",
+        "z": "dinox_tab",
+        "name": "ℹ️ DinoX ↔ Node-RED Flow",
+        "info": "## Setup\n\n1. Double-click the MQTT nodes (📥 and 📤)\n2. Configure broker (localhost:1883 or your MQTT broker)\n3. Click Deploy\n4. In DinoX bot chat type: help, time, ping, joke\n\n## Topics\n- dinox/chat → Node-RED receives\n- dinox/response → DinoX receives\n\n## Fuel Prices\nImport the 'tankerkoenig_dinox.json' flow for fuel price monitoring.\nCommands: sprit, e5, e10, diesel, sprit reset",
+        "x": 170,
+        "y": 60,
+        "wires": []
+    }
+]

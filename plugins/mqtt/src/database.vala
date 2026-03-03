@@ -352,7 +352,10 @@ public class MqttDatabase : Qlite.Database {
                 warning("MqttDatabase migrate v4: %s", e.message);
             }
             /* Backfill: for per-account rules, client_label IS the
-             * account bare JID — copy it to send_account. */
+             * account bare JID — copy it to send_account.
+             * exec() OK here: no user input, column-to-column copy in
+             * schema migration — Qlite ORM cannot express this
+             * (SET col = other_col with compound WHERE).  (Audit F5) */
             try {
                 exec("UPDATE mqtt_bridge_rules SET send_account = client_label WHERE client_label != 'standalone' AND (send_account IS NULL OR send_account = '')");
             } catch (Error e) {

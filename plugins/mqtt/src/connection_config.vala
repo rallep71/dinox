@@ -93,8 +93,12 @@ public class MqttConnectionConfig : Object {
     /** Topic for responses (auto-subscribed). */
     public string freetext_response_topic { get; set; default = ""; }
 
-    /** QoS for free-form publishes. */
-    public int freetext_qos { get; set; default = 1; }
+    /** QoS for free-form publishes (clamped 0–2). */
+    private int _freetext_qos = 1;
+    public int freetext_qos {
+        get { return _freetext_qos; }
+        set { _freetext_qos = value.clamp(0, 2); }
+    }
 
     /** Retain flag for free-form publishes. */
     public bool freetext_retain { get; set; default = false; }
@@ -104,8 +108,21 @@ public class MqttConnectionConfig : Object {
     /** Enable MQTT Discovery (Home Assistant auto-discovery). */
     public bool discovery_enabled { get; set; default = false; }
 
-    /** Discovery topic prefix (default: homeassistant). */
-    public string discovery_prefix { get; set; default = "homeassistant"; }
+    /** Discovery topic prefix (default: homeassistant).
+     *  Sanitized on set: MQTT wildcard chars (#, +) and control
+     *  chars removed to prevent invalid topic construction.
+     *  (Audit Finding 7) */
+    private string _discovery_prefix = "homeassistant";
+    public string discovery_prefix {
+        get { return _discovery_prefix; }
+        set {
+            string v = value.strip();
+            /* Remove MQTT wildcard and control characters */
+            v = v.replace("#", "").replace("+", "")
+                 .replace("\0", "").replace(" ", "");
+            _discovery_prefix = (v != "") ? v : "homeassistant";
+        }
+    }
 
     /* ── Alerts / Bridges / Presets (JSON-serialised) ─────────────── */
 

@@ -161,7 +161,7 @@ public class MqttCommandHandler : Object {
                 break;
 
             case "qos":
-                response = cmd_qos(arg1, arg2);
+                response = cmd_qos(arg1, arg2, conversation);
                 break;
 
             case "chart":
@@ -916,9 +916,11 @@ public class MqttCommandHandler : Object {
      * Without args: show all QoS settings.
      * With args: set QoS for a topic.
      */
-    private string cmd_qos(string topic, string level_str) {
+    private string cmd_qos(string topic, string level_str,
+                            Conversation conversation) {
         MqttAlertManager? am = plugin.get_alert_manager();
         if (am == null) return _("Alert manager not available.");
+        string conn_key = get_connection_key(conversation);
 
         if (topic == "") {
             /* Show current QoS settings */
@@ -959,8 +961,9 @@ public class MqttCommandHandler : Object {
 
         am.set_topic_qos(topic, qos);
 
-        /* Re-subscribe with new QoS on active connections */
-        plugin.subscribe(topic, qos);
+        /* Re-subscribe with new QoS on the scoped connection
+         * (not all connections).  (Audit Finding 6) */
+        plugin.subscribe(topic, qos, conn_key);
 
         if (qos == 0) {
             return _("Topic '%s' QoS reset to default (0 — at most once) ✔").printf(topic);
@@ -1466,8 +1469,11 @@ public class MqttCommandHandler : Object {
             }
             save_config_for_conversation(conversation, cfg);
 
-            /* Reconnect needed so LWT can be set before connect */
-            plugin.reload_config();
+            /* Reconnect needed so LWT can be set before connect.
+             * apply_settings() (not just reload_config()) is required
+             * so the broker connection is actually re-established
+             * with the new LWT message.  (Audit Finding 1) */
+            plugin.apply_settings();
             return _("HA Discovery enabled (prefix: %s).\n\n" +
                      "Reconnecting to set LWT… check /mqtt status in a few seconds.").printf(
                 cfg.discovery_prefix);

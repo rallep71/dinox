@@ -73,6 +73,13 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
         build_ui();
         load_settings();
         loading = false;
+
+        /* When the page is unmapped (user navigates away from preferences
+         * or closes the window), release entry focus to prevent GTK
+         * "GtkText - did not receive a focus-out event" warnings. */
+        this.unmap.connect(() => {
+            this.grab_focus();
+        });
     }
 
     /* ── UI construction ──────────────────────────────────────────── */
@@ -94,13 +101,20 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
         enable_switch.valign = Align.CENTER;
         /* Toggle only updates the visual state and marks dirty.
          * Actual save + apply happens via "Save & Apply" button,
-         * matching the per-account MQTT UX. */
+         * matching the per-account MQTT UX.
+         *
+         * Sensitivity changes are deferred to Idle.add() so they
+         * don't block the Switch animation frame — setting .sensitive
+         * on 6+ widgets triggers CSS restyling + relayout which
+         * causes visible stutter if done synchronously in
+         * notify["active"]. */
         enable_switch.notify["active"].connect(() => {
             if (loading) return;
-            message("[STANDALONE] UI toggle → %s (not yet applied)",
-                    enable_switch.active ? "ON" : "OFF");
-            update_sensitivity();
             mark_dirty();
+            Idle.add(() => {
+                update_sensitivity();
+                return Source.REMOVE;
+            });
         });
         enable_row.add_suffix(enable_switch);
         conn_group.add(enable_row);
@@ -231,8 +245,18 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
         reconnect_btn.halign = Align.CENTER;
         reconnect_btn.margin_top = 6;
         reconnect_btn.clicked.connect(() => {
-            plugin.apply_settings();
+            if (!enable_switch.active) {
+                status_label.label = _("Disabled — enable first");
+                return;
+            }
+            if (host_row.text.strip() == "") {
+                status_label.label = _("No broker host configured");
+                return;
+            }
             status_label.label = _("Reconnecting…");
+            status_label.remove_css_class("success");
+            status_label.add_css_class("dim-label");
+            plugin.force_reconnect_standalone();
         });
         status_group.add(reconnect_btn);
 
@@ -243,7 +267,7 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
             return true;  /* keep timer */
         });
         connection_signal_id = plugin.connection_changed.connect((source, connected) => {
-            update_status();
+            if (source == "standalone") update_status();
         });
 
         /* ── HA Discovery ─────────────────────────────────────────── */
@@ -411,12 +435,19 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
          * which caused the status to stay "Connected (N accounts)" after
          * standalone was disabled if per-account MQTT was still active.
          * The user then thinks standalone didn't disconnect. */
+
+        /* Use the SAVED config state, not the UI switch.
+         * The enable_switch reflects the user's unsaved intent;
+         * status must reflect the actual backend state so the user
+         * sees "Disabled" / "Connecting…" only AFTER "Save & Apply". */
+        bool saved_enabled = plugin.get_standalone_config().enabled;
+
         var standalone = plugin.get_standalone_client();
         if (standalone != null && standalone.is_connected) {
             status_label.label = _("Connected");
             status_label.remove_css_class("dim-label");
             status_label.add_css_class("success");
-        } else if (enable_switch.active) {
+        } else if (saved_enabled) {
             status_label.label = _("Connecting…");
             status_label.remove_css_class("success");
             status_label.add_css_class("dim-label");
