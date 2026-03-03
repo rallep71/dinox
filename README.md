@@ -105,6 +105,16 @@ flatpak run im.github.rallep71.DinoX
   am -i dinox
   ```
 
+### AUR
+
+Install on Arch Linux using the AUR [dinox](https://aur.archlinux.org/packages/dinox) package.
+
+Replace with your preferred AUR helper.
+
+```bash
+paru -S dinox
+```
+
 ### Build from Source
 
 ```bash
