@@ -331,7 +331,7 @@ class CarbonsForwardingAudit : Gee.TestCase {
         var wrong_carbon = new StanzaNode.build("received", wrong_ns).add_self_xmlns();
 
         // DinoX looks for NS_URI = "urn:xmpp:carbons:2"
-        StanzaNode? recv = wrong_carbon;
+        // (wrong_carbon is used only via stanza below, not directly)
         // A message stanza would call get_subnode("received", "urn:xmpp:carbons:2")
         // which would NOT match "urn:xmpp:carbons:1" → ignored correctly
         var stanza = new StanzaNode.build("message", JABBER_CLIENT_NS);

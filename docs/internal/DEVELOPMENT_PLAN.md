@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 3, 2026 (v1.1.4.8)
+> **Last Updated**: March 3, 2026 (v1.1.4.9)
 > **Current Release Line**: 1.1.4.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.4.8 |
+| **Current Version** | 1.1.4.9 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,15 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.4.9 (Build Tooling, GTK Warning Fixes, Zero-Warning Policy)
+
+- **GTK Focus-Out Warnings**: 5 `grab_focus()` calls replaced with `Gtk.Root.set_focus(null)` across 3 MQTT dialogs
+- **MQTT Enable Switch Lag**: Per-account dialog `update_connection_sensitivity()` deferred to `Idle.add()` with tracked source ID (§9)
+- **Compiler Warnings**: 6 warnings fixed → 0 (unused vars, dead method, unreachable catch)
+- **Build Scripts**: `scripts/build.sh` (strict build wrapper), `scripts/run_debug.sh` (runtime debug), `scripts/pre-commit` (warning-blocking hook)
+- **Shell Script Fixes**: `set -e` + pipeline crash fixed in build.sh and run_debug.sh
+- 12 files changed, ~700 insertions, ~50 deletions
 
 ### v1.1.4.8 (MQTT Re-Audit, UX Fixes, Node-RED Examples)
 

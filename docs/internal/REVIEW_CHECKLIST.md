@@ -90,7 +90,7 @@ var row = table.row_with(id);      // -> may not exist!
 | 5.7 | [ ] User-visible strings translatable? | Use `_("text")` macro |
 | 5.8 | [ ] Switch uses `notify["active"]`, not `state_set`? | `state_set` + `return true` blocks animation, causes lag + GTK warnings |
 | 5.9 | [ ] Every `Idle.add()` / `Timeout.add()` source tracked? | Store ID, cancel previous, clean up in destructor |
-| 5.10 | [ ] Entry focus released before save? | `grab_focus()` on parent or `nav_view.grab_focus()` before reading entry text |
+| 5.10 | [ ] Entry focus released before save? | `((Gtk.Root) get_root()).set_focus(null)` before reading entry text. Do NOT use `grab_focus()` on containers — it re-delegates to child entries and causes "Broken accounting of active state" warnings |
 | 5.11 | [ ] `Adw.PreferencesGroup` rows tracked for removal? | `get_first_child()` returns internal wrapper widgets. Track added rows in `ArrayList<Widget>` and iterate for removal |
 
 ---

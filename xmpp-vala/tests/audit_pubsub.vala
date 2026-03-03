@@ -162,10 +162,9 @@ class PubSubAudit : Gee.TestCase {
         StanzaNode? item_node = items_node.get_subnode("item", NS_EVENT);
         assert_nonnull(item_node);
 
-        string? id = item_node.get_attribute("id", NS_EVENT);
-        // id is null — DinoX passes this to the listener as null id
-        // Listener must handle null ids gracefully
-        // This is a potential issue: some listeners may not expect null id
+        // get_attribute("id") returns null — DinoX passes this to the
+        // listener as null id.  Listeners must handle null ids gracefully.
+        assert_true(item_node.get_attribute("id", NS_EVENT) == null);
     }
 
     private void test_event_item_empty_payload() {
@@ -195,8 +194,8 @@ class PubSubAudit : Gee.TestCase {
 
         StanzaNode? retract_node = event.get_subnode("items", NS_EVENT).get_subnode("retract", NS_EVENT);
         assert_nonnull(retract_node);
-        string? id = retract_node.get_attribute("id", NS_EVENT);
         // null id passed to retract listener — listeners must handle this
+        assert_true(retract_node.get_attribute("id", NS_EVENT) == null);
     }
 
     private void test_event_delete_no_node() {
@@ -208,9 +207,9 @@ class PubSubAudit : Gee.TestCase {
 
         StanzaNode? found = event.get_subnode("delete", NS_EVENT);
         assert_nonnull(found);
-        string? node = found.get_attribute("node", NS_EVENT);
         // null node — DinoX code does `delete_listeners.has_key(node)` with null key
         // HashMap.has_key(null) returns false in Gee → safe, but semantically wrong
+        assert_true(found.get_attribute("node", NS_EVENT) == null);
     }
 
     private void test_event_empty() {

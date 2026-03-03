@@ -55,6 +55,9 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
     private uint status_oneshot_id = 0;
     private ulong connection_signal_id = 0;
 
+    /* Tracked Idle.add source for deferred sensitivity update (§9) */
+    private uint sensitivity_idle_id = 0;
+
     /* ── DB keys — now use StandaloneKey.* for standalone config ──── */
 
     /* The mode row is kept for UX but doesn't affect backend anymore.
@@ -75,10 +78,14 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
         loading = false;
 
         /* When the page is unmapped (user navigates away from preferences
-         * or closes the window), release entry focus to prevent GTK
-         * "GtkText - did not receive a focus-out event" warnings. */
+         * or closes the window), clear focus entirely to prevent GTK
+         * "Broken accounting of active state" and "GtkText - did not
+         * receive a focus-out event" warnings.  grab_focus() on a
+         * container re-delegates focus to a child entry, which doesn't
+         * help — Gtk.Root.set_focus(null) clears it completely. */
         this.unmap.connect(() => {
-            this.grab_focus();
+            var root = this.get_root() as Gtk.Root;
+            if (root != null) root.set_focus(null);
         });
     }
 
@@ -111,7 +118,12 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
         enable_switch.notify["active"].connect(() => {
             if (loading) return;
             mark_dirty();
-            Idle.add(() => {
+            if (sensitivity_idle_id != 0) {
+                Source.remove(sensitivity_idle_id);
+                sensitivity_idle_id = 0;
+            }
+            sensitivity_idle_id = Idle.add(() => {
+                sensitivity_idle_id = 0;
                 update_sensitivity();
                 return Source.REMOVE;
             });
@@ -309,6 +321,10 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
     }
 
     ~MqttStandaloneSettingsPage() {
+        if (sensitivity_idle_id != 0) {
+            Source.remove(sensitivity_idle_id);
+            sensitivity_idle_id = 0;
+        }
         if (status_oneshot_id != 0) {
             Source.remove(status_oneshot_id);
             status_oneshot_id = 0;
@@ -335,9 +351,13 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
      * Matches the per-account "Save & Apply" UX pattern.
      */
     private void on_save_clicked() {
-        /* Grab focus away from entry rows to prevent GTK
-         * "did not receive a focus-out event" warnings. */
-        save_button.grab_focus();
+        /* Clear focus entirely to prevent GTK "Broken accounting
+         * of active state" / "did not receive a focus-out event"
+         * warnings.  set_focus(null) is more reliable than
+         * save_button.grab_focus() which can leave entry children
+         * in an inconsistent state. */
+        var root = this.get_root() as Gtk.Root;
+        if (root != null) root.set_focus(null);
 
         save_setting(StandaloneKey.ENABLED, enable_switch.active ? "1" : "0");
         save_setting(StandaloneKey.BROKER_HOST, host_row.text);

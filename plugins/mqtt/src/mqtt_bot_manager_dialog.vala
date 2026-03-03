@@ -42,6 +42,9 @@ public class MqttBotManagerDialog : Adw.Dialog {
     /* Signal handler ID for live status updates */
     private ulong connection_changed_handler_id = 0;
 
+    /* Tracked Idle.add source for deferred sensitivity update (§9) */
+    private uint sensitivity_idle_id = 0;
+
     /* Per-account mode groups (for show/hide by mode selector) */
     private Adw.ComboRow mode_selector;
     private Adw.PreferencesGroup xmpp_server_group;   /* Server Type (XMPP mode) */
@@ -147,6 +150,11 @@ public class MqttBotManagerDialog : Adw.Dialog {
             plugin.disconnect(connection_changed_handler_id);
             connection_changed_handler_id = 0;
         }
+        /* Cancel pending Idle.add for sensitivity update (§9) */
+        if (sensitivity_idle_id != 0) {
+            Source.remove(sensitivity_idle_id);
+            sensitivity_idle_id = 0;
+        }
     }
 
     /* ── Live signal subscription ─────────────────────────────────── */
@@ -167,9 +175,13 @@ public class MqttBotManagerDialog : Adw.Dialog {
 
         /* Disconnect handler when dialog is closed */
         this.closed.connect(() => {
-            /* Release entry focus to prevent GTK "GtkText - did not
-             * receive a focus-out event" warnings. */
-            if (nav_view != null) nav_view.grab_focus();
+            /* Clear focus entirely via the root window.  grab_focus()
+             * on nav_view re-delegates focus to a child entry, causing
+             * "Broken accounting of active state" and "did not receive
+             * a focus-out event" GTK warnings.  set_focus(null) clears
+             * focus completely before widgets are destroyed. */
+            var root = this.get_root() as Gtk.Root;
+            if (root != null) root.set_focus(null);
 
             if (connection_changed_handler_id != 0) {
                 plugin.disconnect(connection_changed_handler_id);
@@ -230,9 +242,23 @@ public class MqttBotManagerDialog : Adw.Dialog {
             enable_switch.subtitle = _("Activate the MQTT client for this account");
             /* Immediate visual feedback when toggling — update widget
              * sensitivity so the user sees the change right away,
-             * not only after pressing Save & Apply. */
+             * not only after pressing Save & Apply.
+             *
+             * Deferred to Idle.add() so the sensitivity change doesn't
+             * block the Switch animation frame — setting .sensitive on
+             * 5+ widget groups triggers CSS restyling + relayout which
+             * causes visible stutter if done synchronously in
+             * notify["active"]. */
             enable_switch.notify["active"].connect(() => {
-                update_connection_sensitivity();
+                if (sensitivity_idle_id != 0) {
+                    Source.remove(sensitivity_idle_id);
+                    sensitivity_idle_id = 0;
+                }
+                sensitivity_idle_id = Idle.add(() => {
+                    sensitivity_idle_id = 0;
+                    update_connection_sensitivity();
+                    return Source.REMOVE;
+                });
             });
             conn_group.add(enable_switch);
 
@@ -1618,14 +1644,13 @@ public class MqttBotManagerDialog : Adw.Dialog {
     /* ── Save ─────────────────────────────────────────────────────── */
 
     private void on_save_clicked() {
-        /* Grab focus on the save button area to ensure all entry rows
-         * fire their changed signals and release focus properly.
-         * This fixes the GTK WARNING "GtkText - did not receive
-         * a focus-out event" that happens when saving while an entry
-         * still has keyboard focus. */
-        if (nav_view != null) {
-            nav_view.grab_focus();
-        }
+        /* Clear focus from any entry row to ensure changed signals
+         * fire and focus is released properly before saving.  Using
+         * set_focus(null) on the root avoids the GTK "Broken accounting
+         * of active state" / "did not receive a focus-out event"
+         * warnings that grab_focus() on a container can cause. */
+        var root = this.get_root() as Gtk.Root;
+        if (root != null) root.set_focus(null);
 
         /* Read values from widgets back to config (connection widgets only for per-account) */
         if (!is_standalone) {

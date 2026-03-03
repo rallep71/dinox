@@ -49,10 +49,14 @@ public class MqttTopicManagerDialog : Adw.Dialog {
         build_ui();
         populate();
 
-        /* Release entry focus on close to prevent GTK
-         * "GtkText - did not receive a focus-out event" warnings. */
+        /* Clear focus entirely on close to prevent GTK "Broken
+         * accounting of active state" and "did not receive a
+         * focus-out event" warnings.  grab_focus() on a container
+         * re-delegates to a child entry — set_focus(null) clears
+         * focus completely. */
         this.closed.connect(() => {
-            this.grab_focus();
+            var root = this.get_root() as Gtk.Root;
+            if (root != null) root.set_focus(null);
         });
     }
 

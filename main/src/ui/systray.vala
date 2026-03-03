@@ -505,12 +505,6 @@ public class SystrayManager : Object {
     }
 
     // Emit D-Bus signals (replaces [DBus] auto-generated signal emission)
-    private void emit_new_icon() {
-        if (connection != null && !connection.is_closed()) {
-            SniDbus.emit_signal(connection, "/StatusNotifierItem", "NewIcon");
-        }
-    }
-
     private void emit_new_status(string new_status_value) {
         if (connection != null && !connection.is_closed()) {
             SniDbus.emit_signal(connection, "/StatusNotifierItem",

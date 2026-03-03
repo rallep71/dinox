@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# ──────────────────────────────────────────────────────────────
+# DinoX pre-commit hook
+#
+# Runs a strict build check before every commit.
+# Rejects commits that introduce compiler warnings.
+#
+# Install:  cp scripts/pre-commit .git/hooks/pre-commit
+#    or:    ln -sf ../../scripts/pre-commit .git/hooks/pre-commit
+#
+# Skip once: git commit --no-verify
+# ──────────────────────────────────────────────────────────────
+set -euo pipefail
+
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# Handle both .git/hooks/ and scripts/ locations
+if [[ "$SCRIPT_DIR" == *".git/hooks"* ]]; then
+    PROJECT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+else
+    PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+fi
+BUILD_DIR="$PROJECT_DIR/build"
+
+echo -e "${CYAN}━━━ Pre-Commit: Checking for compiler warnings ━━━━━━━━${NC}"
+
+if [ ! -d "$BUILD_DIR" ]; then
+    echo -e "${YELLOW}⚠  No build directory — skipping warning check.${NC}"
+    echo -e "   Run: meson setup build"
+    exit 0
+fi
+
+# Build and capture warnings
+LOG=$(cd "$BUILD_DIR" && ninja 2>&1) || {
+    echo -e "${RED}━━━ BUILD FAILED — commit rejected ━━━━━━━━━━━━━━━━━━━${NC}"
+    echo "$LOG" | tail -20
+    exit 1
+}
+
+# Check for Vala/C compiler warnings
+WARNINGS=$(echo "$LOG" | grep -iE '\.vala:[0-9].*warning:|\.c:[0-9]+:[0-9]+: warning:' | grep -v "certificate_warning" || true)
+WARN_COUNT=0
+if [ -n "$WARNINGS" ]; then
+    WARN_COUNT=$(echo "$WARNINGS" | wc -l | tr -d ' ')
+fi
+
+if [ "$WARN_COUNT" -gt 0 ]; then
+    echo ""
+    echo -e "${RED}━━━ COMMIT REJECTED: $WARN_COUNT compiler warning(s) ━━━${NC}"
+    echo ""
+    echo "$WARNINGS" | while IFS= read -r line; do
+        [ -n "$line" ] && echo -e "  ${YELLOW}⚠${NC}  $line"
+    done
+    echo ""
+    echo -e "  Fix warnings before committing."
+    echo -e "  Skip with: ${CYAN}git commit --no-verify${NC}"
+    echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    exit 1
+fi
+
+echo -e "${GREEN}  ✓ Build OK — 0 warnings${NC}"

@@ -35,20 +35,35 @@ Thank you for your interest in contributing to DinoX!
 3. **Install dependencies and build** — see [BUILD.md](BUILD.md)
    ```bash
    meson setup build
-   ninja -C build
-   ./build/main/dinox
+   ./scripts/build.sh          # Build with warning report
+   ./scripts/build.sh --strict  # Fail on any compiler warning
    ```
 
-4. **Make your changes**
+   **Important:** Always use `./scripts/build.sh` instead of `ninja` directly.
+   It captures all compiler warnings and displays them prominently at the end.
+   A clean build must produce **zero warnings**.
+
+4. **Test your changes** with runtime debug output:
+   ```bash
+   ./scripts/run_debug.sh              # Shows ALL GTK/GLib runtime warnings
+   ./scripts/run_debug.sh --fatal      # Crash on any GTK warning
+   ./scripts/run_debug.sh --filter mqtt  # Filter for specific messages
+   ```
+
+   Runtime warnings (like `GtkText - did not receive a focus-out event` or
+   `Broken accounting of active state`) only appear when running from the
+   terminal — never rely on just the GUI to test.
+
+5. **Make your changes**
    - Follow existing code conventions (see below)
    - Test on at least one platform (Linux build, Flatpak, or Windows)
 
-5. **Commit your changes**
+6. **Commit your changes**
    - Use clear, descriptive commit messages
    - Reference issues if applicable: `Fix #123: Description`
    - Keep commits focused — one logical change per commit
 
-6. **Submit a Pull Request**
+7. **Submit a Pull Request**
    - Fill out the PR template
    - Describe what your PR does and link related issues
    - Add before/after screenshots for UI changes
@@ -106,6 +121,7 @@ DinoX follows a modular plugin architecture:
 | `plugins/tor-manager/` | Integrated Tor & obfs4proxy |
 | `plugins/http-files/` | HTTP file upload/download (XEP-0363) |
 | `plugins/notification-sound/` | Notification sounds |
+| `plugins/mqtt/` | MQTT 3.1.1 plugin — IoT sensors, Home Automation, bridging |
 | `plugins/bot-features/` | Local HTTP API server, bot management, AI integration |
 
 ### Key Patterns
@@ -119,6 +135,8 @@ DinoX follows a modular plugin architecture:
 
 | Script | Purpose |
 |--------|--------|
+| `scripts/build.sh` | **Primary build script** — captures warnings, `--strict` fails on warnings, `--clean` for full rebuild |
+| `scripts/run_debug.sh` | **Runtime debug launcher** — `G_MESSAGES_DEBUG=all`, `--fatal` for crash-on-warning, `--filter` |
 | `scripts/create_openpgp_patches.sh [dino_path]` | Generate diff patches between DinoX and original Dino for OpenPGP porting |
 | `scripts/scan_unicode.py` | Scan source files for hidden/dangerous Unicode characters. Run before committing. |
 | `scripts/translate_all.py` | Batch-insert missing translation strings into `.po` files |
