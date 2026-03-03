@@ -39,6 +39,9 @@ public class MqttBotManagerDialog : Adw.Dialog {
         return account.bare_jid.to_string();
     }
 
+    /* Signal handler ID for live status updates */
+    private ulong connection_changed_handler_id = 0;
+
     /* Per-account mode groups (for show/hide by mode selector) */
     private Adw.ComboRow mode_selector;
     private Adw.PreferencesGroup xmpp_server_group;   /* Server Type (XMPP mode) */
@@ -48,6 +51,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
 
     /* Navigation */
     private Adw.NavigationView nav_view;
+    private Adw.ToastOverlay toast_overlay;
 
     /* Connection page widgets */
     private Adw.SwitchRow enable_switch;
@@ -55,6 +59,8 @@ public class MqttBotManagerDialog : Adw.Dialog {
     private Adw.EntryRow broker_port_entry;
     private Adw.SwitchRow tls_switch;
     private Adw.SwitchRow xmpp_auth_switch;
+    private Adw.EntryRow xmpp_port_entry;
+    private Adw.SwitchRow xmpp_tls_switch;
     private Adw.EntryRow username_entry;
     private Adw.PasswordEntryRow password_entry;
     private Adw.ActionRow server_type_row;
@@ -113,6 +119,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
 
         build_ui();
         populate_from_config();
+        connect_live_signals();
     }
 
     /**
@@ -129,6 +136,62 @@ public class MqttBotManagerDialog : Adw.Dialog {
 
         build_ui();
         populate_from_config();
+        connect_live_signals();
+    }
+
+    ~MqttBotManagerDialog() {
+        /* Safety net: ensure signal handler is cleaned up even if
+         * the dialog is destroyed without the closed signal firing
+         * (e.g. app quit while dialog is open). */
+        if (connection_changed_handler_id != 0) {
+            plugin.disconnect(connection_changed_handler_id);
+            connection_changed_handler_id = 0;
+        }
+    }
+
+    /* ── Live signal subscription ─────────────────────────────────── */
+
+    private void connect_live_signals() {
+        /* Subscribe to connection_changed so status updates in real-time */
+        connection_changed_handler_id = plugin.connection_changed.connect(
+            (source, connected) => {
+                /* Only react to our own connection label */
+                if (source != get_client_label()) return;
+                update_status_display();
+                /* Connection established → refresh server type (detection
+                 * may have completed in the background). */
+                if (connected) {
+                    refresh_server_type();
+                }
+            });
+
+        /* Disconnect handler when dialog is closed */
+        this.closed.connect(() => {
+            /* Release entry focus to prevent GTK "GtkText - did not
+             * receive a focus-out event" warnings. */
+            if (nav_view != null) nav_view.grab_focus();
+
+            if (connection_changed_handler_id != 0) {
+                plugin.disconnect(connection_changed_handler_id);
+                connection_changed_handler_id = 0;
+            }
+        });
+    }
+
+    /**
+     * Re-read server_type from the persisted config and update the row.
+     */
+    private void refresh_server_type() {
+        if (server_type_row == null) return;
+        /* Re-read from DB to get the latest detection result */
+        MqttConnectionConfig fresh;
+        if (is_standalone) {
+            fresh = plugin.get_standalone_config();
+        } else {
+            fresh = plugin.get_account_config(account);
+        }
+        config.server_type = fresh.server_type;
+        server_type_row.subtitle = format_server_type(config.server_type);
     }
 
     /* ── UI Construction ──────────────────────────────────────────── */
@@ -142,7 +205,9 @@ public class MqttBotManagerDialog : Adw.Dialog {
         var root_page = build_root_page();
         nav_view.add(root_page);
 
-        this.set_child(nav_view);
+        toast_overlay = new Adw.ToastOverlay();
+        toast_overlay.child = nav_view;
+        this.set_child(toast_overlay);
     }
 
     private Adw.NavigationPage build_root_page() {
@@ -211,6 +276,18 @@ public class MqttBotManagerDialog : Adw.Dialog {
             xmpp_auth_switch.title = _("Use XMPP Credentials");
             xmpp_auth_switch.subtitle = _("Share your XMPP login with ejabberd's MQTT (recommended)");
             xmpp_server_group.add(xmpp_auth_switch);
+
+            xmpp_port_entry = new Adw.EntryRow();
+            xmpp_port_entry.title = _("MQTT Port");
+            xmpp_port_entry.text = "8883";
+            xmpp_port_entry.input_purpose = Gtk.InputPurpose.DIGITS;
+            xmpp_server_group.add(xmpp_port_entry);
+
+            xmpp_tls_switch = new Adw.SwitchRow();
+            xmpp_tls_switch.title = _("TLS Encryption");
+            xmpp_tls_switch.subtitle = _("ejabberd mod_mqtt usually runs on port 8883 with TLS");
+            xmpp_tls_switch.active = true;
+            xmpp_server_group.add(xmpp_tls_switch);
 
             page.add(xmpp_server_group);
 
@@ -289,8 +366,10 @@ public class MqttBotManagerDialog : Adw.Dialog {
             reconnect_btn_pa.tooltip_text = _("Disconnect and reconnect to the MQTT broker");
             reconnect_btn_pa.clicked.connect(() => {
                 if (account != null) {
-                    var pa_cfg = plugin.get_account_config(account);
-                    plugin.apply_account_config_change(account, pa_cfg);
+                    status_row.subtitle = _("Reconnecting\u2026");
+                    status_row.remove_css_class("success");
+                    status_row.remove_css_class("error");
+                    plugin.force_reconnect_account(account);
                 }
             });
             bot_btn_group.add(reconnect_btn_pa);
@@ -330,8 +409,23 @@ public class MqttBotManagerDialog : Adw.Dialog {
             reconnect_btn_sa.halign = Align.CENTER;
             reconnect_btn_sa.tooltip_text = _("Disconnect and reconnect to the MQTT broker");
             reconnect_btn_sa.clicked.connect(() => {
-                plugin.apply_settings();
+                var sa_cfg = plugin.get_standalone_config();
+                if (!sa_cfg.enabled) {
+                    status_row.subtitle = _("Disabled — enable in Preferences first");
+                    status_row.add_css_class("error");
+                    status_row.remove_css_class("success");
+                    return;
+                }
+                if (sa_cfg.broker_host.strip() == "") {
+                    status_row.subtitle = _("No broker configured — set in Preferences");
+                    status_row.add_css_class("error");
+                    status_row.remove_css_class("success");
+                    return;
+                }
                 status_row.subtitle = _("Reconnecting…");
+                status_row.remove_css_class("success");
+                status_row.remove_css_class("error");
+                plugin.force_reconnect_standalone();
             });
             status_group.add(reconnect_btn_sa);
 
@@ -390,13 +484,23 @@ public class MqttBotManagerDialog : Adw.Dialog {
 
         var pause_switch = new Adw.SwitchRow();
         pause_switch.title = _("Pause Messages");
-        pause_switch.subtitle = _("Incoming MQTT messages are recorded but not shown in chat");
         MqttAlertManager? am = plugin.get_alert_manager();
-        pause_switch.active = (am != null) ? am.paused : false;
+        bool initially_paused = (am != null) ? am.paused : false;
+        pause_switch.subtitle = initially_paused
+            ? _("Paused — messages are recorded but not shown")
+            : _("Incoming MQTT messages are recorded but not shown in chat");
+        pause_switch.active = initially_paused;
         pause_switch.notify["active"].connect(() => {
             MqttAlertManager? alert_mgr = plugin.get_alert_manager();
             if (alert_mgr != null) {
                 alert_mgr.paused = pause_switch.active;
+            }
+            if (pause_switch.active) {
+                pause_switch.subtitle = _("Paused — messages are recorded but not shown");
+                toast_overlay.add_toast(new Adw.Toast(_("Messages paused")));
+            } else {
+                pause_switch.subtitle = _("Incoming MQTT messages are recorded but not shown in chat");
+                toast_overlay.add_toast(new Adw.Toast(_("Messages resumed")));
             }
         });
         runtime_group.add(pause_switch);
@@ -758,6 +862,18 @@ public class MqttBotManagerDialog : Adw.Dialog {
         }
         if (xmpp_auth_switch != null) {
             xmpp_auth_switch.active = config.use_xmpp_auth;
+        }
+        if (xmpp_port_entry != null) {
+            /* Show 8883 as default for XMPP mode if port is still 1883 */
+            int port_val = config.broker_port;
+            if (config.use_xmpp_auth && port_val == 1883) port_val = 8883;
+            xmpp_port_entry.text = port_val.to_string();
+        }
+        if (xmpp_tls_switch != null) {
+            /* Default to TLS on for XMPP mode if port is still 1883 (first time) */
+            bool tls_val = config.tls;
+            if (config.use_xmpp_auth && config.broker_port == 1883 && !config.tls) tls_val = true;
+            xmpp_tls_switch.active = tls_val;
         }
         if (username_entry != null) {
             username_entry.text = config.username;
@@ -1403,6 +1519,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
                 preset_rows.add(row);
             }
         } catch (Error e) {
+            warning("MQTT Bot Manager: Failed to parse presets JSON: %s", e.message);
             add_empty_presets_row();
         }
     }
@@ -1522,6 +1639,19 @@ public class MqttBotManagerDialog : Adw.Dialog {
                  * Custom mode later.  Only set use_xmpp_auth = true so
                  * the connection logic knows to use XMPP creds. */
                 config.use_xmpp_auth = true;
+                /* Save port + TLS from XMPP mode fields */
+                if (xmpp_port_entry != null) {
+                    string xp_text = xmpp_port_entry.text.strip();
+                    int xp_raw = xp_text != "" ? int.parse(xp_text) : 8883;
+                    if (xp_raw < 1 || xp_raw > 65535) {
+                        debug("MQTT: Invalid XMPP-mode port '%s', using 8883", xp_text);
+                        xp_raw = 8883;
+                    }
+                    config.broker_port = xp_raw;
+                }
+                if (xmpp_tls_switch != null) {
+                    config.tls = xmpp_tls_switch.active;
+                }
                 /* HA Discovery cannot work with XMPP-MQTT (no retain/LWT) */
                 config.discovery_enabled = false;
             } else {
@@ -1545,6 +1675,15 @@ public class MqttBotManagerDialog : Adw.Dialog {
         }
 
         /* Discovery fields are already synced from widget callbacks */
+
+        /* Preserve server_type from DB — don't overwrite detection
+         * result with the potentially stale value from the dialog copy. */
+        if (!is_standalone) {
+            var fresh_st = plugin.get_account_config(account);
+            if (fresh_st.server_type != "unknown" && fresh_st.server_type != "") {
+                config.server_type = fresh_st.server_type;
+            }
+        }
 
         /* Persist to DB and apply */
         if (is_standalone) {
@@ -1579,6 +1718,21 @@ public class MqttBotManagerDialog : Adw.Dialog {
             message("MQTT Bot Manager: Saved config for %s (enabled=%s)",
                     account.bare_jid.to_string(), config.enabled.to_string());
         }
+
+        /* Immediate UI feedback after save */
+        if (config.enabled) {
+            status_row.subtitle = _("Connecting…");
+            status_row.remove_css_class("error");
+            status_row.remove_css_class("success");
+        } else {
+            status_row.subtitle = _("Disabled");
+            status_row.remove_css_class("error");
+            status_row.remove_css_class("success");
+        }
+
+        /* Refresh server type from persisted config (may have been
+         * updated by auto-detection running in background) */
+        refresh_server_type();
 
         /* Don't auto-close — user closes manually via X button */
     }

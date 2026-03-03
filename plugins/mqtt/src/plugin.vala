@@ -204,8 +204,9 @@ public class Plugin : RootInterface, Object {
             start_standalone.begin((obj, res) => {
                 start_standalone.end(res);
                 standalone_connecting = false;
-                connection_changed("standalone",
-                    standalone_client != null && standalone_client.is_connected);
+                /* Note: connection_changed is already emitted by the
+                 * on_connection_changed handler wired in create_client().
+                 * No explicit emit needed here. */
             });
         }
     }
@@ -545,8 +546,9 @@ public class Plugin : RootInterface, Object {
                     start_standalone.begin((obj, res) => {
                         start_standalone.end(res);
                         standalone_connecting = false;
-                        connection_changed("standalone",
-                            standalone_client != null && standalone_client.is_connected);
+                        /* Note: connection_changed is already emitted by the
+                         * on_connection_changed handler wired in create_client().
+                         * No explicit emit needed here. */
                     });
                 }
             }
@@ -755,7 +757,9 @@ public class Plugin : RootInterface, Object {
                 string? existing = get_db_setting(new_key);
                 if (existing == null || existing == "") {
                     save_db_setting(new_key, val);
-                    message("MQTT: Migrated %s → %s = '%s'", old_key, new_key, val);
+                    bool is_secret = (old_key == KEY_PASS || old_key == KEY_USER);
+                    message("MQTT: Migrated %s → %s = '%s'", old_key, new_key,
+                            is_secret ? "***" : val);
                 }
             }
         }
@@ -822,6 +826,82 @@ public class Plugin : RootInterface, Object {
     }
 
     /**
+     * Force a full disconnect → reconnect cycle for a per-account client.
+     * Used by the Reconnect button in the dialog.
+     */
+    public void force_reconnect_account(Account account) {
+        string jid = account.bare_jid.to_string();
+        var acfg = get_account_config(account);
+
+        if (!acfg.enabled) {
+            message("[ACCT:%s] Reconnect ignored — MQTT disabled", jid);
+            return;
+        }
+
+        /* Tear down existing client */
+        if (account_clients.has_key(jid)) {
+            message("[ACCT:%s] Reconnect → disconnecting…", jid);
+            account_clients[jid].disconnect_sync();
+            account_clients.unset(jid);
+        }
+
+        /* Reset connecting flag — a previous start_per_account may not have
+         * completed its async callback yet. */
+        connecting_accounts.remove(jid);
+
+        /* Re-connect */
+        var state = app.stream_interactor.connection_manager.get_state(account);
+        if (state == ConnectionManager.ConnectionState.CONNECTED) {
+            message("[ACCT:%s] Reconnect → connecting…", jid);
+            connecting_accounts.add(jid);
+            start_per_account.begin(account, (obj, res) => {
+                start_per_account.end(res);
+                connecting_accounts.remove(jid);
+            });
+        } else {
+            message("[ACCT:%s] Reconnect → XMPP not connected, will auto-connect later", jid);
+        }
+    }
+
+    /**
+     * Force a full disconnect → reconnect cycle for the standalone client.
+     * Used by the Reconnect button in the dialog.
+     */
+    public void force_reconnect_standalone() {
+        if (!standalone_config.enabled) {
+            message("[STANDALONE] Reconnect ignored — disabled");
+            return;
+        }
+
+        /* Tear down existing client */
+        if (standalone_client != null) {
+            message("[STANDALONE] Reconnect → disconnecting…");
+            standalone_client.disconnect_sync();
+            standalone_client = null;
+        }
+
+        /* Reset connecting flag — a previous start_standalone may not have
+         * completed its async callback yet (the Idle.add for standalone_connecting=false
+         * runs in a later main loop iteration).  Without this reset,
+         * the reconnect is silently skipped. */
+        standalone_connecting = false;
+
+        /* Re-connect */
+        if (standalone_config.broker_host != "") {
+            message("[STANDALONE] Reconnect → connecting to %s:%d…",
+                    standalone_config.broker_host, standalone_config.broker_port);
+            standalone_connecting = true;
+            start_standalone.begin((obj, res) => {
+                start_standalone.end(res);
+                standalone_connecting = false;
+            });
+        } else {
+            message("[STANDALONE] Reconnect failed — no broker host configured");
+            connection_changed("standalone", false);
+        }
+    }
+
+    /**
      * Apply a config change from the UI — connect/disconnect/reconnect as needed.
      * Called by MqttBotManagerDialog after saving config.
      */
@@ -848,6 +928,9 @@ public class Plugin : RootInterface, Object {
                 if (account_clients.has_key(jid)) {
                     /* Already connected — re-sync topics (subscribe new, unsubscribe removed) */
                     sync_topics_to_client_cfg(account_clients[jid], cfg, jid);
+                    /* Notify UI — no connect/disconnect happened so no signal would fire,
+                     * but the dialog needs to update status from "Connecting…" to "Connected". */
+                    connection_changed(jid, account_clients[jid].is_connected);
                 } else if (!connecting_accounts.contains(jid)) {
                     connecting_accounts.add(jid);
                     start_per_account.begin(account, (obj, res) => {
@@ -906,7 +989,8 @@ public class Plugin : RootInterface, Object {
                 message("[ACCT:%s] XMPP offline → disconnecting per-account MQTT", jid);
                 account_clients[jid].disconnect_sync();
                 account_clients.unset(jid);
-                connection_changed(jid, false);
+                /* Note: disconnect_sync() already fires connection_changed
+                 * via the on_connection_changed handler in create_client(). */
             }
             /* NOTE: Standalone MQTT is NOT affected by XMPP disconnect */
         }
@@ -918,6 +1002,15 @@ public class Plugin : RootInterface, Object {
         /* Only run detection if no type is set yet */
         string? existing = get_db_setting(KEY_SERVER_TYPE);
         if (existing != null && existing != "" && existing != "unknown") {
+            /* Global detection already ran — propagate result to
+             * per-account config if it still shows "unknown". */
+            var acfg_prop = get_account_config(account);
+            if (acfg_prop.server_type == "unknown" || acfg_prop.server_type == "") {
+                acfg_prop.server_type = existing;
+                save_account_config(account, acfg_prop);
+                message("MQTT: Propagated server_type '%s' to account %s",
+                        existing, account.bare_jid.to_string());
+            }
             return;
         }
 
@@ -926,6 +1019,15 @@ public class Plugin : RootInterface, Object {
 
         DetectionResult result = yield ServerDetector.detect(
             app.stream_interactor, account);
+
+        /* Re-check after yield: account may have been removed or
+         * disconnected while detection was running (Coding Guidelines §9). */
+        var post_state = app.stream_interactor.connection_manager.get_state(account);
+        if (post_state != ConnectionManager.ConnectionState.CONNECTED) {
+            message("MQTT: Server detection finished but account %s no longer connected — discarding",
+                    account.bare_jid.to_string());
+            return;
+        }
 
         if (result.server_type != ServerType.UNKNOWN) {
             app.db.settings.upsert()
@@ -937,6 +1039,22 @@ public class Plugin : RootInterface, Object {
             /* Also save detection result in the per-account config */
             var acfg = get_account_config(account);
             acfg.server_type = result.server_type.to_string_key();
+
+            /* Auto-configure port/TLS for ejabberd if still at defaults.
+             * Only touch use_xmpp_auth when the user hasn't explicitly
+             * chosen Custom Broker mode (broker_host == "" means
+             * no custom broker was configured yet). */
+            if (result.server_type == ServerType.EJABBERD) {
+                if (acfg.broker_port == 1883 && !acfg.tls) {
+                    acfg.broker_port = 8883;
+                    acfg.tls = true;
+                    if (acfg.broker_host == "") {
+                        acfg.use_xmpp_auth = true;
+                    }
+                    message("MQTT: Auto-configured port=8883 tls=true for ejabberd");
+                }
+            }
+
             save_account_config(account, acfg);
 
             /* Inject server-specific hints into bot conversation */
@@ -987,9 +1105,14 @@ public class Plugin : RootInterface, Object {
         message("[STANDALONE] Connecting to %s:%d (tls=%s)…",
                 cfg.broker_host, cfg.broker_port, cfg.tls.to_string());
 
-        standalone_client = create_client("standalone", cfg);
+        /* Register BEFORE connect_async — the CONNACK handler fires
+         * on_connection_changed during connect_async (before it returns),
+         * and is_standalone_connected() needs standalone_client set for
+         * the dialog status display to work. */
+        var client = create_client("standalone", cfg);
+        standalone_client = client;
 
-        bool ok = yield standalone_client.connect_async(
+        bool ok = yield client.connect_async(
             cfg.broker_host, cfg.broker_port, cfg.tls, cfg.username, cfg.password);
 
         if (!ok) {
@@ -1002,7 +1125,11 @@ public class Plugin : RootInterface, Object {
                     "Connect failed (host=%s port=%d)".printf(
                         cfg.broker_host, cfg.broker_port));
             }
-            standalone_client = null;
+            client.disconnect_sync();
+            /* Only null out if nobody replaced us during the yield */
+            if (standalone_client == client) {
+                standalone_client = null;
+            }
         }
     }
 
@@ -1036,11 +1163,15 @@ public class Plugin : RootInterface, Object {
 
         var client = create_client(jid, acfg);
 
+        /* Register client BEFORE connect_async — the CONNACK handler fires
+         * on_connection_changed during connect_async (before it returns),
+         * and is_account_connected() needs the client in account_clients
+         * for the dialog status display to work. */
+        account_clients[jid] = client;
+
         bool ok = yield client.connect_async(host, port, tls, user, pass);
 
-        if (ok) {
-            account_clients[jid] = client;
-        } else {
+        if (!ok) {
             warning("MQTT: Per-account connect failed for %s (host=%s port=%d)",
                     jid, host, port);
             /* Record failed connection event */
@@ -1049,6 +1180,10 @@ public class Plugin : RootInterface, Object {
                     "Connect failed (host=%s port=%d)".printf(host, port));
             }
             client.disconnect_sync();
+            /* Only remove from map if nobody replaced us during the yield */
+            if (account_clients.has_key(jid) && account_clients[jid] == client) {
+                account_clients.unset(jid);
+            }
         }
     }
 
@@ -1354,6 +1489,9 @@ public class Plugin : RootInterface, Object {
             return true;
         }
 
+        /* Clamp port to valid range before any use (Audit Finding 3) */
+        int safe_port = port.clamp(1, 65535);
+
         string broker_host = host ?? "";
         if (broker_host == "") {
             var accounts = app.stream_interactor.get_accounts();
@@ -1369,14 +1507,14 @@ public class Plugin : RootInterface, Object {
             /* Build a temporary config for this programmatic connect */
             var tmp_cfg = new MqttConnectionConfig();
             tmp_cfg.broker_host = broker_host;
-            tmp_cfg.broker_port = port;
+            tmp_cfg.broker_port = safe_port;
             tmp_cfg.tls = use_tls;
             tmp_cfg.topics = standalone_config.topics;
             standalone_client = create_client("standalone", tmp_cfg);
         }
 
         return yield standalone_client.connect_async(
-            broker_host, port, use_tls, username, password);
+            broker_host, safe_port, use_tls, username, password);
     }
 
     /**
