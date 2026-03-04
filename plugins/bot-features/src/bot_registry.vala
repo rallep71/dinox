@@ -123,7 +123,7 @@ public class BotRegistry : Qlite.Database {
                           string? jid = null, string? description = null) {
         long now = (long) new DateTime.now_utc().to_unix();
         // BUG-04 fix: perform() returns last_insert_rowid() — no separate SELECT needed
-        int64 rowid = bot.insert()
+        int64 new_bot_id = bot.insert()
             .value(bot.name_, name)
             .value(bot.owner_jid, owner_jid)
             .value(bot.token_hash, token_hash)
@@ -135,7 +135,7 @@ public class BotRegistry : Qlite.Database {
             .value(bot.description, description)
             .value(bot.webhook_enabled, false)
             .perform();
-        return (int) rowid;
+        return (int) new_bot_id;
     }
 
     public BotInfo? get_bot_by_id(int bot_id) {
@@ -257,13 +257,13 @@ public class BotRegistry : Qlite.Database {
     public int enqueue_update(int bot_id, string update_type, string payload) {
         long now = (long) new DateTime.now_utc().to_unix();
         // perform() returns last_insert_rowid() — no separate SELECT needed
-        int64 rowid = update_queue.insert()
+        int64 new_update_id = update_queue.insert()
             .value(update_queue.bot_id, bot_id)
             .value(update_queue.update_type, update_type)
             .value(update_queue.payload, payload)
             .value(update_queue.created_at, now)
             .perform();
-        return (int) rowid;
+        return (int) new_update_id;
     }
 
     public Gee.List<UpdateInfo> get_updates(int bot_id, int offset = 0, int limit = 100) {
