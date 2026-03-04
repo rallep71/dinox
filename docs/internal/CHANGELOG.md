@@ -5,6 +5,26 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.5.2] - 2026-03-04
+
+### Security
+- **AES-256-GCM encryption for sensitive settings** (Hinweis 1): All secrets (Telegram bot tokens, AI API keys, ejabberd admin password) are now encrypted at rest in the SQLite settings table. Key derivation via HMAC-SHA256 from `server_hmac_key`. Existing plaintext values auto-migrate on first read. New API: `set_secret_setting()` / `get_secret_setting()` in `bot_registry.vala`
+- **BUG-02: Remove token_raw cleartext storage**: `BotInfo.token_raw` property and `update_bot_token_raw()` removed entirely. Tokens shown once at creation, never stored
+- **BUG-06: Redact Telegram bot token from logs**: `redact_token_url()` helper masks tokens in debug/warning log output. API response bodies no longer logged
+
+### Fixed
+- **BUG-04: Race condition in `create_bot()`**: `SELECT max(id)` replaced with `last_insert_rowid()` return value from `InsertBuilder.perform()` (PR #17)
+- **BUG-17: OMEMO session persistence**: Per-key storage (`omemo_session:<bot_id>:<jid>:<device_id>`) instead of full JSON blob rewrite. Auto-migration from old format
+- **BUG-18: `gnutls_global_init()` called per certificate**: Added `dinox_cert_init()` / `dinox_cert_deinit()` — GnuTLS initialized once at plugin startup
+- **BUG-22: `delete_dedicated_bot()` fire-and-forget**: Bot deletion now sequenced after `ejabberd_api.unregister_account()` async callback. Owner notified on failure via `deferred_response` signal
+
+### Changed
+- **BUG-09 downgraded**: Moved from HOCH to Hinweis — ejabberd API limitation, not a code bug
+- **BUG_AUDIT.md**: Comprehensive update — 18 bugs fixed, 2 open (API-design + C-binding), 1 false positive
+- **Version**: 1.1.5.1 → 1.1.5.2
+
+---
+
 ## [1.1.5.1] - 2026-03-04
 
 ### Fixed

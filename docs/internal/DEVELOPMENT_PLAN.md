@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 4, 2026 (v1.1.5.1)
+> **Last Updated**: March 4, 2026 (v1.1.5.2)
 > **Current Release Line**: 1.1.5.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.5.1 |
+| **Current Version** | 1.1.5.2 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,18 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.5.2 (Security Hardening — Bug Audit Fixes, Encrypted Settings)
+
+- **AES-256-GCM Encrypted Settings**: Telegram tokens, AI API keys, ejabberd admin password now encrypted at rest in SQLite. Auto-migration of existing plaintext values
+- **BUG-02**: Removed `token_raw` cleartext storage entirely
+- **BUG-04**: Race condition fix — `last_insert_rowid()` instead of `SELECT max(id)` (PR #17)
+- **BUG-06**: Telegram bot token redacted from all debug/warning logs
+- **BUG-17**: OMEMO per-key session persistence instead of JSON blob rewrite
+- **BUG-18**: `gnutls_global_init()` once at plugin startup, not per-call
+- **BUG-22**: `delete_dedicated_bot()` properly sequenced with ejabberd unregister
+- **BUG_AUDIT.md**: 18/21 bugs fixed, 2 open (external), 1 false positive
+- 7 files changed across plugins/bot-features
 
 ### v1.1.5.1 (HA Discovery Live Start/Stop, Release Automation)
 
