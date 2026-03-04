@@ -12,10 +12,10 @@
 | Schweregrad | Anzahl | Davon behoben |
 |-------------|--------|---------------|
 | KRITISCH    | 3      | 3 fixed |
-| HOCH        | 6      | 3 fixed, 1 teilweise, 1 offen (ejabberd-Limit), 1 false positive |
+| HOCH        | 6      | 4 fixed, 1 offen (ejabberd-Limit), 1 false positive |
 | MITTEL      | 8      | 5 fixed, 1 offen, 1 offen (API-Design), 1 offen (C-Binding) |
 | NIEDRIG     | 5      | 4 fixed, 1 offen |
-| **Gesamt**  | **22** | **15 fixed, 2 teilweise, 5 offen** |
+| **Gesamt**  | **22** | **16 fixed, 1 teilweise, 5 offen** |
 
 ---
 
@@ -53,11 +53,9 @@
 
 ---
 
-### BUG-06: Telegram-Token in Download-URLs an XMPP-Clients weitergegeben — TEILWEISE FIXED
+### ~~BUG-06: Telegram-Token in Download-URLs an XMPP-Clients weitergegeben~~ — FIXED
 **Datei:** `telegram_bridge.vala`  
-**Status:** ⚠️ Teilweise behoben — Token-haltige URL wird nur noch intern zum Download verwendet, nicht mehr an XMPP gesendet. XMPP-Clients erhalten nur `"[Telegram file: <name>, <size> bytes]"`. Token erscheint jedoch noch in Debug-Logs.
-
-**Verbleibender Fix:** Token aus Debug-Log-Ausgaben entfernen.
+**Status:** ✅ Behoben — Token-haltige URLs werden nicht mehr an XMPP gesendet (seit BUG-06 v1). Debug-Logs jetzt ebenfalls bereinigt: `redact_token_url()` Helper ersetzt Token in URLs durch `<REDACTED>`, Telegram-API-Response-Bodies werden nicht mehr geloggt. Kein Token-Leak mehr in Logs.
 
 ---
 

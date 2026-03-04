@@ -56,6 +56,18 @@ public class TelegramBridge : Object {
         }
     }
 
+    // Redact Telegram bot token from URLs for safe logging
+    // Replaces https://api.telegram.org/bot<TOKEN>/... → https://api.telegram.org/bot<REDACTED>/...
+    private static string redact_token_url(string url) {
+        // Match /bot<token>/ or /file/bot<token>/
+        int bot_pos = url.index_of("/bot");
+        if (bot_pos < 0) return url;
+        int token_start = bot_pos + 4; // skip "/bot"
+        int token_end = url.index_of("/", token_start);
+        if (token_end < 0) return url;
+        return url.substring(0, token_start) + "<REDACTED>" + url.substring(token_end);
+    }
+
     // Check if Telegram bridge is enabled for a bot
     public bool is_enabled(int bot_id) {
         string? val = registry.get_setting("bot_%d_tg_enabled".printf(bot_id));
@@ -228,7 +240,7 @@ public class TelegramBridge : Object {
             uint status = request.get_status();
 
             if (status < 200 || status >= 300) {
-                warning("Telegram: Download HTTP %u from %s", status, url);
+                warning("Telegram: Download HTTP %u from %s", status, redact_token_url(url));
                 return null;
             }
 
@@ -317,7 +329,7 @@ public class TelegramBridge : Object {
 
             var request = new Soup.Message.from_multipart(url, multipart);
 
-            var response = yield http.send_and_read_async(request, GLib.Priority.DEFAULT, null);
+            yield http.send_and_read_async(request, GLib.Priority.DEFAULT, null);
             uint status = request.get_status();
 
             if (status >= 200 && status < 300) {
@@ -325,8 +337,7 @@ public class TelegramBridge : Object {
                 return true;
             }
 
-            string body = (string) response.get_data();
-            warning("Telegram: Upload %s failed HTTP %u: %s", method, status, body);
+            warning("Telegram: Upload %s failed HTTP %u (response omitted)", method, status);
             return false;
         } catch (GLib.Error e) {
             warning("Telegram: Upload error: %s", e.message);
@@ -504,7 +515,7 @@ public class TelegramBridge : Object {
 
                         if (file_id != null) {
                             string? download_url = yield resolve_telegram_file(token, file_id);
-                            debug("Telegram: Resolved URL: %s", download_url ?? "null");
+                            debug("Telegram: Resolved file: %s", download_url ?? "null");  // safe: returns description, not URL
                             if (download_url != null) {
                                 // Emit file signal -> MessageRouter sends bare URL for inline display
                                 telegram_file_received(bot_id, from_name, download_url, caption);
@@ -592,14 +603,13 @@ public class TelegramBridge : Object {
             request.set_request_body_from_bytes("application/json",
                 new Bytes.take(sb.str.data));
 
-            var response = yield http.send_and_read_async(request, GLib.Priority.DEFAULT, null);
+            yield http.send_and_read_async(request, GLib.Priority.DEFAULT, null);
             uint status = request.get_status();
 
             if (status >= 200 && status < 300) {
                 return true;
             }
-            string body = (string) response.get_data();
-            warning("Telegram: Send failed HTTP %u: %s", status, body);
+            warning("Telegram: Send failed HTTP %u", status);
             return false;
         } catch (GLib.Error e) {
             warning("Telegram: Send error: %s", e.message);
