@@ -5,6 +5,20 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.5.1] - 2026-03-04
+
+### Fixed
+- **HA Discovery live start/stop for per-account MQTT**: Toggling HA Discovery on/off in the per-account bot dialog now creates/removes the DiscoveryManager on-the-fly for already-connected clients — no reconnect required. Previously, `apply_account_config_change()` only synced topics but never started/stopped discovery
+- **Log message showed wrong field**: "Saved config" log displayed `enabled=` instead of `discovery_enabled=` — now shows both fields for proper debugging
+
+### Changed
+- **HA Discovery ORIGIN_SW → Dino.VERSION**: Hardcoded `ORIGIN_SW = "1.1.4.2"` replaced with `Dino.VERSION` from the build system — version in HA device info now updates automatically with each release
+- **release.sh automation**: `release.sh` now auto-updates VERSION, docs/index.html (softwareVersion + datePublished), and dino.doap release block
+- **NODERED_FLOWS.md**: Rewritten from German to English, added 3 local broker setup options (Mosquitto no-TLS, Mosquitto with auth, ejabberd mod_mqtt TLS)
+- **Version**: 1.1.5.0 → 1.1.5.1
+
+---
+
 ## [1.1.5.0] - 2026-03-04
 
 ### Fixed

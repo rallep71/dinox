@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 4, 2026 (v1.1.5.0)
+> **Last Updated**: March 4, 2026 (v1.1.5.1)
 > **Current Release Line**: 1.1.5.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.5.0 |
+| **Current Version** | 1.1.5.1 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,15 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.5.1 (HA Discovery Live Start/Stop, Release Automation)
+
+- **HA Discovery Live Start/Stop**: Per-account HA Discovery toggle now works without reconnect — DiscoveryManager created/removed on-the-fly in `apply_account_config_change()`
+- **ORIGIN_SW → Dino.VERSION**: HA Discovery device info version now auto-updated from build system
+- **Release Automation**: `release.sh` auto-updates VERSION, index.html, dino.doap
+- **NODERED_FLOWS.md**: Full English rewrite with 3 broker setup options
+- **Log Fix**: Bot manager save log now shows `discovery_enabled` field
+- 3 files changed across plugins/mqtt
 
 ### v1.1.5.0 (MQTT Bot JID Collision Fix, Clear Cache Fixes, CI Fix)
 
