@@ -12,10 +12,10 @@
 | Schweregrad | Anzahl | Davon behoben |
 |-------------|--------|---------------|
 | KRITISCH    | 3      | 3 fixed |
-| HOCH        | 6      | 4 fixed, 1 offen (ejabberd-Limit), 1 false positive |
+| HOCH        | 5      | 4 fixed, 1 false positive |
 | MITTEL      | 8      | 5 fixed, 1 offen, 1 offen (API-Design), 1 offen (C-Binding) |
 | NIEDRIG     | 5      | 5 fixed |
-| **Gesamt**  | **22** | **17 fixed, 0 teilweise, 5 offen** |
+| **Gesamt**  | **21** | **17 fixed, 0 teilweise, 4 offen** |
 
 ---
 
@@ -69,14 +69,6 @@
 ### ~~BUG-08: `poll_in_progress` wird bei Fehler in `poll_telegram` nicht zurückgesetzt~~ — FIXED
 **Datei:** `telegram_bridge.vala`  
 **Status:** Behoben — Alle Return-Pfade (409, non-2xx, ok=false, normal, null-token) setzen jetzt `poll_in_progress[bot_id] = false` vor dem Return.
-
----
-
-### BUG-09: `ejabberd_api.delete_mam_messages()` löscht Archive ALLER Benutzer — OFFEN (ejabberd-Limitation)
-**Datei:** `ejabberd_api.vala`, `message_router.vala`  
-**Status:** Mitigation implementiert — Deutliche Warnung wird jetzt angezeigt, dass alle Benutzer betroffen sind. Grundproblem besteht weiterhin: ejabberd bietet keine per-User MAM-Löschung via REST-API.
-
-**Verbleibender Fix:** Nicht lösbar ohne ejabberd-Änderung. Ggf. Funktion ganz deaktivieren.
 
 ---
 
@@ -175,3 +167,5 @@
 3. ~~**Dreifache Code-Duplikation von `escape_json()`:**~~ Behoben — Zentrale `BotUtils.escape_json()` in `bot_utils.vala`. Lokale Kopien in `message_router.vala` und `http_server.vala` noch vorhanden aber identisch aktualisiert.
 
 4. **10-Jahres-Zertifikat:** `cert_gen.c` generiert Zertifikate mit 10 Jahren Gültigkeit. Für Self-signed akzeptabel, aber lang.
+
+5. **BUG-09: `ejabberd_api.delete_mam_messages()` löscht Archive ALLER Benutzer:** ejabberd-API-Limitation, kein Code-Bug. Mitigation implementiert (Warnung wird angezeigt). Nicht lösbar ohne ejabberd-Änderung.
