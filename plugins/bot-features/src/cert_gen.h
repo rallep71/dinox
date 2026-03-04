@@ -7,6 +7,17 @@
 #define DINOX_CERT_GEN_H
 
 /**
+ * Initialize GnuTLS globally. Called once at plugin startup.
+ * Safe to call multiple times (idempotent).
+ */
+void dinox_cert_init(void);
+
+/**
+ * Deinitialize GnuTLS globally. Called at plugin shutdown.
+ */
+void dinox_cert_deinit(void);
+
+/**
  * Generate a self-signed TLS certificate and private key.
  * @param cert_path Path to write the PEM certificate file
  * @param key_path Path to write the PEM private key file

@@ -13,9 +13,9 @@
 |-------------|--------|---------------|
 | KRITISCH    | 3      | 3 fixed |
 | HOCH        | 5      | 4 fixed, 1 false positive |
-| MITTEL      | 8      | 5 fixed, 1 offen, 1 offen (API-Design), 1 offen (C-Binding) |
+| MITTEL      | 8      | 6 fixed, 1 offen (API-Design), 1 offen (C-Binding) |
 | NIEDRIG     | 5      | 5 fixed |
-| **Gesamt**  | **21** | **17 fixed, 0 teilweise, 4 offen** |
+| **Gesamt**  | **21** | **18 fixed, 2 offen, 1 false positive** |
 
 ---
 
@@ -126,11 +126,9 @@
 
 ## NIEDRIG
 
-### BUG-18: `gnutls_global_init()` bei jedem Zertifikat-Aufruf — OFFEN (kosmetisch)
-**Datei:** `cert_gen.c`  
-**Status:** Offen — `gnutls_global_init()` noch bei jedem Aufruf. Funktional harmlos (GnuTLS Reference-Counting), aber unsauber.
-
-**Fix:** Einmalig beim Plugin-Start initialisieren und beim Shutdown deinitialisieren.
+### ~~BUG-18: `gnutls_global_init()` bei jedem Zertifikat-Aufruf~~ -- FIXED
+**Datei:** `cert_gen.c`, `cert_gen.h`, `cert_gen.vapi`, `plugin.vala`  
+**Status:** Behoben -- `dinox_cert_init()` und `dinox_cert_deinit()` eingefuehrt. GnuTLS wird einmalig beim Plugin-Start initialisiert und beim Shutdown deinitialisiert. Einzelfunktionen rufen `dinox_cert_init()` idempotent auf (Fallback falls direkt aufgerufen).
 
 ---
 

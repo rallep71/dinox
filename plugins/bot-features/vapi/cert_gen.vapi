@@ -1,5 +1,11 @@
 [CCode (cheader_filename = "cert_gen.h")]
 namespace CertGen {
+    [CCode (cname = "dinox_cert_init")]
+    public void init();
+
+    [CCode (cname = "dinox_cert_deinit")]
+    public void deinit();
+
     [CCode (cname = "dinox_generate_self_signed_cert")]
     public int generate_self_signed_cert(string cert_path, string key_path, string cn);
 

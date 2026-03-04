@@ -40,6 +40,9 @@ public class Plugin : RootInterface, Object {
     }
 
     private void initialize() {
+        // BUG-18 fix: Initialize GnuTLS once at plugin startup
+        CertGen.init();
+
         // Initialize core components
         string db_path = GLib.Path.build_filename(
             GLib.Environment.get_user_data_dir(), "dinox", "bot_registry.db"
@@ -725,6 +728,9 @@ public class Plugin : RootInterface, Object {
             webhook_dispatcher.shutdown();
         }
         enabled = false;
+
+        // BUG-18 fix: Deinitialize GnuTLS at plugin shutdown
+        CertGen.deinit();
     }
 
     public void rekey_database(string new_key) throws Error {

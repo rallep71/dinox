@@ -23,6 +23,23 @@
 
 #include "cert_gen.h"
 
+/* Track whether GnuTLS has been initialized */
+static int gnutls_initialized = 0;
+
+void dinox_cert_init(void) {
+    if (!gnutls_initialized) {
+        gnutls_global_init();
+        gnutls_initialized = 1;
+    }
+}
+
+void dinox_cert_deinit(void) {
+    if (gnutls_initialized) {
+        gnutls_global_deinit();
+        gnutls_initialized = 0;
+    }
+}
+
 /* Ensure directory exists (recursive) */
 static int ensure_dir(const char* path) {
     char tmp[1024];
@@ -76,7 +93,8 @@ int dinox_generate_self_signed_cert(const char* cert_path, const char* key_path,
     int ret = -1;
     FILE *f = NULL;
 
-    gnutls_global_init();
+    /* Ensure GnuTLS is initialized (idempotent) */
+    dinox_cert_init();
 
     /* Ensure output directories exist */
     ensure_parent_dir(cert_path);
@@ -168,6 +186,9 @@ cleanup:
 }
 
 int dinox_check_cert_valid(const char* cert_path) {
+    /* Ensure GnuTLS is initialized (idempotent) */
+    dinox_cert_init();
+
     FILE *f = fopen(cert_path, "r");
     if (!f) return 0;
 
