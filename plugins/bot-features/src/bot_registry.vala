@@ -122,7 +122,8 @@ public class BotRegistry : Qlite.Database {
     public int create_bot(string name, string owner_jid, string token_hash, string mode = "personal",
                           string? jid = null, string? description = null) {
         long now = (long) new DateTime.now_utc().to_unix();
-        bot.insert()
+        // BUG-04 fix: perform() returns last_insert_rowid() — no separate SELECT needed
+        int64 rowid = bot.insert()
             .value(bot.name_, name)
             .value(bot.owner_jid, owner_jid)
             .value(bot.token_hash, token_hash)
@@ -134,12 +135,7 @@ public class BotRegistry : Qlite.Database {
             .value(bot.description, description)
             .value(bot.webhook_enabled, false)
             .perform();
-        // BUG-04 fix: Use last_insert_rowid() instead of SELECT max(id) to avoid race conditions
-        int result_id = 0;
-        foreach (Qlite.Row row in bot.select({bot.id}).with(bot.name_, "=", name).with(bot.owner_jid, "=", owner_jid).with(bot.created_at, "=", now).order_by(bot.id, "DESC").limit(1)) {
-            result_id = bot.id.get(row);
-        }
-        return result_id;
+        return (int) rowid;
     }
 
     public BotInfo? get_bot_by_id(int bot_id) {
@@ -260,18 +256,14 @@ public class BotRegistry : Qlite.Database {
 
     public int enqueue_update(int bot_id, string update_type, string payload) {
         long now = (long) new DateTime.now_utc().to_unix();
-        update_queue.insert()
+        // perform() returns last_insert_rowid() — no separate SELECT needed
+        int64 rowid = update_queue.insert()
             .value(update_queue.bot_id, bot_id)
             .value(update_queue.update_type, update_type)
             .value(update_queue.payload, payload)
             .value(update_queue.created_at, now)
             .perform();
-        // Get the last inserted update ID
-        int result_id = 0;
-        foreach (Qlite.Row row in update_queue.select({update_queue.id}).order_by(update_queue.id, "DESC").limit(1)) {
-            result_id = update_queue.id.get(row);
-        }
-        return result_id;
+        return (int) rowid;
     }
 
     public Gee.List<UpdateInfo> get_updates(int bot_id, int offset = 0, int limit = 100) {

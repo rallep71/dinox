@@ -80,19 +80,9 @@ this.server_key = key;
 
 ## HOCH
 
-### BUG-04: Race Condition bei `create_bot()` — `SELECT max(id)` statt `last_insert_rowid()`
-**Datei:** `bot_registry.vala`, Zeilen 141–144  
-**Beschreibung:** Die Methode `create_bot()` ermittelt die neue Bot-ID mit:
-```vala
-foreach (Qlite.Row row in bot.select({bot.id}).order_by(bot.id, "DESC").limit(1)) {
-    result_id = bot.id.get(row);
-}
-```
-Bei gleichzeitigen Aufrufen (z.B. zwei API-Requests parallel) kann ein anderer INSERT zwischen dem INSERT und dem SELECT stattfinden, was dazu führt, dass die falsche ID zurückgegeben wird.
-
-**Auswirkung:** Der falsche Bot erhält den generierten Token, der echte Bot bleibt ohne Token.
-
-**Fix:** `last_insert_rowid()` von SQLite verwenden, oder eine Transaktion verwenden.
+### ~~BUG-04: Race Condition bei `create_bot()` — `SELECT max(id)` statt `last_insert_rowid()`~~ — FIXED
+**Datei:** `bot_registry.vala`  
+**Status:** ✅ Behoben — `create_bot()` und `enqueue_update()` verwenden jetzt den Rückgabewert von `InsertBuilder.perform()`, der intern `last_insert_rowid()` aufruft. Die separate SELECT-Abfrage wurde entfernt.
 
 ---
 
