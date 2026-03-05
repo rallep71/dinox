@@ -5,6 +5,20 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.5.3] - 2026-03-05
+
+### Fixed
+- **PopoverMenu GTK warning + AppImage WebM playback**: Fixed GTK PopoverMenu deprecation warning; bundled VP8/WebM GStreamer decoder for AppImage so video/audio plays out of the box
+- **Bundle missing GStreamer plugins for AppImage**: Added GStreamer `good`, `bad`, `libav` plugins to AppImage for full audio/video codec coverage (MP4, WebM, OGG, FLAC, AAC)
+- **Disable "Show Bot in Chat" when MQTT is off**: Button is now grayed out (insensitive) when MQTT is disabled — in standalone settings page, per-account dialog, and standalone bot manager dialog
+
+### Changed
+- **MQTT logging refactored to debug()**: ~80 verbose `message()` calls converted to `debug()` across 10 MQTT plugin files. Only 9 essential lifecycle messages (startup, shutdown, connected, disconnected, migration) remain as `message()`. Use `G_MESSAGES_DEBUG=mqtt` to enable verbose output
+- **DEBUG.md MQTT section rewritten**: Two-tier logging table, 7 subsystem categories, mqtt.db reference with sqlcipher examples, expanded grep filter
+- **Version**: 1.1.5.2 → 1.1.5.3
+
+---
+
 ## [1.1.5.2] - 2026-03-04
 
 ### Security

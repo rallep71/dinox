@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 4, 2026 (v1.1.5.2)
+> **Last Updated**: March 5, 2026 (v1.1.5.3)
 > **Current Release Line**: 1.1.5.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.5.2 |
+| **Current Version** | 1.1.5.3 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,15 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.5.3 (AppImage Fixes, MQTT UX & Logging Refinement)
+
+- **PopoverMenu GTK Warning + WebM Playback**: Fixed GTK PopoverMenu deprecation warning; bundled VP8/WebM decoder in AppImage
+- **GStreamer Plugin Bundling**: AppImage now includes `good`, `bad`, `libav` GStreamer plugins for full audio/video codec support
+- **"Show Bot in Chat" Gated on MQTT State**: Button disabled when MQTT is off across all 3 dialogs
+- **MQTT Logging Refactor**: ~80 `message()` → `debug()` across 10 files. Verbose output via `G_MESSAGES_DEBUG=mqtt`
+- **DEBUG.md MQTT Section**: Rewritten with two-tier logging docs, 7 subsystems, mqtt.db reference
+- 10 files changed across plugins/mqtt, main, docs
 
 ### v1.1.5.2 (Security Hardening — Bug Audit Fixes, Encrypted Settings)
 
