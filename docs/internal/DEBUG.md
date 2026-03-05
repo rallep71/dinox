@@ -278,22 +278,66 @@ G_MESSAGES_DEBUG="rtp" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -iE "
 
 ### MQTT Plugin
 
-Debug MQTT broker connectivity, topic subscriptions, message bridging, and alert rules:
+Debug MQTT broker connectivity, topic subscriptions, message bridging, HA Discovery, and alert rules:
 
 ```bash
-G_MESSAGES_DEBUG="mqtt" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -iE "MQTT:"
+G_MESSAGES_DEBUG="mqtt" DINO_LOG_LEVEL=debug ./build/main/dinox 2>&1 | grep -iE "MQTT|STANDALONE|ACCT:"
 ```
 
-**What's logged:**
-- Plugin registration and mode (standalone vs. per-account)
-- Broker connection attempts, CONNACK success/failure, TLS setup
-- Topic subscribe/unsubscribe actions
-- Incoming message dispatch (topic, payload size)
-- Reconnection attempts (5s interval on disconnect)
+#### Two-Tier Logging
+
+MQTT uses two log levels:
+
+| Level | Visibility | Content |
+|-------|-----------|---------|
+| `message()` | **Always visible** | Plugin startup/shutdown, Connected ✔, Disconnected, mode info, migration |
+| `debug()` | **Only with `G_MESSAGES_DEBUG=mqtt`** | All details below |
+
+Without `G_MESSAGES_DEBUG=mqtt`, you only see ~9 essential lifecycle messages. With it, you get ~80+ detailed debug statements.
+
+#### What's logged (debug level)
+
+**Connection & Config:**
+- Config reload, apply_settings flow (standalone + per-account)
+- Broker connection attempts, TCP handshake, CONNACK, TLS setup
+- Reconnection cycle (disconnect → wait → reconnect)
 - Socket I/O events (read/write/hangup)
-- Server type detection (ejabberd/Prosody) for MQTT bridge
-- Alert rule evaluation (priority matching, pause state)
-- Environment variable overrides (when set)
+- Environment variable overrides (`DINOX_MQTT_HOST` etc.)
+
+**Topics & Messages:**
+- Topic subscribe/unsubscribe actions
+- Incoming message dispatch (topic, payload → bot conversation)
+- Free-text publish/response handling
+
+**Server Detection:**
+- ejabberd/Prosody detection via XMPP disco#info
+- PubSub component discovery, MQTT feature detection
+- Auto-configuration (port 8883, TLS for ejabberd)
+
+**HA Discovery:**
+- Device config publish/remove
+- Birth message publish on connect
+- HA status topic subscription
+- Command handling (alerts pause/resume, reconnect, refresh)
+
+**Bridge Manager:**
+- MQTT→XMPP message forwarding with char count
+- Pending queue (no XMPP account connected)
+- Flush on reconnect, rule load/migration
+
+**Alert Manager:**
+- Alert rule evaluation, triggered rules with priority
+- Topic priority and QoS settings load
+- Rule load from mqtt.db / JSON migration
+
+**Bot Conversation:**
+- Conversation create, reactivate, reopen, remove
+- DB-loaded conversation reuse
+- Display name computation
+
+**Database (mqtt.db):**
+- Purge expired rows (messages, freetext, connlog, publish)
+- VACUUM after large deletes
 
 **Environment variable overrides** (useful for CI/Docker/testing):
 
@@ -314,12 +358,39 @@ DINOX_MQTT_HOST=mqtt.example.com DINOX_MQTT_PORT=1883 \
   G_MESSAGES_DEBUG="mqtt" DINO_LOG_LEVEL=debug ./build/main/dinox
 ```
 
+#### Debugging mqtt.db
+
+The MQTT plugin stores runtime data in a separate SQLite database (`mqtt.db`):
+
+| Table | Content |
+|-------|---------|
+| `mqtt_messages` | Received MQTT messages per topic |
+| `mqtt_freetext` | Freetext publish/response log |
+| `mqtt_connection_log` | Connect/disconnect/error events |
+| `mqtt_publish_history` | Outgoing publish log |
+| `mqtt_alert_rules` | Alert rules (migrated from JSON) |
+| `mqtt_bridge_rules` | Bridge rules (migrated from JSON) |
+| `mqtt_publish_presets` | Predefined publish actions |
+| `mqtt_retained_cache` | Local cache of retained messages |
+
+```bash
+# Open mqtt.db (uses same password as dino.db)
+sqlcipher ~/.local/share/dinox/mqtt.db "PRAGMA key = 'YOUR_PASSWORD'; SELECT count(*) FROM mqtt_messages;"
+
+# Check connection history
+sqlcipher ~/.local/share/dinox/mqtt.db "PRAGMA key = 'YOUR_PASSWORD'; SELECT * FROM mqtt_connection_log ORDER BY timestamp DESC LIMIT 10;"
+
+# Check bridge rules
+sqlcipher ~/.local/share/dinox/mqtt.db "PRAGMA key = 'YOUR_PASSWORD'; SELECT * FROM mqtt_bridge_rules;"
+```
+
 **Common issues:**
 - **"MQTT: TCP connect failed"**: Broker not reachable. Check host/port, firewall, TLS settings.
 - **"CONNACK refused"**: Wrong credentials or broker rejected client. Check username/password.
 - **"Connection lost, reconnecting in 5 s"**: Network issue or broker kicked the client. Check broker logs.
 - **No MQTT log output at all**: Plugin not built (missing `libmosquitto-dev`). Check `meson configure build | grep mqtt`.
 - **Plugin built but not active**: Enable in DinoX → Preferences → MQTT.
+- **No debug output with `G_MESSAGES_DEBUG=mqtt`**: Make sure the env var is exported, not just set. Use `export G_MESSAGES_DEBUG=mqtt` or inline: `G_MESSAGES_DEBUG=mqtt ./dinox`.
 
 ### Tor & Obfs4proxy
 
