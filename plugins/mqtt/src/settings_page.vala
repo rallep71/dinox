@@ -90,6 +90,13 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
         });
     }
 
+    private void start_status_timer() {
+        status_timer_id = Timeout.add_seconds(3, () => {
+            update_status();
+            return true;  /* keep timer */
+        });
+    }
+
     /* ── UI construction ──────────────────────────────────────────── */
 
     private void build_ui() {
@@ -275,12 +282,23 @@ public class MqttStandaloneSettingsPage : Adw.PreferencesPage {
 
         /* Update status periodically and on connection changes */
         update_status();
-        status_timer_id = Timeout.add_seconds(3, () => {
-            update_status();
-            return true;  /* keep timer */
-        });
+        start_status_timer();
         connection_signal_id = plugin.connection_changed.connect((source, connected) => {
             if (source == "standalone") update_status();
+        });
+
+        /* Pause/resume status timer when the page is hidden/shown.
+         * With dialog caching the page stays alive, so the timer would
+         * otherwise poll every 3 s even while the dialog is closed. */
+        this.map.connect(() => {
+            update_status();
+            if (status_timer_id == 0) start_status_timer();
+        });
+        this.unmap.connect(() => {
+            if (status_timer_id != 0) {
+                Source.remove(status_timer_id);
+                status_timer_id = 0;
+            }
         });
 
         /* ── HA Discovery ─────────────────────────────────────────── */

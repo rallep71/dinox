@@ -37,7 +37,10 @@ namespace Dino.Plugins.TorManager {
             
             toggle.state_set.connect((state) => {
                 toggle.state = state;
-                manager.set_enabled.begin(state);
+                Idle.add(() => {
+                    manager.set_enabled.begin(state);
+                    return Source.REMOVE;
+                });
                 return true; 
             });
             
@@ -84,8 +87,11 @@ namespace Dino.Plugins.TorManager {
             
             firewall_switch.state_set.connect((state) => {
                  firewall_switch.state = state;
-                 on_firewall_toggled.begin(state);
-                 update_warning();
+                 Idle.add(() => {
+                     on_firewall_toggled.begin(state);
+                     update_warning();
+                     return Source.REMOVE;
+                 });
                  return true;
             });
 
@@ -146,11 +152,14 @@ namespace Dino.Plugins.TorManager {
             // Connect signal late to ensure all widgets exist
             bridges_switch.state_set.connect((state) => {
                 bridges_switch.state = state;
-                on_use_bridges_toggled.begin(state);
-                box.sensitive = state;
-                fetch_row.sensitive = state;
-                firewall_row.sensitive = state; 
-                update_warning();
+                Idle.add(() => {
+                    on_use_bridges_toggled.begin(state);
+                    box.sensitive = state;
+                    fetch_row.sensitive = state;
+                    firewall_row.sensitive = state; 
+                    update_warning();
+                    return Source.REMOVE;
+                });
                 return true; // handled
             });
 
