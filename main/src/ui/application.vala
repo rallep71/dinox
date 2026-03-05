@@ -110,6 +110,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     private int unlock_failures = 0;
     private Adw.ApplicationWindow? unlock_parent = null;
     private bool unlock_window_centered_once = false;
+    private Ui.PreferencesDialog? cached_preferences_dialog = null;
 
     private bool is_first_run_no_db () {
         string db_path = Path.build_filename (Dino.Application.get_storage_dir (), "dino.db");
@@ -1152,24 +1153,26 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     }
 
     private void show_preferences_window (string? navigate_to_page = null) {
-        Ui.PreferencesDialog dialog = new Ui.PreferencesDialog ();
-        configure_preferences (dialog);
-        dialog.model.populate (db, stream_interactor);
-        dialog.backup_requested.connect (() => {
-            string data_dir = Path.build_filename (Environment.get_user_data_dir (), "dinox");
-            create_backup (data_dir);
-        });
-        dialog.restore_backup_requested.connect (() => restore_from_backup ());
-        dialog.show_data_location.connect (() => show_data_location_dialog ());
-        dialog.change_db_password_requested.connect (() => show_change_db_password_dialog ());
-        dialog.clear_cache_requested.connect (() => clear_cache ());
-        dialog.reset_database_requested.connect (() => reset_database ());
-        dialog.factory_reset_requested.connect (() => factory_reset ());
-        dialog.present (window);
+        if (cached_preferences_dialog == null) {
+            cached_preferences_dialog = new Ui.PreferencesDialog ();
+            configure_preferences (cached_preferences_dialog);
+            cached_preferences_dialog.model.populate (db, stream_interactor);
+            cached_preferences_dialog.backup_requested.connect (() => {
+                string data_dir = Path.build_filename (Environment.get_user_data_dir (), "dinox");
+                create_backup (data_dir);
+            });
+            cached_preferences_dialog.restore_backup_requested.connect (() => restore_from_backup ());
+            cached_preferences_dialog.show_data_location.connect (() => show_data_location_dialog ());
+            cached_preferences_dialog.change_db_password_requested.connect (() => show_change_db_password_dialog ());
+            cached_preferences_dialog.clear_cache_requested.connect (() => clear_cache ());
+            cached_preferences_dialog.reset_database_requested.connect (() => reset_database ());
+            cached_preferences_dialog.factory_reset_requested.connect (() => factory_reset ());
+        }
+        cached_preferences_dialog.present (window);
         
         // Navigate to specific page if requested (e.g. "tor" from the Tor indicator)
         if (navigate_to_page != null) {
-            dialog.set_visible_page_name (navigate_to_page);
+            cached_preferences_dialog.set_visible_page_name (navigate_to_page);
         }
     }
 
@@ -1267,10 +1270,10 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     }
 
     private void show_preferences_account_window (Account account) {
-        Ui.PreferencesDialog dialog = new Ui.PreferencesDialog ();
-        dialog.model.populate (db, stream_interactor);
-        dialog.accounts_page.account_chosen (account);
-        dialog.present (window);
+        show_preferences_window();
+        if (cached_preferences_dialog != null) {
+            cached_preferences_dialog.accounts_page.account_chosen (account);
+        }
     }
 
     private void show_about_window () {
