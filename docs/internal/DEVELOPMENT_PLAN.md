@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 5, 2026 (v1.1.5.3)
+> **Last Updated**: March 5, 2026 (v1.1.5.4)
 > **Current Release Line**: 1.1.5.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.5.3 |
+| **Current Version** | 1.1.5.4 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,13 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.5.4 (Preferences Performance, Tor Switch Fix)
+
+- **Preferences Dialog Caching**: Dialog created once and reused — re-open is instant (0ms vs ~200ms)
+- **Tor Switch Lag Fix**: All 3 switches defer async work to `Idle.add()`, matching MQTT switch pattern
+- **MQTT Timer Leak Fix**: Status timer pauses when dialog is hidden, resumes on re-open
+- 3 files changed across main, plugins/mqtt, plugins/tor-manager
 
 ### v1.1.5.3 (AppImage Fixes, MQTT UX & Logging Refinement)
 

@@ -5,6 +5,18 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.5.4] - 2026-03-05
+
+### Fixed
+- **Tor switch lag in Preferences**: All 3 Tor switches (Enable, Bridges, Firewall) now defer their async work and sensitivity updates to `Idle.add()`, matching the MQTT switch fix from v1.1.4.9. Synchronous DB writes and property notifications in `state_set` were blocking the Switch animation frame
+- **MQTT status timer leak with dialog caching**: The 3-second status poll timer now pauses on `unmap` and resumes on `map`. Previously, with dialog caching, the timer ran indefinitely even while the Preferences dialog was closed
+
+### Changed
+- **Preferences dialog cached**: Dialog is now created once and reused on subsequent opens. First open unchanged (~400ms), every re-open is instant (0ms instead of ~200ms). Eliminates redundant widget tree construction, plugin page creation, and DB queries
+- **Version**: 1.1.5.3 → 1.1.5.4
+
+---
+
 ## [1.1.5.3] - 2026-03-05
 
 ### Fixed
