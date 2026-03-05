@@ -122,7 +122,7 @@ public class StickerChooser : Popover {
             
             // Ensure the popover has focus so it can capture outside clicks for autohide.
             Idle.add(() => {
-                if (this.visible) this.grab_focus();
+                if (this.visible) this.child_focus(Gtk.DirectionType.TAB_FORWARD);
                 return false;
             });
         });
@@ -485,7 +485,7 @@ public class StickerChooser : Popover {
 
         // Restore focus to our popover so outside click can dismiss it.
         Idle.add(() => {
-            if (this.visible) this.grab_focus();
+            if (this.visible) this.child_focus(Gtk.DirectionType.TAB_FORWARD);
             return false;
         });
     }

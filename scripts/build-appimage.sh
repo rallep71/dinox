@@ -285,6 +285,7 @@ copy_dependencies() {
         libgstaudioparsers.so \
         libgstopus.so \
         libgstvpx.so \
+        libgstmatroska.so \
         libgstjpeg.so \
         libgstpng.so \
         libgstalaw.so \
