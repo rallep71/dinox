@@ -187,7 +187,6 @@
   <url type="bugtracker">https://github.com/rallep71/dinox/issues</url>
   <url type="donation">https://dinox.handwerker.jetzt/spenden.html</url>
   <url type="vcs-browser">https://github.com/rallep71/dinox</url>
-  <url type="translate">https://hosted.weblate.org/projects/dinox/</url>
   <launchable type="desktop-id">im.github.rallep71.DinoX.desktop</launchable>
   <releases>
     <release version="0.8.6.12" date="2025-12-28">
