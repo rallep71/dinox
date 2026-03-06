@@ -5,6 +5,18 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.5.6] - 2026-03-06
+
+### Fixed
+- **Crash: Bookmark close re-entry guard**: Added `removing_conversations` HashSet in `ConversationSelector` to prevent `add_conversation()` from re-creating rows during async removal animation (`yield colapse()`). Incoming messages during the slide-up animation could trigger `start_conversation()` → widget tree corruption → SEGV/system freeze
+- **Video player use-after-free hardening**: Added `_disposed` and `get_mapped()` checks in `update_video_frame()` and post-yield `_disposed` check in `generate_preview()` to prevent accessing disposed widgets in timer callbacks
+- **Bookmarks reappearing on reconnect (Tor switch)**: `sync_autojoin_active()` now detects inactive (user-closed) conversations and calls `unset_autojoin()` instead of re-joining. Previously, if the connection dropped before the async `unset_autojoin()` completed, the server still had `autojoin=true`, causing old rooms to reappear on reconnect
+
+### Changed
+- **Version**: 1.1.5.5 → 1.1.5.6
+
+---
+
 ## [1.1.5.5] - 2026-03-05
 
 ### Fixed

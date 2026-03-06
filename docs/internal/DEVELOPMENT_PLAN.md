@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 5, 2026 (v1.1.5.5)
+> **Last Updated**: March 6, 2026 (v1.1.5.6)
 > **Current Release Line**: 1.1.5.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.5.5 |
+| **Current Version** | 1.1.5.6 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,13 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.5.6 (Crash Fixes — Bookmark Close, Video Player, Reconnect Bookmarks)
+
+- **Bookmark Close Crash Fix**: `removing_conversations` guard prevents re-entry during async slide-up animation — fixes flicker, widget tree corruption, SEGV/system freeze
+- **Video Player Hardening**: `_disposed` + `get_mapped()` checks in frame update and preview generation callbacks
+- **Bookmarks Reappearing on Reconnect**: `sync_autojoin_active()` detects closed conversations and corrects server-side `autojoin` state instead of re-joining
+- 3 files changed: conversation_selector.vala, video_player_widget.vala, muc_manager.vala
 
 ### v1.1.5.5 (Video Player Fix, Seek Slider, FileSendOverlay Warning)
 
