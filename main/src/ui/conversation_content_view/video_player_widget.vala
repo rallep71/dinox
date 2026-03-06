@@ -102,6 +102,7 @@ public class VideoPlayerWidget : Widget {
     private bool preview_initialized = false;
     private bool preview_generating = false;
     private bool pipeline_active = false;
+    private bool _disposed = false;
 
     private Button? start_play_button = null;
 
@@ -146,6 +147,7 @@ public class VideoPlayerWidget : Widget {
         overlay.add_overlay(start_play_button);
 
         this.notify["mapped"].connect(() => {
+            if (_disposed) return;
             if (!this.get_mapped()) {
                 // Synchronously destroy pipeline on unmap (conversation switch, window close)
                 cleanup_playback();
@@ -218,6 +220,7 @@ public class VideoPlayerWidget : Widget {
             );
             // Allow position updates again after a short delay
             Timeout.add(200, () => {
+                if (_disposed) return false;
                 seeking = false;
                 return false;
             });
@@ -281,10 +284,12 @@ public class VideoPlayerWidget : Widget {
         // Use short timeout (200ms) rather than Idle.add because GTK may not have
         // mapped the widget yet during the same main loop iteration.
         Timeout.add(200, () => {
+            if (_disposed) return false;
             try_lazy_preview_init();
             // If still not initialized and widget exists, try once more after 1s
             if (!preview_initialized && !preview_generating) {
                 Timeout.add(800, () => {
+                    if (_disposed) return false;
                     try_lazy_preview_init();
                     return false;
                 });
@@ -486,6 +491,13 @@ public class VideoPlayerWidget : Widget {
             pipe.set_state(Gst.State.PAUSED);
             yield;
 
+            // After yield, the widget may have been disposed — bail out safely
+            if (_disposed) {
+                pipe.set_state(Gst.State.NULL);
+                preview_generating = false;
+                return;
+            }
+
             Source.remove(thumb_bus_watch);
             // timeout may have already fired, try removing anyway
             Source.remove(timeout_id);
@@ -584,6 +596,7 @@ public class VideoPlayerWidget : Widget {
         // Restart frame rendering timer if not already running
         if (frame_update_timer == 0) {
             frame_update_timer = Timeout.add(33, () => {
+                if (_disposed) { frame_update_timer = 0; return false; }
                 update_video_frame();
                 return true;
             });
@@ -753,6 +766,7 @@ public class VideoPlayerWidget : Widget {
         // Bus watch for EOS/Error
         Gst.Bus bus = playback_pipeline.get_bus();
         playback_bus_watch = bus.add_watch(0, (b, msg) => {
+            if (_disposed) return false;
             if (msg.type == Gst.MessageType.EOS) {
                 debug("VideoPlayerWidget: EOS, releasing pipeline");
                 cleanup_playback();
@@ -789,6 +803,7 @@ public class VideoPlayerWidget : Widget {
 
         // Frame rendering timer: poll fakesink at ~30fps and paint to Picture + update controls
         frame_update_timer = Timeout.add(33, () => {
+            if (_disposed) { frame_update_timer = 0; return false; }
             update_video_frame();
             return true;
         });
@@ -798,7 +813,10 @@ public class VideoPlayerWidget : Widget {
 
     // Pull the latest video frame from fakesink and render it as a texture
     private void update_video_frame() {
+        if (_disposed) return;
         if (playback_vsink == null || video_picture == null) return;
+        // Skip texture creation when widget is not visible (avoids GPU pressure)
+        if (!this.get_mapped()) return;
 
         var sink_val = GLib.Value(typeof(Gst.Sample));
         playback_vsink.get_property("last-sample", ref sink_val);
@@ -918,6 +936,7 @@ public class VideoPlayerWidget : Widget {
     }
 
     public override void dispose() {
+        _disposed = true;
         // Unbind all file_transfer property bindings
         if (ft_state_binding != null) { ft_state_binding.unbind(); ft_state_binding = null; }
         if (ft_size_binding1 != null) { ft_size_binding1.unbind(); ft_size_binding1 = null; }

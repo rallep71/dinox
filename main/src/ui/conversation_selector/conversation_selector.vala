@@ -15,6 +15,9 @@ public class ConversationSelector : Widget {
 
     private StreamInteractor stream_interactor;
     private HashMap<Conversation, ConversationSelectorRow> rows = new HashMap<Conversation, ConversationSelectorRow>(Conversation.hash_func, Conversation.equals_func);
+    // Guard: conversations currently being removed (collapse animation in progress).
+    // Prevents add_conversation from re-creating a row during the async yield.
+    private HashSet<Conversation> removing_conversations = new HashSet<Conversation>(Conversation.hash_func, Conversation.equals_func);
 
     public ConversationSelector init(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
@@ -108,6 +111,8 @@ public class ConversationSelector : Widget {
 
     private void add_conversation(Conversation conversation) {
         if (!conversation.account.enabled) return;
+        // Don't re-add a conversation while its removal animation is still in progress
+        if (removing_conversations.contains(conversation)) return;
         ConversationSelectorRow row;
         if (!rows.has_key(conversation)) {
             conversation.notify["pinned"].connect(list_box.invalidate_sort);
@@ -154,6 +159,10 @@ public class ConversationSelector : Widget {
     }
 
     private async void remove_conversation(Conversation conversation) {
+        // Guard: already being removed (collapse animation in progress)
+        if (removing_conversations.contains(conversation)) return;
+        removing_conversations.add(conversation);
+
         select_fallback_conversation(conversation);
         if (rows.has_key(conversation)) {
             conversation.notify["pinned"].disconnect(list_box.invalidate_sort);
@@ -168,6 +177,8 @@ public class ConversationSelector : Widget {
                 list_box.remove(conversation_row);
             }
         }
+
+        removing_conversations.remove(conversation);
     }
 
     public void loop_conversations(bool backwards) {
