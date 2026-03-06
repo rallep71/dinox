@@ -927,6 +927,7 @@ public class MucManager : StreamInteractionModule, Object {
 
     private void sync_autojoin_active(Account account, Set<Conference> conferences) {
         Gee.List<Conversation> active_conversations = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_active_conversations(account);
+        ConversationManager conv_manager = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY);
 
         // Join auto-join MUCs
         foreach (Conference conference in conferences) {
@@ -936,6 +937,19 @@ public class MucManager : StreamInteractionModule, Object {
             foreach (Conversation conversation in active_conversations) {
                 if (conference.jid.equals(conversation.counterpart)) {
                     is_active = true;
+                }
+            }
+            if (!is_active) {
+                // Check if user explicitly closed this conversation before reconnect.
+                // If so, the previous unset_autojoin may not have reached the server
+                // (e.g. connection dropped). Fix server state instead of re-joining.
+                Conversation? existing = conv_manager.get_conversation(conference.jid, account, Conversation.Type.GROUPCHAT);
+                if (existing != null && !existing.active) {
+                    XmppStream? stream = stream_interactor.get_stream(account);
+                    if (stream != null) {
+                        unset_autojoin(account, stream, conference.jid);
+                    }
+                    continue;
                 }
             }
             if (!is_active || !is_joined(conference.jid, account)) {
