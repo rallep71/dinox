@@ -124,6 +124,8 @@ public class ContentProvider : ContentItemCollection, Object {
 public abstract class ContentMetaItem : Plugins.MetaConversationItem {
 
     public ContentItem content_item;
+    private Binding? mark_binding = null;
+    private Binding? encryption_binding = null;
 
     protected ContentMetaItem(ContentItem content_item) {
         this.jid = content_item.jid;
@@ -132,14 +134,20 @@ public abstract class ContentMetaItem : Plugins.MetaConversationItem {
         this.encryption = content_item.encryption;
         this.mark = content_item.mark;
 
-        content_item.bind_property("mark", this, "mark");
-        content_item.bind_property("encryption", this, "encryption");
+        mark_binding = content_item.bind_property("mark", this, "mark");
+        encryption_binding = content_item.bind_property("encryption", this, "encryption");
 
         this.can_merge = true;
         this.requires_avatar = true;
         this.requires_header = true;
 
         this.content_item = content_item;
+    }
+
+    public override void dispose() {
+        if (mark_binding != null) { mark_binding.unbind(); mark_binding = null; }
+        if (encryption_binding != null) { encryption_binding.unbind(); encryption_binding = null; }
+        base.dispose();
     }
 }
 

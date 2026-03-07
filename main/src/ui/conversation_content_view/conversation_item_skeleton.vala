@@ -348,7 +348,10 @@ public class ConversationItemSkeleton : Plugins.ConversationItemWidgetInterface,
             stream_interactor.get_module<RosterManager>(RosterManager.IDENTITY).disconnect(updated_roster_handler_id);
             updated_roster_handler_id = 0;
         }
-        reactions_controller = null;
+        if (reactions_controller != null) {
+            reactions_controller.cleanup();
+            reactions_controller = null;
+        }
 
         // Children won't be disposed automatically
         if (name_label != null) {

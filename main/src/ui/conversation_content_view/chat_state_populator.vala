@@ -15,31 +15,45 @@ class ChatStatePopulator : Plugins.ConversationItemPopulator, Plugins.Conversati
     private Plugins.ConversationItemCollection? item_collection;
 
     private MetaChatStateItem? meta_item;
+    private ulong received_state_handler_id = 0;
+    private ulong message_sent_handler_id = 0;
 
     public ChatStatePopulator(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
-
-        stream_interactor.get_module<CounterpartInteractionManager>(CounterpartInteractionManager.IDENTITY).received_state.connect((conversation, state) => {
-            if (current_conversation != null && current_conversation.equals(conversation)) {
-                update_chat_state();
-            }
-        });
-        stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).message_sent.connect((message, conversation) => {
-            if (conversation.equals(current_conversation)) {
-                update_chat_state();
-            }
-        });
     }
 
     public void init(Conversation conversation, Plugins.ConversationItemCollection item_collection, Plugins.WidgetType type) {
+        // Disconnect previous handlers if any
+        close(conversation);
+
         current_conversation = conversation;
         this.item_collection = item_collection;
         this.meta_item = null;
 
+        received_state_handler_id = stream_interactor.get_module<CounterpartInteractionManager>(CounterpartInteractionManager.IDENTITY).received_state.connect((conv, state) => {
+            if (current_conversation != null && current_conversation.equals(conv)) {
+                update_chat_state();
+            }
+        });
+        message_sent_handler_id = stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).message_sent.connect((message, conv) => {
+            if (conv.equals(current_conversation)) {
+                update_chat_state();
+            }
+        });
+
         update_chat_state();
     }
 
-    public void close(Conversation conversation) { }
+    public void close(Conversation conversation) {
+        if (received_state_handler_id != 0) {
+            stream_interactor.get_module<CounterpartInteractionManager>(CounterpartInteractionManager.IDENTITY).disconnect(received_state_handler_id);
+            received_state_handler_id = 0;
+        }
+        if (message_sent_handler_id != 0) {
+            stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).disconnect(message_sent_handler_id);
+            message_sent_handler_id = 0;
+        }
+    }
 
     public void populate_timespan(Conversation conversation, DateTime from, DateTime to) { }
 

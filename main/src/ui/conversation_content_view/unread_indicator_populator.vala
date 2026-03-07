@@ -14,19 +14,11 @@ namespace Dino.Ui.ConversationSummary {
         private Conversation? current_conversation;
         private UnreadIndicatorItem? unread_indicator = null;
         Plugins.ConversationItemCollection item_collection = null;
+        private ulong focused_out_handler_id = 0;
+        private ulong new_item_handler_id = 0;
 
         public UnreadIndicatorPopulator(StreamInteractor stream_interactor) {
             this.stream_interactor = stream_interactor;
-
-            stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).focused_out.connect(() => {
-                update_unread_indicator();
-            });
-
-            stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).new_item.connect(() => {
-                if (!stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).is_active_focus(current_conversation)) {
-                    update_unread_indicator();
-                }
-            });
         }
 
         private void update_unread_indicator() {
@@ -50,12 +42,35 @@ namespace Dino.Ui.ConversationSummary {
         }
 
         public void init(Conversation conversation, Plugins.ConversationItemCollection item_collection, Plugins.WidgetType type) {
+            // Disconnect previous handlers if any
+            close(conversation);
+
             current_conversation = conversation;
             this.item_collection = item_collection;
+
+            focused_out_handler_id = stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).focused_out.connect(() => {
+                update_unread_indicator();
+            });
+
+            new_item_handler_id = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).new_item.connect(() => {
+                if (!stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).is_active_focus(current_conversation)) {
+                    update_unread_indicator();
+                }
+            });
+
             update_unread_indicator();
         }
 
-        public void close(Conversation conversation) { }
+        public void close(Conversation conversation) {
+            if (focused_out_handler_id != 0) {
+                stream_interactor.get_module<ChatInteraction>(ChatInteraction.IDENTITY).disconnect(focused_out_handler_id);
+                focused_out_handler_id = 0;
+            }
+            if (new_item_handler_id != 0) {
+                stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).disconnect(new_item_handler_id);
+                new_item_handler_id = 0;
+            }
+        }
 
         public void populate_timespan(Conversation conversation, DateTime after, DateTime before) { }
     }

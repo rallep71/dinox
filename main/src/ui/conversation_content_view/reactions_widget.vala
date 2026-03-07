@@ -17,6 +17,8 @@ public class ReactionsController : Object {
     private HashMap<string, Gee.List<Jid>> reactions = new HashMap<string, Gee.List<Jid>>();
 
     private ReactionsWidget? widget = null;
+    private ulong reaction_added_handler_id = 0;
+    private ulong reaction_removed_handler_id = 0;
 
     public ReactionsController(Conversation conversation, ContentItem content_item, StreamInteractor stream_interactor) {
         this.conversation = conversation;
@@ -33,16 +35,27 @@ public class ReactionsController : Object {
             }
         }
 
-        stream_interactor.get_module<Reactions>(Reactions.IDENTITY).reaction_added.connect((account, content_item_id, jid, reaction) => {
+        reaction_added_handler_id = stream_interactor.get_module<Reactions>(Reactions.IDENTITY).reaction_added.connect((account, content_item_id, jid, reaction) => {
             if (this.content_item.id == content_item_id) {
                 reaction_added(reaction, jid);
             }
         });
-        stream_interactor.get_module<Reactions>(Reactions.IDENTITY).reaction_removed.connect((account, content_item_id, jid, reaction) => {
+        reaction_removed_handler_id = stream_interactor.get_module<Reactions>(Reactions.IDENTITY).reaction_removed.connect((account, content_item_id, jid, reaction) => {
             if (this.content_item.id == content_item_id) {
                 reaction_removed(reaction, jid);
             }
         });
+    }
+
+    public void cleanup() {
+        if (reaction_added_handler_id != 0) {
+            stream_interactor.get_module<Reactions>(Reactions.IDENTITY).disconnect(reaction_added_handler_id);
+            reaction_added_handler_id = 0;
+        }
+        if (reaction_removed_handler_id != 0) {
+            stream_interactor.get_module<Reactions>(Reactions.IDENTITY).disconnect(reaction_removed_handler_id);
+            reaction_removed_handler_id = 0;
+        }
     }
 
     private void initialize_widget() {
