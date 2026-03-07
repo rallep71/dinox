@@ -5,6 +5,26 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.5.8] - 2026-03-07
+
+### Fixed
+- **Memory: GObject reference cycles via `this.notify[].connect()`**: Fixed 26 instances across 8 widget classes (ConversationItemSkeleton, VideoPlayerWidget, FileWidget, FileDefaultWidgetController, FileImageWidget, CallWidget, FileTransmissionProgress, AvatarPicture) where closures capturing `this` prevented GObject finalisation — store handler IDs, disconnect in `dispose()`
+- **Memory: Leaked `bind_property()` bindings**: Fixed in MessageItem (marked), FileItem (encryption/marked/state), CallItem (encryption), CallWidget (state), MessageMetaItem (marked) — return values were discarded, keeping objects pinned via long-lived service entities. Stored bindings and unbind in `dispose()`
+- **Memory: Avatar tile model destructor deadlock**: `ConversationParticipantAvatarPictureTileModel` connected to 3 service signals (RosterManager, AvatarManager×2) in constructor; destructor never fired because signal closures kept refcount ≥ 3. Moved disconnect logic to explicit `cleanup()` method called from `reset()`, `Tile.dispose()`, and `ConversationItemSkeleton.dispose()`
+- **Memory: Avatar tile cleanup `is_connected()` guards**: Added `SignalHandler.is_connected()` checks before each `disconnect()` in `cleanup()` to prevent "instance has no handler with id" CRITICALs on double-disconnect
+- **Memory: `Tile.dispose()` dead code**: Fixed cast from `CompatAvatarPictureModel` (always null for a Tile) to `ConversationParticipantAvatarPictureTileModel` so tile signal cycles are actually broken on individual tile disposal
+- **Memory: Scroll-pruned items never disposed**: `ConversationView.remove_item()` now calls `item.dispose()` after skeleton disposal — previously items pruned during scrolling leaked
+- **Memory: ContentMetaItem disposes content_item**: Explicitly calls `content_item.dispose()` to trigger unbinding of bind_property bindings
+- **Memory: GLib.Value leak in video preview**: Fixed `dup_boxed` without `unset` in `generate_preview()` — replaced with direct `get()`
+- **CRITICAL: `gtk_list_box_row_get_index` assertion failure**: `select_fallback_conversation()` accessed `rows[conversation]` without checking key existence — when conversation not in map, `null == null` entered the branch. Added `rows.has_key()` guard
+- **UI: Last chat close leaves chat view open**: Explicitly deselect (`list_box.select_row(null)`) when the last conversation is removed so the UI switches to the "no active conversations" placeholder
+- **Null-safety**: `AudioPlayerWidget` null check for `file_transfer` after async yield; `FileWidget` null-safe `get_file().get_uri()` error logging
+
+### Changed
+- **Version**: 1.1.5.7 → 1.1.5.8
+
+---
+
 ## [1.1.5.7] - 2026-03-06
 
 ### Fixed

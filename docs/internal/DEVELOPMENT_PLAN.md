@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 6, 2026 (v1.1.5.6)
+> **Last Updated**: March 7, 2026 (v1.1.5.8)
 > **Current Release Line**: 1.1.5.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.5.6 |
+| **Current Version** | 1.1.5.8 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,15 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.5.8 (Memory Leak Fix — Reference Cycles, bind_property, Avatar Tile Cleanup)
+
+- **GObject Reference Cycles**: Fixed 26 `this.notify[].connect()` instances across 8 widget classes — closures capturing `this` created cycles preventing finalisation. Store handler IDs, disconnect in `dispose()`
+- **Leaked bind_property Bindings**: MessageItem, FileItem, CallItem, CallWidget, MessageMetaItem — return values discarded, objects pinned forever. Stored + unbind in `dispose()`
+- **Avatar Tile Model Deadlock**: Destructor never fired (refcount ≥ 3 from service signals). New `cleanup()` method called from `reset()`, `Tile.dispose()`, `Skeleton.dispose()`
+- **ListBoxRow CRITICAL Fix**: `select_fallback_conversation()` guarded with `rows.has_key()` — null crash on last-chat-close
+- **Last Chat Close**: Explicit `list_box.select_row(null)` switches UI to placeholder
+- 4 commits, 18 files changed
 
 ### v1.1.5.7 (Memory Management — Widget Pruning, URL Cache Limit, Conversation Cleanup)
 
