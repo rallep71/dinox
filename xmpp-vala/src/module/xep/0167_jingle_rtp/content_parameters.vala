@@ -29,6 +29,10 @@ public class Xmpp.Xep.JingleRtp.Parameters : Jingle.ContentParameters, Object {
 
     private Module parent;
 
+    private void unset_stream() {
+        this.stream = null;
+    }
+
     private string payload_list_to_string(Gee.Iterable<PayloadType> pts) {
         var sb = new StringBuilder();
         bool first = true;
@@ -191,7 +195,7 @@ public class Xmpp.Xep.JingleRtp.Parameters : Jingle.ContentParameters, Object {
         }
 
         this.stream = parent.create_stream(content);
-        this.stream.weak_ref(() => this.stream = null);
+        this.stream.weak_ref(unset_stream);
         rtp_recv_handler_id = rtp_datagram.datagram_received.connect(this.stream.on_recv_rtp_data);
         rtcp_recv_handler_id = rtcp_datagram.datagram_received.connect(this.stream.on_recv_rtcp_data);
         rtp_send_handler_id = this.stream.on_send_rtp_data.connect(rtp_datagram.send_datagram);
@@ -252,7 +256,22 @@ public class Xmpp.Xep.JingleRtp.Parameters : Jingle.ContentParameters, Object {
     }
 
     public void terminate(bool we_terminated, string? reason_name, string? reason_text) {
-        if (stream != null) parent.close_stream(stream);
+        if (stream != null) {
+            // Remove the weak_ref callback BEFORE closing the stream.
+            // Otherwise, if Stream outlives this Parameters object (e.g. held
+            // by a closure), the weak_ref callback fires on a freed Parameters
+            // and triggers g_object_notify_by_pspec on a dead object.
+            stream.weak_unref(unset_stream);
+            var s = stream;
+            stream = null;
+            parent.close_stream(s);
+        }
+        // Release heavyweight collections
+        payload_types.clear();
+        header_extensions.clear();
+        remote_cryptos.clear();
+        local_crypto = null;
+        remote_crypto = null;
     }
 
     public StanzaNode get_description_node() {

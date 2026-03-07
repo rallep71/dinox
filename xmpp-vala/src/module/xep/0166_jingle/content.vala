@@ -25,7 +25,7 @@ public class Xmpp.Xep.Jingle.Content : Object {
     public Senders senders { get; private set; }
 
     public ContentType content_type;
-    public ContentParameters content_params;
+    public ContentParameters? content_params;
     public Transport transport;
     public TransportParameters? transport_params;
     public SecurityPrecondition security_precondition;
@@ -115,18 +115,30 @@ public class Xmpp.Xep.Jingle.Content : Object {
         if (state == State.PENDING) {
             debug("terminating content in PENDING state — cleanup still required");
         }
-        content_params.terminate(we_terminated, reason_name, reason_text);
+        if (content_params != null) {
+            content_params.terminate(we_terminated, reason_name, reason_text);
+        }
         
         // Call cleanup on ICE transport to release TURN allocations before dispose
         var ice_transport = transport_params as Xep.JingleIceUdp.IceUdpTransportParameters;
         if (ice_transport != null) {
             ice_transport.cleanup();
         }
-        transport_params.dispose();
+        if (transport_params != null) {
+            transport_params.dispose();
+        }
 
         foreach (ComponentConnection connection in component_connections.values) {
             connection.terminate.begin(we_terminated, reason_name, reason_text);
         }
+
+        // Release heavyweight references so the ICE/transport/encryption
+        // tree can be freed even if Content itself survives temporarily.
+        component_connections.clear();
+        encryptions.clear();
+        content_params = null;
+        transport_params = null;
+        security_params = null;
     }
 
     public void modify(Senders new_sender) {

@@ -11,6 +11,11 @@ using Gee;
 using Xmpp;
 using Xmpp.Xep;
 
+#if HAVE_MALLOC_TRIM
+[CCode (cname = "malloc_trim", cheader_filename = "malloc.h")]
+extern int malloc_trim (size_t pad);
+#endif
+
 public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
     public Dino.Application app { get; private set; }
     public CodecUtil codec_util { get; private set; }
@@ -188,6 +193,14 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
         pipe = null;
         tearing_down = false;
         debug("Call pipe destroyed");
+#if HAVE_MALLOC_TRIM
+        // GStreamer allocates large buffer pools (video frames, RTP packets,
+        // encoder/decoder caches) via malloc.  After the pipeline is torn
+        // down and all elements freed, glibc keeps the memory mapped in its
+        // arena.  malloc_trim() returns unused pages to the OS.
+        malloc_trim(0);
+        debug("malloc_trim(0) completed after call pipe destroy");
+#endif
     }
 
     private static uint32 infer_audio_clockrate(string? name, uint pt) {
@@ -457,6 +470,7 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
     public void dispose_pipeline() {
         // Force-close all remaining streams and destroy the pipeline.
         // Safety net for zombie sessions that survived normal teardown.
+        debug("dispose_pipeline() called, %d streams remaining", streams.size);
         var remaining = new Gee.ArrayList<Stream>();
         remaining.add_all(streams);
         foreach (Stream s in remaining) {
@@ -464,6 +478,13 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
             s.destroy();
         }
         destroy_call_pipe();
+#if HAVE_MALLOC_TRIM
+        // Second trim: even if destroy_call_pipe() was a no-op (pipe
+        // already torn down via close_stream()), additional objects
+        // (PeerState, CallState closures) may have been freed since
+        // the first trim.  Run one more pass to return those pages.
+        malloc_trim(0);
+#endif
     }
 
     public void shutdown() {

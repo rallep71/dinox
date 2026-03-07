@@ -17,14 +17,30 @@ public class Dino.Ui.CallWindowController : Object {
     private HashMap<string, ParticipantWidget> participant_widgets = new HashMap<string, ParticipantWidget>();
     private HashMap<string, PeerState> peer_states = new HashMap<string, PeerState>();
     private HashMap<string, ulong> invite_handler_ids = new HashMap<string, ulong>();
+    // Per-peer signal handler IDs for cleanup in remove_participant()
+    private HashMap<string, ulong> peer_connection_ready_handler_ids = new HashMap<string, ulong>();
+    private HashMap<string, ulong> peer_video_updated_handler_ids = new HashMap<string, ulong>();
+    private HashMap<string, ulong> peer_info_received_handler_ids = new HashMap<string, ulong>();
+    private HashMap<string, ulong> peer_encryption_handler_ids = new HashMap<string, ulong>();
+    private HashMap<string, ulong> participant_video_resolution_handler_ids = new HashMap<string, ulong>();
+    private HashMap<string, ulong> debug_info_handler_ids = new HashMap<string, ulong>();
+    private HashMap<string, ulong> volume_handler_ids = new HashMap<string, ulong>();
     private int window_height = -1;
     private int window_width = -1;
     private bool window_size_changed = false;
     private bool closing = false;
+    private bool cleaned_up = false;
     private uint close_timeout_id = 0;
     private ulong[] call_window_handler_ids = new ulong[0];
     private ulong[] bottom_bar_handler_ids = new ulong[0];
     private ulong devices_changed_handler_id = 0;
+    // Singleton/long-lived object handler IDs
+    private ulong calls_conference_info_handler_id = 0;
+    private ulong call_state_terminated_handler_id = 0;
+    private ulong call_state_peer_joined_handler_id = 0;
+    private ulong call_state_peer_left_handler_id = 0;
+    private ulong own_video_resolution_handler_id = 0;
+
     private uint inhibit_cookie;
 
     public CallWindowController(CallWindow call_window, CallState call_state, StreamInteractor stream_interactor) {
@@ -40,7 +56,7 @@ public class Dino.Ui.CallWindowController : Object {
 
         this.call_window.bottom_bar.video_enabled = call_state.should_we_send_video();
 
-        call_state.terminated.connect((who_terminated, reason_name, reason_text) => {
+        call_state_terminated_handler_id = call_state.terminated.connect((who_terminated, reason_name, reason_text) => {
             // Immediately shut down the DTMF tone pipeline so its
             // PipeWire playback stream disappears right away, not
             // 3 seconds later when the window closes.
@@ -50,20 +66,27 @@ public class Dino.Ui.CallWindowController : Object {
             string display_name = conversation != null ? Util.get_conversation_display_name(stream_interactor, conversation) : who_terminated.bare_jid.to_string();
 
             call_window.show_counterpart_ended(display_name, reason_name, reason_text);
+
+            // Release GStreamer resources immediately — don't wait 3 seconds.
+            // The window stays open to show "call ended" but video/audio
+            // pipeline elements are freed right away (~80+ MB).
+            detach_all_video();
+
             close_timeout_id = Timeout.add_seconds(3, () => {
                 close_timeout_id = 0;
                 if (!closing) {
                     closing = true;
                     call_window.close();
+                    cleanup();
                 }
                 return false;
             });
         });
-        call_state.peer_joined.connect((jid, peer_state) => {
+        call_state_peer_joined_handler_id = call_state.peer_joined.connect((jid, peer_state) => {
             connect_peer_signals(peer_state);
             add_new_participant(peer_state.internal_id, peer_state.jid);
         });
-        call_state.peer_left.connect((jid, peer_state, reason_name, reason_text) => {
+        call_state_peer_left_handler_id = call_state.peer_left.connect((jid, peer_state, reason_name, reason_text) => {
             remove_participant(peer_state.internal_id);
         });
 
@@ -86,6 +109,7 @@ public class Dino.Ui.CallWindowController : Object {
             }
             call_state.end();
             call_window.close();
+            cleanup();
         });
         call_window_handler_ids += call_window.close_request.connect(() => {
             if (closing) return false;
@@ -95,6 +119,8 @@ public class Dino.Ui.CallWindowController : Object {
                 close_timeout_id = 0;
             }
             call_state.end();
+            // cleanup() after close — schedule on idle so GTK finishes the close first
+            Idle.add(() => { cleanup(); return false; });
             return false;
         });
         bottom_bar_handler_ids += call_window.bottom_bar.notify["audio-enabled"].connect(() => {
@@ -133,7 +159,7 @@ public class Dino.Ui.CallWindowController : Object {
             capture_window_size();
         });
 
-        calls.conference_info_received.connect((call, conference_info) => {
+        calls_conference_info_handler_id = calls.conference_info_received.connect((call, conference_info) => {
             if (!this.call.equals(call)) return;
 
             var participants = new ArrayList<string>();
@@ -146,12 +172,12 @@ public class Dino.Ui.CallWindowController : Object {
             }
         });
 
-        own_video.resolution_changed.connect((width, height) => {
+        own_video_resolution_handler_id = own_video.resolution_changed.connect((width, height) => {
             if (width == 0 || height == 0) return;
             call_window.set_own_video_ratio((int)width, (int)height);
         });
 
-        call_window.menu_dump_dot.connect(() => { call_plugin.dump_dot(); });
+        call_window_handler_ids += call_window.menu_dump_dot.connect(() => { call_plugin.dump_dot(); });
 
         update_own_video();
 
@@ -165,7 +191,7 @@ public class Dino.Ui.CallWindowController : Object {
             warning("suspend inhibit request failed or unsupported");
         }
 
-        call_window.close_request.connect(() => {
+        call_window_handler_ids += call_window.close_request.connect(() => {
             if (inhibit_cookie != 0) {
                 app.uninhibit(inhibit_cookie);
             }
@@ -190,7 +216,7 @@ public class Dino.Ui.CallWindowController : Object {
         Jid peer_jid = peer_state.jid;
         peer_states[peer_id] = peer_state;
 
-        peer_state.connection_ready.connect(() => {
+        peer_connection_ready_handler_ids[peer_id] = peer_state.connection_ready.connect(() => {
             call_window.set_status(peer_id, "");
             
             // Show volume controls only in group calls (more than 1 participant)
@@ -228,7 +254,7 @@ public class Dino.Ui.CallWindowController : Object {
                 participant_widgets.values.@foreach((widget) => widget.may_show_invite_button = true);
             }
         });
-        peer_state.counterpart_sends_video_updated.connect((mute) => {
+        peer_video_updated_handler_ids[peer_id] = peer_state.counterpart_sends_video_updated.connect((mute) => {
             if (mute) {
                 Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(peer_jid.bare_jid, call.account, Conversation.Type.CHAT);
                 call_window.set_placeholder(peer_id, conversation, stream_interactor);
@@ -240,12 +266,12 @@ public class Dino.Ui.CallWindowController : Object {
                 participant_videos[peer_id].display_stream(peer_state.get_video_stream(), peer_jid);
             }
         });
-        peer_state.info_received.connect((session_info) => {
+        peer_info_received_handler_ids[peer_id] = peer_state.info_received.connect((session_info) => {
             if (session_info == Xmpp.Xep.JingleRtp.CallSessionInfo.RINGING) {
                 call_window.set_status(peer_id, "ringing");
             }
         });
-        peer_state.encryption_updated.connect((state, audio_encryption,  video_encryption) => {
+        peer_encryption_handler_ids[peer_id] = peer_state.encryption_updated.connect((state, audio_encryption,  video_encryption) => {
             update_encryption_indicator(participant_widgets[peer_id].encryption_button_controller, peer_states[peer_id].audio_content != null, audio_encryption, peer_states[peer_id].video_content != null, video_encryption);
         });
     }
@@ -294,7 +320,7 @@ public class Dino.Ui.CallWindowController : Object {
 
         ParticipantWidget participant_widget = new ParticipantWidget(participant_name);
         participant_widget.may_show_invite_button = !participant_widgets.is_empty;
-        participant_widget.debug_information_clicked.connect(() => {
+        debug_info_handler_ids[participant_id] = participant_widget.debug_information_clicked.connect(() => {
             var conn_details_window = new CallConnectionDetailsWindow() { title=participant_name };
             if (peer_states.has_key(participant_id)) {
                 conn_details_window.update_content(peer_states[participant_id].get_info());
@@ -315,7 +341,7 @@ public class Dino.Ui.CallWindowController : Object {
                 }
             });
             conn_details_window.present(call_window);
-            this.call_window.close_request.connect(() => {
+            call_window_handler_ids += this.call_window.close_request.connect(() => {
                 // Don't call conn_details_window.close() here — it triggers
                 // recursive gtk_window_close on the already-closing parent,
                 // causing a segfault.  The dialog is a child of call_window
@@ -330,7 +356,7 @@ public class Dino.Ui.CallWindowController : Object {
         invite_handler_ids[participant_id] += participant_widget.invite_button_clicked.connect(() => invite_button_clicked());
         
         // Connect volume slider to stream volume control
-        participant_widget.volume_changed.connect((volume) => {
+        volume_handler_ids[participant_id] = participant_widget.volume_changed.connect((volume) => {
             if (peer_states.has_key(participant_id)) {
                 var audio_stream = peer_states[participant_id].get_audio_stream();
                 if (audio_stream != null) {
@@ -345,7 +371,7 @@ public class Dino.Ui.CallWindowController : Object {
 
         participant_videos[participant_id] = call_plugin.create_widget(Plugins.WidgetType.GTK4);
 
-        participant_videos[participant_id].resolution_changed.connect((width, height) => {
+        participant_video_resolution_handler_ids[participant_id] = participant_videos[participant_id].resolution_changed.connect((width, height) => {
             if (window_size_changed || participant_widgets.size > 1) return;
             if (width == 0 || height == 0) return;
             if (width > height) {
@@ -369,14 +395,69 @@ public class Dino.Ui.CallWindowController : Object {
     private void remove_participant(string participant_id) {
         if (peer_states.has_key(participant_id)) debug(@"[%s] Call window controller | Remove participant: %s", call.account.bare_jid.to_string(), peer_states[participant_id].jid.to_string());
 
+        // Disconnect per-peer PeerState signal handlers
+        if (peer_states.has_key(participant_id)) {
+            PeerState ps = peer_states[participant_id];
+            ulong hid;
+            if (peer_connection_ready_handler_ids.has_key(participant_id)) {
+                hid = peer_connection_ready_handler_ids[participant_id];
+                if (hid != 0 && SignalHandler.is_connected(ps, hid)) ps.disconnect(hid);
+            }
+            if (peer_video_updated_handler_ids.has_key(participant_id)) {
+                hid = peer_video_updated_handler_ids[participant_id];
+                if (hid != 0 && SignalHandler.is_connected(ps, hid)) ps.disconnect(hid);
+            }
+            if (peer_info_received_handler_ids.has_key(participant_id)) {
+                hid = peer_info_received_handler_ids[participant_id];
+                if (hid != 0 && SignalHandler.is_connected(ps, hid)) ps.disconnect(hid);
+            }
+            if (peer_encryption_handler_ids.has_key(participant_id)) {
+                hid = peer_encryption_handler_ids[participant_id];
+                if (hid != 0 && SignalHandler.is_connected(ps, hid)) ps.disconnect(hid);
+            }
+        }
+        peer_connection_ready_handler_ids.unset(participant_id);
+        peer_video_updated_handler_ids.unset(participant_id);
+        peer_info_received_handler_ids.unset(participant_id);
+        peer_encryption_handler_ids.unset(participant_id);
+
+        // Disconnect participant video resolution handler
+        if (participant_video_resolution_handler_ids.has_key(participant_id) && participant_videos.has_key(participant_id)) {
+            ulong hid = participant_video_resolution_handler_ids[participant_id];
+            if (hid != 0 && SignalHandler.is_connected(participant_videos[participant_id], hid)) {
+                participant_videos[participant_id].disconnect(hid);
+            }
+        }
+        participant_video_resolution_handler_ids.unset(participant_id);
+
         // Detach video widget GStreamer elements before removing reference
         if (participant_videos.has_key(participant_id)) {
             participant_videos[participant_id].detach();
         }
         participant_videos.unset(participant_id);
-        participant_widgets[participant_id].disconnect(invite_handler_ids[participant_id]);
+
+        // Disconnect participant widget signal handlers
+        if (participant_widgets.has_key(participant_id)) {
+            if (invite_handler_ids.has_key(participant_id)) {
+                participant_widgets[participant_id].disconnect(invite_handler_ids[participant_id]);
+            }
+            if (debug_info_handler_ids.has_key(participant_id)) {
+                ulong hid = debug_info_handler_ids[participant_id];
+                if (hid != 0 && SignalHandler.is_connected(participant_widgets[participant_id], hid)) {
+                    participant_widgets[participant_id].disconnect(hid);
+                }
+            }
+            if (volume_handler_ids.has_key(participant_id)) {
+                ulong hid = volume_handler_ids[participant_id];
+                if (hid != 0 && SignalHandler.is_connected(participant_widgets[participant_id], hid)) {
+                    participant_widgets[participant_id].disconnect(hid);
+                }
+            }
+        }
         participant_widgets.unset(participant_id);
         invite_handler_ids.unset(participant_id);
+        debug_info_handler_ids.unset(participant_id);
+        volume_handler_ids.unset(participant_id);
         peer_states.unset(participant_id);
         call_window.remove_participant(participant_id);
     }
@@ -478,11 +559,57 @@ public class Dino.Ui.CallWindowController : Object {
         }
     }
 
-    public override void dispose() {
+    /** Detach all video widgets to release GStreamer sinks/textures immediately. */
+    private void detach_all_video() {
+        debug("detach_all_video(): %d participant videos, own_video=%s", participant_videos.size, (own_video != null).to_string());
+        foreach (string participant_id in participant_videos.keys) {
+            participant_videos[participant_id].detach();
+        }
+        if (own_video != null) {
+            if (own_video_resolution_handler_id != 0 && SignalHandler.is_connected(own_video, own_video_resolution_handler_id)) {
+                own_video.disconnect(own_video_resolution_handler_id);
+            }
+            own_video_resolution_handler_id = 0;
+            own_video.detach();
+            call_window.unset_own_video();
+            own_video = null;
+        }
+    }
+
+    private void cleanup() {
+        if (cleaned_up) return;
+        cleaned_up = true;
+        debug("CallWindowController.cleanup() called");
+
         // Shut down DTMF tone pipeline immediately — GTK4 dispose doesn't
         // guarantee child finalizers run before the GStreamer pipeline is
         // observed as lingering in the PipeWire mixer.
         call_window.bottom_bar.shutdown();
+
+        // Disconnect from the singleton Calls module
+        if (calls_conference_info_handler_id != 0 && SignalHandler.is_connected(calls, calls_conference_info_handler_id)) {
+            calls.disconnect(calls_conference_info_handler_id);
+        }
+        calls_conference_info_handler_id = 0;
+
+        // Disconnect from call_state (breaks reference cycle)
+        if (call_state_terminated_handler_id != 0 && SignalHandler.is_connected(call_state, call_state_terminated_handler_id)) {
+            call_state.disconnect(call_state_terminated_handler_id);
+        }
+        call_state_terminated_handler_id = 0;
+        if (call_state_peer_joined_handler_id != 0 && SignalHandler.is_connected(call_state, call_state_peer_joined_handler_id)) {
+            call_state.disconnect(call_state_peer_joined_handler_id);
+        }
+        call_state_peer_joined_handler_id = 0;
+        if (call_state_peer_left_handler_id != 0 && SignalHandler.is_connected(call_state, call_state_peer_left_handler_id)) {
+            call_state.disconnect(call_state_peer_left_handler_id);
+        }
+        call_state_peer_left_handler_id = 0;
+
+        // Note: group_call signals (peer_joined/peer_left) are NOT disconnected here
+        // because GroupCall is not a GObject and doesn't support handler ID-based
+        // disconnection. GroupCall is cleaned up when handle_peer_left() nulls it out,
+        // which releases the signal delegates automatically.
 
         // Disconnect from the singleton call_plugin to break the reference
         // cycle that keeps this controller (and CallState's Device refs) alive.
@@ -490,6 +617,7 @@ public class Dino.Ui.CallWindowController : Object {
             call_plugin.disconnect(devices_changed_handler_id);
             devices_changed_handler_id = 0;
         }
+
         foreach (ulong handler_id in call_window_handler_ids) call_window.disconnect(handler_id);
         foreach (ulong handler_id in bottom_bar_handler_ids) call_window.bottom_bar.disconnect(handler_id);
 
@@ -500,11 +628,37 @@ public class Dino.Ui.CallWindowController : Object {
         }
 
         call_window_handler_ids = bottom_bar_handler_ids = new ulong[0];
+
         if (own_video != null) {
+            if (own_video_resolution_handler_id != 0 && SignalHandler.is_connected(own_video, own_video_resolution_handler_id)) {
+                own_video.disconnect(own_video_resolution_handler_id);
+            }
+            own_video_resolution_handler_id = 0;
             own_video.detach();
             call_window.unset_own_video();
             own_video = null;
         }
+
+        if (close_timeout_id != 0) {
+            Source.remove(close_timeout_id);
+            close_timeout_id = 0;
+        }
+
+        // Break the CallWindow ↔ CallWindowController reference cycle
+        // so both objects can be finalized by the GObject ref-counting system.
+        call_window.controller = null;
+
+#if HAVE_MALLOC_TRIM
+        // Final trim: by now all UI widgets, GStreamer elements, and
+        // signal closures from the call have been freed.  Return the
+        // pages to the OS so the resident set drops back to baseline.
+        malloc_trim(0);
+        debug("malloc_trim(0) completed after call window cleanup");
+#endif
+    }
+
+    public override void dispose() {
+        cleanup();
         base.dispose();
     }
 

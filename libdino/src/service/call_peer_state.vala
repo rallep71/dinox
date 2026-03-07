@@ -39,6 +39,20 @@ public class Dino.PeerState : Object {
     private ulong session_info_info_handler_id = 0;
     private Xep.JingleRtp.SessionInfoType? connected_session_info_type = null;
 
+    // Signal handler IDs for session signals (set_session)
+    private ulong session_terminated_handler_id = 0;
+    private ulong session_content_add_handler_id = 0;
+
+    // Signal handler IDs for content/RTP signals (connect_content_signals)
+    private ulong audio_stream_created_handler_id = 0;
+    private ulong audio_connection_ready_handler_id = 0;
+    private ulong audio_senders_modify_handler_id = 0;
+    private ulong video_stream_created_handler_id = 0;
+    private ulong video_connection_ready_handler_id = 0;
+    private ulong video_senders_modify_handler_id = 0;
+    // Extra handler from on_stream_created()
+    private ulong video_connection_ready_extra_handler_id = 0;
+
     public bool counterpart_sends_video = false;
     public bool we_should_send_audio { get; set; default=false; }
     public bool we_should_send_video { get; set; default=false; }
@@ -185,8 +199,8 @@ public class Dino.PeerState : Object {
     }
 
     public void end(string terminate_reason, string? reason_text = null) {
-        // Disconnect singleton signal handlers to prevent PeerState memory leak
-        disconnect_session_info_handlers();
+        // Disconnect all signal handlers to break reference cycles
+        cleanup_signal_handlers();
 
         switch (terminate_reason) {
             case Xep.Jingle.ReasonElement.SUCCESS:
@@ -207,6 +221,28 @@ public class Dino.PeerState : Object {
                 }
                 break;
         }
+
+        // Release heavyweight Jingle/GStreamer objects so they can be
+        // collected even if something still holds a ref to this PeerState.
+        release_objects();
+    }
+
+    /**
+     * Null all heavyweight Jingle session, content, and encryption objects.
+     * Called from end() (local hangup) and from CallState.handle_peer_left()
+     * (remote hangup) to ensure GStreamer streams, ICE transports, and
+     * RTP codec state can be collected promptly.
+     */
+    public void release_objects() {
+        session = null;
+        audio_content_parameter = null;
+        video_content_parameter = null;
+        audio_content = null;
+        video_content = null;
+        audio_encryption = null;
+        video_encryption = null;
+        audio_encryptions = null;
+        video_encryptions = null;
     }
 
     /**
@@ -230,6 +266,67 @@ public class Dino.PeerState : Object {
                 session_info_info_handler_id = 0;
             }
             connected_session_info_type = null;
+        }
+    }
+
+    /**
+     * Disconnect all signal handlers that capture `this` (PeerState) in their
+     * closures to break reference cycles. This allows PeerState, its content
+     * parameters, and ultimately the GStreamer pipeline elements to be freed.
+     */
+    internal void cleanup_signal_handlers() {
+        disconnect_session_info_handlers();
+
+        // Disconnect session signal handlers
+        if (session != null) {
+            if (session_terminated_handler_id != 0 && SignalHandler.is_connected(session, session_terminated_handler_id)) {
+                session.disconnect(session_terminated_handler_id);
+            }
+            session_terminated_handler_id = 0;
+            if (session_content_add_handler_id != 0 && SignalHandler.is_connected(session, session_content_add_handler_id)) {
+                session.disconnect(session_content_add_handler_id);
+            }
+            session_content_add_handler_id = 0;
+        }
+
+        // Disconnect audio content signal handlers
+        if (audio_content_parameter != null) {
+            if (audio_stream_created_handler_id != 0 && SignalHandler.is_connected(audio_content_parameter, audio_stream_created_handler_id)) {
+                audio_content_parameter.disconnect(audio_stream_created_handler_id);
+            }
+            audio_stream_created_handler_id = 0;
+            if (audio_connection_ready_handler_id != 0 && SignalHandler.is_connected(audio_content_parameter, audio_connection_ready_handler_id)) {
+                audio_content_parameter.disconnect(audio_connection_ready_handler_id);
+            }
+            audio_connection_ready_handler_id = 0;
+        }
+        if (audio_content != null) {
+            if (audio_senders_modify_handler_id != 0 && SignalHandler.is_connected(audio_content, audio_senders_modify_handler_id)) {
+                audio_content.disconnect(audio_senders_modify_handler_id);
+            }
+            audio_senders_modify_handler_id = 0;
+        }
+
+        // Disconnect video content signal handlers
+        if (video_content_parameter != null) {
+            if (video_stream_created_handler_id != 0 && SignalHandler.is_connected(video_content_parameter, video_stream_created_handler_id)) {
+                video_content_parameter.disconnect(video_stream_created_handler_id);
+            }
+            video_stream_created_handler_id = 0;
+            if (video_connection_ready_handler_id != 0 && SignalHandler.is_connected(video_content_parameter, video_connection_ready_handler_id)) {
+                video_content_parameter.disconnect(video_connection_ready_handler_id);
+            }
+            video_connection_ready_handler_id = 0;
+            if (video_connection_ready_extra_handler_id != 0 && SignalHandler.is_connected(video_content_parameter, video_connection_ready_extra_handler_id)) {
+                video_content_parameter.disconnect(video_connection_ready_extra_handler_id);
+            }
+            video_connection_ready_extra_handler_id = 0;
+        }
+        if (video_content != null) {
+            if (video_senders_modify_handler_id != 0 && SignalHandler.is_connected(video_content, video_senders_modify_handler_id)) {
+                video_content.disconnect(video_senders_modify_handler_id);
+            }
+            video_senders_modify_handler_id = 0;
         }
     }
 
@@ -308,10 +405,10 @@ public class Dino.PeerState : Object {
         this.session = session;
         this.sid = session.sid;
 
-        session.terminated.connect((stream, we_terminated, reason_name, reason_text) =>
+        session_terminated_handler_id = session.terminated.connect((stream, we_terminated, reason_name, reason_text) =>
             session_terminated(we_terminated, reason_name, reason_text)
         );
-        session.additional_content_add_incoming.connect((stream, content) =>
+        session_content_add_handler_id = session.additional_content_add_incoming.connect((stream, content) =>
             on_incoming_content_add(stream, content.session, content)
         );
 
@@ -372,15 +469,15 @@ public class Dino.PeerState : Object {
         }
 
         debug(@"[%s] %s connecting content signals %s", call.account.bare_jid.to_string(), jid.to_string(), rtp_content_parameter.media);
-        rtp_content_parameter.stream_created.connect((stream) => on_stream_created(rtp_content_parameter.media, stream));
-        rtp_content_parameter.connection_ready.connect((status) => {
+        ulong sc_id = rtp_content_parameter.stream_created.connect((stream) => on_stream_created(rtp_content_parameter.media, stream));
+        ulong cr_id = rtp_content_parameter.connection_ready.connect((status) => {
             Idle.add(() => {
                 on_connection_ready(content, rtp_content_parameter.media);
                 return false;
             });
         });
 
-        content.senders_modify_incoming.connect((content, proposed_senders) => {
+        ulong sm_id = content.senders_modify_incoming.connect((content, proposed_senders) => {
             if (content.session.senders_include_us(content.senders) != content.session.senders_include_us(proposed_senders)) {
                 warning("counterpart set us to (not)sending %s. ignoring", content.content_name);
                 return;
@@ -392,6 +489,16 @@ public class Dino.PeerState : Object {
                 on_counterpart_mute_update(false, "video");
             }
         });
+
+        if (rtp_content_parameter.media == "audio") {
+            audio_stream_created_handler_id = sc_id;
+            audio_connection_ready_handler_id = cr_id;
+            audio_senders_modify_handler_id = sm_id;
+        } else if (rtp_content_parameter.media == "video") {
+            video_stream_created_handler_id = sc_id;
+            video_connection_ready_handler_id = cr_id;
+            video_senders_modify_handler_id = sm_id;
+        }
     }
 
     private void on_incoming_content_add(XmppStream stream, Xep.Jingle.Session session, Xep.Jingle.Content content) {
@@ -420,7 +527,7 @@ public class Dino.PeerState : Object {
     private void on_stream_created(string media, Xep.JingleRtp.Stream stream) {
         if (media == "video" && stream.receiving) {
             counterpart_sends_video = true;
-            video_content_parameter.connection_ready.connect((status) => {
+            video_connection_ready_extra_handler_id = video_content_parameter.connection_ready.connect((status) => {
                 Idle.add(() => {
                     counterpart_sends_video_updated(false);
                     return false;

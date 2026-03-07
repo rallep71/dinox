@@ -1,10 +1,11 @@
 public abstract class Xmpp.Xep.JingleRtp.Stream : Object {
-    public Jingle.Content content { get; protected set; }
+    public Jingle.Content? content { get; protected set; }
 
     public string name { get {
-        return content.content_name;
+        return content != null ? content.content_name : "(destroyed)";
     }}
     public string? media { get {
+        if (content == null) return null;
         var content_params = content.content_params;
         if (content_params is Parameters) {
             return ((Parameters)content_params).media;
@@ -12,6 +13,7 @@ public abstract class Xmpp.Xep.JingleRtp.Stream : Object {
         return null;
     }}
     public JingleRtp.PayloadType? payload_type { get {
+        if (content == null) return null;
         var content_params = content.content_params;
         if (content_params is Parameters) {
             return ((Parameters)content_params).agreed_payload_type;
@@ -19,6 +21,7 @@ public abstract class Xmpp.Xep.JingleRtp.Stream : Object {
         return null;
     }}
     public JingleRtp.Crypto? local_crypto { get {
+        if (content == null) return null;
         var content_params = content.content_params;
         if (content_params is Parameters) {
             return ((Parameters)content_params).local_crypto;
@@ -26,6 +29,7 @@ public abstract class Xmpp.Xep.JingleRtp.Stream : Object {
         return null;
     }}
     public JingleRtp.Crypto? remote_crypto { get {
+        if (content == null) return null;
         var content_params = content.content_params;
         if (content_params is Parameters) {
             return ((Parameters)content_params).remote_crypto;
@@ -33,6 +37,7 @@ public abstract class Xmpp.Xep.JingleRtp.Stream : Object {
         return null;
     }}
     public Gee.List<JingleRtp.HeaderExtension>? header_extensions { get {
+        if (content == null) return null;
         var content_params = content.content_params;
         if (content_params is Parameters) {
             return ((Parameters)content_params).header_extensions;
@@ -40,12 +45,15 @@ public abstract class Xmpp.Xep.JingleRtp.Stream : Object {
         return null;
     }}
     public bool sending { get {
+        if (content == null) return false;
         return content.session.senders_include_us(content.senders);
     }}
     public bool receiving { get {
+        if (content == null) return false;
         return content.session.senders_include_counterpart(content.senders);
     }}
     public bool rtcp_mux { get {
+        if (content == null) return false;
         var content_params = content.content_params;
         if (content_params is Parameters) {
             return ((Parameters)content_params).rtcp_mux;
@@ -77,6 +85,7 @@ public abstract class Xmpp.Xep.JingleRtp.Stream : Object {
     public abstract void destroy();
 
     public string to_string() {
+        if (content == null) return @"$name/$media stream (destroyed)";
         return @"$name/$media stream in $(content.session.sid)";
     }
 }

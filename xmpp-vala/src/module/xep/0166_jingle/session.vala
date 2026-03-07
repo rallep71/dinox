@@ -314,6 +314,8 @@ public class Xmpp.Xep.Jingle.Session : Object {
         // TODO(hrxi): also handle presence type=unavailable
 
         state = State.ENDED;
+        contents.clear();
+        contents_map.clear();
         terminated(stream, false, reason_name, reason_text);
     }
 
@@ -443,6 +445,11 @@ public class Xmpp.Xep.Jingle.Session : Object {
         stream.get_module<Iq.Module>(Iq.Module.IDENTITY).send_iq(stream, iq);
 
         state = State.ENDED;
+        // Release content references so the entire Content→Params→ICE tree
+        // can be freed as soon as no external reference survives.
+        contents.clear();
+        contents_map.clear();
+
         terminated(stream, true, reason_name, reason_text);
     }
 

@@ -19,6 +19,9 @@ c_args = [
     '-DG_LOG_DOMAIN="rtp"',
 ]
 vala_args = []
+if host_machine.system() != 'windows'
+    vala_args += ['-D', 'HAVE_MALLOC_TRIM']
+endif
 
 # WebRTC-based stream (optional, requires gstreamer-webrtc-1.0)
 webrtc_sources = []

@@ -29,6 +29,9 @@ public class Dino.CallState : Object {
 
     public HashMap<Jid, PeerState> peers = new HashMap<Jid, PeerState>(Jid.hash_func, Jid.equals_func);
 
+    private HashMap<Jid, ArrayList<Binding>> peer_bindings = new HashMap<Jid, ArrayList<Binding>>(Jid.hash_func, Jid.equals_func);
+    private HashMap<Jid, ulong> peer_stream_created_handler_ids = new HashMap<Jid, ulong>(Jid.hash_func, Jid.equals_func);
+    private HashMap<Jid, ulong> peer_session_terminated_handler_ids = new HashMap<Jid, ulong>(Jid.hash_func, Jid.equals_func);
     private HashMap<Jid, uint> invite_timeout_ids = new HashMap<Jid, uint>(Jid.hash_bare_func, Jid.equals_bare_func);
     private uint establishing_timeout_id = 0;
     private uint muji_empty_muc_timeout_id = 0;
@@ -179,6 +182,37 @@ public class Dino.CallState : Object {
                 }
             }
         }
+
+        // Explicitly clean up peer bindings and references that
+        // handle_peer_left() would normally do.  peer.end() disconnects the
+        // session.terminated handler BEFORE session.terminate() fires, so
+        // handle_peer_left() never runs for local hang-up.  Without this,
+        // the bidirectional property bindings keep CallState ↔ PeerState
+        // alive in a reference cycle — leaking Jingle sessions, RTP
+        // content parameters, and GStreamer stream objects.
+        foreach (var entry in peer_bindings.entries) {
+            foreach (Binding binding in entry.value) {
+                binding.unbind();
+            }
+        }
+        peer_bindings.clear();
+        // Disconnect any remaining peer signal handlers
+        foreach (var entry in peer_stream_created_handler_ids.entries) {
+            PeerState? ps = peers[entry.key];
+            if (ps != null && entry.value != 0 && SignalHandler.is_connected(ps, entry.value)) {
+                ps.disconnect(entry.value);
+            }
+        }
+        peer_stream_created_handler_ids.clear();
+        foreach (var entry in peer_session_terminated_handler_ids.entries) {
+            PeerState? ps = peers[entry.key];
+            if (ps != null && entry.value != 0 && SignalHandler.is_connected(ps, entry.value)) {
+                ps.disconnect(entry.value);
+            }
+        }
+        peer_session_terminated_handler_ids.clear();
+        peers.clear();
+        cim_jids_to_inform.clear();
 
         // NOW exit/destroy the MUJI MUC — after all Jingle sessions are
         // terminated and all streams/devices are released.
@@ -388,18 +422,29 @@ public class Dino.CallState : Object {
             }
         }
 
+        // Force-destroy the GStreamer pipeline to release audio/video buffers.
+        // Without this, on remote hang-up the pipeline stays alive forever
+        // because close_stream()/destroy_call_pipe_if_unused() may not fire
+        // if reference cycles keep Stream objects in the streams list.
+        Idle.add(() => {
+            call_plugin.dispose_pipeline();
+            return Source.REMOVE;
+        });
+
         terminated(who_terminated, reason_name, reason_text);
     }
 
     private void connect_peer_signals(PeerState peer_state) {
         peers[peer_state.jid] = peer_state;
 
-        this.bind_property("we-should-send-audio", peer_state, "we-should-send-audio", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
-        this.bind_property("we-should-send-video", peer_state, "we-should-send-video", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
-        this.bind_property("group-call", peer_state, "group-call", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL);
+        var bindings = new ArrayList<Binding>();
+        bindings.add(this.bind_property("we-should-send-audio", peer_state, "we-should-send-audio", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL));
+        bindings.add(this.bind_property("we-should-send-video", peer_state, "we-should-send-video", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL));
+        bindings.add(this.bind_property("group-call", peer_state, "group-call", BindingFlags.SYNC_CREATE | BindingFlags.BIDIRECTIONAL));
+        peer_bindings[peer_state.jid] = bindings;
 
-        peer_state.stream_created.connect((peer, media) => { on_peer_stream_created(peer, media); });
-        peer_state.session_terminated.connect((we_terminated, reason_name, reason_text) => {
+        peer_stream_created_handler_ids[peer_state.jid] = peer_state.stream_created.connect((peer, media) => { on_peer_stream_created(peer, media); });
+        peer_session_terminated_handler_ids[peer_state.jid] = peer_state.session_terminated.connect((we_terminated, reason_name, reason_text) => {
             debug("[%s] Peer left %s: %s %s (%i peers remaining)", call.account.bare_jid.to_string(), reason_text ?? "", reason_name ?? "", peer_state.jid.to_string(), peers.size);
             handle_peer_left(peer_state, we_terminated, reason_name, reason_text);
         });
@@ -608,6 +653,36 @@ public class Dino.CallState : Object {
     private void handle_peer_left(PeerState peer_state, bool we_terminated, string? reason_name, string? reason_text) {
         if (!peers.has_key(peer_state.jid)) return;
         peers.unset(peer_state.jid);
+
+        // Disconnect signal handlers to break closure reference cycles
+        if (peer_stream_created_handler_ids.has_key(peer_state.jid)) {
+            ulong hid = peer_stream_created_handler_ids[peer_state.jid];
+            if (hid != 0 && SignalHandler.is_connected(peer_state, hid)) {
+                peer_state.disconnect(hid);
+            }
+            peer_stream_created_handler_ids.unset(peer_state.jid);
+        }
+        if (peer_session_terminated_handler_ids.has_key(peer_state.jid)) {
+            ulong hid = peer_session_terminated_handler_ids[peer_state.jid];
+            if (hid != 0 && SignalHandler.is_connected(peer_state, hid)) {
+                peer_state.disconnect(hid);
+            }
+            peer_session_terminated_handler_ids.unset(peer_state.jid);
+        }
+
+        // Unbind property bindings to break the bidirectional reference cycle
+        if (peer_bindings.has_key(peer_state.jid)) {
+            foreach (Binding binding in peer_bindings[peer_state.jid]) {
+                binding.unbind();
+            }
+            peer_bindings.unset(peer_state.jid);
+        }
+
+        // Clean up PeerState's internal signal handlers (content/session closures)
+        peer_state.cleanup_signal_handlers();
+
+        // Release heavyweight Jingle/GStreamer objects from the PeerState
+        peer_state.release_objects();
 
         if (peers.is_empty) {
             if (group_call != null) {

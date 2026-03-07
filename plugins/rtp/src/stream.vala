@@ -90,6 +90,7 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
     private ulong send_rtp_event_handler_id;
 #endif
     private Object? internal_session;
+    private uint remb_timeout_id = 0;
 
     public Stream(Plugin plugin, Xmpp.Xep.Jingle.Content content) {
         base(content);
@@ -382,7 +383,10 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
             if (internal_session != null) {
                 feedback_rtcp_handler_id = GLib.Signal.connect(internal_session, "on-feedback-rtcp", (GLib.Callback)on_feedback_rtcp, this);
             }
-            Timeout.add(1000, () => remb_adjust());
+            remb_timeout_id = Timeout.add(1000, () => {
+                if (remb_timeout_id == 0) return Source.REMOVE;
+                return remb_adjust() ? Source.CONTINUE : Source.REMOVE;
+            });
         }
         if (input_device != null && media == "video") {
             input_device.update_bitrate(payload_type, target_send_bitrate);
@@ -717,6 +721,14 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
     }
 
     public override void destroy() {
+        // Cancel the periodic REMB timer immediately so the closure
+        // releases its reference to this Stream without waiting up
+        // to 1 second for the next tick.
+        if (remb_timeout_id != 0) {
+            Source.remove(remb_timeout_id);
+            remb_timeout_id = 0;
+        }
+
         // Disconnect signal handlers first
         if (senders_changed_handler_id != 0 && content != null) {
             content.disconnect(senders_changed_handler_id);
@@ -886,6 +898,19 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
             rtpbin.release_request_pad(recv_rtcp_sink_pad);
             recv_rtcp_sink_pad = null;
         }
+
+        // For audio-only streams (no VideoStream subclass), release refs here.
+        // VideoStream.destroy() calls release_refs() itself after its own cleanup.
+        if (this.get_type() == typeof(Stream)) {
+            release_refs();
+        }
+    }
+
+    // Called at the very end of the outermost destroy() to break ref chains.
+    // Must NOT be called from base.destroy() if a subclass still needs pipe/plugin.
+    protected void release_refs() {
+        this.content = null;
+        this.plugin = null;
     }
 
     private void prepare_remote_crypto() {
@@ -1263,6 +1288,9 @@ public class Dino.Plugins.Rtp.VideoStream : Stream {
         pipe.remove(output_tee);
         output_tee = null;
         disconnect(incoming_video_orientation_changed_handler);
+
+        // Drop heavy references — breaks Stream→Content→Session chain
+        release_refs();
     }
 
     public override void add_output(Gst.Element element, Xmpp.Jid? participant) {

@@ -22,6 +22,7 @@ namespace Dino.Ui {
         public Revealer participant_list_revealer = new Revealer() { halign=Align.END, valign=Align.FILL, transition_type=RevealerTransitionType.SLIDE_LEFT, transition_duration=300, reveal_child=false };
         public GroupCallParticipantList participant_list = new GroupCallParticipantList();
         private HashMap<string, ParticipantWidget> participant_widgets = new HashMap<string, ParticipantWidget>();
+        private HashMap<string, ArrayList<Binding>> participant_bindings = new HashMap<string, ArrayList<Binding>>();
         private ArrayList<string> participants = new ArrayList<string>();
 
         private EventControllerFocus this_focus_events = new EventControllerFocus();
@@ -110,8 +111,10 @@ namespace Dino.Ui {
 
         public void add_participant(string participant, ParticipantWidget participant_widget) {
             participant_widget.visible = true;
-            this.bind_property("controls-active", participant_widget, "controls-active", BindingFlags.SYNC_CREATE);
-            this.bind_property("controls-active", participant_widget.encryption_button_controller, "controls-active", BindingFlags.SYNC_CREATE);
+            var bindings = new ArrayList<Binding>();
+            bindings.add(this.bind_property("controls-active", participant_widget, "controls-active", BindingFlags.SYNC_CREATE));
+            bindings.add(this.bind_property("controls-active", participant_widget.encryption_button_controller, "controls-active", BindingFlags.SYNC_CREATE));
+            participant_bindings[participant] = bindings;
 
             participants.add(participant);
             participant_widgets[participant] = participant_widget;
@@ -121,6 +124,13 @@ namespace Dino.Ui {
         }
 
         public void remove_participant(string participant) {
+            // Unbind property bindings to allow cleanup
+            if (participant_bindings.has_key(participant)) {
+                foreach (Binding binding in participant_bindings[participant]) {
+                    binding.unbind();
+                }
+                participant_bindings.unset(participant);
+            }
             participant_widgets[participant].set_video(new Adw.Bin());
             participants.remove(participant);
             grid.remove(participant_widgets[participant]);
