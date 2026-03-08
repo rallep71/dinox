@@ -5,6 +5,19 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.6.0] - 2026-03-09
+
+### Fixed
+- **CRITICAL: NULL conversation race condition in ConversationView**: Fixed cascade of `dino-CRITICAL` assertion failures (`conversation != NULL`, `self != NULL`) and `Gtk-CRITICAL` (`gtk_widget_insert_after`, `gtk_widget_unparent`) triggered when populators fired after conversation was set to NULL
+- **Root Cause**: `initialize_for_conversation(null)` set `this.conversation = null` but never called `populator.close()` — the null path returned early before reaching `initialize_for_conversation_()`. Active populators (ChatState, DateSeparator, UnreadIndicator, Status, OMEMO BadMessages) could still call `insert_item()` → `insert_new()` with NULL conversation
+- **Fix: Close populators on null path**: All `ConversationAdditionPopulator` and `NotificationPopulator` instances are now properly closed (signal handlers disconnected) before setting `this.conversation = null`
+- **Fix: Null guards in insert path**: `insert_item()` returns early if `conversation == null`; `insert_new()` returns `Widget?` (nullable) with null guard; `do_insert_item()` and `initialize_around_message()` check return value before adding to data structures
+
+### Changed
+- **Version**: 1.1.5.9 → 1.1.6.0
+
+---
+
 ## [1.1.5.9] - 2026-03-07
 
 ### Fixed

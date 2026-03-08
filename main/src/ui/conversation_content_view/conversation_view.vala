@@ -356,6 +356,19 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
         Dino.Ui.UiTiming.log_ms("ConversationView.initialize_for_conversation: clear", t_clear_us);
 
         if (conversation == null) {
+            // Close old populators before unsetting conversation —
+            // otherwise they remain active and may call insert_item()
+            // with this.conversation == null, causing NULL assertions.
+            Dino.Application app = Dino.Application.get_default();
+            if (this.conversation != null) {
+                foreach (Plugins.ConversationItemPopulator populator in app.plugin_registry.conversation_addition_populators) {
+                    populator.close(this.conversation);
+                }
+                foreach (Plugins.NotificationPopulator populator in app.plugin_registry.notification_populators) {
+                    populator.close(this.conversation);
+                }
+            }
+            clear_notifications();
             this.conversation = null;
             return;
         }
@@ -424,9 +437,10 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
             do_insert_item(item);
         }
         ContentMetaItem meta_item = content_populator.get_content_meta_item(content_item);
-        insert_new(meta_item);
-        content_items.add(meta_item);
-        meta_items.add(meta_item);
+        if (insert_new(meta_item) != null) {
+            content_items.add(meta_item);
+            meta_items.add(meta_item);
+        }
 
         Gee.List<ContentMetaItem> after_items = content_populator.populate_after(conversation, content_item, 40);
         foreach (ContentMetaItem item in after_items) {
@@ -573,6 +587,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
     }
 
     public void insert_item(Plugins.MetaConversationItem item) {
+        if (conversation == null) return;
         if (meta_items.size > 0) {
             bool after_last = meta_items.last().time.compare(item.time) <= 0;
             bool within_range = meta_items.last().time.compare(item.time) > 0 && meta_items.first().time.compare(item.time) < 0;
@@ -593,7 +608,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
 
     public void do_insert_item(Plugins.MetaConversationItem item) {
         lock (meta_items) {
-            insert_new(item);
+            if (insert_new(item) == null) return;
             if (item is ContentMetaItem) {
                 content_items.add((ContentMetaItem)item);
             }
@@ -653,7 +668,8 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
         }
     }
 
-    private Widget insert_new(Plugins.MetaConversationItem item) {
+    private Widget? insert_new(Plugins.MetaConversationItem item) {
+        if (conversation == null) return null;
         int64 t0_us = Dino.Ui.UiTiming.now_us();
         Plugins.MetaConversationItem? lower_item = meta_items.lower(item);
 

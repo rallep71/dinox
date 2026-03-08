@@ -1,7 +1,7 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 7, 2026 (v1.1.5.9)
-> **Current Release Line**: 1.1.5.x
+> **Last Updated**: March 9, 2026 (v1.1.6.0)
+> **Current Release Line**: 1.1.6.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
 
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.5.9 |
+| **Current Version** | 1.1.6.0 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,12 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.6.0 (NULL Conversation Race Condition Fix)
+
+- **ConversationView NULL race fix**: Populators now properly closed on null-conversation path — prevents cascade of CRITICAL assertions when switching/closing conversations
+- **Null guards**: `insert_item()`, `insert_new()`, `do_insert_item()`, `initialize_around_message()` all guard against NULL conversation
+- 1 file changed, 21 insertions
 
 ### v1.1.5.9 (Call Memory Leak Fix — Jingle/RTP/ICE Reference Chain Cleanup)
 
