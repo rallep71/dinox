@@ -5,6 +5,20 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.6.2] - 2026-03-11
+
+### Fixed
+- **CRITICAL: Avatar popup SIGSEGV crash**: All popover button handlers (header click, private conversation, invite) executed UI actions synchronously while the popover was still parented — changing conversations or presenting dialogs destroyed the parent widget mid-gesture causing SIGSEGV. Now deferred with `Idle.add_full(GLib.Priority.LOW)` so actions run after popover cleanup
+- **Self-chat prevention**: Clicking own avatar in chat no longer opens the occupant menu (MUC: checks `own_jid`, 1:1 chat: checks `account.bare_jid`)
+- **Self-actions in MUC**: "Start private conversation" button no longer shown for own avatar
+- **GDK surface assertion**: `hide_deferred()` now checks `get_parent()` and `get_native()` before calling `hide()` — prevents `gdk_surface_get_device_position: GDK_IS_SURFACE` failures
+- **Popover unparent guard**: `closed` handler checks `get_parent() != null` before `unparent()`
+
+### Changed
+- **Version**: 1.1.6.1 → 1.1.6.2
+
+---
+
 ## [1.1.6.1] - 2026-03-11
 
 ### Fixed

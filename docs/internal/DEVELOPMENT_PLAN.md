@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 11, 2026 (v1.1.6.1)
+> **Last Updated**: March 11, 2026 (v1.1.6.2)
 > **Current Release Line**: 1.1.6.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.6.1 |
+| **Current Version** | 1.1.6.2 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,14 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.6.2 (Avatar Popup SIGSEGV Fix, Self-Chat Prevention)
+
+- **Avatar popup SIGSEGV crash fix**: All popover button handlers defer UI actions with `Idle.add_full(LOW)` — popover is fully unparented before conversation changes or dialogs open
+- **Self-chat prevention**: Own avatar click ignored in both MUC and 1:1 chats
+- **GDK surface guard**: `hide_deferred()` validates parent and native surface before `hide()`
+- **Popover unparent guard**: `closed` handler checks `get_parent()` before `unparent()`
+- 1 commit, 2 files changed, 60 insertions(+), 26 deletions(-)
 
 ### v1.1.6.1 (RAM Fixes, File Transfer Crash Fix, MUC Occupant List Performance)
 
