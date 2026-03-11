@@ -13,6 +13,7 @@ public class ListRow : Object {
 
     public Conversation? conversation;
     public Jid? jid;
+    public Xmpp.Xep.Muc.Affiliation affiliation = Xmpp.Xep.Muc.Affiliation.NONE;
 
     construct {
         Builder builder = new Builder.from_resource("/im/github/rallep71/DinoX/occupant_list_item.ui");

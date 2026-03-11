@@ -20,32 +20,108 @@ public class List : Box {
     private HashMap<Jid, Widget> rows = new HashMap<Jid, Widget>(Jid.hash_func, Jid.equals_func);
     public HashMap<Widget, ListRow> row_wrappers = new HashMap<Widget, ListRow>();
 
+    // Pre-computed affiliation counts for O(1) header generation
+    private HashMap<Xmpp.Xep.Muc.Affiliation, int> affiliation_counts = new HashMap<Xmpp.Xep.Muc.Affiliation, int>();
+
     // Debounce timer for batching occupant presence updates (avoids O(n²) sort thrashing)
     private uint occupant_update_timeout = 0;
     private bool pending_invalidate = false;
 
+    // Batched initialization state
+    private uint batch_init_source = 0;
+    private bool initializing = false;
+
+    // Signal handler IDs for cleanup
+    private ulong show_received_handler = 0;
+    private ulong offline_presence_handler = 0;
+
     public List(StreamInteractor stream_interactor, Conversation conversation) {
         this.stream_interactor = stream_interactor;
-        list_box.set_header_func(header);
-        list_box.set_sort_func(sort);
-        list_box.set_filter_func(filter);
         search_entry.search_changed.connect(refilter);
 
-        stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).show_received.connect(on_show_received);
-        stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).received_offline_presence.connect(on_received_offline_presence);
+        show_received_handler = stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).show_received.connect(on_show_received);
+        offline_presence_handler = stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).received_offline_presence.connect(on_received_offline_presence);
 
         initialize_for_conversation(conversation);
+    }
+
+    public void cleanup() {
+        if (batch_init_source != 0) {
+            Source.remove(batch_init_source);
+            batch_init_source = 0;
+        }
+        if (occupant_update_timeout != 0) {
+            Source.remove(occupant_update_timeout);
+            occupant_update_timeout = 0;
+        }
+        initializing = false;
+        var pm = stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY);
+        if (show_received_handler != 0) {
+            pm.disconnect(show_received_handler);
+            show_received_handler = 0;
+        }
+        if (offline_presence_handler != 0) {
+            pm.disconnect(offline_presence_handler);
+            offline_presence_handler = 0;
+        }
+        rows.clear();
+        row_wrappers.clear();
+        affiliation_counts.clear();
+    }
+
+    public override void dispose() {
+        cleanup();
+        base.dispose();
     }
 
     public void initialize_for_conversation(Conversation conversation) {
         this.conversation = conversation;
         Gee.List<Jid>? occupants = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_occupants(conversation.counterpart, conversation.account);
-        if (occupants != null) {
-            foreach (Jid occupant in occupants) {
-                add_occupant(occupant);
-            }
+        if (occupants == null || occupants.size == 0) {
+            list_box.set_sort_func(sort);
+            list_box.set_header_func(header);
+            list_box.set_filter_func(filter);
+            return;
         }
-        list_box.invalidate_filter();
+
+        // Pre-sort occupants so widgets are appended in correct order
+        // This is much faster than sorting 200 GtkWidgets via set_sort_func
+        var sorted = new ArrayList<Jid>(Jid.equals_func);
+        sorted.add_all(occupants);
+        sorted.sort((a, b) => {
+            var aff_a = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_affiliation(conversation.counterpart, a, conversation.account) ?? Xmpp.Xep.Muc.Affiliation.NONE;
+            var aff_b = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_affiliation(conversation.counterpart, b, conversation.account) ?? Xmpp.Xep.Muc.Affiliation.NONE;
+            int ra = get_affiliation_ranking(aff_a);
+            int rb = get_affiliation_ranking(aff_b);
+            if (ra != rb) return ra - rb;
+            string na = Util.get_participant_display_name(stream_interactor, conversation, a);
+            string nb = Util.get_participant_display_name(stream_interactor, conversation, b);
+            return na.collate(nb);
+        });
+
+        // Use Timeout.add (NOT Idle.add!) with small batches.
+        // Idle.add runs all pending callbacks in one frame — no UI responsiveness.
+        // Timeout.add forces a real main loop iteration between batches.
+        int index = 0;
+        int batch_size = 10;
+        initializing = true;
+        batch_init_source = Timeout.add(1, () => {
+            int end = int.min(index + batch_size, sorted.size);
+            for (int i = index; i < end; i++) {
+                add_occupant(sorted[i]);
+            }
+            index = end;
+            if (index >= sorted.size) {
+                batch_init_source = 0;
+                initializing = false;
+                // Rows already in correct order; set_sort_func for future updates only
+                list_box.set_sort_func(sort);
+                list_box.set_header_func(header);
+                list_box.set_filter_func(filter);
+                return Source.REMOVE;
+            }
+            return Source.CONTINUE;
+        });
     }
 
     private void refilter() {
@@ -61,6 +137,10 @@ public class List : Box {
         var row_wrapper = new ListRow(stream_interactor, conversation, jid);
         var widget = row_wrapper.get_widget();
 
+        var aff = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_affiliation(conversation.counterpart, jid, conversation.account) ?? Xmpp.Xep.Muc.Affiliation.NONE;
+        row_wrapper.affiliation = aff;
+        affiliation_counts[aff] = (affiliation_counts.has_key(aff) ? affiliation_counts[aff] : 0) + 1;
+
         row_wrappers[widget] = row_wrapper;
         rows[jid] = widget;
         list_box.append(widget);
@@ -69,13 +149,21 @@ public class List : Box {
     public void remove_occupant(Jid jid) {
         if (!rows.has_key(jid)) return;
         var widget = rows[jid];
+        var row_wrapper = row_wrappers[widget];
+
+        if (affiliation_counts.has_key(row_wrapper.affiliation) && affiliation_counts[row_wrapper.affiliation] > 0) {
+            affiliation_counts[row_wrapper.affiliation] = affiliation_counts[row_wrapper.affiliation] - 1;
+        }
+
         rows.unset(jid);
+        row_wrappers.unset(widget);
         if (widget.get_parent() == list_box) {
             list_box.remove(widget);
         }
     }
 
     private void on_received_offline_presence(Jid jid, Account account) {
+        if (initializing) return;
         if (conversation != null && conversation.counterpart.equals_bare(jid) && jid.is_full()) {
             if (rows.has_key(jid)) {
                 remove_occupant(jid);
@@ -85,6 +173,7 @@ public class List : Box {
     }
 
     private void on_show_received(Jid jid, Account account) {
+        if (initializing) return;
         if (conversation != null && conversation.counterpart.equals_bare(jid) && jid.is_full()) {
             if (!rows.has_key(jid)) {
                 add_occupant(jid);
@@ -100,6 +189,8 @@ public class List : Box {
                 occupant_update_timeout = 0;
                 if (pending_invalidate) {
                     pending_invalidate = false;
+                    list_box.invalidate_sort();
+                    list_box.invalidate_headers();
                     list_box.invalidate_filter();
                 }
                 return Source.REMOVE;
@@ -108,21 +199,14 @@ public class List : Box {
     }
 
     private void header(ListBoxRow row, ListBoxRow? before_row) {
-        ListRow row_wrapper1 = row_wrappers[row.get_child()];
-        Xmpp.Xep.Muc.Affiliation? a1 = Xmpp.Xep.Muc.Affiliation.NONE;
-        if (row_wrapper1.jid != null) {
-            // print("DEBUG: header check 1 for %s\n", row_wrapper1.jid.to_string());
-            a1 = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_affiliation(conversation.counterpart, row_wrapper1.jid, row_wrapper1.conversation.account);
-        }
-        if (a1 == null) return;
+        ListRow? row_wrapper1 = row_wrappers[row.get_child()];
+        if (row_wrapper1 == null) return;
+        Xmpp.Xep.Muc.Affiliation a1 = row_wrapper1.affiliation;
 
         if (before_row != null) {
-            ListRow row_wrapper2 = row_wrappers[before_row.get_child()];
-            Xmpp.Xep.Muc.Affiliation? a2 = Xmpp.Xep.Muc.Affiliation.NONE;
-            if (row_wrapper2.jid != null) {
-                // print("DEBUG: header check 2 for %s\n", row_wrapper2.jid.to_string());
-                a2 = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_affiliation(conversation.counterpart, row_wrapper2.jid, row_wrapper2.conversation.account);
-            }
+            ListRow? row_wrapper2 = row_wrappers[before_row.get_child()];
+            if (row_wrapper2 == null) return;
+            Xmpp.Xep.Muc.Affiliation a2 = row_wrapper2.affiliation;
             if (a1 != a2) {
                 row.set_header(generate_header_widget(a1, false));
             } else if (row.get_header() != null){
@@ -146,15 +230,7 @@ public class List : Box {
                 aff_str = _("User"); break;
         }
 
-        int count = 0;
-        foreach (ListRow row in row_wrappers.values) {
-            Xmpp.Xep.Muc.Affiliation aff = Xmpp.Xep.Muc.Affiliation.NONE;
-            if (row.jid != null) {
-                // print("DEBUG: generate_header_widget check for %s\n", row.jid.to_string());
-                aff = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_affiliation(conversation.counterpart, row.jid, conversation.account) ?? Xmpp.Xep.Muc.Affiliation.NONE;
-            }
-            if (aff == affiliation) count++;
-        }
+        int count = affiliation_counts.has_key(affiliation) ? affiliation_counts[affiliation] : 0;
 
         Label title_label = new Label("") { margin_start=10, xalign=0 };
         title_label.set_markup(@"<b>$(Markup.escape_text(aff_str))</b>");
@@ -170,7 +246,8 @@ public class List : Box {
     }
 
     private bool filter(ListBoxRow r) {
-        ListRow row_wrapper = row_wrappers[r.get_child()];
+        ListRow? row_wrapper = row_wrappers[r.get_child()];
+        if (row_wrapper == null) return false;
         string name_lower = row_wrapper.name_label.label.down();
         foreach (string filter in filter_values) {
             if (!name_lower.contains(filter.down())) return false;
@@ -179,20 +256,12 @@ public class List : Box {
     }
 
     private int sort(ListBoxRow row1, ListBoxRow row2) {
-        ListRow row_wrapper1 = row_wrappers[row1.get_child()];
-        ListRow row_wrapper2 = row_wrappers[row2.get_child()];
+        ListRow? row_wrapper1 = row_wrappers[row1.get_child()];
+        ListRow? row_wrapper2 = row_wrappers[row2.get_child()];
+        if (row_wrapper1 == null || row_wrapper2 == null) return 0;
 
-        Xmpp.Xep.Muc.Affiliation aff1 = Xmpp.Xep.Muc.Affiliation.NONE;
-        if (row_wrapper1.jid != null) {
-            aff1 = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_affiliation(conversation.counterpart, row_wrapper1.jid, row_wrapper1.conversation.account) ?? Xmpp.Xep.Muc.Affiliation.NONE;
-        }
-        int affiliation1 = get_affiliation_ranking(aff1);
-
-        Xmpp.Xep.Muc.Affiliation aff2 = Xmpp.Xep.Muc.Affiliation.NONE;
-        if (row_wrapper2.jid != null) {
-            aff2 = stream_interactor.get_module<MucManager>(MucManager.IDENTITY).get_affiliation(conversation.counterpart, row_wrapper2.jid, row_wrapper2.conversation.account) ?? Xmpp.Xep.Muc.Affiliation.NONE;
-        }
-        int affiliation2 = get_affiliation_ranking(aff2);
+        int affiliation1 = get_affiliation_ranking(row_wrapper1.affiliation);
+        int affiliation2 = get_affiliation_ranking(row_wrapper2.affiliation);
 
         if (affiliation1 < affiliation2) return -1;
         else if (affiliation1 > affiliation2) return 1;

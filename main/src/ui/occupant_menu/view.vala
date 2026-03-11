@@ -36,6 +36,14 @@ public class View : Popover {
         hide.connect(reset);
     }
 
+    public override void dispose() {
+        if (list != null) {
+            list.cleanup();
+            list = null;
+        }
+        base.dispose();
+    }
+
     public void reset() {
         stack.transition_type = StackTransitionType.NONE;
         stack.visible_child_name = "list";
