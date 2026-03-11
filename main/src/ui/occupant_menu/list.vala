@@ -20,6 +20,10 @@ public class List : Box {
     private HashMap<Jid, Widget> rows = new HashMap<Jid, Widget>(Jid.hash_func, Jid.equals_func);
     public HashMap<Widget, ListRow> row_wrappers = new HashMap<Widget, ListRow>();
 
+    // Debounce timer for batching occupant presence updates (avoids O(n²) sort thrashing)
+    private uint occupant_update_timeout = 0;
+    private bool pending_invalidate = false;
+
     public List(StreamInteractor stream_interactor, Conversation conversation) {
         this.stream_interactor = stream_interactor;
         list_box.set_header_func(header);
@@ -76,7 +80,7 @@ public class List : Box {
             if (rows.has_key(jid)) {
                 remove_occupant(jid);
             }
-            list_box.invalidate_filter();
+            schedule_invalidate();
         }
     }
 
@@ -85,7 +89,21 @@ public class List : Box {
             if (!rows.has_key(jid)) {
                 add_occupant(jid);
             }
-            list_box.invalidate_filter();
+            schedule_invalidate();
+        }
+    }
+
+    private void schedule_invalidate() {
+        pending_invalidate = true;
+        if (occupant_update_timeout == 0) {
+            occupant_update_timeout = Timeout.add(150, () => {
+                occupant_update_timeout = 0;
+                if (pending_invalidate) {
+                    pending_invalidate = false;
+                    list_box.invalidate_filter();
+                }
+                return Source.REMOVE;
+            });
         }
     }
 
