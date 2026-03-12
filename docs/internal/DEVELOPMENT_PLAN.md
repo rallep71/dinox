@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 12, 2026 (v1.1.6.3)
+> **Last Updated**: March 12, 2026 (v1.1.6.4)
 > **Current Release Line**: 1.1.6.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.6.3 |
+| **Current Version** | 1.1.6.4 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,14 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.6.4 (MQTT Binary Transfer, Stream Detection, Security Hardening)
+
+- **MQTT Binary Transfer**: Magic-byte detection for 17 formats (images, audio, video, documents), saved to temp file, forwarded via HTTP Upload
+- **MQTT Stream Detection**: M3U/PLS playlist parsing, stream URL extraction with validation
+- **Security audit fixes**: extract_local_path whitelisted to /tmp/dinox-mqtt-*, temp file cleanup, 10MB binary limit, BMP/MP3 false positive fixes, UTF-8 safe DB truncation, HTML detection fix, M3U line cap, U+FFFD stripping
+- **Redundant code**: detect_binary_type() hoisted to single call per message
+- 1 commit, 14 files changed, 1354 insertions(+), 32 deletions(-)
 
 ### v1.1.6.3 (Plugin i18n, Code Audit, MQTT Bridge Fixes)
 

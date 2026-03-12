@@ -5,6 +5,34 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.6.4] - 2026-03-12
+
+### Added
+- **MQTT Binary Transfer**: Binary payload detection via magic bytes for 17 file formats (PNG, JPEG, GIF, WebP, BMP, PDF, ZIP, MP3, OGG, FLAC, WAV, MP4, MKV, AVI)
+- **MQTT Stream Detection**: M3U/PLS playlist parsing and stream URL extraction with Uri.parse validation
+- **MQTT Bridge Binary Forwarding**: Binary MQTT payloads saved to temp file and forwarded via HTTP Upload to XMPP contacts
+- **MQTT Bot Display**: Emoji indicators for binary (clip), stream (radio), HTML (globe) payloads in bot conversation
+- **Node-RED Flow 3**: Bridge response documentation with binary/audio/stream examples
+
+### Fixed — Security Hardening
+- **extract_local_path file exfiltration**: Whitelisted only `/tmp/dinox-mqtt-*` paths — arbitrary file read via MQTT topic no longer possible
+- **Temp file disk leak**: Binary temp files now cleaned up after HTTP Upload completes or when no bridge rule matches
+- **Binary payload size limit**: 10 MB cap before saving to temp file
+- **BMP false positive**: Validate BMP reserved bytes (must be zero) and file-size field (must match data length) — "BMS voltage: 12.6V" no longer triggers BMP detection
+- **MP3 false positive**: Tightened MPEG sync word — validate version (not reserved 01) and layer (not reserved 00) bits
+- **UTF-8 truncation corruption**: DB 8KB truncation now uses `char_count()` + `index_of_nth_char()` to avoid splitting multi-byte characters
+- **HTML false positive**: `is_html_payload()` matches `<head>` or `<head ` instead of bare `<head` — prevents `<header>` triggering HTML detection
+- **Stream URL heuristic**: Removed overly broad `/stream`/`/live` path matching — only file extensions (.m3u/.m3u8/.pls/.xspf) trigger stream detection
+- **M3U/PLS DoS**: Playlist line iteration capped at 100 lines
+- **U+FFFD in stream URLs**: Strip Unicode replacement characters from extracted stream URLs (caused by Node-RED binary-to-string conversion)
+- **Redundant detect_binary_type()**: Hoisted before bridge block — single call per message instead of two
+
+### Changed
+- **.gitignore**: Added `.venv/` and `__pycache__/`
+- **Version**: 1.1.6.3 -> 1.1.6.4
+
+---
+
 ## [1.1.6.3] - 2026-03-12
 
 ### Added
