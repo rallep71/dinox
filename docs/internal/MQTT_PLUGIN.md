@@ -1,9 +1,9 @@
 # DinoX MQTT Plugin -- Developer Documentation
 
-**Status:** Implemented (Phase 1-6 complete, HA Discovery + Command Topics + Topic Aliases)
+**Status:** Implemented (Phase 1-7 complete, HA Discovery + Command Topics + Topic Aliases + Binary/Stream Bridge)
 **Created:** 2026-02-26
-**Last updated:** 2026-03-05
-**Version:** v1.6.0
+**Last updated:** 2026-03-12
+**Version:** v1.7.0
 
 See also: [MQTT User Guide](MQTT_UI_GUIDE.md)
 
@@ -80,9 +80,15 @@ are separate worlds (they only share auth/ACL/DB infrastructure).
   Only Standalone and Per-Account Custom Broker modes support HA Discovery.
 
 ### 2.3 MQTT-to-XMPP Bridge (Priority: medium)
-- Forward MQTT messages to real XMPP contacts
+- Forward MQTT messages to real XMPP contacts or MUCs
 - Configurable per-topic with wildcard matching and rate limiting
-- Three format modes: full, payload-only, short
+- Four format modes: full, payload-only, short, file (URL)
+- **Binary file transfer:** Images, audio, video, documents detected via magic bytes,
+  uploaded via HTTP Upload (XEP-0363) and forwarded as OOB links (XEP-0066)
+- **Stream URL extraction:** M3U/M3U8/PLS/XSPF playlists and direct stream URLs
+  are detected and forwarded as clickable links
+- **HTML protection:** HTML page payloads (e.g. from Node-RED `http-request` with `ret=txt`)
+  are automatically detected and skipped to prevent chat flooding
 
 ### 2.4 Bot Event Stream (Priority: medium)
 - DinoX bots publish status events via MQTT
@@ -242,7 +248,7 @@ simultaneously without conflicts. XMPP mode clients cannot use Discovery.
 | `MqttBotConversation` | `bot_conversation.vala` | 475 | Virtual bot contact per connection, message injection |
 | `MqttCommandHandler` | `command_handler.vala` | 1593 | 29 chat commands (`/mqtt help` for full list) |
 | `MqttAlertManager` | `alert_manager.vala` | 948 | Threshold alerts, 4 priorities, 7 operators, sparklines |
-| `MqttBridgeManager` | `bridge_manager.vala` | 374 | MQTT-to-XMPP bridge with wildcard matching, rate limiting |
+| `MqttBridgeManager` | `bridge_manager.vala` | 420 | MQTT-to-XMPP bridge with wildcard matching, rate limiting, binary file transfer |
 | `MqttDiscoveryManager` | `discovery_manager.vala` | 660 | HA Device Discovery (8 entities), command topics, LWT, system topic tracking |
 | `MqttBotManagerDialog` | `mqtt_bot_manager_dialog.vala` | 996 | Adw.Dialog: 5-page MQTT management dialog (per-account + standalone) |
 | `MqttTopicManagerDialog` | `topic_manager_dialog.vala` | 413 | Adw.Dialog: visual topic/bridge/alert management |
@@ -706,6 +712,42 @@ All phases are complete.
 - `MqttDiscoveryManager.get_system_topics()` returns HA status + command topics
 - MqttBotManagerDialog no longer auto-closes after "Save & Apply"
 
+### Phase 7: Binary/Stream Bridge and Payload Hardening (v1.7.0)
+
+**Binary File Transfer:**
+- Magic-byte detection for 17 file formats via `detect_binary_type()`:
+  - Images: PNG, JPEG, GIF, WebP, BMP
+  - Audio: MP3 (ID3 + MPEG sync), OGG (Vorbis/Opus), FLAC, WAV
+  - Video: MP4/M4A/M4V (ftyp), MKV/WebM (EBML), AVI
+  - Documents: PDF, ZIP (incl. DOCX/XLSX)
+- Binary payloads saved to `/tmp/dinox-mqtt-XXXXXXXX.<ext>`
+- `evaluate_binary()` in BridgeManager: HTTP Upload (XEP-0363) + OOB forwarding (XEP-0066)
+- Bot display: `📎 [topic] MP3 (12345 bytes) → bridge forwarded`
+- MIME types auto-detected from file extension via `ContentType.guess()`
+
+**Stream URL Extraction:**
+- `extract_stream_url()` detects three playlist types:
+  - M3U content (`#EXTM3U` / `#EXTINF` header → first `http(s)://` URL)
+  - PLS content (`[playlist]` header → `File1=` URL)
+  - Direct stream URLs (`.m3u`, `.m3u8`, `.pls`, `.xspf` extension, or `/stream`/`/live` path)
+- Stream URLs validated with `GLib.Uri.parse()` before forwarding
+- Bot display: `📻 [topic] Stream: https://...`
+- Bridge: stream URL forwarded as text message (clickable link in XMPP)
+
+**HTML Payload Detection:**
+- `is_html_payload()` checks first 512 bytes for `<!doctype html`, `<html`, `<head`, `<meta`
+- Bridge: HTML payloads silently skipped (prevents thousands of broken URL fragments)
+- Bot display: `🌐 [topic] HTML (12345 bytes)`
+
+**Payload Size Limits and Hardening:**
+- Bridge: 64 KB max payload (`MAX_BRIDGE_PAYLOAD = 65536`), larger payloads skipped with warning
+- Database: payloads truncated to 8 KB in `record_message()` (prevents SQLite bloat)
+- Bot display: text payloads truncated to 4 KB with `… (N bytes truncated)` indicator
+- URL validation: `GLib.Uri.parse()` + character rejection (`"`, `<`, `>`) in all Soup.Message call sites
+- `extract_preview_url()`: strips trailing HTML artifacts from regex-extracted URLs
+- `deliver_local_file()`: stream-ready guard, re-queues if XMPP connection not established
+- Stickers: `Uri.parse()` guards in `download_to_file()` and `upload_file_to_slot()`
+
 ---
 
 ## 12. Resolved Risks
@@ -720,6 +762,11 @@ All phases are complete.
 | Prosody no auth | Firewall/VPN + DinoX warning in settings |
 | Prosody topic format | Auto-detected via server type, format adapted |
 | DB bloat | Auto-purge every 6h, VACUUM after large deletes |
+| Malformed URLs from MQTT | `Uri.parse()` + `"<>` char rejection before every `Soup.Message` |
+| HTML page payloads | `is_html_payload()` detection, bridge skip, bot summary only |
+| Oversized MQTT payloads | 64 KB bridge limit, 8 KB DB truncation, 4 KB bot display limit |
+| Binary data as text | `detect_binary_type()` magic bytes for 17 formats, temp file + HTTP Upload |
+| XMPP stream not ready | `deliver_local_file()` re-queues to pending if stream is null |
 
 ---
 

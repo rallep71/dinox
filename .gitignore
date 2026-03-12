@@ -91,3 +91,8 @@ docs/internal/LINUX_PACKAGING_OVERVIEW.md
 MQTT_UI_PLAN.md
 build_warnings.txt
 RAM_ANALYSE.md
+
+# Python virtual environment
+.venv/
+__pycache__/
+**/__pycache__/

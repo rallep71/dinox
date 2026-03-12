@@ -1375,8 +1375,47 @@ public class Plugin : RootInterface, Object {
              * If a bridge rule matched, the message goes to the configured
              * MUC/chat — do NOT also show it in the bot conversation. */
             bool bridged = false;
+            bool is_html = is_html_payload(payload_str);
+            string? stream_url = extract_stream_url(payload_str);
+            string? binary_ext = detect_binary_type(payload);
             if (bridge_manager != null && !is_own_freetext) {
-                bridged = bridge_manager.evaluate(label, topic, payload_str);
+                /* Check for binary payload (images etc.) — save to temp
+                 * file and pass as local path instead of garbled text. */
+                if (binary_ext != null) {
+                    /* Reject oversized binary payloads (10 MB limit) */
+                    if (payload.length > 10 * 1024 * 1024) {
+                        debug("MQTT Bridge: Binary %s too large (%d bytes) — skipping",
+                              binary_ext, payload.length);
+                    } else {
+                        string? temp_path = save_binary_payload(payload, binary_ext);
+                        if (temp_path != null) {
+                            debug("MQTT Bridge: Binary %s detected (%d bytes), saved to %s",
+                                  binary_ext, payload.length, temp_path);
+                            bridged = bridge_manager.evaluate_binary(label, topic, temp_path);
+                            if (!bridged) {
+                                /* No rule matched — clean up unused temp file */
+                                GLib.FileUtils.unlink(temp_path);
+                            }
+                        } else {
+                            warning("MQTT Bridge: Binary %s detected but failed to save temp file",
+                                    binary_ext);
+                        }
+                    }
+                } else if (stream_url != null) {
+                    /* M3U/PLS playlist — forward the extracted stream URL */
+                    debug("MQTT Bridge: Stream URL extracted from playlist on '%s': %s",
+                          topic, stream_url);
+                    bridged = bridge_manager.evaluate(label, topic, stream_url);
+                } else if (is_html) {
+                    /* HTML pages (e.g. from Node-RED http-request with ret=txt)
+                     * contain thousands of broken URL fragments that crash
+                     * URL preview widgets or produce garbage in XMPP chats.
+                     * Don't forward HTML verbatim — just log it. */
+                    debug("MQTT Bridge: HTML payload detected (%d bytes) on topic '%s' — skipping bridge",
+                          payload_str.length, topic);
+                } else {
+                    bridged = bridge_manager.evaluate(label, topic, payload_str);
+                }
             }
 
             /* Phase 3: Evaluate alert rules and determine priority */
@@ -1414,13 +1453,42 @@ public class Plugin : RootInterface, Object {
 
             /* Inject into bot conversation with priority.
              * Always show in bot — even if also forwarded by a bridge rule,
-             * so the user sees the full MQTT traffic in the bot chat. */
+             * so the user sees the full MQTT traffic in the bot chat.
+             * For binary payloads, show a description instead of garbled text.
+             * For HTML payloads, show a summary instead of the raw HTML. */
             if (bot_conversation != null) {
                 Conversation? conv = bot_conversation.get_conversation(label);
                 if (conv == null) conv = bot_conversation.get_any_conversation();
                 if (conv != null) {
-                    bot_conversation.inject_mqtt_message(
-                        conv, topic, payload_str, priority);
+                    if (binary_ext != null) {
+                        string info = "📎 [%s] %s (%d bytes)".printf(
+                            topic, binary_ext.up(), payload.length);
+                        if (bridged) {
+                            info += " → bridge forwarded";
+                        }
+                        bot_conversation.inject_mqtt_message(
+                            conv, topic, info, priority);
+                    } else if (stream_url != null) {
+                        string info = "📻 [%s] Stream: %s".printf(topic, stream_url);
+                        if (bridged) {
+                            info += " → bridge forwarded";
+                        }
+                        bot_conversation.inject_mqtt_message(
+                            conv, topic, info, priority);
+                    } else if (is_html) {
+                        string info = "🌐 [%s] HTML (%d bytes)".printf(
+                            topic, payload_str.length);
+                        bot_conversation.inject_mqtt_message(
+                            conv, topic, info, priority);
+                    } else {
+                        /* Truncate very large text payloads to prevent UI hangs */
+                        string display_str = payload_str;
+                        if (display_str.length > 4096) {
+                            display_str = display_str.substring(0, 4096) + "\n… (%d bytes truncated)".printf(payload_str.length - 4096);
+                        }
+                        bot_conversation.inject_mqtt_message(
+                            conv, topic, display_str, priority);
+                    }
                 }
             }
         });
@@ -1762,6 +1830,167 @@ public class Plugin : RootInterface, Object {
      * source = account JID (per-account) or "standalone".
      */
     public signal void connection_changed(string source, bool connected);
+
+    /* ── Binary payload detection ────────────────────────────────── */
+
+    /**
+     * Detect binary file type from magic bytes in MQTT payload.
+     * Returns file extension (e.g. "png", "jpg") or null if not binary.
+     */
+    private static string? detect_binary_type(uint8[] data) {
+        if (data.length < 12) return null;
+
+        /* ── Images ── */
+        /* PNG: \x89PNG\r\n\x1A\n */
+        if (data[0] == 0x89 && data[1] == 0x50 && data[2] == 0x4E && data[3] == 0x47) return "png";
+        /* JPEG: \xFF\xD8\xFF */
+        if (data[0] == 0xFF && data[1] == 0xD8 && data[2] == 0xFF) return "jpg";
+        /* GIF: GIF87a or GIF89a */
+        if (data[0] == 0x47 && data[1] == 0x49 && data[2] == 0x46 && data[3] == 0x38) return "gif";
+        /* WebP: RIFF....WEBP */
+        if (data[0] == 0x52 && data[1] == 0x49 && data[2] == 0x46 && data[3] == 0x46
+            && data[8] == 0x57 && data[9] == 0x45 && data[10] == 0x42 && data[11] == 0x50) return "webp";
+        /* BMP: BM + valid file-size field (bytes 2-5, little-endian, must match data length)
+         * and reserved bytes 6-9 must be zero. Prevents false positive on text like "BMS voltage". */
+        if (data[0] == 0x42 && data[1] == 0x4D
+            && data[6] == 0x00 && data[7] == 0x00 && data[8] == 0x00 && data[9] == 0x00) {
+            uint32 bmp_size = data[2] | (data[3] << 8) | (data[4] << 16) | (data[5] << 24);
+            if (bmp_size >= 54 && bmp_size == data.length) return "bmp";
+        }
+
+        /* ── Audio ── */
+        /* MP3: ID3 tag or MPEG sync word with valid version/layer bits.
+         * Sync: 11 bits set (0xFF + 3 MSBs of byte 1), then version != 01, layer != 00 */
+        if (data[0] == 0x49 && data[1] == 0x44 && data[2] == 0x33) return "mp3";
+        if (data[0] == 0xFF && (data[1] & 0xE0) == 0xE0) {
+            uint8 version = (data[1] >> 3) & 0x03;  /* 00=2.5, 01=reserved, 10=2, 11=1 */
+            uint8 layer   = (data[1] >> 1) & 0x03;  /* 00=reserved, 01=III, 10=II, 11=I */
+            if (version != 0x01 && layer != 0x00) return "mp3";
+        }
+        /* OGG: OggS */
+        if (data[0] == 0x4F && data[1] == 0x67 && data[2] == 0x67 && data[3] == 0x53) return "ogg";
+        /* FLAC: fLaC */
+        if (data[0] == 0x66 && data[1] == 0x4C && data[2] == 0x61 && data[3] == 0x43) return "flac";
+        /* WAV: RIFF....WAVE */
+        if (data[0] == 0x52 && data[1] == 0x49 && data[2] == 0x46 && data[3] == 0x46
+            && data[8] == 0x57 && data[9] == 0x41 && data[10] == 0x56 && data[11] == 0x45) return "wav";
+
+        /* ── Video ── */
+        /* MP4/M4A/M4V: ....ftyp (offset 4) */
+        if (data[4] == 0x66 && data[5] == 0x74 && data[6] == 0x79 && data[7] == 0x70) return "mp4";
+        /* MKV/WebM: \x1A\x45\xDF\xA3 (EBML header) */
+        if (data[0] == 0x1A && data[1] == 0x45 && data[2] == 0xDF && data[3] == 0xA3) return "mkv";
+        /* AVI: RIFF....AVI  */
+        if (data[0] == 0x52 && data[1] == 0x49 && data[2] == 0x46 && data[3] == 0x46
+            && data[8] == 0x41 && data[9] == 0x56 && data[10] == 0x49 && data[11] == 0x20) return "avi";
+
+        /* ── Documents ── */
+        /* PDF: %PDF */
+        if (data[0] == 0x25 && data[1] == 0x50 && data[2] == 0x44 && data[3] == 0x46) return "pdf";
+        /* ZIP (also DOCX/XLSX/etc.): PK\x03\x04 */
+        if (data[0] == 0x50 && data[1] == 0x4B && data[2] == 0x03 && data[3] == 0x04) return "zip";
+
+        return null;
+    }
+
+    /**
+     * Save binary MQTT payload to a temp file.
+     * Returns the temp file path, or null on error.
+     */
+    private static string? save_binary_payload(uint8[] data, string extension) {
+        string temp_dir = GLib.Environment.get_tmp_dir();
+        string filename = "dinox-mqtt-%s.%s".printf(
+            GLib.Random.next_int().to_string("%08x"), extension);
+        string path = GLib.Path.build_filename(temp_dir, filename);
+        try {
+            GLib.FileUtils.set_data(path, data);
+            return path;
+        } catch (GLib.FileError e) {
+            warning("MQTT: Failed to save binary payload: %s", e.message);
+            return null;
+        }
+    }
+
+    /**
+     * Detect if a text payload looks like an HTML page.
+     * Checks for common HTML markers in the first 512 bytes.
+     */
+    private static bool is_html_payload(string text) {
+        if (text.length < 15) return false;
+        string head = text.substring(0, int.min(512, text.length)).down();
+        return head.contains("<!doctype html") || head.contains("<html")
+            || head.contains("<head>") || head.contains("<head ")
+            || head.contains("<meta ");
+    }
+
+    /**
+     * Detect M3U/PLS playlist content and extract the first stream URL.
+     * Returns the stream URL or null if not a playlist.
+     */
+    private static string? extract_stream_url(string text) {
+        if (text.length < 10) return null;
+        /* Strip Unicode replacement chars (U+FFFD) that make_valid() inserts
+         * for binary garbage at the end of HTTP responses from Node-RED. */
+        string cleaned = text.replace("\xef\xbf\xbd", "");
+        string trimmed = cleaned.strip();
+        string lower = trimmed.down();
+
+        /* M3U: starts with #EXTM3U or first non-comment line is a URL */
+        if (lower.has_prefix("#extm3u") || lower.has_prefix("#extinf")) {
+            int line_count = 0;
+            foreach (string line in trimmed.split("\n")) {
+                if (++line_count > 100) break;
+                string l = line.strip().replace("\xef\xbf\xbd", "");
+                if (l.has_prefix("http://") || l.has_prefix("https://")) {
+                    try {
+                        GLib.Uri.parse(l, GLib.UriFlags.NONE);
+                        return l;
+                    } catch { return null; }
+                }
+            }
+            return null;
+        }
+
+        /* PLS: starts with [playlist] */
+        if (lower.has_prefix("[playlist]")) {
+            int line_count = 0;
+            foreach (string line in trimmed.split("\n")) {
+                if (++line_count > 100) break;
+                string l = line.strip();
+                /* File1=http://... */
+                if (l.down().has_prefix("file") && l.contains("=")) {
+                    string val = l.substring(l.index_of("=") + 1).strip().replace("\xef\xbf\xbd", "");
+                    if (val.has_prefix("http://") || val.has_prefix("https://")) {
+                        try {
+                            GLib.Uri.parse(val, GLib.UriFlags.NONE);
+                            return val;
+                        } catch { return null; }
+                    }
+                }
+            }
+            return null;
+        }
+
+        /* Direct URL to a stream/playlist file (.m3u, .m3u8, .pls, .xspf)
+         * e.g. https://frontend.streamonkey.net/antthue-90er/mp3-stream.m3u */
+        if ((lower.has_prefix("http://") || lower.has_prefix("https://"))
+            && !trimmed.contains("\n")) {
+            /* Check for stream-related file extensions or path patterns */
+            string path_lower = lower;
+            /* Strip query string for extension check */
+            int qpos = path_lower.index_of("?");
+            if (qpos > 0) path_lower = path_lower.substring(0, qpos);
+            if (path_lower.has_suffix(".m3u") || path_lower.has_suffix(".m3u8")
+                || path_lower.has_suffix(".pls") || path_lower.has_suffix(".xspf")) {
+                try {
+                    GLib.Uri.parse(trimmed, GLib.UriFlags.NONE);
+                    return trimmed;
+                } catch { return null; }
+            }
+        }
+
+        return null;
+    }
 }
 
 }

@@ -1,7 +1,7 @@
 # DinoX MQTT Plugin -- User Guide
 
-**Version:** 1.6.0
-**Last updated:** 2026-03-05
+**Version:** 1.7.0
+**Last updated:** 2026-03-12
 
 ---
 
@@ -18,11 +18,14 @@ from a virtual **MQTT Bot** contact.
 - 26 chat commands for full control (`/mqtt help`)
 - Threshold alerts with 4 priority levels and desktop notifications
 - MQTT-to-XMPP bridge (forward topics to real contacts)
+- **Binary file transfer:** Images, audio, video, PDF, ZIP auto-detected and uploaded via HTTP Upload
+- **Stream URL support:** M3U/PLS playlists and Icecast/streaming URLs extracted and forwarded
 - Publish presets (quick-action buttons for common publishes)
 - Freetext publish (type natural language, forwarded to Node-RED)
 - Home Assistant device discovery (DinoX appears as HA device)
 - Per-account MQTT (reuse XMPP auth on ejabberd — in testing) + standalone broker
 - Encrypted local database with 30-day message history
+- Payload hardening: HTML detection, size limits, URL validation
 - Works independently -- no Home Assistant or XMPP server MQTT required
 
 ---
@@ -407,6 +410,7 @@ affect that connection.
 | `full` | Topic name + full payload (default) |
 | `payload_only` | Only the payload, no topic name |
 | `short` | Abbreviated format |
+| `file` | URL forwarded as file (OOB) |
 
 **Bridge example:**
 
@@ -417,6 +421,78 @@ affect that connection.
 
 Messages matching the topic pattern are forwarded to the XMPP contact.
 Rate limiting prevents flooding (minimum 2 seconds between forwards).
+
+### 10.5 Binary File Transfer via Bridge
+
+When a bridge rule matches and the MQTT payload contains binary data (image,
+audio, video, or document), DinoX automatically:
+
+1. Detects the file format via magic bytes (first 12 bytes of the payload)
+2. Saves the payload to a temporary file (`/tmp/dinox-mqtt-XXXXXXXX.<ext>`)
+3. Uploads the file via HTTP Upload (XEP-0363) to the XMPP server
+4. Forwards the download URL to the bridge target as an OOB link (XEP-0066)
+
+**Supported binary formats (17):**
+
+| Category | Formats |
+|----------|---------|
+| Images | PNG, JPEG, GIF, WebP, BMP |
+| Audio | MP3, OGG (Vorbis/Opus), FLAC, WAV |
+| Video | MP4/M4A/M4V, MKV/WebM, AVI |
+| Documents | PDF, ZIP (incl. DOCX/XLSX) |
+
+**Bot display for binary payloads:**
+```
+📎 [home/camera/snapshot] JPG (45230 bytes) → bridge forwarded
+📎 [music/now_playing] MP3 (3145728 bytes) → bridge forwarded
+```
+
+**Node-RED setup for binary transfer:**
+- Use `http-request` node with **Return: a binary buffer** (`ret=bin`)
+- Or use `file-in` node to read a local file as Buffer
+- Publish via `mqtt out` node — DinoX receives raw bytes and detects the format
+
+### 10.6 Stream URL Extraction
+
+When the MQTT payload contains a playlist (M3U, PLS) or a direct stream URL,
+DinoX extracts the stream URL and forwards it as a clickable link.
+
+**Detected playlist formats:**
+
+| Format | Detection |
+|--------|-----------|
+| M3U | Payload starts with `#EXTM3U` or `#EXTINF` |
+| PLS | Payload starts with `[playlist]`, URL from `File1=` |
+| Direct URL | URL ending in `.m3u`, `.m3u8`, `.pls`, `.xspf`, or containing `/stream`/`/live` |
+
+**Bot display for streams:**
+```
+📻 [radio/station1] Stream: https://edge85.streamonkey.net/antthue-90er/stream/mp3
+```
+
+**Node-RED setup for stream URLs:**
+- Use `http-request` node pointed at an M3U/PLS URL with **Return: a UTF-8 string** (`ret=txt`)
+- Publish the response via `mqtt out` node
+- DinoX extracts the stream URL from the playlist content
+
+### 10.7 HTML Payload Protection
+
+When a payload looks like an HTML page (detected by `<!doctype html`, `<html`,
+`<head`, or `<meta` markers in the first 512 bytes), DinoX:
+
+- **Bridge:** Skips forwarding (HTML pages contain hundreds of broken URL fragments)
+- **Bot:** Shows `🌐 [topic] HTML (12345 bytes)` summary instead of raw HTML
+
+This protects against garbage data from Node-RED `http-request` nodes configured
+with `ret=txt` that fetch entire web pages.
+
+### 10.8 Payload Size Limits
+
+| Context | Limit | Behavior |
+|---------|-------|----------|
+| Bridge forwarding | 64 KB | Payloads > 64 KB silently skipped with log warning |
+| Database storage | 8 KB | Payloads truncated, original byte count preserved |
+| Bot display | 4 KB | Text truncated with `… (N bytes truncated)` indicator |
 
 ### 7.7 Database
 
@@ -742,4 +818,7 @@ SQLCipher. The encryption key is shared across all DinoX databases.
 | HA does not show DinoX device | Enable discovery (`/mqtt discovery on`), verify prefix matches HA config |
 | Alerts not triggering | Check `/mqtt alerts` for rule status. Alerts may be paused (`/mqtt resume`). Check cooldown period. |
 | Freetext not working | Enable freetext publish in the Publish page. Configure publish and response topics. |
-| High disk usage | Run `/mqtt purge` or wait for automatic cleanup (every 6 hours) |
+| High disk usage | Run `/mqtt purge` or wait for automatic cleanup (every 6 hours) || Binary files not forwarded | Ensure bridge rule matches the topic. File must be ≤ 64 KB. Check HTTP Upload is enabled on XMPP server. |
+| Stream URL not detected | Payload must be valid M3U/PLS content or a URL ending in `.m3u`/`.pls`/`.xspf`. Use `ret=txt` in Node-RED. |
+| HTML shown as garbage | Should not happen since v1.7.0 -- HTML is auto-detected and shown as summary. Report if it occurs. |
+| "A" at end of stream URL | Node-RED artifact. Use `ret=txt` (not `ret=bin`) for playlist/text payloads. DinoX strips whitespace. |

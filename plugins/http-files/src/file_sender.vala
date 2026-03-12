@@ -287,6 +287,14 @@ public class HttpFileSender : FileSender, Object {
 
         yield ensure_soup_context();
 
+        /* Validate upload URL before passing to libsoup — Soup.Message()
+         * returns null for unparseable URIs, causing a crash. */
+        try {
+            Uri.parse(file_send_data.url_up, UriFlags.NONE);
+        } catch (GLib.Error e) {
+            throw new FileSendError.UPLOAD_FAILED("Invalid upload URL: %s".printf(e.message));
+        }
+
         var put_message = new Soup.Message("PUT", file_send_data.url_up);
         
         InputStream upload_stream = file_transfer.input_stream;

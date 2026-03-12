@@ -129,9 +129,176 @@ public class MqttBridgeManager : Object {
         public string source;
         public string target_jid;
         public string body;
+        public string? format;   /* OOB URL if file transfer, null for text-only */
     }
     private ArrayList<PendingMsg?> pending_messages = new ArrayList<PendingMsg?>();
     private const int MAX_PENDING = 50;  /* prevent unbounded growth */
+    private const int MAX_BRIDGE_PAYLOAD = 65536;  /* 64 KB — XMPP stanza limit */
+
+    /**
+     * Extract the first http(s):// URL from a string.
+     * Returns null if no URL is found.
+     */
+    private static string? extract_url(string text) {
+        string trimmed = text.strip();
+        /* Fast path: payload is just a URL */
+        if (trimmed.has_prefix("https://") || trimmed.has_prefix("http://")) {
+            /* Find end of URL (first whitespace/control char or end of string) */
+            int end = trimmed.length;
+            for (int i = 0; i < trimmed.length; i++) {
+                unichar c = trimmed[i];
+                if (c <= 0x20 || c == 0x7F) { end = i; break; }
+            }
+            string url = trimmed.substring(0, end);
+            return validate_url(url);
+        }
+        /* Slower path: search for URL anywhere in text */
+        int idx = trimmed.index_of("https://");
+        if (idx < 0) idx = trimmed.index_of("http://");
+        if (idx < 0) return null;
+        string from_url = trimmed.substring(idx);
+        int end = from_url.length;
+        for (int i = 0; i < from_url.length; i++) {
+            unichar c = from_url[i];
+            if (c <= 0x20 || c == 0x7F) { end = i; break; }
+        }
+        string url = from_url.substring(0, end);
+        return validate_url(url);
+    }
+
+    /** Verify URL is parseable by GLib.Uri (same check libsoup uses). */
+    private static string? validate_url(string url) {
+        try {
+            Uri.parse(url, UriFlags.NONE);
+            return url;
+        } catch (Error e) {
+            debug("MQTT Bridge: Invalid URL rejected: %s", url);
+            return null;
+        }
+    }
+
+    /**
+     * Check if text looks like a local file path and the file exists.
+     * Returns the path if it's a readable local file, null otherwise.
+     *
+     * SECURITY: Only allows paths under /tmp/ matching the dinox-mqtt-*
+     * naming pattern to prevent arbitrary file exfiltration via MQTT.
+     */
+    private static string? extract_local_path(string text) {
+        string trimmed = text.strip();
+        if (trimmed == "") return null;
+        /* Must be an absolute path */
+        if (!trimmed.has_prefix("/")) return null;
+        /* Reject paths with suspicious characters (path traversal etc.) */
+        if (trimmed.contains("..")) return null;
+        /* Find end of path (first whitespace or end of string) */
+        int space = trimmed.index_of(" ");
+        int newline = trimmed.index_of("\n");
+        int end = trimmed.length;
+        if (space >= 0 && space < end) end = space;
+        if (newline >= 0 && newline < end) end = newline;
+        string path = trimmed.substring(0, end);
+        /* Whitelist: only allow MQTT temp files created by save_binary_payload() */
+        string tmp_dir = GLib.Environment.get_tmp_dir();
+        string basename = GLib.Path.get_basename(path);
+        if (GLib.Path.get_dirname(path) != tmp_dir || !basename.has_prefix("dinox-mqtt-")) {
+            return null;
+        }
+        /* Check if the file actually exists and is readable */
+        if (GLib.FileUtils.test(path, GLib.FileTest.EXISTS | GLib.FileTest.IS_REGULAR)) {
+            return path;
+        }
+        return null;
+    }
+
+    /**
+     * Send a local file via HTTP Upload (XEP-0363) to an XMPP contact.
+     * Uses DinoX's FileManager to upload and send with OOB element.
+     */
+    private void send_local_file(string source, string target_jid_str,
+                                  string file_path) {
+        try {
+            Jid target_jid = new Jid(target_jid_str);
+
+            Account? account = find_account(source);
+            if (account == null) {
+                if (pending_messages.size < MAX_PENDING) {
+                    PendingMsg pm = PendingMsg();
+                    pm.source = source;
+                    pm.target_jid = target_jid_str;
+                    pm.body = file_path;
+                    pm.format = "local_file";
+                    pending_messages.add(pm);
+                    debug("MQTT Bridge: Queued local file for %s (no XMPP account)",
+                            target_jid_str);
+                }
+                return;
+            }
+
+            deliver_local_file(account, target_jid, file_path, source);
+
+        } catch (InvalidJidError e) {
+            warning("MQTT Bridge: Invalid JID '%s': %s",
+                    target_jid_str, e.message);
+        }
+    }
+
+    /**
+     * Upload a local file via FileManager.send_file() and deliver to XMPP contact.
+     */
+    private void deliver_local_file(Account account, Jid target_jid,
+                                     string file_path, string source) {
+        var muc_manager = plugin.app.stream_interactor.get_module<MucManager>(
+            MucManager.IDENTITY);
+        Conversation.Type conv_type = Conversation.Type.CHAT;
+        if (muc_manager != null && muc_manager.is_groupchat(target_jid, account)) {
+            conv_type = Conversation.Type.GROUPCHAT;
+        }
+
+        var cm = plugin.app.stream_interactor.get_module<ConversationManager>(
+            ConversationManager.IDENTITY);
+        Conversation conv = cm.create_conversation(
+            target_jid, account, conv_type);
+
+        var fm = plugin.app.stream_interactor.get_module<FileManager>(
+            FileManager.IDENTITY);
+
+        /* Verify the XMPP stream is ready before attempting HTTP Upload.
+         * If the stream isn't connected yet, the upload would crash. */
+        var stream = plugin.app.stream_interactor.get_stream(account);
+        if (stream == null) {
+            warning("MQTT Bridge: XMPP stream not ready for %s — re-queuing file '%s'",
+                    account.bare_jid.to_string(), file_path);
+            if (pending_messages.size < MAX_PENDING) {
+                PendingMsg pm = PendingMsg();
+                pm.source = source;
+                pm.target_jid = target_jid.to_string();
+                pm.body = file_path;
+                pm.format = "local_file";
+                pending_messages.add(pm);
+            }
+            return;
+        }
+
+        debug("MQTT Bridge: deliver_local_file — uploading '%s' for %s (encryption=%d)",
+              file_path, target_jid.to_string(), conv.encryption);
+
+        string path_copy = file_path;
+        string source_copy = source;
+        Conversation conv_ref = conv;
+        Jid jid_copy = target_jid;
+        Idle.add(() => {
+            GLib.File file = GLib.File.new_for_path(path_copy);
+            fm.send_file.begin(file, conv_ref, null, (obj, res) => {
+                fm.send_file.end(res);
+                debug("MQTT Bridge: Local file sent [%s] → %s: %s",
+                        source_copy, jid_copy.to_string(), path_copy);
+                /* Clean up temp file after upload */
+                GLib.FileUtils.unlink(path_copy);
+            });
+            return false;
+        });
+    }
 
     /* ── Construction ────────────────────────────────────────────── */
 
@@ -241,6 +408,15 @@ public class MqttBridgeManager : Object {
         bool forwarded = false;
         debug("MQTT Bridge: evaluate() called — source='%s', topic='%s', rules=%d",
               source, topic, rules.size);
+
+        /* Guard: reject payloads that exceed the XMPP stanza size limit.
+         * Forwarding 200KB+ text as a chat message would break servers. */
+        if (payload.length > MAX_BRIDGE_PAYLOAD) {
+            debug("MQTT Bridge: Payload too large (%d bytes > %d limit) — skipping",
+                  payload.length, MAX_BRIDGE_PAYLOAD);
+            return false;
+        }
+
         foreach (var rule in rules) {
             if (!rule.enabled) {
                 debug("MQTT Bridge:   rule '%s' skipped (disabled)", rule.topic);
@@ -275,11 +451,80 @@ public class MqttBridgeManager : Object {
             }
             last_send_times[rule.id] = now_ms;
 
-            /* Format and send */
-            string body = rule.format_message(topic, payload);
-            debug("MQTT Bridge:   rule '%s' MATCHED — sending to JID='%s' via account='%s'",
-                  rule.topic, rule.target_jid, rule.send_account);
-            send_xmpp_message(rule.send_account, rule.target_jid, body);
+            /* Format the body and detect file URLs or local paths */
+            string body;
+            string? oob_url = null;
+            string? local_file = null;
+
+            if (rule.format == "file") {
+                /* File-only mode: body = raw URL or path */
+                body = payload.strip();
+                /* Check if it's a local file path */
+                local_file = extract_local_path(body);
+                if (local_file == null) {
+                    oob_url = body;
+                }
+            } else {
+                body = rule.format_message(topic, payload);
+                /* Auto-detect URL in payload for all formats */
+                oob_url = extract_url(payload);
+                /* Also check for local file paths */
+                if (oob_url == null) {
+                    local_file = extract_local_path(payload.strip());
+                }
+            }
+
+            /* Validate OOB URL — only http(s):// */
+            if (oob_url != null && !oob_url.has_prefix("https://") && !oob_url.has_prefix("http://")) {
+                oob_url = null;
+            }
+
+            /* Local file: upload via HTTP Upload + send OOB */
+            if (local_file != null) {
+                debug("MQTT Bridge:   rule '%s' MATCHED — sending local file '%s' to JID='%s' via account='%s'",
+                      rule.topic, local_file, rule.target_jid, rule.send_account);
+                send_local_file(rule.send_account, rule.target_jid, local_file);
+                forwarded = true;
+                continue;
+            }
+
+            debug("MQTT Bridge:   rule '%s' MATCHED — sending to JID='%s' via account='%s' (oob=%s)",
+                  rule.topic, rule.target_jid, rule.send_account,
+                  oob_url != null ? "yes" : "no");
+            send_xmpp_message(rule.send_account, rule.target_jid, body, oob_url);
+            forwarded = true;
+        }
+        return forwarded;
+    }
+
+    /**
+     * Evaluate bridge rules for a binary MQTT payload that was saved
+     * to a temp file.  Matches rules like evaluate(), but sends the
+     * local file via HTTP Upload instead of a text message.
+     *
+     * @param source     MQTT connection label
+     * @param topic      MQTT topic
+     * @param file_path  Path to the temp file with the binary data
+     * @return true if at least one rule matched
+     */
+    public bool evaluate_binary(string source, string topic, string file_path) {
+        bool forwarded = false;
+        foreach (var rule in rules) {
+            if (!rule.enabled) continue;
+            if (rule.client_label != source) continue;
+            if (!rule.matches_topic(topic)) continue;
+            if (rule.send_account == null || rule.send_account.strip() == "") continue;
+
+            /* Rate limiting */
+            int64 now_ms = GLib.get_real_time() / 1000;
+            if (last_send_times.has_key(rule.id)) {
+                if (now_ms - last_send_times[rule.id] < MIN_SEND_INTERVAL_MS) continue;
+            }
+            last_send_times[rule.id] = now_ms;
+
+            debug("MQTT Bridge:   rule '%s' MATCHED (binary) — uploading file '%s' to JID='%s'",
+                  rule.topic, file_path, rule.target_jid);
+            send_local_file(rule.send_account, rule.target_jid, file_path);
             forwarded = true;
         }
         return forwarded;
@@ -288,9 +533,11 @@ public class MqttBridgeManager : Object {
     /**
      * Send a chat message to an XMPP contact.
      * If no XMPP account is connected, queues the message for later delivery.
+     * If oob_url is set, an Out-of-Band Data element (XEP-0066) is attached
+     * so XMPP clients render it as a file/image preview.
      */
     private void send_xmpp_message(string source, string target_jid_str,
-                                    string body) {
+                                    string body, string? oob_url = null) {
         try {
             Jid target_jid = new Jid(target_jid_str);
 
@@ -303,6 +550,7 @@ public class MqttBridgeManager : Object {
                     pm.source = source;
                     pm.target_jid = target_jid_str;
                     pm.body = body;
+                    pm.format = oob_url;  /* reuse format field for OOB URL */
                     pending_messages.add(pm);
                     debug("MQTT Bridge: Queued message for %s (no XMPP account connected, %d pending)",
                             target_jid_str, pending_messages.size);
@@ -313,7 +561,7 @@ public class MqttBridgeManager : Object {
                 return;
             }
 
-            deliver_message(account, target_jid, body, source);
+            deliver_message(account, target_jid, body, source, oob_url);
 
         } catch (InvalidJidError e) {
             warning("MQTT Bridge: Invalid JID '%s': %s",
@@ -323,9 +571,12 @@ public class MqttBridgeManager : Object {
 
     /**
      * Actually deliver a bridge message via XMPP.
+     * If oob_url is set, attaches an OOB element (XEP-0066) so XMPP
+     * clients render the URL as an inline file/image preview.
      */
     private void deliver_message(Account account, Jid target_jid,
-                                  string body, string source) {
+                                  string body, string source,
+                                  string? oob_url = null) {
         /* Determine conversation type: MUC (groupchat) or regular chat.
          * If the target JID is a known MUC, send as GROUPCHAT so the
          * message goes to the room.  Otherwise send as a 1:1 CHAT. */
@@ -356,17 +607,33 @@ public class MqttBridgeManager : Object {
             ContentItemStore.IDENTITY);
 
         string body_copy = body;
+        string? url_copy = oob_url;
         Conversation conv_ref = conv;
         Idle.add(() => {
             Message out_msg = mp.create_out_message(body_copy, conv_ref);
+
+            /* If we have an OOB URL, hook into stanza building to attach
+             * the Out-of-Band Data element (XEP-0066).  This makes XMPP
+             * clients render the URL as an inline file/image preview. */
+            if (url_copy != null) {
+                ulong signal_id = 0;
+                signal_id = mp.build_message_stanza.connect((msg, stanza, c) => {
+                    if (msg.id == out_msg.id) {
+                        Xmpp.Xep.OutOfBandData.add_url_to_message(stanza, url_copy);
+                        mp.disconnect(signal_id);
+                    }
+                });
+            }
+
             cis.insert_message(out_msg, conv_ref);
             mp.send_xmpp_message(out_msg, conv_ref);
             mp.message_sent(out_msg, conv_ref);
             return false;
         });
 
-        debug("MQTT Bridge: Forwarded [%s] → %s (%d chars)",
-                source, target_jid.to_string(), body.length);
+        debug("MQTT Bridge: Forwarded [%s] → %s (%d chars, oob=%s)",
+                source, target_jid.to_string(), body.length,
+                oob_url != null ? oob_url : "none");
     }
 
     /**
@@ -384,7 +651,11 @@ public class MqttBridgeManager : Object {
                 Account? acct = find_account(pm.source);
                 if (acct != null) {
                     Jid jid = new Jid(pm.target_jid);
-                    deliver_message(acct, jid, pm.body, pm.source);
+                    if (pm.format == "local_file") {
+                        deliver_local_file(acct, jid, pm.body, pm.source);
+                    } else {
+                        deliver_message(acct, jid, pm.body, pm.source, pm.format);
+                    }
                     delivered++;
                 } else {
                     still_pending.add(pm);

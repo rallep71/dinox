@@ -77,6 +77,27 @@ namespace Dino.Ui {
             data.url = url;
 
             try {
+                /* Validate URL before passing to libsoup — Soup.Message()
+                 * returns null for unparseable URIs, causing a crash.
+                 * GLib.Uri.parse is more permissive than libsoup, so also
+                 * reject URLs containing characters unsafe for HTTP. */
+                if (url.contains("\"") || url.contains("<") || url.contains(">")) {
+                    data.failed = true;
+                    cache[url] = data;
+                    in_flight.remove(url);
+                    preview_ready(url, data);
+                    return;
+                }
+                try {
+                    Uri.parse(url, UriFlags.NONE);
+                } catch (Error e) {
+                    data.failed = true;
+                    cache[url] = data;
+                    in_flight.remove(url);
+                    preview_ready(url, data);
+                    return;
+                }
+
                 var msg = new Soup.Message("GET", url);
 
                 // Only accept HTML content
@@ -145,6 +166,15 @@ namespace Dino.Ui {
 
         private async void fetch_image(UrlPreviewData data) {
             try {
+                /* Validate image URL — Soup.Message() returns null for
+                 * unparseable URIs, crashing on header access. */
+                try {
+                    Uri.parse(data.image_url, UriFlags.NONE);
+                } catch (Error e) {
+                    debug("URL preview: invalid image_url '%s': %s", data.image_url, e.message);
+                    return;
+                }
+
                 var msg = new Soup.Message("GET", data.image_url);
                 Bytes bytes = yield session.send_and_read_async(msg, Priority.DEFAULT, null);
 
@@ -573,6 +603,18 @@ namespace Dino.Ui {
             url_regex.match(body, 0, out match);
             while (match.matches()) {
                 string url = match.fetch(0);
+                // Strip trailing characters that are never valid URL endings
+                // (HTML artifacts, quotes, angle brackets, etc.)
+                while (url.length > 0) {
+                    unichar last = url.get_char(url.char_count() > 1
+                        ? url.index_of_nth_char(url.char_count() - 1) : 0);
+                    if (last == '"' || last == '\'' || last == '>' || last == '<'
+                        || last == ';' || last == ',' || last == '.') {
+                        url = url.substring(0, url.index_of_nth_char(url.char_count() - 1));
+                    } else {
+                        break;
+                    }
+                }
                 // Only preview http:// and https:// URLs
                 if (url.has_prefix("http://") || url.has_prefix("https://")) {
                     // Skip aesgcm (OMEMO file transfer)

@@ -809,11 +809,12 @@ public class MqttBotManagerDialog : Adw.Dialog {
         bridge_alias_entry.text = "";
         add_group.add(bridge_alias_entry);
 
-        /* Format dropdown: full, payload, short */
+        /* Format dropdown: full, payload, short, file */
         var format_model = new Gtk.StringList(null);
         format_model.append("full");
         format_model.append("payload");
         format_model.append("short");
+        format_model.append("file (URL)");
         bridge_format_dropdown = new DropDown(format_model, null);
         bridge_format_dropdown.selected = 0;
         var format_row = new Adw.ActionRow();
@@ -1287,7 +1288,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
         string? alias_val = (alias_text != "") ? alias_text : null;
 
         /* Map dropdown index to format string */
-        string[] formats = { "full", "payload", "short" };
+        string[] formats = { "full", "payload", "short", "file" };
         uint sel = bridge_format_dropdown.selected;
         string format = (sel < formats.length) ? formats[sel] : "full";
 
@@ -1493,7 +1494,7 @@ public class MqttBotManagerDialog : Adw.Dialog {
         bridge_alias_entry.text = rule.alias ?? "";
 
         /* Select the correct format in the dropdown */
-        string[] formats = { "full", "payload", "short" };
+        string[] formats = { "full", "payload", "short", "file" };
         uint idx = 0;
         for (uint i = 0; i < formats.length; i++) {
             if (formats[i] == (rule.format ?? "full")) { idx = i; break; }

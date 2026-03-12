@@ -435,6 +435,13 @@ public class Stickers : StreamInteractionModule, Object {
 
     private async void download_to_file(string url, string dest_path) throws Error {
         yield ensure_http_context();
+        /* Validate URL before passing to libsoup — Soup.Message()
+         * returns null for unparseable URIs, causing a crash. */
+        try {
+            Uri.parse(url, UriFlags.NONE);
+        } catch (Error e) {
+            throw new StickerError.DOWNLOAD_FAILED("Invalid URL: %s".printf(e.message));
+        }
         var msg = new Soup.Message("GET", url);
         var bytes = yield http.send_and_read_async(msg, GLib.Priority.LOW, null);
         if (msg.status_code < 200 || msg.status_code >= 300) {
@@ -666,6 +673,12 @@ public class Stickers : StreamInteractionModule, Object {
 
     private async void upload_file_to_slot(string url_put, Gee.Map<string, string>? headers, File file, string? content_type, int64 size, string cert_domain) throws Error {
         yield ensure_http_context();
+        /* Validate URL before passing to libsoup */
+        try {
+            Uri.parse(url_put, UriFlags.NONE);
+        } catch (Error e) {
+            throw new IOError.INVALID_ARGUMENT("Invalid upload URL: %s".printf(e.message));
+        }
         var put_message = new Soup.Message("PUT", url_put);
 #if SOUP_3_0
         put_message.accept_certificate.connect((peer_cert, errors) => { return ConnectionManager.on_invalid_certificate(cert_domain, peer_cert, errors, db); });

@@ -376,11 +376,22 @@ public class MqttDatabase : Qlite.Database {
         long now = (long) MqttUtils.now_unix();
         int payload_len = payload_str != null ? payload_str.length : 0;
 
+        /* Truncate very large payloads to prevent DB bloat.
+         * Keep original length in payload_bytes for diagnostics.
+         * Use char_count / index_of_nth_char to avoid splitting multi-byte UTF-8. */
+        string? stored_payload = payload_str;
+        if (stored_payload != null && stored_payload.length > 8192) {
+            long char_count = stored_payload.substring(0, 8192).char_count();
+            long safe_offset = stored_payload.index_of_nth_char(char_count);
+            stored_payload = stored_payload.substring(0, (long) safe_offset)
+                + "\n… (truncated, %d bytes total)".printf(payload_len);
+        }
+
         /* Insert into messages */
         messages.insert()
             .value(messages.connection_id, conn_id)
             .value(messages.topic, topic_name)
-            .value(messages.payload, payload_str)
+            .value(messages.payload, stored_payload)
             .value(messages.payload_bytes, payload_len)
             .value(messages.qos, qos_val)
             .value(messages.retained, is_retained)

@@ -6,12 +6,18 @@ These flows connect [Node-RED](https://nodered.org/) to the DinoX MQTT bot via a
 DinoX supports **any MQTT 3.1.1/5.0 broker** — both local (Mosquitto, EMQX, etc.) and
 XMPP-integrated (ejabberd `mod_mqtt`).
 
+Since **v1.7.0**, the MQTT bridge can also handle **binary files** (images, audio, video,
+PDF, ZIP), **stream URLs** (M3U/PLS playlists, Icecast links), and automatically filters
+**HTML page payloads** from `http-request` nodes.
+
 ## MQTT Topics
 
 | Topic | Direction | Description |
 |-------|-----------|-------------|
-| `dinox/chat` | DinoX → Node-RED | Incoming chat messages |
-| `dinox/response` | Node-RED → DinoX | Replies to the chat |
+| `dinox/chat` | DinoX → Node-RED | Incoming freetext chat messages |
+| `dinox/response` | Node-RED → DinoX | Replies to the chat (text) |
+| `standalone/dinox` | DinoX → Node-RED | Freetext from standalone connection |
+| `standalone/response` | Node-RED → DinoX | Responses (text, binary, stream URLs) |
 
 ---
 
@@ -174,8 +180,10 @@ Bidirectional bot — receives messages on `dinox/chat`, replies on `dinox/respo
 
 ![DinoX Bot Flow Detail](dinoxflow1.png)
 
+**Flow JSON:** [nodered_dinox_flow.json](nodered_dinox_flow.json) (import via Node-RED Menu → Import → select file)
+
 <details>
-<summary><strong>Flow JSON for import (click to expand)</strong></summary>
+<summary><strong>Flow JSON inline (click to expand)</strong></summary>
 
 ```json
 [
@@ -412,8 +420,10 @@ enter your API key, station UUIDs, and thresholds.
 
 ![Tankerkoenig Flow](tankerkoenigflow.png)
 
+**Flow JSON:** [tankerkoenig_dinox.json](tankerkoenig_dinox.json) (import via Node-RED Menu → Import → select file)
+
 <details>
-<summary><strong>Flow JSON for import (click to expand)</strong></summary>
+<summary><strong>Flow JSON inline (click to expand)</strong></summary>
 
 ```json
 [
@@ -724,6 +734,330 @@ enter your API key, station UUIDs, and thresholds.
         "x": 380,
         "y": 300,
         "wires": []
+    }
+]
+```
+
+</details>
+
+---
+
+## Flow 3: MQTT Bridge Response — Binary, Audio & Stream
+
+Demonstrates the DinoX MQTT bridge receiving different payload types from Node-RED:
+**images** (web + local), **audio files** (OGG), and **audio stream URLs** (M3U playlist).
+
+All payloads are published to `standalone/response`. DinoX auto-detects the content
+type and forwards it via the MQTT-to-XMPP bridge.
+
+### Nodes Overview
+
+| Node | Type | Description |
+|------|------|-------------|
+| 📥 standalone/dinox | `mqtt in` | Receives freetext from DinoX standalone |
+| 📤 standalone/response | `mqtt out` | Sends responses back to DinoX |
+| Web Picture | `https-node` | Downloads a PNG image (`ret=bin`) and publishes as binary |
+| Local Picture | `file in` | Reads a local JPG file and publishes as binary |
+| Web Audio File | `http request` | Downloads an OGG audio file (`ret=bin`) and publishes as binary |
+| Web Audio Stream | `http request` | Fetches an M3U playlist (`ret=txt`) and publishes as text |
+
+### How DinoX Handles Each Payload
+
+| Payload | DinoX Detection | Bridge Action | Bot Display |
+|---------|-----------------|---------------|-------------|
+| PNG binary (web) | Magic bytes `89 50 4E 47` → `"png"` | Save temp file → HTTP Upload → OOB link | 📎 [topic] PNG (N bytes) → bridge forwarded |
+| JPG binary (local) | Magic bytes `FF D8 FF` → `"jpg"` | Save temp file → HTTP Upload → OOB link | 📎 [topic] JPG (N bytes) → bridge forwarded |
+| OGG binary (audio) | Magic bytes `4F 67 67 53` → `"ogg"` | Save temp file → HTTP Upload → OOB link | 📎 [topic] OGG (N bytes) → bridge forwarded |
+| M3U playlist (text) | `#EXTM3U` header detected | Extract stream URL → forward as text link | 📻 [topic] Stream: https://... |
+
+### Important Settings
+
+| Setting | Correct Value | Why |
+|---------|---------------|-----|
+| `http-request` → Return | **a binary buffer** (`ret=bin`) | For images, audio, video — preserves magic bytes |
+| `http-request` → Return | **a UTF-8 string** (`ret=txt`) | For M3U/PLS playlists — DinoX parses the text content |
+| `file in` → Encoding | **none** (default) | Reads raw bytes, not UTF-8 encoded |
+
+> **Node dependency:** The "Web Picture" node uses `node-red-contrib-https` (v2.0.0)
+> for HTTPS requests with binary response. Install via:
+> `cd ~/.node-red && npm install node-red-contrib-https`
+
+### DinoX Bridge Setup
+
+In the DinoX bot chat, create a bridge rule for the response topic:
+
+```
+/mqtt bridge standalone/response user@example.org
+```
+
+All payloads on `standalone/response` will then be forwarded to the XMPP contact,
+with binary files automatically uploaded and linked.
+
+### Payload Size Limits
+
+| Limit | Value | Behavior |
+|-------|-------|----------|
+| Bridge max payload | 64 KB | Payloads > 64 KB are skipped (logged as warning) |
+| HTTP Upload max | Server-dependent | ejabberd default: 10 MB; check your XMPP server config |
+
+For larger files (e.g. high-res images or long audio), consider hosting the file
+on a web server and sending just the URL via MQTT instead of the binary data.
+
+![MQTT Bridge Response Flow](mqttbridgeresponse.png)
+
+**Flow JSON:** [mqttbridgerespopnse.json](mqttbridgerespopnse.json) (import via Node-RED Menu → Import → select file)
+
+<details>
+<summary><strong>Flow JSON inline (click to expand)</strong></summary>
+
+```json
+[
+    {
+        "id": "a2d50ec5c8a19ac1",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "fdafc894bdba3e16",
+        "type": "mqtt out",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "📤 standalone/response",
+        "topic": "standalone/response",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "f19c10a1ed769b88",
+        "x": 1050,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "fd61f452b4a5dacb",
+        "type": "mqtt in",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "📥 standalone/dinox",
+        "topic": "standalone/dinox",
+        "qos": "1",
+        "datatype": "auto",
+        "broker": "f19c10a1ed769b88",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "21eb9f643ac5a207",
+        "type": "inject",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 370,
+        "y": 140,
+        "wires": [
+            [
+                "b09de9168bf40696"
+            ]
+        ]
+    },
+    {
+        "id": "b09de9168bf40696",
+        "type": "https-node",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "Web Picture",
+        "method": "GET",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "https://dinox.handwerker.jetzt/assets/volumcontolaudiocal.png",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 650,
+        "y": 140,
+        "wires": [
+            [
+                "fdafc894bdba3e16"
+            ]
+        ]
+    },
+    {
+        "id": "211b6900fea9a591",
+        "type": "file in",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "Local Picture",
+        "filename": "/home/pi/11.jpg",
+        "filenameType": "str",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 650,
+        "y": 200,
+        "wires": [
+            [
+                "fdafc894bdba3e16"
+            ]
+        ]
+    },
+    {
+        "id": "967378d5fdb81d9f",
+        "type": "inject",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 370,
+        "y": 200,
+        "wires": [
+            [
+                "211b6900fea9a591"
+            ]
+        ]
+    },
+    {
+        "id": "cf7b92a26156c2d9",
+        "type": "http request",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "Web Audio File",
+        "method": "GET",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "https://www.w3docs.com/build/audios/jingle_bells.ogg",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 660,
+        "y": 280,
+        "wires": [
+            [
+                "fdafc894bdba3e16"
+            ]
+        ]
+    },
+    {
+        "id": "820b951470cb0b04",
+        "type": "inject",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 370,
+        "y": 280,
+        "wires": [
+            [
+                "cf7b92a26156c2d9"
+            ]
+        ]
+    },
+    {
+        "id": "f48be67d8fcbc29b",
+        "type": "http request",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "Web Audio Stream",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://frontend.streamonkey.net/antthue-90er/mp3-stream.m3u",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 650,
+        "y": 360,
+        "wires": [
+            [
+                "fdafc894bdba3e16"
+            ]
+        ]
+    },
+    {
+        "id": "0af3324f9f9dc1b5",
+        "type": "inject",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 370,
+        "y": 360,
+        "wires": [
+            [
+                "f48be67d8fcbc29b"
+            ]
+        ]
+    },
+    {
+        "id": "f19c10a1ed769b88",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "10.0.10.31",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "b15f52e7910087e2",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-https": "2.0.0"
+        }
     }
 ]
 ```

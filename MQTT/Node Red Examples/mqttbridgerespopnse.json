@@ -1,0 +1,249 @@
+[
+    {
+        "id": "a2d50ec5c8a19ac1",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "fdafc894bdba3e16",
+        "type": "mqtt out",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "📤 standalone/response",
+        "topic": "standalone/response",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "f19c10a1ed769b88",
+        "x": 1050,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "fd61f452b4a5dacb",
+        "type": "mqtt in",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "📥 standalone/dinox",
+        "topic": "standalone/dinox",
+        "qos": "1",
+        "datatype": "auto",
+        "broker": "f19c10a1ed769b88",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "21eb9f643ac5a207",
+        "type": "inject",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 370,
+        "y": 140,
+        "wires": [
+            [
+                "b09de9168bf40696"
+            ]
+        ]
+    },
+    {
+        "id": "b09de9168bf40696",
+        "type": "https-node",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "Web Picture",
+        "method": "GET",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "https://dinox.handwerker.jetzt/assets/volumcontolaudiocal.png",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 650,
+        "y": 140,
+        "wires": [
+            [
+                "fdafc894bdba3e16"
+            ]
+        ]
+    },
+    {
+        "id": "211b6900fea9a591",
+        "type": "file in",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "Local Picture",
+        "filename": "/home/pi/11.jpg",
+        "filenameType": "str",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 650,
+        "y": 200,
+        "wires": [
+            [
+                "fdafc894bdba3e16"
+            ]
+        ]
+    },
+    {
+        "id": "967378d5fdb81d9f",
+        "type": "inject",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 370,
+        "y": 200,
+        "wires": [
+            [
+                "211b6900fea9a591"
+            ]
+        ]
+    },
+    {
+        "id": "cf7b92a26156c2d9",
+        "type": "http request",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "Web Audio File",
+        "method": "GET",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "https://www.w3docs.com/build/audios/jingle_bells.ogg",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 660,
+        "y": 280,
+        "wires": [
+            [
+                "fdafc894bdba3e16"
+            ]
+        ]
+    },
+    {
+        "id": "820b951470cb0b04",
+        "type": "inject",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 370,
+        "y": 280,
+        "wires": [
+            [
+                "cf7b92a26156c2d9"
+            ]
+        ]
+    },
+    {
+        "id": "f48be67d8fcbc29b",
+        "type": "http request",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "Web Audio Stream",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://frontend.streamonkey.net/antthue-90er/mp3-stream.m3u",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 650,
+        "y": 360,
+        "wires": [
+            [
+                "fdafc894bdba3e16"
+            ]
+        ]
+    },
+    {
+        "id": "0af3324f9f9dc1b5",
+        "type": "inject",
+        "z": "a2d50ec5c8a19ac1",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 370,
+        "y": 360,
+        "wires": [
+            [
+                "f48be67d8fcbc29b"
+            ]
+        ]
+    },
+    {
+        "id": "f19c10a1ed769b88",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "10.0.10.31",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "b15f52e7910087e2",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-https": "2.0.0"
+        }
+    }
+]
