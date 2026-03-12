@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-12 08:28+0100\n"
-"PO-Revision-Date: 2026-02-28 13:19+0000\n"
+"PO-Revision-Date: 2026-03-13 05:28+0000\n"
 "Last-Translator: ButterflyOfFire <boffire@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Kabyle <https://hosted.weblate.org/projects/dinox/"
 "translations/kab/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.16.1-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:82
 msgid "Add MUC"
@@ -391,12 +391,11 @@ msgstr ""
 
 #: main/data/preferences_window/account_preferences_subpage.ui:241
 msgid "City"
-msgstr ""
+msgstr "Tiɣremt"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:246
-#, fuzzy
 msgid "Region"
-msgstr "Jerred deg %s"
+msgstr "Tamnaḍt"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:251
 msgid "Country"
@@ -6271,11 +6270,11 @@ msgstr ""
 #: plugins/tor-manager/src/settings_page.vala:357
 #: plugins/tor-manager/src/settings_page.vala:369
 msgid "Try Again"
-msgstr ""
+msgstr "Ɛreḍ tikkelt-nniḍen"
 
 #: plugins/tor-manager/src/settings_page.vala:368
 msgid "Failed"
-msgstr ""
+msgstr "Tuccḍa"
 
 #: plugins/tor-manager/src/settings_page.vala:368
 msgid "No bridges received. Maybe the solution was wrong?"
