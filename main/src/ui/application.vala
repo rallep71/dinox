@@ -123,6 +123,67 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         return Path.build_filename(Environment.get_user_data_dir(), "dinox_panic_marker");
     }
 
+    // Shared post-unlock / post-set-password initialization.
+    // Extracted to eliminate duplication between prompt_unlock() and prompt_set_password().
+    private void finish_post_unlock () {
+        create_ui_actions ();
+        core_ready = true;
+
+        apply_color_scheme (settings.color_scheme);
+        settings.notify["color-scheme"].connect (() => {
+            apply_color_scheme (settings.color_scheme);
+        });
+
+        NotificationEvents notification_events = stream_interactor.get_module<NotificationEvents> (NotificationEvents.IDENTITY);
+        get_notifications_dbus.begin ((_, res) => {
+            DBusNotifications? dbus_notifications = get_notifications_dbus.end (res);
+            if (dbus_notifications != null) {
+                FreeDesktopNotifier free_desktop_notifier = new FreeDesktopNotifier (stream_interactor, dbus_notifications);
+                notification_events.register_notification_provider.begin (free_desktop_notifier);
+            } else {
+                notification_events.register_notification_provider.begin (new GNotificationsNotifier (stream_interactor));
+            }
+        });
+
+        notification_events.notify_content_item.connect ((content_item, conversation) => {
+            var desktop_env = Environment.get_variable ("XDG_CURRENT_DESKTOP");
+            if (desktop_env == null || !desktop_env.down ().contains ("gnome")) {
+                if (this.active_window != null) {
+//                    this.active_window.urgency_hint = true;
+                }
+            }
+        });
+        stream_interactor.get_module<FileManager> (FileManager.IDENTITY).add_metadata_provider (new Util.AudioVideoFileMetadataProvider ());
+
+        systray_manager = new SystrayManager (this);
+
+        // Auto-show certificate warning dialog when TLS cert validation fails
+        stream_interactor.connection_manager.certificate_validation_required.connect ((account, peer_cert, errors) => {
+            Idle.add (() => {
+                var app = (Gtk.Application) GLib.Application.get_default ();
+                Gtk.Window? parent_window = app != null ? app.active_window : null;
+                if (parent_window != null) {
+                    var cert_dialog = new CertificateWarningDialog (
+                        account, peer_cert, errors,
+                        account.domainpart, stream_interactor
+                    );
+                    cert_dialog.present (parent_window);
+                }
+                return false;
+            });
+        });
+
+        if (unlock_parent != null) {
+            unlock_parent.close ();
+            unlock_parent = null;
+        }
+
+        if (pending_activate) {
+            pending_activate = false;
+            activate ();
+        }
+    }
+
     // Check if a panic wipe happened before this startup.
     // If a marker file exists, read the timestamp and configure HistorySync
     // to not fetch MAM messages from before the wipe.
@@ -545,66 +606,11 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                         warning ("Plugin loading error (non-fatal): %s", plugin_err.message);
                     }
                 }
-                create_ui_actions ();
-                core_ready = true;
-
-                apply_color_scheme (settings.color_scheme);
-                settings.notify["color-scheme"].connect( () => {
-                    apply_color_scheme (settings.color_scheme);
-                });
-
-                NotificationEvents notification_events = stream_interactor.get_module<NotificationEvents> (NotificationEvents.IDENTITY);
-                get_notifications_dbus.begin ((_, res) => {
-                    DBusNotifications? dbus_notifications = get_notifications_dbus.end (res);
-                    if (dbus_notifications != null) {
-                        FreeDesktopNotifier free_desktop_notifier = new FreeDesktopNotifier (stream_interactor, dbus_notifications);
-                        notification_events.register_notification_provider.begin (free_desktop_notifier);
-                    } else {
-                        notification_events.register_notification_provider.begin (new GNotificationsNotifier (stream_interactor));
-                    }
-                });
-
-                notification_events.notify_content_item.connect ((content_item, conversation) => {
-                    var desktop_env = Environment.get_variable ("XDG_CURRENT_DESKTOP");
-                    if (desktop_env == null || !desktop_env.down ().contains ("gnome")) {
-                        if (this.active_window != null) {
-//                            this.active_window.urgency_hint = true;
-                        }
-                    }
-                });
-                stream_interactor.get_module<FileManager> (FileManager.IDENTITY).add_metadata_provider (new Util.AudioVideoFileMetadataProvider ());
-
-                systray_manager = new SystrayManager (this);
-
-                // Auto-show certificate warning dialog when TLS cert validation fails
-                stream_interactor.connection_manager.certificate_validation_required.connect((account, peer_cert, errors) => {
-                    Idle.add(() => {
-                        var app = (Gtk.Application) GLib.Application.get_default();
-                        Gtk.Window? parent_window = app != null ? app.active_window : null;
-                        if (parent_window != null) {
-                            var cert_dialog = new CertificateWarningDialog(
-                                account, peer_cert, errors,
-                                account.domainpart, stream_interactor
-                            );
-                            cert_dialog.present(parent_window);
-                        }
-                        return false;
-                    });
-                });
-
-                if (unlock_parent != null) {
-                    unlock_parent.close ();
-                    unlock_parent = null;
-                }
+                finish_post_unlock ();
 
                 // Check if a panic wipe happened before this startup.
                 // If so, configure MAM sync to skip old messages.
                 check_panic_marker();
-
-                if (pending_activate) {
-                    pending_activate = false;
-                    activate ();
-                }
             } catch (Error e) {
                 unlock_failures++;
                 warning ("Unlock failed: %s", e.message);
@@ -664,61 +670,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                     if (plugin_loader != null) {
                         plugin_loader.load_all ();
                     }
-                    create_ui_actions ();
-                    core_ready = true;
-
-                    apply_color_scheme (settings.color_scheme);
-                    settings.notify["color-scheme"].connect( () => {
-                        apply_color_scheme (settings.color_scheme);
-                    });
-
-                    NotificationEvents notification_events = stream_interactor.get_module<NotificationEvents> (NotificationEvents.IDENTITY);
-                    get_notifications_dbus.begin ((_, res) => {
-                        DBusNotifications? dbus_notifications = get_notifications_dbus.end (res);
-                        if (dbus_notifications != null) {
-                            FreeDesktopNotifier free_desktop_notifier = new FreeDesktopNotifier (stream_interactor, dbus_notifications);
-                            notification_events.register_notification_provider.begin (free_desktop_notifier);
-                        } else {
-                            notification_events.register_notification_provider.begin (new GNotificationsNotifier (stream_interactor));
-                        }
-                    });
-
-                    notification_events.notify_content_item.connect ((content_item, conversation) => {
-                        var desktop_env = Environment.get_variable ("XDG_CURRENT_DESKTOP");
-                        if (desktop_env == null || !desktop_env.down ().contains ("gnome")) {
-                            if (this.active_window != null) {
-//                            this.active_window.urgency_hint = true;
-                            }
-                        }
-                    });
-                    stream_interactor.get_module<FileManager> (FileManager.IDENTITY).add_metadata_provider (new Util.AudioVideoFileMetadataProvider ());
-
-                    systray_manager = new SystrayManager (this);
-
-                    // Auto-show certificate warning dialog when TLS cert validation fails
-                    stream_interactor.connection_manager.certificate_validation_required.connect((account, peer_cert, errors) => {
-                        Idle.add(() => {
-                            var app = (Gtk.Application) GLib.Application.get_default();
-                            Gtk.Window? parent_window = app != null ? app.active_window : null;
-                            if (parent_window != null) {
-                                var cert_dialog = new CertificateWarningDialog(
-                                    account, peer_cert, errors,
-                                    account.domainpart, stream_interactor
-                                );
-                                cert_dialog.present(parent_window);
-                            }
-                            return false;
-                        });
-                    });
-
-                    if (unlock_parent != null) {
-                        unlock_parent.close ();
-                        unlock_parent = null;
-                    }
-                    if (pending_activate) {
-                        pending_activate = false;
-                        activate ();
-                    }
+                    finish_post_unlock ();
                     return;
                 } catch (Error e) {
                     unlock_failures++;

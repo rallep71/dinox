@@ -121,7 +121,7 @@ public class MqttBridgeManager : Object {
      * int64? is required because Vala generics need boxed (nullable) types. */
     private HashMap<string, int64?> last_send_times =
         new HashMap<string, int64?>();
-    private const int64 MIN_SEND_INTERVAL_SECS = 2;
+    private const int64 MIN_SEND_INTERVAL_MS = 200; /* 200ms — fast enough for request/response flows */
 
     /* Pending messages queued when no XMPP account is connected.
      * Drained automatically when an account connects (flush_pending). */
@@ -239,12 +239,25 @@ public class MqttBridgeManager : Object {
      */
     public bool evaluate(string source, string topic, string payload) {
         bool forwarded = false;
+        debug("MQTT Bridge: evaluate() called — source='%s', topic='%s', rules=%d",
+              source, topic, rules.size);
         foreach (var rule in rules) {
-            if (!rule.enabled) continue;
+            if (!rule.enabled) {
+                debug("MQTT Bridge:   rule '%s' skipped (disabled)", rule.topic);
+                continue;
+            }
             /* Only evaluate rules belonging to the MQTT client that
              * received this message — prevents cross-broker duplicates. */
-            if (rule.client_label != source) continue;
-            if (!rule.matches_topic(topic)) continue;
+            if (rule.client_label != source) {
+                debug("MQTT Bridge:   rule '%s' skipped (client_label='%s' != source='%s')",
+                      rule.topic, rule.client_label, source);
+                continue;
+            }
+            if (!rule.matches_topic(topic)) {
+                debug("MQTT Bridge:   rule '%s' skipped (topic mismatch: rule='%s' vs incoming='%s')",
+                      rule.topic, rule.topic, topic);
+                continue;
+            }
 
             /* Skip rules without a configured send account */
             if (rule.send_account == null || rule.send_account.strip() == "") {
@@ -252,17 +265,20 @@ public class MqttBridgeManager : Object {
                 continue;
             }
 
-            /* Rate limiting */
-            int64 now = MqttUtils.now_unix();
+            /* Rate limiting (millisecond granularity) */
+            int64 now_ms = GLib.get_real_time() / 1000; /* microseconds → milliseconds */
             if (last_send_times.has_key(rule.id)) {
-                if (now - last_send_times[rule.id] < MIN_SEND_INTERVAL_SECS) {
+                if (now_ms - last_send_times[rule.id] < MIN_SEND_INTERVAL_MS) {
+                    debug("MQTT Bridge:   rule '%s' skipped (rate limited)", rule.topic);
                     continue;
                 }
             }
-            last_send_times[rule.id] = now;
+            last_send_times[rule.id] = now_ms;
 
             /* Format and send */
             string body = rule.format_message(topic, payload);
+            debug("MQTT Bridge:   rule '%s' MATCHED — sending to JID='%s' via account='%s'",
+                  rule.topic, rule.target_jid, rule.send_account);
             send_xmpp_message(rule.send_account, rule.target_jid, body);
             forwarded = true;
         }
@@ -320,12 +336,18 @@ public class MqttBridgeManager : Object {
             conv_type = Conversation.Type.GROUPCHAT;
         }
 
-        /* Get the conversation (or create one) */
+        /* Get the conversation (or create one).
+         * Respect existing encryption: if the conversation already uses
+         * OMEMO, keep it — bridge messages should honour the user's
+         * per-conversation encryption choice.  Only force NONE when
+         * there is no prior conversation (fresh create). */
         var cm = plugin.app.stream_interactor.get_module<ConversationManager>(
             ConversationManager.IDENTITY);
         Conversation conv = cm.create_conversation(
             target_jid, account, conv_type);
-        conv.encryption = Encryption.NONE;
+
+        debug("MQTT Bridge: deliver_message — conv encryption=%d for %s (type=%d)",
+              conv.encryption, target_jid.to_string(), conv_type);
 
         /* Send via MessageProcessor — create + send on main loop */
         var mp = plugin.app.stream_interactor.get_module<MessageProcessor>(
@@ -499,7 +521,7 @@ public class MqttBridgeManager : Object {
         }
     }
 
-    private void save_rules() {
+    public void save_rules() {
         /* Phase 1c: Save to mqtt.db */
         if (plugin.mqtt_db != null) {
             /* Wrap DELETE ALL + INSERT ALL in a transaction for atomicity.
@@ -553,24 +575,14 @@ public class MqttBridgeManager : Object {
         set_db_setting(KEY_BRIDGES, json_str);
     }
 
-    /* ── DB helpers ──────────────────────────────────────────────── */
+    /* ── DB helpers (delegated to Plugin) ─────────────────────────── */
 
     private string? get_db_setting(string key) {
-        var row_opt = plugin.app.db.settings.select(
-                {plugin.app.db.settings.value})
-            .with(plugin.app.db.settings.key, "=", key)
-            .single()
-            .row();
-        if (row_opt.is_present())
-            return row_opt[plugin.app.db.settings.value];
-        return null;
+        return plugin.get_app_db_setting(key);
     }
 
     private void set_db_setting(string key, string val) {
-        plugin.app.db.settings.upsert()
-            .value(plugin.app.db.settings.key, key, true)
-            .value(plugin.app.db.settings.value, val)
-            .perform();
+        plugin.set_app_db_setting(key, val);
     }
 }
 

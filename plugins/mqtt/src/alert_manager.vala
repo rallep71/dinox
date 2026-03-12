@@ -920,24 +920,14 @@ public class MqttAlertManager : Object {
         set_db_setting(KEY_TOPIC_QOS, json_str);
     }
 
-    /* ── DB helpers ──────────────────────────────────────────────── */
+    /* ── DB helpers (delegated to Plugin) ─────────────────────────── */
 
     private string? get_db_setting(string key) {
-        var row_opt = plugin.app.db.settings.select(
-                {plugin.app.db.settings.value})
-            .with(plugin.app.db.settings.key, "=", key)
-            .single()
-            .row();
-        if (row_opt.is_present())
-            return row_opt[plugin.app.db.settings.value];
-        return null;
+        return plugin.get_app_db_setting(key);
     }
 
     private void set_db_setting(string key, string val) {
-        plugin.app.db.settings.upsert()
-            .value(plugin.app.db.settings.key, key, true)
-            .value(plugin.app.db.settings.value, val)
-            .perform();
+        plugin.set_app_db_setting(key, val);
     }
 }
 

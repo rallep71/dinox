@@ -1327,6 +1327,8 @@ public class Plugin : RootInterface, Object {
         client.on_message.connect((topic, payload, qos, retained) => {
             /* BUG-7 fix: validate UTF-8 — payload may contain arbitrary bytes */
             string payload_str = ((string) payload).make_valid();
+            debug("MQTT on_message: label='%s' topic='%s' payload='%.120s' qos=%d retained=%s",
+                  label, topic, payload_str, qos, retained ? "true" : "false");
             message_received(label, topic, payload_str);
 
             /* HA Discovery: route HA status messages and command topics */
@@ -1341,11 +1343,39 @@ public class Plugin : RootInterface, Object {
                 return;
             }
 
+            /* Skip bridge evaluation for self-published freetext messages.
+             * When the user types e.g. "e5" in the bot chat it is published
+             * to freetext_publish_topic. If the bridge rule uses a wildcard
+             * that matches that topic, the broker echoes the user's own
+             * command back and the bridge would forward it — which is wrong.
+             * Only the *response* on a different topic should be bridged. */
+            bool is_own_freetext = false;
+            {
+                MqttConnectionConfig? msg_cfg = null;
+                if (label == "standalone") {
+                    msg_cfg = standalone_config;
+                } else {
+                    var accounts = app.stream_interactor.get_accounts();
+                    foreach (var acct in accounts) {
+                        if (acct.bare_jid.to_string() == label) {
+                            msg_cfg = get_account_config(acct);
+                            break;
+                        }
+                    }
+                }
+                if (msg_cfg != null && msg_cfg.freetext_enabled
+                        && msg_cfg.freetext_publish_topic.strip() != ""
+                        && topic == msg_cfg.freetext_publish_topic.strip()) {
+                    is_own_freetext = true;
+                    debug("MQTT Bridge: skipping bridge for self-published freetext topic '%s'", topic);
+                }
+            }
+
             /* Phase 4: Evaluate bridge rules (MQTT → XMPP forwarding).
              * If a bridge rule matched, the message goes to the configured
              * MUC/chat — do NOT also show it in the bot conversation. */
             bool bridged = false;
-            if (bridge_manager != null) {
+            if (bridge_manager != null && !is_own_freetext) {
                 bridged = bridge_manager.evaluate(label, topic, payload_str);
             }
 
@@ -1382,9 +1412,10 @@ public class Plugin : RootInterface, Object {
                                        priority.to_string_key());
             }
 
-            /* Inject into bot conversation with priority —
-             * but NOT if the message was already forwarded by a bridge rule. */
-            if (!bridged && bot_conversation != null) {
+            /* Inject into bot conversation with priority.
+             * Always show in bot — even if also forwarded by a bridge rule,
+             * so the user sees the full MQTT traffic in the bot chat. */
+            if (bot_conversation != null) {
                 Conversation? conv = bot_conversation.get_conversation(label);
                 if (conv == null) conv = bot_conversation.get_any_conversation();
                 if (conv != null) {
@@ -1695,6 +1726,26 @@ public class Plugin : RootInterface, Object {
      */
     public HashMap<string, MqttDiscoveryManager> get_discovery_managers() {
         return discovery_managers;
+    }
+
+    /* ── App-DB settings helpers (shared by AlertManager, BridgeManager) ── */
+
+    public string? get_app_db_setting(string key) {
+        var row_opt = app.db.settings.select(
+                {app.db.settings.value})
+            .with(app.db.settings.key, "=", key)
+            .single()
+            .row();
+        if (row_opt.is_present())
+            return row_opt[app.db.settings.value];
+        return null;
+    }
+
+    public void set_app_db_setting(string key, string val) {
+        app.db.settings.upsert()
+            .value(app.db.settings.key, key, true)
+            .value(app.db.settings.value, val)
+            .perform();
     }
 
     /* ── Signals ───────────────────────────────────────────────────── */

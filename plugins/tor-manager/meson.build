@@ -11,6 +11,11 @@ plugin_sources = files(
 
 shared_module(plugin_name,
     plugin_sources,
+    c_args: [
+        '-DG_LOG_DOMAIN="tor-manager"',
+        '-DGETTEXT_PACKAGE="dino"',
+        '-DLOCALE_INSTALL_DIR="@0@"'.format(get_option('prefix') / get_option('localedir')),
+    ],
     dependencies: [
         dep_dino,
         dep_glib,

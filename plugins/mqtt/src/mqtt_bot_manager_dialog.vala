@@ -1428,7 +1428,28 @@ public class MqttBotManagerDialog : Adw.Dialog {
             if (rule.send_account != null && rule.send_account.strip() != "") {
                 subtitle += " | via %s".printf(rule.send_account);
             }
+            if (!rule.enabled) {
+                subtitle += " | " + _("disabled");
+            }
             row.subtitle = subtitle;
+
+            /* ── Enable/Disable switch ── */
+            var enable_switch = new Gtk.Switch();
+            enable_switch.valign = Align.CENTER;
+            enable_switch.active = rule.enabled;
+            enable_switch.tooltip_text = _("Enable/Disable");
+            string sid = rule.id;
+            enable_switch.notify["active"].connect(() => {
+                if (plugin.bridge_manager != null) {
+                    BridgeRule? r = plugin.bridge_manager.get_rule(sid);
+                    if (r != null) {
+                        r.enabled = enable_switch.active;
+                        plugin.bridge_manager.save_rules();
+                        populate_bridges_list();
+                    }
+                }
+            });
+            row.add_suffix(enable_switch);
 
             /* ── Edit button ── */
             var edit_btn = new Button.from_icon_name("document-edit-symbolic");

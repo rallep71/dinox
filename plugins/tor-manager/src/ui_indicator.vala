@@ -83,7 +83,7 @@ namespace Dino.Plugins.TorManager {
         private void create_button() {
             button = new ToggleButton();
             button.has_frame = false;
-            button.tooltip_text = "Tor Network";
+            button.tooltip_text = _("Tor Network");
             
             // Icon
             icon = new Image.from_icon_name("network-server-symbolic");
@@ -114,13 +114,13 @@ namespace Dino.Plugins.TorManager {
             box.set_size_request(250, -1);
             
             // Title
-            var title = new Label("Tor Network");
+            var title = new Label(_("Tor Network"));
             title.add_css_class("title-4");
             title.halign = Align.START;
             box.append(title);
             
             // Status Text
-            var status_label = new Label("Checking status...");
+            var status_label = new Label(_("Checking status..."));
             status_label.add_css_class("dim-label");
             status_label.halign = Align.START;
             status_label.wrap = true;
@@ -131,7 +131,7 @@ namespace Dino.Plugins.TorManager {
             var row_box = new Box(Orientation.HORIZONTAL, 12);
             row_box.margin_top = 6;
             
-            var row_label = new Label("Enable Tor");
+            var row_label = new Label(_("Enable Tor"));
             row_label.halign = Align.START;
             row_label.hexpand = true;
             row_box.append(row_label);
@@ -161,7 +161,7 @@ namespace Dino.Plugins.TorManager {
             box.append(row_box);
 
             // Settings Button
-            var settings_btn = new Button.with_label("Network Settings");
+            var settings_btn = new Button.with_label(_("Network Settings"));
             settings_btn.add_css_class("pill");
             settings_btn.clicked.connect(() => {
                 popover.popdown();
@@ -180,8 +180,8 @@ namespace Dino.Plugins.TorManager {
             manager.controller.bootstrap_status.connect((percent, summary) => {
                  // Update tooltip or status
                  // Simplified status: Just show percentage to avoid UI flickering
-                 status_label.label = "Bootstrapping: %d%%".printf(percent);
-                 button.tooltip_text = "Tor Starting: %d%%\n%s".printf(percent, summary);
+                 status_label.label = _("Bootstrapping: %d%%").printf(percent);
+                 button.tooltip_text = _("Tor Starting: %d%%\n%s").printf(percent, summary);
                  
                  if (percent == 100) {
                      update_icon(status_label, true);
@@ -199,23 +199,23 @@ namespace Dino.Plugins.TorManager {
                      icon.remove_css_class("warning");
                      icon.remove_css_class("error");
                      
-                     string mode = manager.use_bridges ? "Bridges" : "Direct";
+                     string mode = manager.use_bridges ? _("Bridges") : _("Direct");
                      if (manager.force_firewall_ports) {
                          mode += " + FW";
                      }
-                     button.tooltip_text = "Tor Connected (%s)".printf(mode);
-                     status_label.label = "Connected (%s)".printf(mode);
+                     button.tooltip_text = _("Tor Connected (%s)").printf(mode);
+                     status_label.label = _("Connected (%s)").printf(mode);
                 } else {
                      icon.add_css_class("warning"); 
                      icon.remove_css_class("success");
-                     button.tooltip_text = "Tor Starting...";
-                     if (!status_label.label.contains("Bootstrap")) status_label.label = "Starting...";
+                     button.tooltip_text = _("Tor Starting...");
+                     if (!status_label.label.contains("Bootstrap")) status_label.label = _("Starting...");
                 }
             } else {
                 icon.remove_css_class("success");
                 icon.remove_css_class("warning");
-                button.tooltip_text = "Tor Disabled";
-                status_label.label = "Tor is disabled";
+                button.tooltip_text = _("Tor Disabled");
+                status_label.label = _("Tor is disabled");
             }
         }
     }
