@@ -247,8 +247,10 @@ public class MqttCommandHandler : Object {
                 break;
         }
 
-        /* Append navigation footer (skip for help/clear/unknown default) */
-        if (response != "" && subcmd != "help" && subcmd != "?" && subcmd != "clear") {
+        /* Append navigation footer (skip for help/clear and for
+         * the default/unknown case which already has its own menu link) */
+        bool skip_nav = (subcmd == "help" || subcmd == "?" || subcmd == "clear");
+        if (!skip_nav && response != "" && nav_footer_applies(subcmd)) {
             response += nav_footer(subcmd, conversation);
         }
 
@@ -257,6 +259,26 @@ public class MqttCommandHandler : Object {
             bot.inject_bot_message(conversation, response);
         }
         return true;
+    }
+
+    /** Check whether a subcommand is a known command that gets nav links. */
+    private bool nav_footer_applies(string subcmd) {
+        switch (subcmd) {
+            case "status": case "subscribe": case "sub": case "unsubscribe": case "unsub":
+            case "publish": case "pub": case "topics": case "list":
+            case "alert": case "alerts": case "rmalert": case "delalert":
+            case "priority": case "prio": case "history": case "hist":
+            case "pause": case "resume": case "qos":
+            case "chart": case "sparkline": case "bridge": case "bridges":
+            case "rmbridge": case "delbridge": case "manager": case "manage":
+            case "dbstats": case "db": case "purge":
+            case "preset": case "presets": case "config": case "discovery":
+            case "reconnect": case "alias": case "aliases":
+            case "rmalias": case "delalias":
+                return true;
+            default:
+                return false;
+        }
     }
 
     /**
