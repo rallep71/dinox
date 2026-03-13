@@ -32,6 +32,12 @@
                                 <property name="title" translatable="yes">Keyboard shortcuts</property>
                             </object>
                         </child>
+                        <child>
+                            <object class="GtkShortcutsShortcut">
+                                <property name="accelerator">&lt;ctrl&gt;&lt;Shift&gt;&lt;Alt&gt;P</property>
+                                <property name="title" translatable="yes">Panic Wipe</property>
+                            </object>
+                        </child>
                     </object>
                 </child>
                 <child>
