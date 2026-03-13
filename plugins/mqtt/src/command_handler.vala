@@ -238,11 +238,12 @@ public class MqttCommandHandler : Object {
 
             case "help":
             case "?":
-                response = cmd_help();
+                response = cmd_help(arg1, conversation);
                 break;
 
             default:
-                response = _("Unknown command: /mqtt %s\n\nType /mqtt help for available commands.").printf(subcmd);
+                response = _("Unknown command: /mqtt %s").printf(subcmd) + "\n\n" +
+                           cmd_uri(conversation, "/mqtt help") + " — " + _("Show menu");
                 break;
         }
 
@@ -422,70 +423,174 @@ public class MqttCommandHandler : Object {
         return sb.str;
     }
 
-    private string cmd_help() {
-        return _("MQTT Bot Commands\n" +
-               "─────────────────\n" +
-               "/mqtt status              — Connection status\n" +
-               "/mqtt subscribe <topic>   — Subscribe to a topic\n" +
-               "/mqtt unsubscribe <topic> — Unsubscribe from a topic\n" +
-               "/mqtt publish <t> <msg>   — Publish to a topic\n" +
-               "/mqtt topics              — List subscriptions\n" +
-               "/mqtt alias <topic> <name>— Set topic display alias\n" +
-               "/mqtt aliases             — List all aliases\n" +
-               "/mqtt rmalias <topic>     — Remove alias\n" +
-               "/mqtt qos <topic> <0|1|2> — Set topic QoS level\n" +
-               "/mqtt chart <topic> [N]   — Sparkline chart\n" +
-               "/mqtt bridge <topic> <jid>— Forward to XMPP contact\n" +
-               "/mqtt bridges             — List bridge rules\n" +
-               "/mqtt rmbridge <number>   — Remove bridge rule\n" +
-               "/mqtt preset add <name> <topic> <payload>\n" +
-               "                          — Add publish preset\n" +
-               "/mqtt preset remove <N>   — Remove preset by number\n" +
-               "/mqtt preset <name>       — Execute preset\n" +
-               "/mqtt presets             — List all presets\n" +
-               "/mqtt config              — Show connection config\n" +
-               "/mqtt reconnect           — Force reconnect\n" +
-               "/mqtt manager             — Open Topic Manager\n" +
-               "/mqtt alert <topic> <op> <value>\n" +
-               "                          — Set threshold alert\n" +
-               "/mqtt alerts              — List alert rules\n" +
-               "/mqtt rmalert <number>    — Remove alert rule\n" +
-               "/mqtt priority <topic> <level>\n" +
-               "                          — Set topic priority\n" +
-               "/mqtt history [topic] [N] — Show topic history\n" +
-               "/mqtt dbstats             — Database statistics\n" +
-               "/mqtt purge               — Manual data cleanup\n" +
-               "/mqtt pause               — Pause messages\n" +
-               "/mqtt resume              — Resume messages\n" +
-               "/mqtt discovery [on|off]  — HA Discovery status/toggle\n" +
-               "/mqtt clear               — Clear chat history\n" +
-               "/mqtt help                — This help text\n" +
-               "\n" +
-               "Topic wildcards:\n" +
-               "  + = single level (home/+/temp)\n" +
-               "  # = all below   (home/sensors/#)\n" +
-               "\n" +
-               "Alert examples:\n" +
-               "  /mqtt alert home/temp > 30\n" +
-               "  /mqtt alert home/door == OPEN\n" +
-               "\n" +
-               "Bridge example:\n" +
-               "  /mqtt bridge home/alerts/# user@example.com\n" +
-               "\n" +
-               "Preset example:\n" +
-               "  /mqtt preset add LichtAN home/light/set ON\n" +
-               "  /mqtt preset LichtAN\n" +
-               "\n" +
-               "QoS levels: 0 (fire&forget), 1 (ack), 2 (exactly once)\n" +
-               "Priority levels: silent, normal, alert, critical\n" +
-               "\n" +
-               "Alias example:\n" +
-               "  /mqtt alias home/temp 🌡 Wohnzimmer\n" +
-               "\n" +
-               "HA Discovery:\n" +
-               "  /mqtt discovery         — Show discovery status\n" +
-               "  /mqtt discovery on      — Enable & publish\n" +
-               "  /mqtt discovery off     — Disable & remove");
+    /**
+     * Build an xmpp: URI that, when clicked, sends `command` into the
+     * current bot conversation (same pattern as Botmother menus).
+     */
+    private string cmd_uri(Conversation conversation, string command) {
+        string jid = conversation.counterpart.to_string();
+        string encoded = command.replace(" ", "%20");
+        return "xmpp:" + jid + "?message;body=" + encoded;
+    }
+
+    private string cmd_help(string section, Conversation conversation) {
+        switch (section.down()) {
+            case "topics":
+                return cmd_help_topics(conversation);
+            case "alerts":
+                return cmd_help_alerts(conversation);
+            case "bridges":
+                return cmd_help_bridges(conversation);
+            case "presets":
+                return cmd_help_presets(conversation);
+            case "tools":
+                return cmd_help_tools(conversation);
+            case "discovery":
+            case "ha":
+                return cmd_help_discovery(conversation);
+            default:
+                return cmd_help_main(conversation);
+        }
+    }
+
+    private string cmd_help_main(Conversation conversation) {
+        var sb = new StringBuilder();
+        sb.append(_("MQTT Bot — Main Menu") + "\n");
+        sb.append("─────────────────────\n\n");
+
+        sb.append(cmd_uri(conversation, "/mqtt status") + " — " + _("Connection & broker info") + "\n\n");
+
+        sb.append("📋 " + _("Categories:") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt help topics") + " — " + _("Subscribe, Publish, Aliases, QoS") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt help alerts") + " — " + _("Threshold alerts & priority") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt help bridges") + " — " + _("XMPP forwarding rules") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt help presets") + " — " + _("Publish presets (quick actions)") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt help discovery") + " — " + _("Home Assistant Discovery") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt help tools") + " — " + _("History, Charts, Database, Manager") + "\n\n");
+
+        sb.append("⚡ " + _("Quick Actions:") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt topics") + " — " + _("List subscriptions") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt alerts") + " — " + _("List alerts") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt presets") + " — " + _("List presets") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt pause") + " / " + cmd_uri(conversation, "/mqtt resume") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt config") + " — " + _("Show config") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt reconnect") + " — " + _("Force reconnect") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt clear") + " — " + _("Clear chat") + "\n");
+
+        return sb.str;
+    }
+
+    private string cmd_help_topics(Conversation conversation) {
+        var sb = new StringBuilder();
+        sb.append(_("Topics & Subscriptions") + "\n");
+        sb.append("──────────────────────\n\n");
+
+        sb.append(cmd_uri(conversation, "/mqtt topics") + " — " + _("List active subscriptions") + "\n");
+        sb.append("/mqtt subscribe <topic> — " + _("Subscribe to a topic") + "\n");
+        sb.append("/mqtt unsubscribe <topic> — " + _("Unsubscribe") + "\n");
+        sb.append("/mqtt publish <topic> <msg> — " + _("Publish message") + "\n");
+        sb.append("/mqtt qos <topic> <0|1|2> — " + _("Set QoS level") + "\n\n");
+
+        sb.append("📛 " + _("Aliases:") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt aliases") + " — " + _("List all aliases") + "\n");
+        sb.append("/mqtt alias <topic> <name> — " + _("Set display alias") + "\n");
+        sb.append("/mqtt rmalias <topic> — " + _("Remove alias") + "\n\n");
+
+        sb.append(_("Topic wildcards:") + "\n");
+        sb.append("  + = " + _("single level") + " (home/+/temp)\n");
+        sb.append("  # = " + _("all below") + " (home/sensors/#)\n\n");
+
+        sb.append(_("Example:") + " /mqtt alias home/temp 🌡 Wohnzimmer\n\n");
+
+        sb.append(_("Back:") + " " + cmd_uri(conversation, "/mqtt help"));
+        return sb.str;
+    }
+
+    private string cmd_help_alerts(Conversation conversation) {
+        var sb = new StringBuilder();
+        sb.append(_("Alerts & Priorities") + "\n");
+        sb.append("────────────────────\n\n");
+
+        sb.append(cmd_uri(conversation, "/mqtt alerts") + " — " + _("List alert rules") + "\n");
+        sb.append("/mqtt alert <topic> <op> <value> — " + _("Set threshold alert") + "\n");
+        sb.append("/mqtt rmalert <number> — " + _("Remove alert") + "\n");
+        sb.append("/mqtt priority <topic> <level> — " + _("Set notification priority") + "\n\n");
+
+        sb.append(_("Alert operators: > < >= <= == !=") + "\n");
+        sb.append(_("JSON field: topic.field (e.g. home/sensor.temperature > 30)") + "\n");
+        sb.append(_("Priority levels: silent, normal, alert, critical") + "\n\n");
+
+        sb.append(_("Examples:") + "\n");
+        sb.append("  /mqtt alert home/temp > 30\n");
+        sb.append("  /mqtt alert home/door == OPEN\n\n");
+
+        sb.append(_("Back:") + " " + cmd_uri(conversation, "/mqtt help"));
+        return sb.str;
+    }
+
+    private string cmd_help_bridges(Conversation conversation) {
+        var sb = new StringBuilder();
+        sb.append(_("MQTT → XMPP Bridges") + "\n");
+        sb.append("────────────────────\n\n");
+
+        sb.append(cmd_uri(conversation, "/mqtt bridges") + " — " + _("List bridge rules") + "\n");
+        sb.append("/mqtt bridge <topic> <jid> — " + _("Forward to XMPP contact") + "\n");
+        sb.append("/mqtt rmbridge <number> — " + _("Remove bridge") + "\n\n");
+
+        sb.append(_("Example:") + "\n");
+        sb.append("  /mqtt bridge home/alerts/# user@example.com\n\n");
+
+        sb.append(_("Back:") + " " + cmd_uri(conversation, "/mqtt help"));
+        return sb.str;
+    }
+
+    private string cmd_help_presets(Conversation conversation) {
+        var sb = new StringBuilder();
+        sb.append(_("Publish Presets") + "\n");
+        sb.append("────────────────\n\n");
+
+        sb.append(cmd_uri(conversation, "/mqtt presets") + " — " + _("List all presets") + "\n");
+        sb.append("/mqtt preset add <name> <topic> <payload> — " + _("Add preset") + "\n");
+        sb.append("/mqtt preset remove <N> — " + _("Remove by number") + "\n");
+        sb.append("/mqtt preset <name> — " + _("Execute preset") + "\n\n");
+
+        sb.append(_("Example:") + "\n");
+        sb.append("  /mqtt preset add LichtAN home/light/set ON\n");
+        sb.append("  /mqtt preset LichtAN\n\n");
+
+        sb.append(_("Back:") + " " + cmd_uri(conversation, "/mqtt help"));
+        return sb.str;
+    }
+
+    private string cmd_help_discovery(Conversation conversation) {
+        var sb = new StringBuilder();
+        sb.append(_("Home Assistant Discovery") + "\n");
+        sb.append("────────────────────────\n\n");
+
+        sb.append(cmd_uri(conversation, "/mqtt discovery") + " — " + _("Show discovery status") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt discovery on") + " — " + _("Enable & publish") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt discovery off") + " — " + _("Disable & remove") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt discovery refresh") + " — " + _("Republish all") + "\n\n");
+
+        sb.append(_("Back:") + " " + cmd_uri(conversation, "/mqtt help"));
+        return sb.str;
+    }
+
+    private string cmd_help_tools(Conversation conversation) {
+        var sb = new StringBuilder();
+        sb.append(_("Tools & Diagnostics") + "\n");
+        sb.append("────────────────────\n\n");
+
+        sb.append("/mqtt history [topic] [N] — " + _("Show topic history") + "\n");
+        sb.append("/mqtt chart <topic> [N] — " + _("Sparkline chart") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt dbstats") + " — " + _("Database statistics") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt purge") + " — " + _("Manual data cleanup") + "\n");
+        sb.append(cmd_uri(conversation, "/mqtt manager") + " — " + _("Open Topic Manager dialog") + "\n\n");
+
+        sb.append("QoS: 0 (" + _("fire & forget") + "), 1 (" + _("ack") + "), 2 (" + _("exactly once") + ")\n\n");
+
+        sb.append(_("Back:") + " " + cmd_uri(conversation, "/mqtt help"));
+        return sb.str;
     }
 
     /* ── Alias Command Implementations ───────────────────────────── */

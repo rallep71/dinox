@@ -1207,12 +1207,13 @@ public class Plugin : RootInterface, Object {
                     if (!acfg.enabled) {
                         string server_label = result.server_type == ServerType.EJABBERD
                             ? "ejabberd" : "Prosody";
+                        string help_uri = "xmpp:" + conv.counterpart.to_string() + "?message;body=/mqtt%20help";
                         bot_conversation.inject_bot_message(conv,
                             _("💡 Your XMPP server (%s) supports MQTT!\n\n").printf(server_label) +
                             _("MQTT is not yet enabled for %s.\n").printf(account.bare_jid.to_string()) +
                             _("To enable it, go to:\n" +
-                            "  Account Settings → MQTT Bot → Enable MQTT\n\n" +
-                            "Or type: /mqtt help"));
+                            "  Account Settings → MQTT Bot → Enable MQTT\n\n") +
+                            help_uri + " — " + _("Show commands"));
                     }
                 }
             }
@@ -1398,10 +1399,11 @@ public class Plugin : RootInterface, Object {
                         var conv = bot_conversation.ensure_standalone_conversation();
                         if (conv != null) {
                             /* Register under "standalone" key */
-                            bot_conversation.inject_bot_message(conv,
-                                _("MQTT Bot connected ✔\n\n" +
-                                "Type /mqtt help for available commands.\n" +
-                                "Subscribed MQTT messages will appear here."));
+                            string help_uri_sa = "xmpp:" + conv.counterpart.to_string() + "?message;body=/mqtt%20help";
+                        bot_conversation.inject_bot_message(conv,
+                                _("MQTT Bot connected ✔\n\n") +
+                                help_uri_sa + " — " + _("Show commands") + "\n" +
+                                _("Subscribed MQTT messages will appear here."));
                         }
                     } else {
                         /* Per-account: label is the account JID */
@@ -1410,9 +1412,10 @@ public class Plugin : RootInterface, Object {
                             if (acct.bare_jid.to_string() == label) {
                                 var conv = bot_conversation.ensure_conversation(acct);
                                 if (conv != null) {
+                                    string help_uri_pa = "xmpp:" + conv.counterpart.to_string() + "?message;body=/mqtt%20help";
                                     bot_conversation.inject_bot_message(conv,
                                         _("MQTT Bot connected for %s ✔\n\n").printf(label) +
-                                        _("Type /mqtt help for available commands."));
+                                        help_uri_pa + " — " + _("Show commands"));
                                 }
                                 break;
                             }
@@ -1717,10 +1720,11 @@ public class Plugin : RootInterface, Object {
             } else {
                 Idle.add(() => {
                     message.marked = Entities.Message.Marked.SENT;
+                    string help_uri_err = "xmpp:" + conversation.counterpart.to_string() + "?message;body=/mqtt%20help";
                     bot_conversation.inject_bot_message(conversation,
-                        _("I only understand /mqtt commands.\n\n" +
-                        "Type /mqtt help for available commands.\n" +
-                        "To enable free-text publishing, configure it in\n" +
+                        _("I only understand /mqtt commands.") + "\n\n" +
+                        help_uri_err + " — " + _("Show commands") + "\n" +
+                        _("To enable free-text publishing, configure it in\n" +
                         "Account Settings → MQTT Bot → Publish &amp; Free Text."));
                     return false;
                 });
