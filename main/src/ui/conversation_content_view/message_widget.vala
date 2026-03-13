@@ -358,7 +358,7 @@ public class MessageMetaItem : ContentMetaItem {
 
         box.append(overlay);
         
-        Label caption = new Label(_("Open in OpenStreetMap"));
+        Label caption = new Label(_("Navigate to location"));
         caption.add_css_class("dim-label");
         caption.margin_top = 5;
         box.append(caption);
@@ -368,7 +368,7 @@ public class MessageMetaItem : ContentMetaItem {
         string safe_lon = "%.6f".printf(lon).replace(",", ".");
         var gesture = new GestureClick();
         gesture.pressed.connect(() => {
-            string link = "https://www.openstreetmap.org/?mlat=%s&mlon=%s#map=16/%s/%s".printf(safe_lat, safe_lon, safe_lat, safe_lon);
+            string link = "https://www.google.com/maps/dir/?api=1&destination=%s,%s".printf(safe_lat, safe_lon);
             var launcher = new Gtk.UriLauncher(link);
             launcher.launch.begin(null, null, (obj, res) => {
                 try {

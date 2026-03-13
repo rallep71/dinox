@@ -6759,8 +6759,8 @@ msgid "Firewall"
 msgstr "Pare-feu"
 
 #: main/src/ui/conversation_content_view/message_widget.vala:345
-msgid "Open in OpenStreetMap"
-msgstr "Ouvrir dans OpenStreetMap"
+msgid "Navigate to location"
+msgstr "Naviguer vers le lieu"
 
 #: main/src/ui/util/location_manager.vala:28
 msgid "A location request is already in progress."
