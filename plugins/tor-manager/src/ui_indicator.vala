@@ -10,6 +10,7 @@ namespace Dino.Plugins.TorManager {
         private Popover popover;
         private Image icon;
         private Switch? toggle_switch;
+        private bool is_bootstrapped = false;
         
         public TorIndicator(TorManager manager) {
             this.manager = manager;
@@ -176,40 +177,42 @@ namespace Dino.Plugins.TorManager {
             popover.set_child(box);
 
             // Connect Signals for UI Updates
-            manager.controller.notify["is-running"].connect(() => { update_icon(status_label); });
+            manager.controller.notify["is-running"].connect(() => {
+                if (!manager.controller.is_running) is_bootstrapped = false;
+                update_icon(status_label);
+            });
             manager.controller.bootstrap_status.connect((percent, summary) => {
-                 // Update tooltip or status
-                 // Simplified status: Just show percentage to avoid UI flickering
                  status_label.label = _("Bootstrapping: %d%%").printf(percent);
                  button.tooltip_text = _("Tor Starting: %d%%\n%s").printf(percent, summary);
                  
-                 if (percent == 100) {
-                     update_icon(status_label, true);
+                 if (percent >= 100) {
+                     is_bootstrapped = true;
+                     update_icon(status_label);
                  }
             });
             
             update_icon(status_label);
         }
 
-        private void update_icon(Label status_label, bool fully_bootstrapped = false) {
+        private void update_icon(Label status_label) {
             if (manager.controller.is_running) {
-                // Determine color/state
-                if (fully_bootstrapped || status_label.label.contains("100%")) {
-                     icon.add_css_class("success"); // Use 'success' or 'accent'
+                if (is_bootstrapped) {
+                     icon.add_css_class("success");
                      icon.remove_css_class("warning");
                      icon.remove_css_class("error");
                      
                      string mode = manager.use_bridges ? _("Bridges") : _("Direct");
                      if (manager.force_firewall_ports) {
-                         mode += " + FW";
+                         mode += " + " + _("Firewall");
                      }
                      button.tooltip_text = _("Tor Connected (%s)").printf(mode);
                      status_label.label = _("Connected (%s)").printf(mode);
                 } else {
                      icon.add_css_class("warning"); 
                      icon.remove_css_class("success");
+                     icon.remove_css_class("error");
                      button.tooltip_text = _("Tor Starting...");
-                     if (!status_label.label.contains("Bootstrap")) status_label.label = _("Starting...");
+                     status_label.label = _("Starting...");
                 }
             } else {
                 icon.remove_css_class("success");

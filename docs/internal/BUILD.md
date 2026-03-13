@@ -30,9 +30,10 @@ In particular:
 - **protobuf-c:** Ubuntu 24.04 ships 1.4.1 which has a memory corruption bug in `protobuf_c_message_unpack()` (fixed in 1.5.1). Release builds use **protobuf-c 1.5.2**.
 - **mosquitto:** Ubuntu 24.04 ships 2.0.18. Release builds use **mosquitto 2.1.2** for latest security/protocol fixes.
 - **libomemo-c (OMEMO):** Ubuntu 24.04 ships 0.5.0. Release builds use **libomemo-c 0.5.1** from the [rallep71 fork](https://github.com/rallep71/libomemo-c).
+- **lyrebird (Tor pluggable transport):** Replaces obfs4proxy. Supports both **obfs4** and **WebTunnel** bridges. Release builds use **lyrebird 0.8.1** (built from source, requires `golang-go >= 1.22`). DinoX prefers lyrebird at runtime and falls back to obfs4proxy if lyrebird is not found.
 - **"webrtc" in DinoX does NOT mean Google/libwebrtc:** DinoX uses **GStreamer** (not the full Google WebRTC stack). The relevant pieces are the GStreamer plugins from `gst-plugins-bad` (DTLS/SRTP/WebRTC elements) plus `libnice` for ICE.
 
-> **Recommended:** Use `scripts/ci-build-deps.sh` to build all custom dependencies from source with the same versions as the CI/release builds. This replaces SQLCipher, webrtc-audio-processing, libnice, protobuf-c, libomemo-c, and mosquitto with tested versions.
+> **Recommended:** Use `scripts/ci-build-deps.sh` to build all custom dependencies from source with the same versions as the CI/release builds. This replaces SQLCipher, webrtc-audio-processing, libnice, protobuf-c, libomemo-c, mosquitto, and lyrebird with tested versions.
 - **webrtc-audio-processing (Highly Recommended):** This library provides professional-grade Echo Cancellation (AEC), Noise Suppression (NS), and Automatic Gain Control (AGC).
     - Without it, calls may have echo or background noise.
     - DinoX detects it at build time. If found, it is used automatically.
@@ -413,7 +414,7 @@ The resulting `dist/` directory contains everything needed to run DinoX on Windo
 
 #### Windows notes
 
-- **Tor/Obfs4proxy**: Bundled and fully functional on Windows. Tor and obfs4proxy bridges work out of the box.
+- **Tor/Obfs4proxy/Lyrebird**: Bundled and fully functional on Windows. Tor and obfs4proxy bridges work out of the box. Lyrebird (WebTunnel support) is preferred when available.
 - **libsecret/D-Bus**: Not used on Windows. Passwords are handled differently.
 - **libcanberra**: Notification sounds (message + call ringtone) are enabled by default on all Linux builds (native, Flatpak, AppImage) via `auto` detection. Not available on Windows (libcanberra is Linux-only). See [Development Plan](DEVELOPMENT_PLAN.md) for cross-platform notification sound plans.
 - **webrtc-audio-processing**: MSYS2 provides version 0.3 and 1.x. DinoX auto-detects and uses whatever is available. Version 2.x is not yet packaged for MSYS2.
@@ -510,8 +511,8 @@ All scripts live in the `scripts/` directory. Debug scripts are documented in [D
 | Script | Purpose |
 |--------|--------|
 | `scripts/build-appimage.sh` | Build a portable AppImage for Linux. Auto-detects architecture (x86_64/aarch64), copies runtime libraries, GStreamer plugins, and icons into an AppDir, then packages it with `appimagetool`. Use on a clean build host for reproducible results. |
-| `scripts/update_dist.sh` | Collect the Windows build into a `dist/` folder: `dinox.exe`, all required DLLs, GStreamer plugins, Tor/obfs4proxy binaries, SSL certs, icons. Run after `ninja -C build` in MSYS2. |
-| `scripts/ci-build-deps.sh` | CI pipeline script: runs `scripts/scan_unicode.py`, then builds **SQLCipher** (with FTS5), **webrtc-audio-processing**, **libnice**, **protobuf-c**, **libomemo-c**, and **mosquitto** from source. Used in automated builds and AppImage CI to prepare dependencies. |
+| `scripts/update_dist.sh` | Collect the Windows build into a `dist/` folder: `dinox.exe`, all required DLLs, GStreamer plugins, Tor/lyrebird/obfs4proxy binaries, SSL certs, icons. Run after `ninja -C build` in MSYS2. |
+| `scripts/ci-build-deps.sh` | CI pipeline script: runs `scripts/scan_unicode.py`, then builds **SQLCipher** (with FTS5), **webrtc-audio-processing**, **libnice**, **protobuf-c**, **libomemo-c**, **mosquitto**, and **lyrebird** from source. Requires `golang-go >= 1.22` for lyrebird. Used in automated builds and AppImage CI to prepare dependencies. |
 | `scripts/dinox.bat` | Windows launcher (legacy/fallback). Sets `PATH` and launches `dinox.exe`. Kept for backward compatibility — `dinox.exe` now sets all environment variables internally. |
 
 ### Release

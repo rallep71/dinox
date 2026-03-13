@@ -21,7 +21,7 @@ jobs:
             libsqlite3-dev libsqlcipher-dev libsecret-1-dev libsrtp2-dev \
             libgnutls28-dev libdbusmenu-glib-dev meson valac pkg-config \
             libjson-glib-dev libcjson-dev \
-            gstreamer1.0-plugins-good
+            gstreamer1.0-plugins-good golang-go
       - name: "Cache custom dependencies"
         id: cache-deps
         uses: actions/cache@v4
@@ -37,15 +37,15 @@ jobs:
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: |
           # Snapshot installed files before building custom deps
-          cd / && find usr/lib usr/include usr/bin usr/share/gir-1.0 usr/share/vala \
+          cd / && find usr/lib usr/include usr/bin usr/local/bin usr/share/gir-1.0 usr/share/vala \
             \( -type f -o -type l \) 2>/dev/null | sort > /tmp/files-before.txt
           cd "$GITHUB_WORKSPACE"
           chmod +x scripts/ci-build-deps.sh
           ./scripts/ci-build-deps.sh
           # Snapshot installed files after building custom deps
-          cd / && find usr/lib usr/include usr/bin usr/share/gir-1.0 usr/share/vala \
+          cd / && find usr/lib usr/include usr/bin usr/local/bin usr/share/gir-1.0 usr/share/vala \
             \( -type f -o -type l \) 2>/dev/null | sort > /tmp/files-after.txt
-          # Capture new files (webrtc-audio-processing-2, libomemo-c are entirely new)
+          # Capture new files (webrtc-audio-processing-2, libomemo-c, lyrebird are entirely new)
           comm -13 /tmp/files-before.txt /tmp/files-after.txt > /tmp/cache-files.txt
           # Also include dirs replaced by custom builds — meson install preserves
           # original file timestamps, so same-path replacements are invisible to
@@ -138,7 +138,7 @@ jobs:
             libsqlite3-dev libsqlcipher-dev libsecret-1-dev libsrtp2-dev \
             libgnutls28-dev libdbusmenu-glib-dev meson valac pkg-config \
             libjson-glib-dev libcjson-dev \
-            gstreamer1.0-plugins-good
+            gstreamer1.0-plugins-good golang-go
       - name: "Cache custom dependencies"
         id: cache-deps-nightly
         uses: actions/cache@v4
@@ -153,12 +153,12 @@ jobs:
       - name: "Build custom dependencies"
         if: steps.cache-deps-nightly.outputs.cache-hit != 'true'
         run: |
-          cd / && find usr/lib usr/include usr/bin usr/share/gir-1.0 usr/share/vala \
+          cd / && find usr/lib usr/include usr/bin usr/local/bin usr/share/gir-1.0 usr/share/vala \
             \( -type f -o -type l \) 2>/dev/null | sort > /tmp/files-before.txt
           cd "$GITHUB_WORKSPACE"
           chmod +x scripts/ci-build-deps.sh
           ./scripts/ci-build-deps.sh
-          cd / && find usr/lib usr/include usr/bin usr/share/gir-1.0 usr/share/vala \
+          cd / && find usr/lib usr/include usr/bin usr/local/bin usr/share/gir-1.0 usr/share/vala \
             \( -type f -o -type l \) 2>/dev/null | sort > /tmp/files-after.txt
           comm -13 /tmp/files-before.txt /tmp/files-after.txt > /tmp/cache-files.txt
           { find usr/include/nice usr/include/sqlcipher usr/include/protobuf-c \

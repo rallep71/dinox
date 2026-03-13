@@ -9,16 +9,19 @@ set -e
 #   ./scripts/ci-build-deps.sh --clean   Remove previously installed dependencies
 #
 # TODO: Check periodically for newer versions!
-# Current versions (last checked/verified: 2025-06-25):
+# Current versions (last checked/verified: 2026-03-13):
 #   SQLCipher              4.6.1   https://github.com/sqlcipher/sqlcipher/releases
 #   webrtc-audio-processing v2.1   https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/tags
 #   libnice                0.1.23  https://gitlab.freedesktop.org/libnice/libnice/-/tags
 #   protobuf-c             1.5.2   https://github.com/protobuf-c/protobuf-c/releases
 #   libomemo-c             (fork)  https://github.com/rallep71/libomemo-c
 #   mosquitto              2.1.2   https://mosquitto.org/download/
+#   lyrebird               0.8.1   https://gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/lyrebird
 #
 # When updating versions: bump the *_VER variables below. The CI cache
 # key is derived from this file's hash, so any edit auto-invalidates caches.
+#
+# Requirements: golang-go >= 1.22 must be installed for lyrebird build.
 # ============================================================================
 
 # Checks if running as root, otherwise use sudo
@@ -79,6 +82,9 @@ if [[ "${1:-}" == "--clean" ]]; then
     $SUDO rm -f  /usr/include/mqtt_protocol.h
     $SUDO rm -f  /usr/lib/pkgconfig/libmosquitto.pc
     $SUDO rm -f  /usr/lib/pkgconfig/libmosquittopp.pc
+
+    # lyrebird
+    $SUDO rm -f  /usr/local/bin/lyrebird
 
     $SUDO ldconfig
     echo "Custom dependencies removed."
@@ -200,5 +206,21 @@ $SUDO ldconfig
 cd ..
 rm -rf "mosquitto-${MOSQUITTO_VER}" "mosquitto-${MOSQUITTO_VER}.tar.gz"
 echo "mosquitto $(pkg-config --modversion libmosquitto 2>/dev/null || echo '?') installed."
+
+# 7. lyrebird (pluggable transport for Tor: obfs4 + WebTunnel)
+# Replaces obfs4proxy. Requires Go >= 1.22.
+echo "Building lyrebird..."
+LYREBIRD_VER=0.8.1
+LYREBIRD_TAG="lyrebird-${LYREBIRD_VER}"
+LYREBIRD_PROJECT_ID=417
+wget -q -O "lyrebird-${LYREBIRD_VER}.tar.gz" \
+    "https://gitlab.torproject.org/api/v4/projects/${LYREBIRD_PROJECT_ID}/repository/archive.tar.gz?sha=${LYREBIRD_TAG}"
+tar xf "lyrebird-${LYREBIRD_VER}.tar.gz"
+cd lyrebird-${LYREBIRD_TAG}-*
+CGO_ENABLED=0 go build -trimpath -ldflags '-s -w' -o lyrebird ./cmd/lyrebird
+$SUDO install -m 755 lyrebird /usr/local/bin/lyrebird
+cd ..
+rm -rf lyrebird-${LYREBIRD_TAG}-* "lyrebird-${LYREBIRD_VER}.tar.gz"
+echo "lyrebird $(lyrebird --version 2>&1 | head -1) installed."
 
 echo "Dependencies built and installed."

@@ -317,9 +317,9 @@ copy_dependencies() {
     fi
 
     # ---------------------------------------------------------
-    # Tor & Obfs4proxy Bundling for "Out of the Box" functionality
+    # Tor & Pluggable Transports Bundling for "Out of the Box" functionality
     # ---------------------------------------------------------
-    log_info "Bundling Tor and obfs4proxy..."
+    log_info "Bundling Tor and pluggable transports (lyrebird/obfs4proxy)..."
     
     # 1. Tor
     # Check if tor is available via 'command -v' or commonly known paths
@@ -338,19 +338,44 @@ copy_dependencies() {
         log_warn "Tor executable not found! AppImage will rely on host 'tor' (if available) or fail."
     fi
 
-    # 2. Obfs4proxy
+    # 2. Pluggable Transport: prefer lyrebird (obfs4 + webtunnel), fall back to obfs4proxy
+    PT_BUNDLED=false
+
+    # 2a. Try lyrebird first (supports obfs4 + webtunnel)
+    LYREBIRD_BIN="$(command -v lyrebird || true)"
+    if [ -z "$LYREBIRD_BIN" ] || [ ! -x "$LYREBIRD_BIN" ]; then
+        # Check common fallback locations
+        for candidate in /usr/bin/lyrebird /usr/local/bin/lyrebird "$PROJECT_ROOT/build/lyrebird"; do
+            if [ -x "$candidate" ]; then
+                LYREBIRD_BIN="$candidate"
+                break
+            fi
+        done
+    fi
+    if [ -n "$LYREBIRD_BIN" ] && [ -x "$LYREBIRD_BIN" ]; then
+        log_info "Found lyrebird at $LYREBIRD_BIN. Copying (supports obfs4 + webtunnel)..."
+        cp "$LYREBIRD_BIN" "$APPDIR/usr/bin/"
+        PT_BUNDLED=true
+    fi
+
+    # 2b. Also bundle obfs4proxy as fallback (in case lyrebird has issues)
     OBFS4_BIN="$(command -v obfs4proxy || true)"
     if [ -n "$OBFS4_BIN" ] && [ -x "$OBFS4_BIN" ]; then
-        log_info "Found obfs4proxy at $OBFS4_BIN. Copying..."
+        log_info "Found obfs4proxy at $OBFS4_BIN. Copying as fallback..."
         cp "$OBFS4_BIN" "$APPDIR/usr/bin/"
+        PT_BUNDLED=true
     else
         # Try common fallback locations if not in PATH
         if [ -x "/usr/bin/obfs4proxy" ]; then
-             log_info "Found obfs4proxy at /usr/bin/obfs4proxy. Copying..."
+             log_info "Found obfs4proxy at /usr/bin/obfs4proxy. Copying as fallback..."
              cp "/usr/bin/obfs4proxy" "$APPDIR/usr/bin/"
-        else
-             log_warn "obfs4proxy executable not found! Bridges will not work."
+             PT_BUNDLED=true
         fi
+    fi
+
+    if [ "$PT_BUNDLED" = false ]; then
+        log_warn "No pluggable transport found (lyrebird or obfs4proxy)! Bridges will not work."
+        log_warn "Install lyrebird: go install gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/lyrebird@latest"
     fi
 
     # Ensure permissions
@@ -367,6 +392,9 @@ copy_dependencies() {
     fi
     if [ -x "$APPDIR/usr/bin/tor" ]; then
         copy_elf_deps_recursive "$APPDIR/usr/bin/tor" "$APPDIR/usr/lib"
+    fi
+    if [ -x "$APPDIR/usr/bin/lyrebird" ]; then
+        copy_elf_deps_recursive "$APPDIR/usr/bin/lyrebird" "$APPDIR/usr/lib"
     fi
     if [ -x "$APPDIR/usr/bin/obfs4proxy" ]; then
         copy_elf_deps_recursive "$APPDIR/usr/bin/obfs4proxy" "$APPDIR/usr/lib"

@@ -1,6 +1,5 @@
 using Gtk;
 using Adw;
-using Gdk;
 using GLib;
 
 namespace Dino.Plugins.TorManager {
@@ -16,6 +15,7 @@ namespace Dino.Plugins.TorManager {
         private Switch firewall_switch;
         private Switch bridges_switch;
         private Label warning_label;
+        private Gtk.DropDown transport_dropdown;
 
         public TorSettingsPage(TorManager manager) {
             this.manager = manager;
@@ -35,13 +35,10 @@ namespace Dino.Plugins.TorManager {
             toggle.valign = Align.CENTER;
             toggle.active = manager.is_enabled;
             
-            toggle.state_set.connect((state) => {
-                toggle.state = state;
-                Idle.add(() => {
-                    manager.set_enabled.begin(state);
-                    return Source.REMOVE;
-                });
-                return true; 
+            toggle.notify["active"].connect(() => {
+                if (manager.is_enabled != toggle.active) {
+                    manager.set_enabled.begin(toggle.active);
+                }
             });
             
             main_switch_row.add_suffix(toggle);
@@ -50,7 +47,7 @@ namespace Dino.Plugins.TorManager {
             // Bridge Config
              var bridge_group = new Adw.PreferencesGroup();
              bridge_group.title = _("Bridges (Censorship Circumvention)");
-             bridge_group.description = _("Required if Tor is blocked by your ISP or government.");
+             bridge_group.description = _("Required if Tor is blocked. Supports obfs4 and WebTunnel bridges.");
              this.add(bridge_group);
 
              // Use Bridges Switch
@@ -85,14 +82,9 @@ namespace Dino.Plugins.TorManager {
             warning_label.margin_bottom = 12;
             warning_label.visible = false;
             
-            firewall_switch.state_set.connect((state) => {
-                 firewall_switch.state = state;
-                 Idle.add(() => {
-                     on_firewall_toggled.begin(state);
-                     update_warning();
-                     return Source.REMOVE;
-                 });
-                 return true;
+            firewall_switch.notify["active"].connect(() => {
+                on_firewall_toggled.begin(firewall_switch.active);
+                update_warning();
             });
 
             firewall_row.add_suffix(firewall_switch);
@@ -136,31 +128,34 @@ namespace Dino.Plugins.TorManager {
              box.append(scrolled);
              bridge_group.add(box);
 
-             // Action Row for Fetching
+             // Action Row for Fetching with transport selector
              var fetch_row = new Adw.ActionRow();
              fetch_row.title = _("Request Fresh Bridges");
-             fetch_row.subtitle = _("Connects to Tor Project (Moat) to fetch unblocked bridges.");
+             fetch_row.subtitle = _("Fetches bridges from Tor Project. Choose transport type:");
              fetch_row.sensitive = manager.use_bridges;
+
+             // Transport type dropdown: obfs4 or webtunnel
+             string[] transport_labels = { "obfs4", "WebTunnel" };
+             transport_dropdown = new Gtk.DropDown.from_strings(transport_labels);
+             transport_dropdown.selected = 1; // Default: WebTunnel (best for strict firewalls)
+             transport_dropdown.valign = Align.CENTER;
+             fetch_row.add_suffix(transport_dropdown);
              
              fetch_button = new Button.with_label(_("Request"));
              fetch_button.valign = Align.CENTER;
-             fetch_button.clicked.connect(on_fetch_clicked);
+             fetch_button.clicked.connect(() => { on_fetch_clicked.begin(); });
              
              fetch_row.add_suffix(fetch_button);
              bridge_group.add(fetch_row);
 
             // Connect signal late to ensure all widgets exist
-            bridges_switch.state_set.connect((state) => {
-                bridges_switch.state = state;
-                Idle.add(() => {
-                    on_use_bridges_toggled.begin(state);
-                    box.sensitive = state;
-                    fetch_row.sensitive = state;
-                    firewall_row.sensitive = state; 
-                    update_warning();
-                    return Source.REMOVE;
-                });
-                return true; // handled
+            bridges_switch.notify["active"].connect(() => {
+                bool active = bridges_switch.active;
+                on_use_bridges_toggled.begin(active);
+                box.sensitive = active;
+                fetch_row.sensitive = active;
+                firewall_row.sensitive = active;
+                update_warning();
             });
 
             // Init sensitive state
@@ -174,7 +169,7 @@ namespace Dino.Plugins.TorManager {
             });
 
 
-             var help_label = new Label(_("Alternatively get bridges at https://bridges.torproject.org/"));
+             var help_label = new Label(_("WebTunnel (port 443, looks like HTTPS) is best for strict firewalls. obfs4 is more widely available. Both fetch instantly without CAPTCHA."));
              help_label.add_css_class("dim-label");
              help_label.margin_top = 6;
              help_label.wrap = true;
@@ -225,16 +220,16 @@ namespace Dino.Plugins.TorManager {
             fetch_button.sensitive = false;
             fetch_button.label = _("Loading...");
             
+            // Get selected transport from dropdown
+            string transport = transport_dropdown.selected == 0 ? "obfs4" : "webtunnel";
+            
             try {
-                var client = new MoatClient();
-                var challenge = yield client.fetch_challenge();
-                
-                // Show Dialog
-                prompt_captcha_solution(client, challenge);
-                
+                var client = new BridgeClient();
+                string[] bridges = yield client.fetch_bridges(transport);
+                yield apply_fetched_bridges(bridges, transport);
             } catch (Error e) {
                 var dlg = new Adw.AlertDialog(
-                    _("Error fetching challenge"),
+                    _("Error fetching bridges"),
                     e.message
                 );
                 dlg.add_response("ok", _("OK"));
@@ -245,143 +240,73 @@ namespace Dino.Plugins.TorManager {
             }
         }
 
-        private void prompt_captcha_solution(MoatClient client, MoatChallenge challenge) {
-            // Decode Base64 Image
-            uchar[] data = Base64.decode(challenge.image);
-            var bytes = new Bytes(data);
-            var stream = new MemoryInputStream.from_bytes(bytes);
-            
-            Texture texture = null;
-            try {
-                var pixbuf = new Gdk.Pixbuf.from_stream(stream, null);
-                texture = Gdk.Texture.for_pixbuf(pixbuf);
-            } catch (Error e) {
-                warning("Failed to create texture from captcha: %s", e.message);
-                var err_dlg = new Adw.AlertDialog(_("Image Error"), _("Could not load CAPTCHA image."));
-                err_dlg.add_response("ok", _("OK"));
-                err_dlg.present(this.get_root() as Gtk.Window);
-                return;
-            }
-
-            // Build Custom Dialog Content
-            var content_area = new Box(Orientation.VERTICAL, 12);
-            content_area.margin_top = 12;
-            content_area.margin_bottom = 12;
-            content_area.margin_start = 12;
-            content_area.margin_end = 12;
-            
-            var image_widget = new Picture.for_paintable(texture);
-            image_widget.height_request = 100;
-            image_widget.content_fit = ContentFit.CONTAIN;
-            content_area.append(image_widget);
-            
-            var entry = new Entry();
-            entry.placeholder_text = _("Type characters from image...");
-            content_area.append(entry);
-
-            var dlg = new Adw.AlertDialog(
-               _("Solve CAPTCHA"),
-               _("Please type the characters you see in the image to receive bridges.")
-            );
-            
-            dlg.extra_child = content_area;
-            dlg.add_response("cancel", _("Cancel"));
-            dlg.add_response("submit", _("Submit"));
-            dlg.set_response_appearance("submit", Adw.ResponseAppearance.SUGGESTED);
-            dlg.default_response = "submit";
-            
-             // Handle Submit on Enter in Entry
-            entry.activates_default = true;
-            
-            dlg.response.connect((response) => {
-                if (response == "submit") {
-                    string solution = entry.text;
-                    submit_solution.begin(client, challenge.challenge, solution);
+        private async void apply_fetched_bridges(string[] bridges, string transport) {
+            if (bridges.length > 0) {
+                // Sort bridges: prefer webtunnel, then obfs4 on port 443/80
+                int good_ports = 0;
+                Gee.ArrayList<string> sorted_bridges = new Gee.ArrayList<string>();
+                foreach(string b in bridges) {
+                     if (b.has_prefix("webtunnel ")) {
+                         sorted_bridges.insert(0, b);
+                         good_ports++;
+                     } else if (b.contains(":443 ") || b.contains(":80 ") || b.contains(":4433 ")) {
+                         sorted_bridges.insert(good_ports, b);
+                         good_ports++;
+                     } else {
+                         sorted_bridges.add(b);
+                     }
                 }
-            });
-            
-            dlg.present(this.get_root() as Gtk.Window);
-            entry.grab_focus();
-        }
 
-        private async void submit_solution(MoatClient client, string challenge_id, string solution) {
-            try {
-                string[] bridges = yield client.check_solution(challenge_id, solution);
-                
-                if (bridges.length > 0) {
-                    // Sort bridges to prefer port 443/80
-                    int good_ports = 0;
-                    Gee.ArrayList<string> sorted_bridges = new Gee.ArrayList<string>();
-                    foreach(string b in bridges) {
-                         if (b.contains(":443 ") || b.contains(":80 ") || b.contains(":4433 ")) {
-                             sorted_bridges.insert(0, b);
-                             good_ports++;
-                         } else {
-                             sorted_bridges.add(b);
-                         }
-                    }
-
-                    StringBuilder sb = new StringBuilder();
-                    foreach (string b in sorted_bridges) {
-                        sb.append(b);
-                        sb.append("\n");
-                    }
-                    
-                    string new_bridges_text = sb.str;
-                    
-                    // Update Text Area
-                    debug("TorSettingsPage: Applying new bridges (sorted) to UI:\n%s", new_bridges_text);
-                    
-                    // Use flag to prevent double-save via debounce
-                    ignore_text_changes = true;
-                    // Force a delete-insert cycle to ensure GTK updates the view
-                    bridge_input_view.buffer.set_text(""); 
-                    while (MainContext.default().pending()) MainContext.default().iteration(false); // Force UI redraw for a split second
-                    bridge_input_view.buffer.set_text(new_bridges_text);
-                    ignore_text_changes = false;
-
-                    // Explicitly save and restart Tor immediately
-                    debug("TorSettingsPage: Explicitly saving new bridges...");
-                    yield manager.set_bridges(new_bridges_text);
-
-                    string msg = _("Received %d fresh bridges.").printf(bridges.length);
-                    if (good_ports > 0) {
-                        msg += "\n\n" + _("Good news! We found %d bridges on common ports (443/80). These are prioritized.").printf(good_ports);
-                    } else {
-                        msg += "\n\n" + _("Warning: None of the bridges use standard ports (443/80). If you are behind a strict firewall, you might need to try again.");
-                    }
-
-                    var success_dlg = new Adw.AlertDialog(_("Success"), msg);
-                    success_dlg.add_response("ok", _("OK"));
-                    if (good_ports == 0) {
-                         success_dlg.add_response("retry", _("Try Again"));
-                    }
-
-                    success_dlg.response.connect((resp) => {
-                        if (resp == "retry") {
-                            on_fetch_clicked.begin(); 
-                        }
-                    });
-
-                    success_dlg.present(this.get_root() as Gtk.Window);
-                } else {
-                     var fail_dlg = new Adw.AlertDialog(_("Failed"), _("No bridges received. Maybe the solution was wrong?"));
-                     fail_dlg.add_response("retry", _("Try Again"));
-                     fail_dlg.add_response("cancel", _("Cancel"));
-                     
-                     fail_dlg.response.connect((resp) => {
-                        if (resp == "retry") {
-                            on_fetch_clicked.begin(); // Restart flow
-                        }
-                     });
-                     
-                     fail_dlg.present(this.get_root() as Gtk.Window);
+                StringBuilder sb = new StringBuilder();
+                foreach (string b in sorted_bridges) {
+                    sb.append(b);
+                    sb.append("\n");
                 }
                 
-            } catch (Error e) {
-                var err_dlg = new Adw.AlertDialog(_("Error"), e.message);
-                err_dlg.add_response("ok", _("OK"));
-                err_dlg.present(this.get_root() as Gtk.Window);
+                string new_bridges_text = sb.str;
+                
+                debug("TorSettingsPage: Applying new bridges (sorted) to UI:\n%s", new_bridges_text);
+                
+                ignore_text_changes = true;
+                bridge_input_view.buffer.set_text(""); 
+                while (MainContext.default().pending()) MainContext.default().iteration(false);
+                bridge_input_view.buffer.set_text(new_bridges_text);
+                ignore_text_changes = false;
+
+                debug("TorSettingsPage: Explicitly saving new bridges...");
+                yield manager.set_bridges(new_bridges_text);
+
+                string msg = _("Received %d %s bridge(s).").printf(bridges.length, transport);
+
+                if (good_ports > 0) {
+                    msg += "\n" + _("%d bridge(s) on standard ports (443/80).").printf(good_ports);
+                }
+
+                var success_dlg = new Adw.AlertDialog(_("Success"), msg);
+                success_dlg.add_response("ok", _("OK"));
+                if (good_ports == 0) {
+                     success_dlg.add_response("retry", _("Try Again"));
+                }
+
+                success_dlg.response.connect((resp) => {
+                    if (resp == "retry") {
+                        on_fetch_clicked.begin(); 
+                    }
+                });
+
+                success_dlg.present(this.get_root() as Gtk.Window);
+            } else {
+                 var fail_dlg = new Adw.AlertDialog(_("Failed"), _("No bridges received. The server may be temporarily unavailable."));
+                 fail_dlg.add_response("retry", _("Try Again"));
+                 fail_dlg.add_response("cancel", _("Cancel"));
+                 
+                 fail_dlg.response.connect((resp) => {
+                    if (resp == "retry") {
+                        on_fetch_clicked.begin();
+                    }
+                 });
+                 
+                 fail_dlg.present(this.get_root() as Gtk.Window);
             }
         }
     }

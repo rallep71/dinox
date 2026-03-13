@@ -190,62 +190,89 @@ namespace Dino.Plugins.TorManager {
             }
 
             if (use_bridges && bridge_lines.strip() != "") {
+                // Find pluggable transport binary: prefer lyrebird (supports obfs4+webtunnel),
+                // fall back to obfs4proxy (obfs4 only)
+                string? pt_path = null;
+                bool pt_supports_webtunnel = false;
+
 #if WINDOWS
-                string obfs4_exe = "obfs4proxy.exe";
+                string[] pt_names = {"lyrebird.exe", "obfs4proxy.exe"};
 #else
-                string obfs4_exe = "obfs4proxy";
+                string[] pt_names = {"lyrebird", "obfs4proxy"};
 #endif
-                string? obfs4_path = Environment.find_program_in_path(obfs4_exe);
-                
-                // Fallback strategies for AppImage / Flatpak / Windows portable / Custom installs
-                if (obfs4_path == null) {
+
+                // 1. Search PATH first
+                foreach (string pt_name in pt_names) {
+                    pt_path = Environment.find_program_in_path(pt_name);
+                    if (pt_path != null) {
+                        pt_supports_webtunnel = pt_name.has_prefix("lyrebird");
+                        debug("[TOR] Found %s in PATH: %s", pt_name, pt_path);
+                        break;
+                    }
+                }
+
+                // 2. Fallback strategies for AppImage / Flatpak / Windows portable / Custom installs
+                if (pt_path == null) {
                      var candidates = new Gee.ArrayList<string>();
-                     
+
 #if WINDOWS
-                     // Windows portable: Look in bin/ subfolder relative to exe
                      string? exe_dir = get_executable_dir();
                      if (exe_dir != null) {
+                         candidates.add(Path.build_filename(exe_dir, "bin", "lyrebird.exe"));
+                         candidates.add(Path.build_filename(exe_dir, "lyrebird.exe"));
                          candidates.add(Path.build_filename(exe_dir, "bin", "obfs4proxy.exe"));
                          candidates.add(Path.build_filename(exe_dir, "obfs4proxy.exe"));
                      }
 #else
-                     // 1. AppImage specific: $APPDIR/usr/bin or $APPDIR/bin
+                     // AppImage specific
                      string? appdir = Environment.get_variable("APPDIR");
                      if (appdir != null) {
+                         candidates.add(Path.build_filename(appdir, "usr", "bin", "lyrebird"));
+                         candidates.add(Path.build_filename(appdir, "bin", "lyrebird"));
                          candidates.add(Path.build_filename(appdir, "usr", "bin", "obfs4proxy"));
                          candidates.add(Path.build_filename(appdir, "bin", "obfs4proxy"));
                      }
 
-                     // 2. Flatpak specific
+                     // Flatpak specific
+                     candidates.add("/app/bin/lyrebird");
                      candidates.add("/app/bin/obfs4proxy");
 
-                     // 3. System locations
+                     // System locations
+                     candidates.add("/usr/bin/lyrebird");
+                     candidates.add("/usr/local/bin/lyrebird");
                      candidates.add("/usr/bin/obfs4proxy");
                      candidates.add("/usr/local/bin/obfs4proxy");
-                     
-                     // 4. Relative to executable (Portable builds)
+
+                     // Relative to executable (Portable builds)
                      try {
                          string self_path = FileUtils.read_link("/proc/self/exe");
                          string? self_dir = Path.get_dirname(self_path);
                          if (self_dir != null) {
+                             candidates.add(Path.build_filename(self_dir, "lyrebird"));
                              candidates.add(Path.build_filename(self_dir, "obfs4proxy"));
                          }
                      } catch (Error e) { /* ignore */ }
 #endif
 
-                     foreach(string l in candidates) {
+                     foreach (string l in candidates) {
                         if (FileUtils.test(l, FileTest.EXISTS)) {
-                            obfs4_path = l;
-                            debug("[TOR] Found obfs4proxy at: %s", l);
+                            pt_path = l;
+                            string basename = Path.get_basename(l);
+                            pt_supports_webtunnel = basename.has_prefix("lyrebird");
+                            debug("[TOR] Found pluggable transport at: %s (webtunnel: %s)", l, pt_supports_webtunnel.to_string());
                             break;
                         }
                      }
                 }
 
-                if (obfs4_path != null) {
-                    torrc.append_printf("ClientTransportPlugin obfs4 exec %s\n", obfs4_path);
+                if (pt_path != null) {
+                    if (pt_supports_webtunnel) {
+                        torrc.append_printf("ClientTransportPlugin obfs4,webtunnel exec %s\n", pt_path);
+                    } else {
+                        torrc.append_printf("ClientTransportPlugin obfs4 exec %s\n", pt_path);
+                    }
                 } else {
-                    warning("obfs4proxy not found, bridges might fail if they use obfs4");
+                    warning("No pluggable transport found (lyrebird or obfs4proxy). Bridges requiring PT will fail.");
                 }
 
                 torrc.append("UseBridges 1\n");
@@ -271,6 +298,7 @@ namespace Dino.Plugins.TorManager {
                 debug("[TOR-DEBUG] Content:\n%s", torrc.str);
             } catch (Error e) {
                 warning("Failed to write torrc: %s", e.message);
+                is_starting = false;
                 return;
             }
 
@@ -315,8 +343,9 @@ namespace Dino.Plugins.TorManager {
                     InetAddress address = new InetAddress.from_string("127.0.0.1");
                     InetSocketAddress socket_address = new InetSocketAddress(address, (uint16)port);
                     
-                    if (socket.connect(socket_address)) {
-                        socket.close();
+                    bool connected = socket.connect(socket_address);
+                    socket.close();
+                    if (connected) {
                         debug("Tor request port %d is open!", port);
                         return;
                     }
@@ -336,7 +365,22 @@ namespace Dino.Plugins.TorManager {
 
         public void stop() {
             if (tor_process != null) {
-                tor_process.force_exit();
+                // Send SIGTERM first to let Tor clean up its state files gracefully.
+                // force_exit() sends SIGKILL which doesn't allow cleanup and can
+                // corrupt cached-microdescs, state file, etc.
+                tor_process.send_signal(ProcessSignal.TERM);
+
+                // Schedule a SIGKILL fallback in case Tor doesn't exit within 3 seconds
+                var proc_ref = tor_process;
+                Timeout.add_seconds(3, () => {
+                    if (proc_ref != null) {
+                        try {
+                            proc_ref.force_exit();
+                        } catch (Error e) { /* already dead, fine */ }
+                    }
+                    return Source.REMOVE;
+                });
+
                 tor_process = null;
             }
             is_running = false;

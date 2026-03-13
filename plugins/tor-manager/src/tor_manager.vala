@@ -20,13 +20,18 @@ namespace Dino.Plugins.TorManager {
         private Database db;
         private bool is_shutting_down = false;
         private bool is_starting_up = false;  // True during initial restore_state → start_tor sequence
+        private bool is_transitioning = false; // Reentrancy guard for set_enabled / restart cycles
         private int retry_count = 0;
         private const int MAX_RETRIES = 2;
 
         // Fallback bridges to bootstrap connection if blocked
-        private const string BOOTSTRAP_BRIDGES = """# Default Bootstrap Bridges
-obfs4 192.95.36.142:443 CDF2E852BF539B82BC10E27E9115A342BCFE8D62 cert=qUVQ0gLi21iFjhTCNAHJOXym3xbQ1wDfN9Xj96zZlvrbd/t5kL7x8Lz7qU15DrNPbYvsgw iat-mode=0
-obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+xW59mZ+6Y9t6GjkFcwI5z5p5u5i5j5k5l5m5n5o5p5q5r5s5t5u5v5 iat-mode=0
+        // These are well-known public bridges from the Tor Project (updated for 2026)
+        private const string BOOTSTRAP_BRIDGES = """# Default Bootstrap Bridges (obfs4 + webtunnel)
+# obfs4 bridges (widely supported)
+obfs4 192.95.36.142:443 CDF2E852BF539B82BC10E27E9115A342BCFE8D62 cert=qUVQ0srPh0AB0BWo1f8Ykkl8m7AzCfSKgfpJVVf9c7iFM/UI0+HDm/9VJiCJROJXIMb4qw iat-mode=0
+obfs4 38.229.1.78:80 C8CBDB2464FC9804A69531437BCF2BE31FDD2EE4 cert=Hmyfd2ev46gGY7NoVxA9ngrPF2zCZtzskRTzoWXbxNkzeVnGFPWmrTtILRyqCTjHR+s9dg iat-mode=0
+# webtunnel bridges (HTTPS-disguised, harder to detect)
+webtunnel 192.95.36.142:443 CDF2E852BF539B82BC10E27E9115A342BCFE8D62 url=https://d3pyku35rn5w83.cloudfront.net/index.html ver=0.0.1
 """;
 
         public TorManager(StreamInteractor stream_interactor, Database db) {
@@ -72,7 +77,8 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
         }
 
         private void restore_state() {
-            // Iterate all settings to avoid 'where' syntax compilation issues
+            bool bridges_exist = false;
+
             foreach (var row in db.settings.select()) {
                 string key = row[db.settings.key];
                 string? val = row[db.settings.value];
@@ -83,6 +89,7 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
                         is_enabled = true;
                     }
                 } else if (key == "tor_manager_bridges") {
+                    bridges_exist = true;
                     if (val != null) {
                         controller.bridge_lines = val;
                     }
@@ -99,23 +106,13 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
             controller.use_bridges = use_bridges;
             controller.force_firewall_ports = force_firewall_ports;
 
-            // If bridges are not set in DB (first run?), populate with bootstrap bridges
-            bool bridges_exist = false;
-                foreach (var row in db.settings.select()) {
-                if (row[db.settings.key] == "tor_manager_bridges") {
-                    bridges_exist = true;
-                    break;
-                }
-            }
-            
+            // If bridges are not set in DB (first run), populate with bootstrap bridges
             if (!bridges_exist) {
                     controller.bridge_lines = BOOTSTRAP_BRIDGES;
-                    // Don't save to DB yet to allow "clean" revert? 
-                    // No, better to persist it so user sees it.
                     db.settings.upsert()
-                    .value(db.settings.key, "tor_manager_bridges", true)
-                    .value(db.settings.value, BOOTSTRAP_BRIDGES)
-                    .perform();
+                        .value(db.settings.key, "tor_manager_bridges", true)
+                        .value(db.settings.value, BOOTSTRAP_BRIDGES)
+                        .perform();
             }
 
             if (is_enabled) {
@@ -178,6 +175,12 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
                  return;
             }
 
+            // If user already disabled Tor, don't retry — just clean up
+            if (!is_enabled) {
+                debug("TorManager: Tor exited (status %d) but is_enabled=false. No retry.", status);
+                return;
+            }
+
             if (retry_count < MAX_RETRIES) {
                 retry_count++;
                 warning("TorManager: Tor exited unexpectedly with status %d so we are trying to fix it. Attempt %d/%d. Cleaning state...", status, retry_count, MAX_RETRIES);
@@ -198,15 +201,17 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
         public async void set_bridges(string bridges) {
             debug("TorManager: Updating bridges settings.");
             controller.bridge_lines = bridges;
-             db.settings.upsert()
+            db.settings.upsert()
                     .value(db.settings.key, "tor_manager_bridges", true)
                     .value(db.settings.value, bridges)
                     .perform();
             
             // If running, restart to apply
-            if (is_enabled) {
+            if (is_enabled && !is_transitioning) {
+                is_transitioning = true;
                 yield stop_tor(false);
                 yield start_tor(true);
+                is_transitioning = false;
             }
         }
 
@@ -220,10 +225,11 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
                     .value(db.settings.value, use ? "true" : "false")
                     .perform();
             
-             // If running, restart to apply
-            if (is_enabled) {
+            if (is_enabled && !is_transitioning) {
+                is_transitioning = true;
                 yield stop_tor(false);
                 yield start_tor(true);
+                is_transitioning = false;
             }
         }
 
@@ -237,17 +243,23 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
                     .value(db.settings.value, use ? "true" : "false")
                     .perform();
 
-            // If running, restart to apply
-            if (is_enabled) {
+            if (is_enabled && !is_transitioning) {
+                is_transitioning = true;
                 yield stop_tor(false);
                 yield start_tor(true);
+                is_transitioning = false;
             }
         }
 
         public async void set_enabled(bool enabled) {
+            if (is_transitioning) {
+                debug("TorManager: set_enabled(%s) ignored — transition already in progress.", enabled.to_string());
+                return;
+            }
             debug("TorManager: set_enabled(%s) called. Current state: %s", enabled.to_string(), is_enabled.to_string());
             is_enabled = enabled;
-            // Update DB
+            is_transitioning = true;
+
             var val = enabled ? "true" : "false";
             
             db.settings.upsert()
@@ -262,15 +274,30 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
                 debug("TorManager: Stopping Tor and cleaning up...");
                 yield stop_tor(true);
             }
+            is_transitioning = false;
         }
 
         public async void start_tor(bool apply_proxy = false) {
             yield controller.start();
+
+            // Bail out if Tor was disabled while we were starting (user toggled OFF mid-startup)
+            if (!is_enabled || !controller.is_running) {
+                debug("TorManager: Tor disabled or not running after start(). Skipping proxy application.");
+                return;
+            }
+
             if (apply_proxy) {
                 // Wait for Tor to fully bootstrap before applying proxy settings.
                 // Otherwise, XMPP connections attempt to use the SOCKS5 proxy before
                 // Tor has built circuits, resulting in "connection refused" errors.
                 bool bootstrapped = yield wait_for_bootstrap(60);
+
+                // Re-check: user may have disabled Tor while we waited for bootstrap
+                if (!is_enabled || !controller.is_running) {
+                    debug("TorManager: Tor disabled or died during bootstrap wait. Skipping proxy application.");
+                    return;
+                }
+
                 if (bootstrapped) {
                     debug("TorManager: Tor bootstrapped, applying proxy settings now.");
                     apply_proxy_to_accounts(true);
@@ -320,6 +347,8 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
 
         public async void stop_tor(bool remove_proxy = false) {
             controller.stop();
+            retry_count = 0;  // Reset for next enable cycle
+
             // ALWAYS try to remove proxy if requested, even if we think it's stopped
             if (remove_proxy) {
                 // Ensure the database and RAM are consistent with "Tor OFF"
@@ -327,7 +356,6 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
                 debug("TorManager: stop_tor calling cleanup_lingering_proxies() to fix RAM/DB mismatch.");
                 yield cleanup_lingering_proxies();
             }
-
         }
 
         public void apply_proxy_to_accounts(bool enable_tor) {
@@ -378,20 +406,21 @@ obfs4 198.245.60.50:443 6C61208D644265A16CB0C7E835787C1D8429EC08 cert=sT/u/T1uA+
         }
 
         private async void reconnect_account(Account account) {
-             // Force reconnect even if disconnected, to ensure new proxy settings are picked up immediately
-             var state = stream_interactor.connection_manager.get_state(account);
+             // Force reconnect to ensure new proxy settings are picked up immediately.
+             // ALWAYS disconnect first, even in DISCONNECTED state, to cancel any
+             // pending connect_stream attempts that still use old proxy settings.
+             var cm = stream_interactor.connection_manager;
+             var state = cm.get_state(account);
              debug("TorManager: Reconnecting %s (Current State: %s)", account.bare_jid.to_string(), state.to_string());
-             
-             if (state == ConnectionManager.ConnectionState.CONNECTED || state == ConnectionManager.ConnectionState.CONNECTING) {
-                 debug("Disconnecting account %s to apply Tor settings...", account.bare_jid.to_string());
-                 yield stream_interactor.connection_manager.disconnect_account(account);
-                 
-                 // Wait a bit using Glib Timeout (async compatible)
-                 yield new Request(250).await();
-             }
-             
-             debug("Reconnecting account %s through Tor...", account.bare_jid.to_string());
-             stream_interactor.connect_account(account);
+
+             // Disconnect to cancel stale connection attempts and clear connection entry
+             yield cm.disconnect_account(account);
+             yield new Request(500).await();
+
+             // Use connection_manager directly — DO NOT call stream_interactor.connect_account()
+             // which fires account_added again and confuses OMEMO, presence, and other modules.
+             debug("TorManager: Reconnecting account %s with current proxy settings...", account.bare_jid.to_string());
+             cm.connect_account(account);
         }
         
         // Helper class for async wait

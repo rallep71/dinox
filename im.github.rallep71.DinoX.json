@@ -3,6 +3,9 @@
     "runtime": "org.gnome.Platform",
     "runtime-version": "48",
     "sdk": "org.gnome.Sdk",
+    "sdk-extensions": [
+        "org.freedesktop.Sdk.Extension.golang"
+    ],
     "command": "dinox",
     "separate-locales": false,
     "add-extensions": {
@@ -275,8 +278,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://dist.torproject.org/tor-0.4.8.22.tar.gz",
-                    "sha256": "c88620d9278a279e3d227ff60975b84aa41359211f8ecff686019923b9929332"
+                    "url": "https://dist.torproject.org/tor-0.4.9.5.tar.gz",
+                    "sha256": "c949c2f86b348e64891976f6b1e49c177655b23df97193049bf1b8cd3099e179"
                 }
             ]
         },
@@ -304,6 +307,29 @@
                     "url": "http://ftp.de.debian.org/debian/pool/main/o/obfs4proxy/obfs4proxy_0.0.14-2+b6_arm64.deb",
                     "sha256": "9650d81d5f7df23c161677963294d982242422bcf00fb12f2f62a3382c7f46f1",
                     "dest-filename": "obfs4proxy.deb"
+                }
+            ]
+        },
+        {
+            "name": "lyrebird",
+            "buildsystem": "simple",
+            "build-options": {
+                "append-path": "/usr/lib/sdk/golang/bin",
+                "env": {
+                    "GOPATH": "/run/build/lyrebird/go",
+                    "GOBIN": "/app/bin",
+                    "GO111MODULE": "on",
+                    "GOFLAGS": "-mod=vendor"
+                }
+            },
+            "build-commands": [
+                ". /usr/lib/sdk/golang/enable.sh && cd lyrebird-lyrebird-0.8.1-* && go build -trimpath -ldflags '-s -w' -o /app/bin/lyrebird ./cmd/lyrebird"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/rallep71/dinox/releases/download/lyrebird-0.8.1/lyrebird-0.8.1-vendored.tar.gz",
+                    "sha256": "05d87533c66562baae8a0adac6ae7f7401aa08516ea0dfd192a367d2f8645092"
                 }
             ]
         },
