@@ -5,9 +5,22 @@ using Gst;
 extern const string GETTEXT_PACKAGE;
 extern const string LOCALE_INSTALL_DIR;
 
+#if HAVE_MALLOC_TRIM
+[CCode (cname = "mallopt", cheader_filename = "malloc.h")]
+extern int mallopt (int param, int value);
+#endif
+
 namespace Dino {
 
 void main(string[] args) {
+
+#if HAVE_MALLOC_TRIM
+    // Force allocations > 64 KB to use mmap instead of sbrk.  When freed,
+    // mmap'd pages are returned to the OS immediately (munmap) instead of
+    // lingering in glibc's arena — preventing the heap fragmentation that
+    // makes malloc_trim() ineffective for large GStreamer buffer pools.
+    mallopt(-3 /* M_MMAP_THRESHOLD */, 65536);
+#endif
 
     // Handle `--version` early (before GTK/GApplication startup).
     for (int i = 1; i < args.length; i++) {

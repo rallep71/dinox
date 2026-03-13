@@ -648,12 +648,21 @@ public class Dino.Ui.CallWindowController : Object {
         // so both objects can be finalized by the GObject ref-counting system.
         call_window.controller = null;
 
+        // Release our strong ref to call_state so GObject can finalize it
+        // (together with PeerState, content parameters, etc.).
+        call_state = null;
+
 #if HAVE_MALLOC_TRIM
-        // Final trim: by now all UI widgets, GStreamer elements, and
-        // signal closures from the call have been freed.  Return the
-        // pages to the OS so the resident set drops back to baseline.
+        // First trim: return pages freed so far (pipeline, widgets).
         malloc_trim(0);
-        debug("malloc_trim(0) completed after call window cleanup");
+        // Deferred trim: GObject ref-counting may finalize CallState,
+        // PeerState, and GStreamer closures asynchronously after we return.
+        // Schedule a second trim to catch those late frees.
+        Timeout.add(500, () => {
+            malloc_trim(0);
+            debug("malloc_trim(0) deferred after call window cleanup");
+            return Source.REMOVE;
+        });
 #endif
     }
 
