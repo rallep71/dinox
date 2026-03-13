@@ -323,7 +323,7 @@
                 }
             },
             "build-commands": [
-                ". /usr/lib/sdk/golang/enable.sh && cd lyrebird-lyrebird-0.8.1-* && go build -trimpath -ldflags '-s -w' -o /app/bin/lyrebird ./cmd/lyrebird"
+                ". /usr/lib/sdk/golang/enable.sh && go build -trimpath -ldflags '-s -w' -o /app/bin/lyrebird ./cmd/lyrebird"
             ],
             "sources": [
                 {
