@@ -307,6 +307,7 @@ public class MessageMetaItem : ContentMetaItem {
         box.add_css_class("message-content");
         box.halign = Align.START;
         box.hexpand = false;
+        box.width_request = 256;
         
         Overlay overlay = new Overlay();
         overlay.set_size_request(256, 256);
