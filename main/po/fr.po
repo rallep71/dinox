@@ -6762,11 +6762,37 @@ msgstr "Pare-feu"
 msgid "Open in OpenStreetMap"
 msgstr "Ouvrir dans OpenStreetMap"
 
-#: main/src/ui/util/location_manager.vala:24
-msgid "Location services are not yet available on this platform."
-msgstr ""
-"Les services de localisation ne sont pas encore disponibles sur cette "
-"plateforme."
+#: main/src/ui/util/location_manager.vala:30
+msgid "Location services are not available (GeoClue2 not installed)."
+msgstr "Les services de localisation ne sont pas disponibles (GeoClue2 non installé)."
+
+#: main/src/ui/conversation_view_controller.vala:394
+msgid "Enter coordinates or paste a geo: link (e.g. geo:48.2082,16.3738)"
+msgstr "Entrez des coordonnées ou collez un lien geo: (par ex. geo:48.2082,16.3738)"
+
+#: main/src/ui/conversation_view_controller.vala:401
+msgid "Latitude"
+msgstr "Latitude"
+
+#: main/src/ui/conversation_view_controller.vala:408
+msgid "Longitude"
+msgstr "Longitude"
+
+#: main/src/ui/conversation_view_controller.vala:415
+msgid "or geo: link"
+msgstr "ou lien geo:"
+
+#: main/src/ui/conversation_view_controller.vala:435
+msgid "Send"
+msgstr "Envoyer"
+
+#: main/src/ui/conversation_view_controller.vala:452
+msgid "Invalid coordinates"
+msgstr "Coordonnées invalides"
+
+#: main/src/ui/conversation_view_controller.vala:452
+msgid "Please enter valid latitude (-90 to 90) and longitude (-180 to 180)."
+msgstr "Veuillez entrer une latitude valide (-90 à 90) et une longitude (-180 à 180)."
 
 #~ msgid "Help: How to join channels"
 #~ msgstr "Aide : Comment rejoindre les canaux"
@@ -7167,9 +7193,6 @@ msgstr ""
 
 #~ msgid "Check the spelling or try to remove filters"
 #~ msgstr "Vérifiez l’orthographe ou essayez de supprimer des filtres"
-
-#~ msgid "Send"
-#~ msgstr "Envoyer"
 
 #, c-format
 #~ msgid "Sign in to %s"

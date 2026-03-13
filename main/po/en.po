@@ -6433,9 +6433,37 @@ msgstr "Firewall"
 msgid "Open in OpenStreetMap"
 msgstr "Open in OpenStreetMap"
 
-#: main/src/ui/util/location_manager.vala:24
-msgid "Location services are not yet available on this platform."
-msgstr "Location services are not yet available on this platform."
+#: main/src/ui/util/location_manager.vala:30
+msgid "Location services are not available (GeoClue2 not installed)."
+msgstr "Location services are not available (GeoClue2 not installed)."
+
+#: main/src/ui/conversation_view_controller.vala:394
+msgid "Enter coordinates or paste a geo: link (e.g. geo:48.2082,16.3738)"
+msgstr "Enter coordinates or paste a geo: link (e.g. geo:48.2082,16.3738)"
+
+#: main/src/ui/conversation_view_controller.vala:401
+msgid "Latitude"
+msgstr "Latitude"
+
+#: main/src/ui/conversation_view_controller.vala:408
+msgid "Longitude"
+msgstr "Longitude"
+
+#: main/src/ui/conversation_view_controller.vala:415
+msgid "or geo: link"
+msgstr "or geo: link"
+
+#: main/src/ui/conversation_view_controller.vala:435
+msgid "Send"
+msgstr "Send"
+
+#: main/src/ui/conversation_view_controller.vala:452
+msgid "Invalid coordinates"
+msgstr "Invalid coordinates"
+
+#: main/src/ui/conversation_view_controller.vala:452
+msgid "Please enter valid latitude (-90 to 90) and longitude (-180 to 180)."
+msgstr "Please enter valid latitude (-90 to 90) and longitude (-180 to 180)."
 
 #~ msgid "Help: How to join channels"
 #~ msgstr "Help: How to join channels"

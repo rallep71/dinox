@@ -178,6 +178,10 @@ endif
 if have_x11
     vala_args += ['-D', 'HAVE_X11']
 endif
+if dep_geoclue.found()
+    dependencies += dep_geoclue
+    vala_args += ['-D', 'HAVE_GEOCLUE']
+endif
 if dep_gtk4.version() == 'unknown' or dep_gtk4.version().version_compare('>=4.6')
     vala_args += ['-D', 'GTK_4_6']
 endif
