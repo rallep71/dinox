@@ -6836,6 +6836,14 @@ msgstr "%d Brücke(n) auf Standardports (443/80)."
 msgid "Firewall"
 msgstr "Firewall"
 
+#: main/src/ui/conversation_content_view/message_widget.vala:345
+msgid "Open in OpenStreetMap"
+msgstr "In OpenStreetMap öffnen"
+
+#: main/src/ui/util/location_manager.vala:24
+msgid "Location services are not yet available on this platform."
+msgstr "Standortdienste sind auf dieser Plattform noch nicht verfügbar."
+
 #~ msgid "Help: How to join channels"
 #~ msgstr "Hilfe: Wie man Kanälen beitritt"
 

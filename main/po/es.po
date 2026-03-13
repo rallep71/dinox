@@ -6735,6 +6735,15 @@ msgstr "%d puente(s) en puertos estándar (443/80)."
 msgid "Firewall"
 msgstr "Cortafuegos"
 
+#: main/src/ui/conversation_content_view/message_widget.vala:345
+msgid "Open in OpenStreetMap"
+msgstr "Abrir en OpenStreetMap"
+
+#: main/src/ui/util/location_manager.vala:24
+msgid "Location services are not yet available on this platform."
+msgstr ""
+"Los servicios de ubicación aún no están disponibles en esta plataforma."
+
 #~ msgid "Help: How to join channels"
 #~ msgstr "Ayuda: Cómo unirse a canales"
 

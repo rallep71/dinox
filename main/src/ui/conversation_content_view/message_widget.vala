@@ -302,7 +302,7 @@ public class MessageMetaItem : ContentMetaItem {
         
         // Fetch image
         var session = new Soup.Session();
-        session.user_agent = "DinoX/0.0"; // Identify nicely
+        session.user_agent = @"Dino/$(Dino.get_short_version()) ";
         var msg = new Soup.Message("GET", tile_url);
         
         session.send_and_read_async.begin(msg, Priority.DEFAULT, null, (obj, res) => {
@@ -335,7 +335,7 @@ public class MessageMetaItem : ContentMetaItem {
 
         box.append(overlay);
         
-        Label caption = new Label("Open OpenStreetMap");
+        Label caption = new Label(_("Open in OpenStreetMap"));
         caption.add_css_class("dim-label");
         caption.margin_top = 5;
         box.append(caption);

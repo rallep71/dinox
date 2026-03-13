@@ -21,7 +21,7 @@ namespace Dino.Ui {
             accuracy = 0;
             
             // Einfach Fehler werfen, damit die UI weiß, dass es nicht geht.
-            throw new IOError.NOT_SUPPORTED("Standortdienste sind unter Windows noch nicht verfügbar.");
+            throw new IOError.NOT_SUPPORTED(_("Location services are not yet available on this platform."));
         }
     }
 }

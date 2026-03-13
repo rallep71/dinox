@@ -6367,3 +6367,11 @@ msgstr ""
 #: plugins/tor-manager/src/ui_indicator.vala:204
 msgid "Firewall"
 msgstr ""
+
+#: main/src/ui/conversation_content_view/message_widget.vala:345
+msgid "Open in OpenStreetMap"
+msgstr ""
+
+#: main/src/ui/util/location_manager.vala:24
+msgid "Location services are not yet available on this platform."
+msgstr ""
