@@ -121,13 +121,14 @@ sudo apt install \
     libgnutls28-dev \
     libsrtp2-dev \
     libcjson-dev \
-    gstreamer1.0-plugins-good
+    gstreamer1.0-plugins-good \
+    golang-go
 
-# Then build custom dependencies from source (protobuf-c, mosquitto, libomemo-c, etc.)
+# Then build custom dependencies from source (protobuf-c, mosquitto, libomemo-c, lyrebird, etc.)
 ./scripts/ci-build-deps.sh
 ```
 
-> **Note:** `ci-build-deps.sh` builds protobuf-c 1.5.2, mosquitto 2.1.2, libomemo-c 0.5.1, SQLCipher 4.6.1 (FTS5), webrtc-audio-processing 2.1, and libnice 0.1.23 from source. These replace the (often outdated) Ubuntu packages.
+> **Note:** `ci-build-deps.sh` builds protobuf-c 1.5.2, mosquitto 2.1.2, libomemo-c 0.5.1, SQLCipher 4.6.1 (FTS5), webrtc-audio-processing 2.1, libnice 0.1.23, and lyrebird 0.8.1 from source. These replace the (often outdated) Ubuntu packages.
 
 ### Fedora
 
@@ -158,7 +159,8 @@ sudo dnf install \
     libnice-devel \
     gnutls-devel \
     libsrtp2-devel \
-    gstreamer1-plugins-good
+    gstreamer1-plugins-good \
+    golang
 
 # Then build custom dependencies from source
 ./scripts/ci-build-deps.sh
@@ -192,7 +194,8 @@ sudo pacman -S \
     gst-plugin-pipewire \
     libnice \
     gnutls \
-    libsrtp
+    libsrtp \
+    go
 
 # Then build custom dependencies from source
 ./scripts/ci-build-deps.sh

@@ -209,6 +209,10 @@ echo "mosquitto $(pkg-config --modversion libmosquitto 2>/dev/null || echo '?') 
 
 # 7. lyrebird (pluggable transport for Tor: obfs4 + WebTunnel)
 # Replaces obfs4proxy. Requires Go >= 1.22.
+if ! command -v go &>/dev/null; then
+    echo "ERROR: 'go' not found. Install golang-go >= 1.22 for lyrebird build."
+    exit 1
+fi
 echo "Building lyrebird..."
 LYREBIRD_VER=0.8.1
 LYREBIRD_TAG="lyrebird-${LYREBIRD_VER}"
