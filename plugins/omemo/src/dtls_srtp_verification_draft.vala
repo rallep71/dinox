@@ -99,6 +99,25 @@ namespace Dino.Plugins.Omemo.DtlsSrtpVerificationDraft {
             }
         }
 
+        // Proactively build OMEMO session for call DTLS fingerprint encryption.
+        // Called when we learn the peer's device_id from JMI proceed.
+        private async void ensure_session_with_device(XmppStream stream, Jid jid, int device_id) {
+            Omemo.StreamModule? omemo_module = stream.get_module<Omemo.StreamModule>(Omemo.StreamModule.IDENTITY);
+            if (omemo_module == null) return;
+            try {
+                Address address = new Address(jid.bare_jid.to_string(), device_id);
+                bool has_session = omemo_module.store.contains_session(address);
+                address.device_id = 0;
+                if (!has_session) {
+                    debug("No OMEMO session for %s/%d, fetching bundle for call encryption", jid.bare_jid.to_string(), device_id);
+                    yield omemo_module.request_user_devicelist(stream, jid);
+                    omemo_module.fetch_bundle(stream, jid, device_id, false);
+                }
+            } catch (Error e) {
+                debug("Could not check/fetch OMEMO session for %s/%d: %s", jid.bare_jid.to_string(), device_id, e.message);
+            }
+        }
+
         private void on_preprocess_outgoing_iq_set_get(XmppStream stream, Xmpp.Iq.Stanza iq) {
             if (iq.type_ != Iq.Stanza.TYPE_SET) return;
 
@@ -147,7 +166,9 @@ namespace Dino.Plugins.Omemo.DtlsSrtpVerificationDraft {
                     encryptor.encrypt_key(enc_data, iq.to.bare_jid, device_id);
                     encrypted_node = enc_data.get_encrypted_node();
                 } catch (Error e) {
-                    warning("Error while OMEMO-encrypting call keys: %s", e.message);
+                    debug("OMEMO-encrypting call DTLS fingerprint for %s/%d not possible: %s", iq.to.bare_jid.to_string(), device_id, e.message);
+                    // Fetch bundle so the session is ready for subsequent IQs or future calls
+                    ensure_session_with_device.begin(stream, iq.to.bare_jid, device_id);
                     continue;
                 }
 
@@ -176,6 +197,10 @@ namespace Dino.Plugins.Omemo.DtlsSrtpVerificationDraft {
             if (device_id == -1) return;
 
             device_id_by_jingle_sid[jingle_sid] = device_id;
+
+            // Proactively ensure OMEMO session exists so DTLS fingerprint
+            // encryption succeeds when the Jingle IQ is sent shortly after.
+            ensure_session_with_device.begin(stream, message.from.bare_jid, device_id);
         }
 
         private void on_session_initiate_received(XmppStream stream, Xep.Jingle.Session session) {
