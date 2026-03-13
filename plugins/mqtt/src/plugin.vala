@@ -82,6 +82,12 @@ public class Plugin : RootInterface, Object {
     private string? cfg_pass = null;
     private string[] cfg_topics = {};
 
+    /* ── Signal handler IDs (for proper cleanup) ──────────────────── */
+    private ulong sig_pre_message_send = 0;
+    private ulong sig_connection_state_changed = 0;
+    private ulong sig_configure_preferences = 0;
+    private ulong sig_open_mqtt_manager = 0;
+
     /* ── Sub-systems ──────────────────────────────────────────────── */
     public MqttBotConversation? bot_conversation = null;
     private MqttCommandHandler? command_handler = null;
@@ -180,17 +186,17 @@ public class Plugin : RootInterface, Object {
         bridge_manager = new MqttBridgeManager(this);
 
         /* Register settings page */
-        app.configure_preferences.connect(on_preferences_configure);
+        sig_configure_preferences = app.configure_preferences.connect(on_preferences_configure);
 
         /* Register account MQTT Bot manager signal */
-        app.open_account_mqtt_manager.connect(on_open_account_mqtt_manager);
+        sig_open_mqtt_manager = app.open_account_mqtt_manager.connect(on_open_account_mqtt_manager);
 
         /* Listen for XMPP connection state changes (per-account MQTT lifecycle) */
-        app.stream_interactor.connection_manager.connection_state_changed.connect(
+        sig_connection_state_changed = app.stream_interactor.connection_manager.connection_state_changed.connect(
             on_xmpp_connection_state_changed);
 
         /* Intercept outgoing messages to the MQTT bot (prevent XMPP send) */
-        app.stream_interactor.get_module<MessageProcessor>(
+        sig_pre_message_send = app.stream_interactor.get_module<MessageProcessor>(
             MessageProcessor.IDENTITY).pre_message_send.connect(
                 on_pre_message_send);
 
@@ -212,6 +218,12 @@ public class Plugin : RootInterface, Object {
     }
 
     public void shutdown() {
+        /* Disconnect signal handlers to prevent interference with
+         * other plugins (video calls, file transfers) after disable.
+         * Without this, handlers on pre_message_send and
+         * connection_state_changed remain active permanently. */
+        disconnect_signal_handlers();
+
         /* Stop periodic purge timer */
         if (purge_timer_id != 0) {
             Source.remove(purge_timer_id);
@@ -253,6 +265,36 @@ public class Plugin : RootInterface, Object {
         account_clients.clear();
 
         message("MQTT plugin: shutdown");
+    }
+
+    /**
+     * Disconnect all signal handlers from core DinoX components.
+     * This ensures the MQTT plugin doesn't interfere with other
+     * subsystems (RTP video calls, file transfers, etc.) after being
+     * disabled at runtime. Without this, leaked handlers can:
+     * - Block the main loop on every outgoing message
+     * - Trigger bridge flushes and server detection on XMPP reconnect
+     * - Hold stale build_message_stanza handlers that scan every message
+     */
+    private void disconnect_signal_handlers() {
+        if (sig_pre_message_send != 0) {
+            var mp = app.stream_interactor.get_module<MessageProcessor>(
+                MessageProcessor.IDENTITY);
+            if (mp != null) mp.disconnect(sig_pre_message_send);
+            sig_pre_message_send = 0;
+        }
+        if (sig_connection_state_changed != 0) {
+            app.stream_interactor.connection_manager.disconnect(sig_connection_state_changed);
+            sig_connection_state_changed = 0;
+        }
+        if (sig_configure_preferences != 0) {
+            app.disconnect(sig_configure_preferences);
+            sig_configure_preferences = 0;
+        }
+        if (sig_open_mqtt_manager != 0) {
+            app.disconnect(sig_open_mqtt_manager);
+            sig_open_mqtt_manager = 0;
+        }
     }
 
     public void rekey_database(string new_key) throws Error {
@@ -978,6 +1020,10 @@ public class Plugin : RootInterface, Object {
 
     private void on_xmpp_connection_state_changed(Account account,
                                                   ConnectionManager.ConnectionState state) {
+        /* Early exit: if MQTT is entirely disabled, don't interfere
+         * with XMPP connection handling at all. */
+        if (!mqtt_enabled) return;
+
         string jid = account.bare_jid.to_string();
 
         if (state == ConnectionManager.ConnectionState.CONNECTED) {
@@ -1387,28 +1433,39 @@ public class Plugin : RootInterface, Object {
                         debug("MQTT Bridge: Binary %s too large (%d bytes) — skipping",
                               binary_ext, payload.length);
                     } else {
-                        string? temp_path = save_binary_payload(payload, binary_ext);
-                        if (temp_path != null) {
-                            debug("MQTT Bridge: Binary %s detected (%d bytes), saved to %s",
-                                  binary_ext, payload.length, temp_path);
-                            bridged = bridge_manager.evaluate_binary(label, topic, temp_path);
-                            if (!bridged) {
-                                /* No rule matched — clean up unused temp file */
-                                GLib.FileUtils.unlink(temp_path);
-                            } else {
-                                /* Delayed cleanup: multiple bridge rules may
-                                 * match the same binary file — give uploads
-                                 * time to read before deleting. (Robustness R1) */
-                                string tp = temp_path;
-                                Timeout.add_seconds(120, () => {
-                                    GLib.FileUtils.unlink(tp);
-                                    return false;
-                                });
-                            }
-                        } else {
-                            warning("MQTT Bridge: Binary %s detected but failed to save temp file",
-                                    binary_ext);
-                        }
+                        /* Offload file write to a background thread to avoid
+                         * blocking the main loop — large payloads (up to 10 MB)
+                         * would otherwise stall RTP/Jingle video calls and
+                         * ICE negotiation. */
+                        uint8[] payload_copy = payload;
+                        string ext_copy = binary_ext;
+                        string label_copy = label;
+                        string topic_copy = topic;
+                        new Thread<void*>("mqtt-binary-save", () => {
+                            string? temp_path = save_binary_payload(payload_copy, ext_copy);
+                            Idle.add(() => {
+                                if (temp_path != null && bridge_manager != null) {
+                                    debug("MQTT Bridge: Binary %s detected (%d bytes), saved to %s",
+                                          ext_copy, payload_copy.length, temp_path);
+                                    bool b = bridge_manager.evaluate_binary(label_copy, topic_copy, temp_path);
+                                    if (!b) {
+                                        GLib.FileUtils.unlink(temp_path);
+                                    } else {
+                                        string tp = temp_path;
+                                        Timeout.add_seconds(120, () => {
+                                            GLib.FileUtils.unlink(tp);
+                                            return false;
+                                        });
+                                    }
+                                } else if (temp_path == null) {
+                                    warning("MQTT Bridge: Binary %s detected but failed to save temp file",
+                                            ext_copy);
+                                }
+                                return false;
+                            });
+                            return null;
+                        });
+                        bridged = true;  /* assume bridged — actual result on main loop */
                     }
                 } else if (stream_url != null) {
                     /* M3U/PLS playlist — forward the extracted stream URL */

@@ -619,11 +619,31 @@ public class MqttBridgeManager : Object {
              * clients render the URL as an inline file/image preview. */
             if (url_copy != null) {
                 ulong signal_id = 0;
+                bool[] disconnected = { false };
                 signal_id = mp.build_message_stanza.connect((msg, stanza, c) => {
                     if (msg.id == out_msg.id) {
                         Xmpp.Xep.OutOfBandData.add_url_to_message(stanza, url_copy);
-                        mp.disconnect(signal_id);
+                        if (!disconnected[0]) {
+                            disconnected[0] = true;
+                            mp.disconnect(signal_id);
+                        }
                     }
+                });
+
+                /* Safety net: auto-disconnect the handler after 30 s in case
+                 * the message is never sent (e.g. stream goes down).
+                 * Without this, leaked handlers accumulate on
+                 * build_message_stanza and scan every future outgoing
+                 * message — causing slowdowns and interference with
+                 * file transfers and video calls. */
+                ulong leaked_id = signal_id;
+                MessageProcessor mp_ref = mp;
+                Timeout.add_seconds(30, () => {
+                    if (!disconnected[0]) {
+                        disconnected[0] = true;
+                        mp_ref.disconnect(leaked_id);
+                    }
+                    return false;
                 });
             }
 
