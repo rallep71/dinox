@@ -6469,6 +6469,22 @@ msgstr "Invalid coordinates"
 msgid "Please enter valid latitude (-90 to 90) and longitude (-180 to 180)."
 msgstr "Please enter valid latitude (-90 to 90) and longitude (-180 to 180)."
 
+#: main/src/ui/conversation_view_controller.vala
+msgid "Low location accuracy"
+msgstr "Low location accuracy"
+
+#: main/src/ui/conversation_view_controller.vala
+msgid "The detected location has an accuracy of approximately %.0f km. This may be very inaccurate. You can send it anyway or enter coordinates manually."
+msgstr "The detected location has an accuracy of approximately %.0f km. This may be very inaccurate. You can send it anyway or enter coordinates manually."
+
+#: main/src/ui/conversation_view_controller.vala
+msgid "Enter manually"
+msgstr "Enter manually"
+
+#: main/src/ui/conversation_view_controller.vala
+msgid "Send anyway"
+msgstr "Send anyway"
+
 #~ msgid "Help: How to join channels"
 #~ msgstr "Help: How to join channels"
 

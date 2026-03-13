@@ -6407,3 +6407,19 @@ msgstr ""
 #: main/src/ui/conversation_view_controller.vala:452
 msgid "Please enter valid latitude (-90 to 90) and longitude (-180 to 180)."
 msgstr ""
+
+#: main/src/ui/conversation_view_controller.vala
+msgid "Low location accuracy"
+msgstr ""
+
+#: main/src/ui/conversation_view_controller.vala
+msgid "The detected location has an accuracy of approximately %.0f km. This may be very inaccurate. You can send it anyway or enter coordinates manually."
+msgstr ""
+
+#: main/src/ui/conversation_view_controller.vala
+msgid "Enter manually"
+msgstr ""
+
+#: main/src/ui/conversation_view_controller.vala
+msgid "Send anyway"
+msgstr ""

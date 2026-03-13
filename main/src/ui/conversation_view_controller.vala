@@ -403,12 +403,38 @@ public class ConversationViewController : Object {
                 double lat, lon, accuracy;
                 loc_mgr.get_location.end(res, out lat, out lon, out accuracy);
                 debug("ConversationViewController: Location retrieved successfully");
-                send_location_message(lat, lon, accuracy);
+                if (accuracy > 1000) {
+                    show_accuracy_warning(lat, lon, accuracy);
+                } else {
+                    send_location_message(lat, lon, accuracy);
+                }
             } catch (Error e) {
                 warning("ConversationViewController: GeoClue failed: %s — showing manual dialog", e.message);
                 show_manual_location_dialog();
             }
         });
+    }
+
+    private void show_accuracy_warning(double lat, double lon, double accuracy) {
+        double accuracy_km = accuracy / 1000.0;
+        string body_text = _("The detected location has an accuracy of approximately %.0f km. This may be very inaccurate. You can send it anyway or enter coordinates manually.").printf(accuracy_km);
+        var dialog = new Adw.AlertDialog(_("Low location accuracy"), body_text);
+
+        dialog.add_response("cancel", _("Cancel"));
+        dialog.add_response("manual", _("Enter manually"));
+        dialog.add_response("send", _("Send anyway"));
+        dialog.set_response_appearance("manual", Adw.ResponseAppearance.SUGGESTED);
+        dialog.set_response_appearance("send", Adw.ResponseAppearance.DESTRUCTIVE);
+
+        dialog.response.connect((response) => {
+            if (response == "send") {
+                send_location_message(lat, lon, accuracy);
+            } else if (response == "manual") {
+                show_manual_location_dialog();
+            }
+        });
+
+        dialog.present(main_window);
     }
 
     private void show_manual_location_dialog() {
