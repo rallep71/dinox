@@ -75,6 +75,22 @@ jobs:
             mingw-w64-x86_64-librsvg
             mingw-w64-x86_64-mosquitto
             mingw-w64-x86_64-tor
+            mingw-w64-x86_64-go
+
+      # lyrebird (Tor pluggable transport: obfs4 + WebTunnel) — not in MSYS2
+      - name: Build lyrebird
+        run: |
+          echo "=== Building lyrebird ==="
+          cd /tmp
+          LYREBIRD_VER=0.8.1
+          LYREBIRD_TAG="lyrebird-${LYREBIRD_VER}"
+          curl -sL -o "lyrebird-${LYREBIRD_VER}.tar.gz" \
+            "https://gitlab.torproject.org/api/v4/projects/417/repository/archive.tar.gz?sha=${LYREBIRD_TAG}"
+          tar xf "lyrebird-${LYREBIRD_VER}.tar.gz"
+          cd lyrebird-${LYREBIRD_TAG}-*
+          CGO_ENABLED=0 go build -trimpath -ldflags '-s -w' -o lyrebird.exe ./cmd/lyrebird
+          cp lyrebird.exe /mingw64/bin/
+          echo "✓ lyrebird installed"
 
       # libomemo-c is not in MSYS2 repos — build from source
       - name: Build libomemo-c

@@ -417,7 +417,25 @@ else
     echo "    Install: pacman -S mingw-w64-x86_64-tor"
 fi
 
-# obfs4proxy (Tor bridge support)
+# lyrebird (Tor pluggable transport: obfs4 + WebTunnel) — preferred over obfs4proxy
+LYREBIRD_PATH=""
+if [ -f "/mingw64/bin/lyrebird.exe" ]; then
+    LYREBIRD_PATH="/mingw64/bin/lyrebird.exe"
+elif [ -f "$HOME/go/bin/lyrebird.exe" ]; then
+    LYREBIRD_PATH="$HOME/go/bin/lyrebird.exe"
+elif command -v lyrebird.exe &> /dev/null; then
+    LYREBIRD_PATH="$(which lyrebird.exe)"
+fi
+
+if [ -n "$LYREBIRD_PATH" ]; then
+    cp "$LYREBIRD_PATH" dist/bin/lyrebird.exe
+    echo "  [OK] lyrebird.exe (supports obfs4 + WebTunnel)"
+else
+    echo "  [WARN] Warning: lyrebird not found! WebTunnel bridges will not work."
+    echo "    Build from source: go install gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/lyrebird/cmd/lyrebird@latest"
+fi
+
+# obfs4proxy (Tor bridge support — fallback if lyrebird is unavailable)
 OBFS4_PATH=""
 if [ -f "$HOME/go/bin/obfs4proxy.exe" ]; then
     OBFS4_PATH="$HOME/go/bin/obfs4proxy.exe"
@@ -429,9 +447,9 @@ fi
 
 if [ -n "$OBFS4_PATH" ]; then
     cp "$OBFS4_PATH" dist/bin/obfs4proxy.exe
-    echo "  [OK] obfs4proxy.exe"
+    echo "  [OK] obfs4proxy.exe (obfs4 fallback)"
 else
-    echo "  [WARN] Warning: obfs4proxy not found! Bridges might not work."
+    echo "  [INFO] obfs4proxy not found (lyrebird provides obfs4 support)"
 fi
 
 # ============================================
@@ -502,7 +520,8 @@ echo "  |-- bin/"
 echo "  |   |-- gpg.exe            (OpenPGP encryption)"
 echo "  |   |-- openssl.exe        (backup encryption)"
 echo "  |   |-- tor.exe            (anonymity)"
-echo "  |   \-- obfs4proxy.exe     (bridges)"
+echo "  |   |-- lyrebird.exe       (obfs4 + WebTunnel bridges)"
+echo "  |   \-- obfs4proxy.exe     (obfs4 bridge fallback)"
 echo "  |-- lib/"
 echo "  |   |-- gdk-pixbuf-2.0/    (image loaders)"
 echo "  |   |-- gio/               (GIO modules)"

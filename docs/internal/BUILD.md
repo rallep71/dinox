@@ -373,6 +373,7 @@ pacman -S --noconfirm \
     mingw-w64-x86_64-python \
     mingw-w64-x86_64-glib-networking \
     mingw-w64-x86_64-mosquitto \
+    mingw-w64-x86_64-go \
     mingw-w64-x86_64-sqlite3 \
     mingw-w64-x86_64-hicolor-icon-theme \
     mingw-w64-x86_64-adwaita-icon-theme \
@@ -380,7 +381,22 @@ pacman -S --noconfirm \
     tar
 ```
 
-#### 3. Build libomemo-c (required, not available in MSYS2)
+#### 3. Build lyrebird (Tor pluggable transport, not available in MSYS2)
+
+```bash
+cd /tmp
+LYREBIRD_VER=0.8.1
+LYREBIRD_TAG="lyrebird-${LYREBIRD_VER}"
+curl -sL -o "lyrebird-${LYREBIRD_VER}.tar.gz" \
+  "https://gitlab.torproject.org/api/v4/projects/417/repository/archive.tar.gz?sha=${LYREBIRD_TAG}"
+tar xf "lyrebird-${LYREBIRD_VER}.tar.gz"
+cd lyrebird-${LYREBIRD_TAG}-*
+CGO_ENABLED=0 go build -trimpath -ldflags '-s -w' -o lyrebird.exe ./cmd/lyrebird
+cp lyrebird.exe /mingw64/bin/
+cd -
+```
+
+#### 4. Build libomemo-c (required, not available in MSYS2)
 
 ```bash
 git clone https://github.com/rallep71/libomemo-c.git
@@ -396,7 +412,7 @@ ninja install
 cd ../..
 ```
 
-#### 4. Build DinoX
+#### 5. Build DinoX
 
 ```bash
 git clone https://github.com/rallep71/dinox.git
@@ -405,7 +421,7 @@ meson setup build --prefix=/mingw64
 ninja -C build
 ```
 
-#### 5. Create distribution archive
+#### 6. Create distribution archive
 
 The `scripts/update_dist.sh` script collects the built executable, all required DLLs, and runtime data into a `dist/` folder:
 
@@ -417,7 +433,7 @@ The resulting `dist/` directory contains everything needed to run DinoX on Windo
 
 #### Windows notes
 
-- **Tor/Obfs4proxy/Lyrebird**: Bundled and fully functional on Windows. Tor and obfs4proxy bridges work out of the box. Lyrebird (WebTunnel support) is preferred when available.
+- **Tor/Lyrebird/Obfs4proxy**: Bundled and fully functional on Windows. Lyrebird (obfs4 + WebTunnel) is preferred at runtime; obfs4proxy serves as fallback. Build lyrebird from source (step 3) — it is not available as an MSYS2 package.
 - **libsecret/D-Bus**: Not used on Windows. Passwords are handled differently.
 - **libcanberra**: Notification sounds (message + call ringtone) are enabled by default on all Linux builds (native, Flatpak, AppImage) via `auto` detection. Not available on Windows (libcanberra is Linux-only). See [Development Plan](DEVELOPMENT_PLAN.md) for cross-platform notification sound plans.
 - **webrtc-audio-processing**: MSYS2 provides version 0.3 and 1.x. DinoX auto-detects and uses whatever is available. Version 2.x is not yet packaged for MSYS2.
