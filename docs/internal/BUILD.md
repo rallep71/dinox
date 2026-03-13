@@ -336,6 +336,39 @@ meson setup build -Dplugin-mqtt=enabled
 | MSYS2 (Windows) | `pacman -S mingw-w64-x86_64-mosquitto` | latest |
 | Flatpak | Built from source in manifest | **2.1.2** |
 
+### Location Sharing (Optional)
+
+Location sharing lets users send their GPS position as a map preview in the chat (XEP-0080 User Location). It uses **GeoClue2** (a D-Bus geolocation service) to obtain the device position. GeoClue2 is only available on Linux.
+
+- **Meson option:** `location-sharing` (default: `auto`)
+- **Dependency:** `libgeoclue-2.0` (detected via pkg-config)
+- When set to `auto` (default), location sharing is built if `libgeoclue-2.0` is found, otherwise silently disabled.
+- **Not available on Windows** (GeoClue2 is D-Bus/Linux-only).
+
+```bash
+# Check if libgeoclue is available
+pkg-config --modversion libgeoclue-2.0
+
+# Verify location sharing was built
+meson configure build | grep location
+# Expected: location-sharing  auto  [enabled]
+
+# Force-disable location sharing
+meson setup build -Dlocation-sharing=disabled
+```
+
+#### Install libgeoclue-2.0
+
+| Distro | Command | Notes |
+|--------|---------|-------|
+| Debian/Ubuntu | `sudo apt install libgeoclue-2-dev` | GeoClue2 D-Bus service usually pre-installed |
+| Fedora | `sudo dnf install geoclue2-devel` | |
+| Arch Linux | `sudo pacman -S geoclue` | |
+| Flatpak | Included in GNOME Runtime | D-Bus permission `--talk-name=org.freedesktop.GeoClue2` required (already set) |
+| AppImage | Linked at build time | Uses GeoClue2 D-Bus service from host system |
+
+> **Note:** GeoClue2 is a system D-Bus service. The library (`libgeoclue-2.0`) is only needed at **build time** for the client API. At runtime, DinoX talks to the GeoClue2 service over D-Bus — no special permissions are needed for native builds. Flatpak needs the `--talk-name=org.freedesktop.GeoClue2` finish-arg (already configured). AppImage uses the host D-Bus directly (no sandbox).
+
 ### Windows (MSYS2 / MINGW64)
 
 DinoX can be built on Windows 10/11 using the MSYS2 environment with the MINGW64 toolchain.
