@@ -133,6 +133,7 @@ sudo apt install build-essential meson ninja-build valac \
   libgpgme-dev libjson-glib-dev libqrencode-dev libsoup-3.0-dev libgstreamer1.0-dev \
   libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \
   libnice-dev libgnutls28-dev libsrtp2-dev libcjson-dev \
+  libgeoclue-2-dev \
   gstreamer1.0-plugins-good gstreamer1.0-pipewire cmake wget
 ```
 

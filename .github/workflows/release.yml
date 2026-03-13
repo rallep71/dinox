@@ -230,7 +230,7 @@ jobs:
             echo "  libsqlcipher-dev libsecret-1-dev libicu-dev libdbusmenu-glib-dev libgcrypt20-dev \\"
             echo "  libgpgme-dev libqrencode-dev libsoup-3.0-dev libgstreamer1.0-dev \\"
             echo "  libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \\"
-            echo "  libnice-dev libgnutls28-dev libsrtp2-dev \\"
+            echo "  libnice-dev libgnutls28-dev libsrtp2-dev libgeoclue-2-dev \\"
             echo "  gstreamer1.0-plugins-good gstreamer1.0-pipewire cmake wget"
             echo "${CB}"
             echo ""

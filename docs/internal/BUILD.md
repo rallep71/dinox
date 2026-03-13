@@ -121,6 +121,7 @@ sudo apt install \
     libgnutls28-dev \
     libsrtp2-dev \
     libcjson-dev \
+    libgeoclue-2-dev \
     gstreamer1.0-plugins-good \
     golang-go
 
@@ -159,6 +160,7 @@ sudo dnf install \
     libnice-devel \
     gnutls-devel \
     libsrtp2-devel \
+    geoclue2-devel \
     gstreamer1-plugins-good \
     golang
 
@@ -195,6 +197,7 @@ sudo pacman -S \
     libnice \
     gnutls \
     libsrtp \
+    geoclue \
     go
 
 # Then build custom dependencies from source
@@ -291,6 +294,7 @@ meson configure build -Dplugin-omemo=disabled
 | `plugin-rtp-v4l2-sl` | auto | V4L2 stateless video codec | kernel V4L2 |
 | `plugin-rtp-webrtc-audio-processing` | auto | Echo cancellation, noise suppression, AGC | webrtc-audio-processing |
 | `plugin-mqtt` | auto | MQTT IoT/event integration | libmosquitto |
+| `location-sharing` | auto | Location sharing with map preview (XEP-0080) | libgeoclue-2.0 |
 
 > **auto** = built if the required dependency is found, otherwise silently skipped.
 > **enabled** = build fails if the dependency is missing.

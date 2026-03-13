@@ -23,7 +23,8 @@ Build-Depends: debhelper-compat (= 13),
                libicu-dev,
                libcanberra-dev,
                libwebrtc-audio-processing-dev,
-               libdbusmenu-glib-dev
+               libdbusmenu-glib-dev,
+               libgeoclue-2-dev
 Standards-Version: 4.6.2
 Homepage: https://dinox.handwerker.jetzt
 Vcs-Git: https://github.com/rallep71/dinox.git

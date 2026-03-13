@@ -17,3 +17,5 @@ option('plugin-rtp-v4l2-sl', type: 'feature', value: 'auto', description: 'V4L2 
 option('plugin-rtp-webrtc-audio-processing', value: 'auto', type: 'feature', description: 'Voice preprocessing')
 
 option('plugin-mqtt', type: 'feature', value: 'auto', description: 'MQTT IoT/Event integration')
+
+option('location-sharing', type: 'feature', value: 'auto', description: 'Location sharing with map preview (XEP-0080, requires GeoClue2)')
