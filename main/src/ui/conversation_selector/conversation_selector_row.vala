@@ -54,6 +54,9 @@ public class ConversationSelectorRow : ListBoxRow {
     private ulong notify_read_handler_id;
     private ulong notify_pinned_handler_id;
     private ulong notify_muted_handler_id;
+    private ulong presence_show_handler_id;
+    private ulong presence_offline_handler_id;
+    private ulong presence_status_handler_id;
 
     protected StreamInteractor stream_interactor;
 
@@ -79,9 +82,9 @@ public class ConversationSelectorRow : ListBoxRow {
         if (conversation.type_ == Conversation.Type.CHAT) {
             // Connect presence signals
             var pm = stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY);
-            pm.show_received.connect(on_presence_changed);
-            pm.received_offline_presence.connect(on_presence_changed);
-            pm.status_changed.connect(on_own_status_changed);
+            presence_show_handler_id = pm.show_received.connect(on_presence_changed);
+            presence_offline_handler_id = pm.received_offline_presence.connect(on_presence_changed);
+            presence_status_handler_id = pm.status_changed.connect(on_own_status_changed);
             
             // Initial update
             update_status();
@@ -177,9 +180,15 @@ public class ConversationSelectorRow : ListBoxRow {
     ~ConversationSelectorRow() {
         if (conversation.type_ == Conversation.Type.CHAT) {
             var pm = stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY);
-            pm.show_received.disconnect(on_presence_changed);
-            pm.received_offline_presence.disconnect(on_presence_changed);
-            pm.status_changed.disconnect(on_own_status_changed);
+            if (presence_show_handler_id != 0 && pm != null && SignalHandler.is_connected(pm, presence_show_handler_id)) {
+                SignalHandler.disconnect(pm, presence_show_handler_id);
+            }
+            if (presence_offline_handler_id != 0 && pm != null && SignalHandler.is_connected(pm, presence_offline_handler_id)) {
+                SignalHandler.disconnect(pm, presence_offline_handler_id);
+            }
+            if (presence_status_handler_id != 0 && pm != null && SignalHandler.is_connected(pm, presence_status_handler_id)) {
+                SignalHandler.disconnect(pm, presence_status_handler_id);
+            }
         }
         // D14: Disconnect all registered signal handlers to prevent leaks
         // Use is_connected() guard: module instance from get_module() during finalization
