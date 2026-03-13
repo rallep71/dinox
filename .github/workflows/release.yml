@@ -256,6 +256,7 @@ jobs:
           tag_name: v${{ steps.get_version.outputs.version }}
           name: DinoX v${{ steps.get_version.outputs.version }}
           body_path: RELEASE_BODY.md
+          make_latest: "true"
           fail_on_unmatched_files: false
           files: |
             dinox-*-x86_64.flatpak
