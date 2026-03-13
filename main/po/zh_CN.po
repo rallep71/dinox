@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dino\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-12 08:28+0100\n"
-"PO-Revision-Date: 2026-02-21 16:57+0000\n"
+"PO-Revision-Date: 2026-03-13 05:28+0000\n"
 "Last-Translator: Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/dinox/translations/zh_Hans/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.1-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: main/data/add_conversation/add_groupchat_dialog.ui:82
 msgid "Add MUC"
@@ -29,7 +29,7 @@ msgstr "输入群聊名称…"
 
 #: main/data/add_conversation/select_jid_fragment.ui:25
 msgid "Use account:"
-msgstr ""
+msgstr "使用账号："
 
 #: main/data/add_conversation/select_jid_fragment.ui:38
 msgid "Search or enter channel address..."
@@ -77,7 +77,7 @@ msgstr "录制语音消息"
 
 #: main/data/chat_input.ui:119
 msgid "Record video message"
-msgstr ""
+msgstr "录制视频消息"
 
 #: main/data/chat_input.ui:133
 #: plugins/bot-features/src/message_router.vala:1674
@@ -170,7 +170,7 @@ msgstr "转至上个对话"
 
 #: main/data/main_window.ui:65 main/src/ui/main_window.vala:176
 msgid "Set Status"
-msgstr ""
+msgstr "设置状态"
 
 #: main/data/main_window.ui:119
 msgid "You have no open chats"
@@ -270,11 +270,11 @@ msgstr "查看证书"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:128
 msgid "Server Certificate"
-msgstr ""
+msgstr "服务器证书"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:129
 msgid "TLS certificate used by the XMPP server"
-msgstr ""
+msgstr "XMPP 服务器使用的 TLS 证书"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:133
 #: plugins/bot-features/src/botfather_handler.vala:387
@@ -287,21 +287,21 @@ msgstr "状态"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:141
 msgid "Issued by"
-msgstr ""
+msgstr "颁发者"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:150
 #: plugins/bot-features/src/message_router.vala:1638
 #: plugins/bot-features/src/message_router.vala:1644
 msgid "Valid"
-msgstr ""
+msgstr "有效期"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:159
 msgid "SHA-256 Fingerprint"
-msgstr ""
+msgstr "SHA-256 指纹"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:169
 msgid "Remove Pinned Certificate"
-msgstr ""
+msgstr "移除已固定证书"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:182
 msgid "Public Profile"
@@ -462,19 +462,19 @@ msgstr "服务器主机名"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:323
 msgid "Proxy Type"
-msgstr ""
+msgstr "代理类型"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:328
 msgid "SOCKS5"
-msgstr ""
+msgstr "SOCKS5"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:336
 msgid "Proxy Hostname"
-msgstr ""
+msgstr "代理主机名"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:342
 msgid "Proxy Port"
-msgstr ""
+msgstr "代理端口"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:347
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:333
@@ -484,40 +484,40 @@ msgstr "端口"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:352
 msgid "MITM Protection"
-msgstr ""
+msgstr "中间人攻击保护"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:353
 msgid ""
 "Require channel binding (SCRAM-*-PLUS). Rejects login if server does not "
 "support it."
-msgstr ""
+msgstr "需要通道绑定（SCRAM-*-PLUS）。如果服务器不支持则拒绝登录。"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:360
 #: main/data/preferences_window/general_preferences_page.ui:86
 msgid "Botmother"
-msgstr ""
+msgstr "Botmother"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:363
 msgid "Manage Botmothers"
-msgstr ""
+msgstr "管理 Botmother"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:364
 msgid "Create, configure and delete Botmothers for this account"
-msgstr ""
+msgstr "为此账号创建、配置和删除 Botmother"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:377
 msgid "MQTT Bot (Account)"
-msgstr ""
+msgstr "MQTT 机器人（账号）"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:380
 msgid "Manage Account MQTT Bot"
-msgstr ""
+msgstr "管理账号 MQTT 机器人"
 
 #: main/data/preferences_window/account_preferences_subpage.ui:381
 msgid ""
 "Topics, Publish Presets, Alerts and Bridges for this account's MQTT "
 "connection (separate from Standalone MQTT)"
-msgstr ""
+msgstr "此账号的 MQTT 连接的主题、发布预设、警报和桥接（与独立 MQTT 分开）"
 
 #: main/data/preferences_window/change_password_dialog.ui:61
 msgid "Current password"
@@ -599,51 +599,51 @@ msgstr "禁用以减少闪烁"
 
 #: main/data/preferences_window/general_preferences_page.ui:89
 msgid "Enable Botmother"
-msgstr ""
+msgstr "启用 Botmother"
 
 #: main/data/preferences_window/general_preferences_page.ui:90
 msgid "Start the local Botmother API server for managing XMPP bots"
-msgstr ""
+msgstr "启动本地 Botmother API 服务器以管理 XMPP 机器人"
 
 #: main/data/preferences_window/general_preferences_page.ui:95
 msgid "API Server Mode"
-msgstr ""
+msgstr "API 服务器模式"
 
 #: main/data/preferences_window/general_preferences_page.ui:96
 msgid "Local: localhost only. Network: all interfaces with TLS (HTTPS)"
-msgstr ""
+msgstr "本地：仅限本地主机。网络：所有接口，使用 TLS（HTTPS）"
 
 #: main/data/preferences_window/general_preferences_page.ui:101
 msgid "API Port"
-msgstr ""
+msgstr "API 端口"
 
 #: main/data/preferences_window/general_preferences_page.ui:102
 msgid "Port for the HTTP(S) API server"
-msgstr ""
+msgstr "HTTP(S) API 服务器的端口"
 
 #: main/data/preferences_window/general_preferences_page.ui:115
 msgid "TLS Certificate (PEM)"
-msgstr ""
+msgstr "TLS 证书（PEM 格式）"
 
 #: main/data/preferences_window/general_preferences_page.ui:121
 msgid "TLS Private Key (PEM)"
-msgstr ""
+msgstr "TLS 私钥（PEM 格式）"
 
 #: main/data/preferences_window/general_preferences_page.ui:127
 msgid "Renew Self-Signed Certificate"
-msgstr ""
+msgstr "续订自签名证书"
 
 #: main/data/preferences_window/general_preferences_page.ui:128
 msgid "Delete current certificate. A new one will be generated on next start."
-msgstr ""
+msgstr "删除当前证书。下次启动时将生成新证书。"
 
 #: main/data/preferences_window/general_preferences_page.ui:139
 msgid "Delete Certificate"
-msgstr ""
+msgstr "删除证书"
 
 #: main/data/preferences_window/general_preferences_page.ui:140
 msgid "Remove the self-signed certificate and private key"
-msgstr ""
+msgstr "移除自签名证书和私钥"
 
 #: main/data/preferences_window/general_preferences_page.ui:156
 msgid "User Data"
@@ -747,7 +747,7 @@ msgstr "加入"
 
 #: main/src/ui/add_conversation/add_contact_dialog.vala:40
 msgid "Search Directory"
-msgstr ""
+msgstr "搜索目录"
 
 #: main/src/ui/add_conversation/add_groupchat_dialog.vala:29
 msgid "Add"
@@ -756,7 +756,7 @@ msgstr "添加"
 #: main/src/ui/add_conversation/add_groupchat_dialog.vala:109
 #: main/src/ui/conversation_details.vala:659
 msgid "Select Avatar"
-msgstr ""
+msgstr "选择头像"
 
 #: main/src/ui/add_conversation/add_groupchat_dialog.vala:112
 #: main/src/ui/conversation_details.vala:662
@@ -821,7 +821,7 @@ msgstr "开始"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:193
 msgid "All Accounts"
-msgstr ""
+msgstr "所有账号"
 
 #: main/src/ui/add_conversation/select_jid_fragment.vala:224
 msgid "Browse Rooms"
@@ -844,7 +844,7 @@ msgstr "离开群聊"
 #: main/src/ui/add_conversation/select_jid_fragment.vala:467
 #, c-format
 msgid "Search directory for '%s'"
-msgstr ""
+msgstr "在目录中搜索“%s”"
 
 #: main/src/ui/application.vala:310 main/src/ui/systray.vala:288
 msgid "Quit"
@@ -852,7 +852,7 @@ msgstr "退出"
 
 #: main/src/ui/application.vala:505
 msgid "Backup Restored"
-msgstr ""
+msgstr "备份已恢复"
 
 #: main/src/ui/application.vala:507
 msgid ""
@@ -861,6 +861,9 @@ msgid ""
 "Please enter the password that was active for the database when the backup "
 "was created."
 msgstr ""
+"密码错误。\n"
+"\n"
+"请输入创建备份时数据库所使用的密码。"
 
 #: main/src/ui/application.vala:509
 msgid ""
@@ -869,6 +872,9 @@ msgid ""
 "Please enter the password that was active for the database when the backup "
 "was created."
 msgstr ""
+"备份已恢复。\n"
+"\n"
+"请输入创建备份时数据库所使用的密码。"
 
 #: main/src/ui/application.vala:512
 msgid "Unlock DinoX"
@@ -900,7 +906,7 @@ msgstr "设置密码"
 msgid ""
 "On first use, you need to set a password. Without a password, DinoX cannot "
 "open the encrypted database."
-msgstr ""
+msgstr "首次使用时，您需要设置一个密码。如果没有密码，DinoX 无法打开加密的数据库。"
 
 #: main/src/ui/application.vala:646
 #, c-format
@@ -929,7 +935,7 @@ msgstr "确认新密码"
 
 #: main/src/ui/application.vala:1242
 msgid "This password is used to encrypt your local DinoX data."
-msgstr ""
+msgstr "此密码用于加密您的本地 DinoX 数据。"
 
 #: main/src/ui/application.vala:1246
 msgid "Change"
@@ -1015,19 +1021,19 @@ msgstr "恢复备份"
 
 #: main/src/ui/application.vala:1462 main/src/ui/application.vala:1495
 msgid "Decrypting Backup…"
-msgstr ""
+msgstr "正在解密备份…"
 
 #: main/src/ui/application.vala:1462 main/src/ui/application.vala:1561
 msgid "Restoring Backup…"
-msgstr ""
+msgstr "正在恢复备份…"
 
 #: main/src/ui/application.vala:1463
 msgid "Please wait, this may take a moment…"
-msgstr ""
+msgstr "请稍候，这可能需要一些时间…"
 
 #: main/src/ui/application.vala:1496
 msgid "Decrypting encrypted backup file…"
-msgstr ""
+msgstr "正在解密加密的备份文件…"
 
 #: main/src/ui/application.vala:1548
 msgid "Decryption Failed"
@@ -1056,7 +1062,7 @@ msgstr "确定"
 
 #: main/src/ui/application.vala:1562
 msgid "Extracting files from backup…"
-msgstr ""
+msgstr "正在从备份中提取文件…"
 
 #: main/src/ui/application.vala:1683
 msgid "Restore Complete!"
@@ -1064,7 +1070,7 @@ msgstr "恢复完成！"
 
 #: main/src/ui/application.vala:1684
 msgid "DinoX will now restart…"
-msgstr ""
+msgstr "DinoX 现在将重启…"
 
 #: main/src/ui/application.vala:1698
 msgid "Restore Failed"
@@ -1110,11 +1116,15 @@ msgid ""
 "\n"
 "All data will be re-fetched from the server when needed."
 msgstr ""
+"这将删除缓存的文件、头像、预览和数据库缓存（实体发现、联系人列表、消息归档管"
+"理同步状态、贴纸）。\n"
+"\n"
+"所有数据将在需要时从服务器重新获取。"
 
 #: main/src/ui/application.vala:1843
 #, c-format
 msgid "Cache cleared (%s freed, %d DB rows removed)"
-msgstr ""
+msgstr "缓存已清除（已释放 %s 空间，已移除 %d 条数据库记录）"
 
 #: main/src/ui/application.vala:1846
 msgid "Failed to clear cache"
@@ -1137,7 +1147,7 @@ msgstr ""
 
 #: main/src/ui/application.vala:1924
 msgid "Resetting database… DinoX will restart."
-msgstr ""
+msgstr "正在重置数据库… DinoX 将重启。"
 
 #: main/src/ui/application.vala:1966
 msgid ""
@@ -1187,7 +1197,7 @@ msgstr "确认删除"
 
 #: main/src/ui/application.vala:2030
 msgid "Factory reset in progress… DinoX will restart."
-msgstr ""
+msgstr "正在恢复出厂设置… DinoX 将重启。"
 
 #: main/src/ui/application.vala:2104
 msgid "Set Backup Password"
@@ -1230,11 +1240,11 @@ msgstr "选择备份位置"
 
 #: main/src/ui/application.vala:2236
 msgid "Creating Encrypted Backup…"
-msgstr ""
+msgstr "正在创建加密备份…"
 
 #: main/src/ui/application.vala:2236
 msgid "Creating Backup…"
-msgstr ""
+msgstr "正在创建备份…"
 
 #: main/src/ui/application.vala:2237
 msgid "Please wait while your data is being backed up."
@@ -1301,7 +1311,7 @@ msgstr "未找到麦克风。"
 
 #: main/src/ui/call_window/audio_settings_popover.vala:121
 msgid "WebRTC Gain:"
-msgstr ""
+msgstr "WebRTC 增益："
 
 #: main/src/ui/call_window/audio_settings_popover.vala:166
 msgid "Speakers"
@@ -1345,7 +1355,7 @@ msgstr "%s 拒绝了通话"
 #: main/src/ui/call_window/call_window.vala:246
 #, c-format
 msgid "Call full (max. %d participants)"
-msgstr ""
+msgstr "通话已满（最多 %d 位参与者）"
 
 #: main/src/ui/call_window/participant_widget.vala:140
 msgid "Debug information"
@@ -1379,7 +1389,7 @@ msgstr "未找到摄像头。"
 #: main/src/ui/chat_input/chat_input_controller.vala:70
 #: main/src/ui/chat_input/chat_input_controller.vala:464
 msgid "Video recording failed"
-msgstr ""
+msgstr "视频录制失败"
 
 #: main/src/ui/chat_input/chat_input_controller.vala:71
 #, c-format
@@ -1389,6 +1399,10 @@ msgid ""
 "Please ensure GStreamer plugins are installed (gst-plugins-good, gst-plugins-"
 "ugly, gst-libav)."
 msgstr ""
+"视频编码器无法初始化：%s\n"
+"\n"
+"请确保已安装 GStreamer 插件（gst-plugins-good、gst-plugins-ugly、gst-libav）"
+"。"
 
 #: main/src/ui/chat_input/chat_input_controller.vala:309
 msgid "This conference does not allow you to send messages."
@@ -1667,7 +1681,7 @@ msgstr "正在上传 %s… (%u%%)"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:86
 msgid "Uploading…"
-msgstr ""
+msgstr "正在上传…"
 
 #: main/src/ui/conversation_content_view/file_default_widget.vala:101
 #, c-format
@@ -1735,7 +1749,7 @@ msgstr "删除消息"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:164
 msgid "Do you want to remove this message from the channel?"
-msgstr "是否要从频道中移除此消息？"
+msgstr "您要从频道中移除此消息吗？"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:165
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:873
@@ -1748,7 +1762,7 @@ msgstr "移除"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:167
 msgid "Do you want to delete this message just for yourself or for everyone?"
-msgstr "您是要为自己还是为所有人删除此消息？"
+msgstr "您要为自己还是为所有人删除此消息？"
 
 #: main/src/ui/conversation_content_view/item_actions.vala:168
 msgid "Delete for everyone"
@@ -1814,23 +1828,23 @@ msgstr "新消息"
 
 #: main/src/ui/conversation_details.vala:186
 msgid "Your Role"
-msgstr ""
+msgstr "您的角色"
 
 #: main/src/ui/conversation_details.vala:188
 msgid "Moderator"
-msgstr ""
+msgstr "主持人"
 
 #: main/src/ui/conversation_details.vala:189
 msgid "Participant"
-msgstr ""
+msgstr "参与者"
 
 #: main/src/ui/conversation_details.vala:190
 msgid "Visitor"
-msgstr ""
+msgstr "参观者"
 
 #: main/src/ui/conversation_details.vala:199
 msgid "Your Affiliation"
-msgstr ""
+msgstr "您的从属关系"
 
 #: main/src/ui/conversation_details.vala:201
 #: main/src/ui/occupant_menu/list.vala:224
@@ -1852,7 +1866,7 @@ msgstr "成员"
 
 #: main/src/ui/conversation_details.vala:204
 msgid "Outcast"
-msgstr ""
+msgstr "被驱逐者"
 
 #: main/src/ui/conversation_details.vala:214
 #: main/src/ui/util/data_forms.vala:40
@@ -1861,23 +1875,23 @@ msgstr "显示名称"
 
 #: main/src/ui/conversation_details.vala:231
 msgid "Mutual"
-msgstr ""
+msgstr "both（您可以查看对方，对方也可以查看您）"
 
 #: main/src/ui/conversation_details.vala:234
 msgid "To (you see them, they don't see you)"
-msgstr ""
+msgstr "to（您可以查看对方，对方无法查看您）"
 
 #: main/src/ui/conversation_details.vala:237
 msgid "From (they see you, you don't see them)"
-msgstr ""
+msgstr "from（对方可以查看您，您无法查看对方）"
 
 #: main/src/ui/conversation_details.vala:244
 msgid "(request pending)"
-msgstr ""
+msgstr "（请求待处理）"
 
 #: main/src/ui/conversation_details.vala:247
 msgid "Subscription"
-msgstr ""
+msgstr "订阅"
 
 #: main/src/ui/conversation_details.vala:263
 #: main/src/ui/conversation_details.vala:277
@@ -1888,15 +1902,15 @@ msgstr "主题"
 #: main/src/ui/conversation_details.vala:290
 #: main/src/ui/conversation_details.vala:299
 msgid "Avatar"
-msgstr ""
+msgstr "头像"
 
 #: main/src/ui/conversation_details.vala:291
 msgid "Change Avatar"
-msgstr ""
+msgstr "更改头像"
 
 #: main/src/ui/conversation_details.vala:300
 msgid "Remove Avatar"
-msgstr ""
+msgstr "移除头像"
 
 #: main/src/ui/conversation_details.vala:308
 msgid "Permissions"
@@ -1925,8 +1939,7 @@ msgstr "解散群聊？"
 msgid ""
 "Are you sure you want to permanently destroy this room? This action cannot "
 "be undone and all history will be lost for all participants."
-msgstr ""
-"是否确定要永久解散此群聊？此操作无法撤销，所有参与者的所有历史记录都将丢失。"
+msgstr "您确定要永久解散此群聊吗？此操作无法撤销，所有参与者的所有历史记录都将丢失。"
 
 #: main/src/ui/conversation_details.vala:340
 #: main/src/ui/conversation_selector/conversation_selector_row.vala:922
@@ -2221,7 +2234,7 @@ msgstr "打开设置"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:68
 msgid "Leave Conversation"
-msgstr ""
+msgstr "离开对话"
 
 #: main/src/ui/conversation_titlebar/menu_entry.vala:70
 msgid "Close Conversation"
@@ -2332,7 +2345,7 @@ msgstr "%s 请求在 %s 中的发言权"
 #: main/src/ui/notifier_gnotifications.vala:109
 #, c-format
 msgid "Reconnecting to %s..."
-msgstr ""
+msgstr "正在重新连接到 %s…"
 
 #: main/src/ui/occupant_menu/list.vala:230
 msgid "User"
@@ -2364,11 +2377,11 @@ msgstr "踢出"
 
 #: main/src/ui/occupant_menu/view.vala:209
 msgid "Revoke Moderator"
-msgstr ""
+msgstr "撤销主持人"
 
 #: main/src/ui/occupant_menu/view.vala:211
 msgid "Make Moderator"
-msgstr ""
+msgstr "设为主持人"
 
 #: main/src/ui/occupant_menu/view.vala:220
 msgid "Administration"
@@ -2506,27 +2519,27 @@ msgstr "只有成员可以进入群聊。警告：启用后非成员将被移除
 
 #: main/src/ui/util/data_forms.vala:75
 msgid "Allow invites"
-msgstr ""
+msgstr "允许邀请"
 
 #: main/src/ui/util/data_forms.vala:76
 msgid "Allow occupants to invite others"
-msgstr ""
+msgstr "允许参与者邀请他人"
 
 #: main/src/ui/util/data_forms.vala:79
 msgid "Logging"
-msgstr ""
+msgstr "日志记录"
 
 #: main/src/ui/util/data_forms.vala:80
 msgid "Log conversation history"
-msgstr ""
+msgstr "记录对话历史"
 
 #: main/src/ui/util/data_forms.vala:83
 msgid "Language"
-msgstr ""
+msgstr "语言"
 
 #: main/src/ui/util/data_forms.vala:86
 msgid "Password protected"
-msgstr ""
+msgstr "密码保护"
 
 #: main/src/ui/util/helper.vala:75
 #, c-format
@@ -2545,7 +2558,7 @@ msgstr "这将永久删除此对话中的所有消息。此操作无法撤销。
 
 #: main/src/ui/util/helper.vala:515
 msgid "Also delete for chat partner"
-msgstr ""
+msgstr "同时为对方删除"
 
 #: main/src/ui/util/helper.vala:521
 msgid "Delete"
@@ -2618,13 +2631,13 @@ msgstr "连接"
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:132
 #, c-format
 msgid "Remove pinned certificate for %s?"
-msgstr ""
+msgstr "移除 %s 的已固定证书吗？"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:133
 msgid ""
 "The server will need to present a valid CA-signed certificate, or you will "
 "be asked to trust it again."
-msgstr ""
+msgstr "服务器需要提供有效的 CA 签名证书，否则您将被要求再次信任它。"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:239
 msgid "Disable account"
@@ -2637,42 +2650,42 @@ msgstr "启用账号"
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:303
 #: plugins/tor-manager/src/ui_indicator.vala:123
 msgid "Checking status..."
-msgstr ""
+msgstr "正在检查状态…"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:310
 msgid "Service is running and reachable"
-msgstr ""
+msgstr "服务正在运行且可访问"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:314
 msgid "Proxy unreachable"
-msgstr ""
+msgstr "代理无法访问"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:370
 msgid "Pinned (self-signed / manually trusted)"
-msgstr ""
+msgstr "已固定（自签名 / 手动信任）"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:373
 msgid "Valid (CA-signed)"
-msgstr ""
+msgstr "有效（CA 签名）"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:386
 #: main/src/windows/preferences_window/add_account_dialog.vala:232
 msgid "From:"
-msgstr ""
+msgstr "起始时间："
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:389
 #: main/src/windows/preferences_window/add_account_dialog.vala:235
 msgid "Until:"
-msgstr ""
+msgstr "截止时间："
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:391
 #: main/src/windows/preferences_window/add_account_dialog.vala:237
 msgid "expired"
-msgstr ""
+msgstr "已过期"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:407
 msgid "Pinned (not connected)"
-msgstr ""
+msgstr "已固定（未连接）"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:440
 msgid "Select avatar"
@@ -2689,11 +2702,11 @@ msgstr "移除账号 %s？"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:474
 msgid "You won't be able to access your conversation history anymore."
-msgstr ""
+msgstr "您将无法再访问您的对话历史记录。"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:478
 msgid "Also delete account from server"
-msgstr ""
+msgstr "同时从服务器删除账号"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:750
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:959
@@ -2709,7 +2722,7 @@ msgstr "已断开连接"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:754
 msgid "Unknown Status"
-msgstr ""
+msgstr "未知状态"
 
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:772
 #: main/src/windows/preferences_window/account_preferences_subpage.vala:774
@@ -2749,15 +2762,15 @@ msgstr "其安全证书已过期。"
 
 #: main/src/windows/preferences_window/add_account_dialog.vala:224
 msgid "Issuer:"
-msgstr ""
+msgstr "颁发者："
 
 #: main/src/windows/preferences_window/add_account_dialog.vala:241
 msgid "Valid:"
-msgstr ""
+msgstr "有效期："
 
 #: main/src/windows/preferences_window/add_account_dialog.vala:248
 msgid "SHA-256 Fingerprint:"
-msgstr ""
+msgstr "SHA-256 指纹："
 
 #: main/src/windows/preferences_window/add_account_dialog.vala:307
 #, c-format
@@ -2838,102 +2851,102 @@ msgstr "别名（可选）"
 
 #: main/src/windows/preferences_window/general_preferences_page.vala:80
 msgid "Local (localhost)"
-msgstr ""
+msgstr "本地（本地主机）"
 
 #: main/src/windows/preferences_window/general_preferences_page.vala:81
 #: plugins/bot-features/src/message_router.vala:1568
 msgid "Network (0.0.0.0 + TLS)"
-msgstr ""
+msgstr "网络（0.0.0.0 + TLS）"
 
 #: main/src/windows/preferences_window/general_preferences_page.vala:241
 #: main/src/windows/preferences_window/general_preferences_page.vala:243
 msgid "Empty = auto-generated self-signed"
-msgstr ""
+msgstr "留空 = 自动生成自签名证书"
 
 #: main/src/windows/preferences_window/general_preferences_page.vala:264
 msgid "Certificate deleted. Server will restart with new certificate."
-msgstr ""
+msgstr "证书已删除。服务器将使用新证书重启。"
 
 #: main/src/windows/preferences_window/general_preferences_page.vala:284
 msgid "Certificate and key deleted."
-msgstr ""
+msgstr "证书和密钥已删除。"
 
 #: plugins/bot-features/src/botfather_handler.vala:34
 #, c-format
 msgid "Bot #%d not found or does not belong to you."
-msgstr ""
+msgstr "机器人 #%d 未找到或不属于您。"
 
 #: plugins/bot-features/src/botfather_handler.vala:70
 msgid "Unknown command. Type /help for a list of available commands."
-msgstr ""
+msgstr "未知命令。请输入 /help 查看可用的命令列表。"
 
 #: plugins/bot-features/src/botfather_handler.vala:77
 #: plugins/bot-features/src/botfather_handler.vala:420
 msgid "Create a new bot"
-msgstr ""
+msgstr "创建新机器人"
 
 #: plugins/bot-features/src/botfather_handler.vala:78
 msgid "Send the name for your bot:"
-msgstr ""
+msgstr "发送您的机器人的名称："
 
 #: plugins/bot-features/src/botfather_handler.vala:87
 msgid "You already have 20 bots. Delete one first with /deletebot."
-msgstr ""
+msgstr "您已经有 20 个机器人。请先使用 /deletebot 删除一个。"
 
 #: plugins/bot-features/src/botfather_handler.vala:99
 msgid "Bot created!"
-msgstr ""
+msgstr "机器人已创建！"
 
 #: plugins/bot-features/src/botfather_handler.vala:100
 #, c-format
 msgid "Name: %s"
-msgstr ""
+msgstr "名称：%s"
 
 #: plugins/bot-features/src/botfather_handler.vala:102
 msgid "Your API Token:"
-msgstr ""
+msgstr "您的 API 令牌："
 
 #: plugins/bot-features/src/botfather_handler.vala:106
 #: plugins/bot-features/src/message_router.vala:1040
 msgid "Quick start:"
-msgstr ""
+msgstr "快速开始："
 
 #: plugins/bot-features/src/botfather_handler.vala:109
 msgid "Save this token! It won't be shown again."
-msgstr ""
+msgstr "请保存此令牌！令牌将不再显示。"
 
 #: plugins/bot-features/src/botfather_handler.vala:110
 #: plugins/bot-features/src/message_router.vala:1175
 #, c-format
 msgid "Regenerate: /token %d"
-msgstr ""
+msgstr "重新生成：/token %d"
 
 #: plugins/bot-features/src/botfather_handler.vala:117
 msgid "You don't have any bots yet."
-msgstr ""
+msgstr "您还没有任何机器人。"
 
 #: plugins/bot-features/src/botfather_handler.vala:118
 msgid "Create your first bot:"
-msgstr ""
+msgstr "创建您的第一个机器人："
 
 #: plugins/bot-features/src/botfather_handler.vala:122
 msgid "Your Bots"
-msgstr ""
+msgstr "您的机器人"
 
 #: plugins/bot-features/src/botfather_handler.vala:127
 #: plugins/bot-features/src/botfather_handler.vala:388
 msgid "Mode"
-msgstr ""
+msgstr "模式"
 
 #: plugins/bot-features/src/botfather_handler.vala:130
 #, c-format
 msgid "Total: %d bot(s)"
-msgstr ""
+msgstr "总计：%d 个机器人"
 
 #: plugins/bot-features/src/botfather_handler.vala:137
 #: plugins/bot-features/src/botfather_handler.vala:421
 msgid "Delete a bot"
-msgstr ""
+msgstr "删除机器人"
 
 #: plugins/bot-features/src/botfather_handler.vala:138
 #: plugins/bot-features/src/botfather_handler.vala:190
@@ -2947,13 +2960,13 @@ msgstr ""
 #: plugins/bot-features/src/botfather_handler.vala:338
 #: plugins/bot-features/src/botfather_handler.vala:345
 msgid "Usage:"
-msgstr ""
+msgstr "用法："
 
 #: plugins/bot-features/src/botfather_handler.vala:139
 #: plugins/bot-features/src/botfather_handler.vala:248
 #: plugins/bot-features/src/botfather_handler.vala:271
 msgid "See your bots:"
-msgstr ""
+msgstr "查看您的机器人："
 
 #: plugins/bot-features/src/botfather_handler.vala:163
 #, c-format
@@ -2961,104 +2974,106 @@ msgid ""
 "Bot '%s' deleted, but ejabberd account '%s' could not be removed: %s\n"
 "Manual cleanup may be needed."
 msgstr ""
+"机器人“%s”已删除，但 ejabberd 账号“%s”无法移除：%s\n"
+"可能需要手动清理。"
 
 #: plugins/bot-features/src/botfather_handler.vala:182
 #, c-format
 msgid "Bot '%s' (ID: %d) deleted."
-msgstr ""
+msgstr "机器人“%s”（ID：%d）已删除。"
 
 #: plugins/bot-features/src/botfather_handler.vala:183
 msgid "Token is now invalid."
-msgstr ""
+msgstr "令牌现已失效。"
 
 #: plugins/bot-features/src/botfather_handler.vala:189
 msgid "Regenerate Token"
-msgstr ""
+msgstr "重新生成令牌"
 
 #: plugins/bot-features/src/botfather_handler.vala:198
 #, c-format
 msgid "New Token for '%s'"
-msgstr ""
+msgstr "“%s”的新令牌"
 
 #: plugins/bot-features/src/botfather_handler.vala:205
 msgid "The old token is now invalid."
-msgstr ""
+msgstr "旧令牌现已失效。"
 
 #: plugins/bot-features/src/botfather_handler.vala:211
 msgid "Revoke Token"
-msgstr ""
+msgstr "撤销令牌"
 
 #: plugins/bot-features/src/botfather_handler.vala:222
 #, c-format
 msgid "Token revoked for '%s' (ID: %d)"
-msgstr ""
+msgstr "“%s”（ID：%d）的令牌已撤销"
 
 #: plugins/bot-features/src/botfather_handler.vala:223
 msgid "Bot is now disabled."
-msgstr ""
+msgstr "机器人现已禁用。"
 
 #: plugins/bot-features/src/botfather_handler.vala:224
 #: plugins/bot-features/src/botfather_handler.vala:240
 msgid "Generate a new token:"
-msgstr ""
+msgstr "生成新令牌："
 
 #: plugins/bot-features/src/botfather_handler.vala:230
 msgid "Show Token"
-msgstr ""
+msgstr "显示令牌"
 
 #: plugins/bot-features/src/botfather_handler.vala:238
 #, c-format
 msgid "Token for '%s' (ID: %d)"
-msgstr ""
+msgstr "“%s”（ID：%d）的令牌"
 
 #: plugins/bot-features/src/botfather_handler.vala:239
 msgid "Tokens are shown only once at creation and not stored."
-msgstr ""
+msgstr "令牌仅在创建时显示一次，且不会被存储。"
 
 #: plugins/bot-features/src/botfather_handler.vala:246
 msgid "Activate Bot"
-msgstr ""
+msgstr "激活机器人"
 
 #: plugins/bot-features/src/botfather_handler.vala:256
 #, c-format
 msgid "Bot '%s' (ID: %d) is already active."
-msgstr ""
+msgstr "机器人“%s”（ID：%d）已处于活动状态。"
 
 #: plugins/bot-features/src/botfather_handler.vala:262
 #, c-format
 msgid "Bot '%s' (ID: %d) activated."
-msgstr ""
+msgstr "机器人“%s”（ID：%d）已激活。"
 
 #: plugins/bot-features/src/botfather_handler.vala:263
 msgid "The bot is now online and accepts API requests."
-msgstr ""
+msgstr "机器人现已上线，可接受 API 请求。"
 
 #: plugins/bot-features/src/botfather_handler.vala:269
 msgid "Deactivate Bot"
-msgstr ""
+msgstr "停用机器人"
 
 #: plugins/bot-features/src/botfather_handler.vala:279
 #, c-format
 msgid "Bot '%s' (ID: %d) is already inactive."
-msgstr ""
+msgstr "机器人“%s”（ID：%d）已处于非活动状态。"
 
 #: plugins/bot-features/src/botfather_handler.vala:285
 #, c-format
 msgid "Bot '%s' (ID: %d) deactivated."
-msgstr ""
+msgstr "机器人“%s”（ID：%d）已停用。"
 
 #: plugins/bot-features/src/botfather_handler.vala:286
 msgid "The bot is now offline. API requests will be rejected."
-msgstr ""
+msgstr "机器人现已离线。API 请求将被拒绝。"
 
 #: plugins/bot-features/src/botfather_handler.vala:287
 msgid "Reactivate:"
-msgstr ""
+msgstr "重新激活："
 
 #: plugins/bot-features/src/botfather_handler.vala:293
 #: plugins/bot-features/src/botfather_handler.vala:302
 msgid "Set Bot Commands"
-msgstr ""
+msgstr "设置机器人命令"
 
 #: plugins/bot-features/src/botfather_handler.vala:296
 #: plugins/bot-features/src/message_router.vala:423
@@ -3074,51 +3089,51 @@ msgstr ""
 #: plugins/bot-features/src/message_router.vala:864
 #: plugins/bot-features/src/message_router.vala:1178
 msgid "Example:"
-msgstr ""
+msgstr "示例："
 
 #: plugins/bot-features/src/botfather_handler.vala:326
 msgid "No valid commands found."
-msgstr ""
+msgstr "未找到有效命令。"
 
 #: plugins/bot-features/src/botfather_handler.vala:327
 msgid "Format: /cmd - description"
-msgstr ""
+msgstr "格式：/cmd - 描述"
 
 #: plugins/bot-features/src/botfather_handler.vala:331
 #, c-format
 msgid "%d command(s) set for '%s'."
-msgstr ""
+msgstr "已为“%s”设置了 %d 条命令。"
 
 #: plugins/bot-features/src/botfather_handler.vala:337
 #: plugins/bot-features/src/botfather_handler.vala:344
 msgid "Set Bot Description"
-msgstr ""
+msgstr "设置机器人描述"
 
 #: plugins/bot-features/src/botfather_handler.vala:359
 #, c-format
 msgid "Description for '%s' updated."
-msgstr ""
+msgstr "“%s”的描述已更新。"
 
 #: plugins/bot-features/src/botfather_handler.vala:371
 msgid "Overview"
-msgstr ""
+msgstr "概述"
 
 #: plugins/bot-features/src/botfather_handler.vala:373
 #, c-format
 msgid "Bots: %d total, %d active"
-msgstr ""
+msgstr "机器人：总计 %d 个，已启用 %d 个"
 
 #: plugins/bot-features/src/botfather_handler.vala:374
 msgid "API: http://localhost:7842"
-msgstr ""
+msgstr "API: http://localhost:7842"
 
 #: plugins/bot-features/src/botfather_handler.vala:389
 msgid "JID"
-msgstr ""
+msgstr "JID"
 
 #: plugins/bot-features/src/botfather_handler.vala:389
 msgid "(personal)"
-msgstr ""
+msgstr "（个人）"
 
 #: plugins/bot-features/src/botfather_handler.vala:394
 #: plugins/bot-features/src/message_router.vala:478
@@ -3129,164 +3144,164 @@ msgstr ""
 #: plugins/bot-features/src/message_router.vala:997
 #: plugins/bot-features/src/message_router.vala:1267
 msgid "off"
-msgstr ""
+msgstr "关闭"
 
 #: plugins/bot-features/src/botfather_handler.vala:399
 msgid "Commands"
-msgstr ""
+msgstr "命令"
 
 #: plugins/bot-features/src/botfather_handler.vala:417
 msgid "Bot Management"
-msgstr ""
+msgstr "机器人管理"
 
 #: plugins/bot-features/src/botfather_handler.vala:418
 msgid "List your bots"
-msgstr ""
+msgstr "列出您的机器人"
 
 #: plugins/bot-features/src/botfather_handler.vala:419
 msgid "Show status"
-msgstr ""
+msgstr "显示状态"
 
 #: plugins/bot-features/src/botfather_handler.vala:422
 msgid "Activate a bot"
-msgstr ""
+msgstr "激活机器人"
 
 #: plugins/bot-features/src/botfather_handler.vala:423
 msgid "Deactivate a bot"
-msgstr ""
+msgstr "停用机器人"
 
 #: plugins/bot-features/src/botfather_handler.vala:425
 msgid "Token"
-msgstr ""
+msgstr "令牌"
 
 #: plugins/bot-features/src/botfather_handler.vala:426
 msgid "Regenerate token"
-msgstr ""
+msgstr "重新生成令牌"
 
 #: plugins/bot-features/src/botfather_handler.vala:427
 msgid "Show current token"
-msgstr ""
+msgstr "显示当前令牌"
 
 #: plugins/bot-features/src/botfather_handler.vala:428
 msgid "Revoke token"
-msgstr ""
+msgstr "撤销令牌"
 
 #: plugins/bot-features/src/botfather_handler.vala:431
 msgid "Set bot commands"
-msgstr ""
+msgstr "设置机器人命令"
 
 #: plugins/bot-features/src/botfather_handler.vala:432
 msgid "Set description"
-msgstr ""
+msgstr "设置描述"
 
 #: plugins/bot-features/src/botfather_handler.vala:437
 msgid "Examples:"
-msgstr ""
+msgstr "示例："
 
 #: plugins/bot-features/src/botfather_handler.vala:439
 msgid "Get bot info (GET → JSON):"
-msgstr ""
+msgstr "获取机器人信息（GET → JSON）："
 
 #: plugins/bot-features/src/botfather_handler.vala:443
 #: plugins/bot-features/src/botfather_handler.vala:468
 msgid "Response:"
-msgstr ""
+msgstr "响应："
 
 #: plugins/bot-features/src/botfather_handler.vala:458
 msgid "Send message (POST → JSON):"
-msgstr ""
+msgstr "发送消息（POST → JSON）："
 
 #: plugins/bot-features/src/botfather_handler.vala:477
 msgid "Notes:"
-msgstr ""
+msgstr "注意："
 
 #: plugins/bot-features/src/botfather_handler.vala:478
 msgid "Replace <TOKEN> with your bot token (/showtoken <ID>)"
-msgstr ""
+msgstr "将 <TOKEN> 替换为您的机器人令牌（/showtoken <ID>）"
 
 #: plugins/bot-features/src/botfather_handler.vala:479
 msgid "Header: Authorization: Bearer <TOKEN>"
-msgstr ""
+msgstr "请求头：授权：持有者 <TOKEN>"
 
 #: plugins/bot-features/src/botfather_handler.vala:480
 msgid "POST body field: \"text\" (not \"body\")"
-msgstr ""
+msgstr "POST 请求体字段：\"text\"（而非 \"body\"）"
 
 #: plugins/bot-features/src/botfather_handler.vala:481
 msgid "All responses: {\"ok\": true/false, \"result\": ...}"
-msgstr ""
+msgstr "所有响应：{\"ok\": true/false, \"result\": ...}"
 
 #: plugins/bot-features/src/message_router.vala:391
 msgid "AI not configured."
-msgstr ""
+msgstr "未配置 AI。"
 
 #: plugins/bot-features/src/message_router.vala:394
 msgid "AI activated!"
-msgstr ""
+msgstr "AI 已激活！"
 
 #: plugins/bot-features/src/message_router.vala:397
 msgid "AI is already active."
-msgstr ""
+msgstr "AI 已处于活动状态。"
 
 #: plugins/bot-features/src/message_router.vala:402
 msgid "AI deactivated."
-msgstr ""
+msgstr "AI 已停用。"
 
 #: plugins/bot-features/src/message_router.vala:409
 msgid "Chat history cleared."
-msgstr ""
+msgstr "聊天记录已清除。"
 
 #: plugins/bot-features/src/message_router.vala:418
 msgid "System prompt updated:"
-msgstr ""
+msgstr "系统提示已更新："
 
 #: plugins/bot-features/src/message_router.vala:421
 msgid "Current system prompt:"
-msgstr ""
+msgstr "当前系统提示："
 
 #: plugins/bot-features/src/message_router.vala:421
 #: plugins/bot-features/src/message_router.vala:1222
 msgid "(default)"
-msgstr ""
+msgstr "（默认）"
 
 #: plugins/bot-features/src/message_router.vala:422
 msgid "Change with:"
-msgstr ""
+msgstr "更改为："
 
 #: plugins/bot-features/src/message_router.vala:439
 msgid "Next steps:"
-msgstr ""
+msgstr "后续步骤："
 
 #: plugins/bot-features/src/message_router.vala:439
 msgid "Activate AI"
-msgstr ""
+msgstr "激活 AI"
 
 #: plugins/bot-features/src/message_router.vala:439
 msgid "Set system prompt"
-msgstr ""
+msgstr "设置系统提示"
 
 #: plugins/bot-features/src/message_router.vala:447
 #, c-format
 msgid "Model changed: %s"
-msgstr ""
+msgstr "模型已更改：%s"
 
 #: plugins/bot-features/src/message_router.vala:451
 #, c-format
 msgid "Current model: %s"
-msgstr ""
+msgstr "当前模型：%s"
 
 #: plugins/bot-features/src/message_router.vala:451
 msgid "(not set)"
-msgstr ""
+msgstr "（未设置）"
 
 #: plugins/bot-features/src/message_router.vala:456
 #, c-format
 msgid "Unknown: /ki %s"
-msgstr ""
+msgstr "未知：/ki %s"
 
 #: plugins/bot-features/src/message_router.vala:474
 msgid "AI Assistant"
-msgstr ""
+msgstr "AI 助手"
 
 #: plugins/bot-features/src/message_router.vala:478
 #: plugins/bot-features/src/message_router.vala:801
@@ -3295,7 +3310,7 @@ msgstr ""
 #: plugins/bot-features/src/message_router.vala:1644
 #, c-format
 msgid "Status: %s"
-msgstr ""
+msgstr "状态：%s"
 
 #: plugins/bot-features/src/message_router.vala:478
 #: plugins/bot-features/src/message_router.vala:801
@@ -3305,84 +3320,84 @@ msgstr ""
 #: plugins/bot-features/src/message_router.vala:997
 #: plugins/bot-features/src/message_router.vala:1267
 msgid "active"
-msgstr ""
+msgstr "已启用"
 
 #: plugins/bot-features/src/message_router.vala:480
 #, c-format
 msgid "Provider: %s"
-msgstr ""
+msgstr "提供商：%s"
 
 #: plugins/bot-features/src/message_router.vala:481
 #, c-format
 msgid "Model: %s"
-msgstr ""
+msgstr "模型：%s"
 
 #: plugins/bot-features/src/message_router.vala:483
 #: plugins/bot-features/src/message_router.vala:805
 msgid "(Not yet configured)"
-msgstr ""
+msgstr "（尚未配置）"
 
 #: plugins/bot-features/src/message_router.vala:487
 #: plugins/bot-features/src/message_router.vala:809
 msgid "Commands:"
-msgstr ""
+msgstr "命令："
 
 #: plugins/bot-features/src/message_router.vala:491
 #: plugins/bot-features/src/message_router.vala:494
 msgid "Set up AI"
-msgstr ""
+msgstr "设置 AI"
 
 #: plugins/bot-features/src/message_router.vala:492
 #: plugins/bot-features/src/message_router.vala:495
 msgid "Show all providers"
-msgstr ""
+msgstr "显示所有提供商"
 
 #: plugins/bot-features/src/message_router.vala:500
 #: plugins/bot-features/src/message_router.vala:511
 msgid "Turn off AI"
-msgstr ""
+msgstr "关闭 AI"
 
 #: plugins/bot-features/src/message_router.vala:502
 #: plugins/bot-features/src/message_router.vala:513
 #: plugins/bot-features/src/message_router.vala:1049
 #: plugins/bot-features/src/message_router.vala:1051
 msgid "Turn on AI"
-msgstr ""
+msgstr "开启 AI"
 
 #: plugins/bot-features/src/message_router.vala:504
 #: plugins/bot-features/src/message_router.vala:515
 #: plugins/bot-features/src/message_router.vala:824
 #: plugins/bot-features/src/message_router.vala:834
 msgid "Current configuration"
-msgstr ""
+msgstr "当前配置"
 
 #: plugins/bot-features/src/message_router.vala:505
 #: plugins/bot-features/src/message_router.vala:516
 msgid "Show/change model"
-msgstr ""
+msgstr "显示/更改模型"
 
 #: plugins/bot-features/src/message_router.vala:506
 #: plugins/bot-features/src/message_router.vala:518
 #: plugins/bot-features/src/message_router.vala:1018
 #: plugins/bot-features/src/message_router.vala:1021
 msgid "Clear chat history"
-msgstr ""
+msgstr "清除聊天记录"
 
 #: plugins/bot-features/src/message_router.vala:507
 #: plugins/bot-features/src/message_router.vala:519
 msgid "Switch provider"
-msgstr ""
+msgstr "切换提供商"
 
 #: plugins/bot-features/src/message_router.vala:508
 #: plugins/bot-features/src/message_router.vala:520
 #: plugins/bot-features/src/message_router.vala:827
 #: plugins/bot-features/src/message_router.vala:837
 msgid "Set up again"
-msgstr ""
+msgstr "重新设置"
 
 #: plugins/bot-features/src/message_router.vala:517
 msgid "Show/change system prompt"
-msgstr ""
+msgstr "显示/更改系统提示"
 
 #: plugins/bot-features/src/message_router.vala:526
 #: plugins/bot-features/src/message_router.vala:553
@@ -3399,26 +3414,26 @@ msgstr ""
 #: plugins/bot-features/src/message_router.vala:1446
 #: plugins/bot-features/src/message_router.vala:1727
 msgid "Back:"
-msgstr ""
+msgstr "返回："
 
 #: plugins/bot-features/src/message_router.vala:528
 #: plugins/bot-features/src/message_router.vala:845
 #: plugins/bot-features/src/message_router.vala:963
 #: plugins/bot-features/src/message_router.vala:1159
 msgid "Back: /help"
-msgstr ""
+msgstr "返回：/help"
 
 #: plugins/bot-features/src/message_router.vala:536
 msgid "AI Setup"
-msgstr ""
+msgstr "AI 设置"
 
 #: plugins/bot-features/src/message_router.vala:538
 msgid "Choose a provider:"
-msgstr ""
+msgstr "选择提供商："
 
 #: plugins/bot-features/src/message_router.vala:549
 msgid "Details for a provider:"
-msgstr ""
+msgstr "提供商详情："
 
 #: plugins/bot-features/src/message_router.vala:550
 msgid "(without key shows help)"
@@ -3437,12 +3452,12 @@ msgstr ""
 #: plugins/bot-features/src/message_router.vala:657
 #: plugins/bot-features/src/message_router.vala:702
 msgid "Back: /ki"
-msgstr ""
+msgstr "返回：/ki"
 
 #: plugins/bot-features/src/message_router.vala:565
 #, c-format
 msgid "AI Setup: %s"
-msgstr ""
+msgstr "AI 设置：%s"
 
 #: plugins/bot-features/src/message_router.vala:571
 #: plugins/bot-features/src/message_router.vala:576
@@ -3453,7 +3468,7 @@ msgstr ""
 #: plugins/bot-features/src/message_router.vala:601
 #: plugins/bot-features/src/message_router.vala:606
 msgid "Models:"
-msgstr ""
+msgstr "模型："
 
 #: plugins/bot-features/src/message_router.vala:605
 msgid "No API key needed (local, use - as placeholder)"
@@ -3478,29 +3493,31 @@ msgstr ""
 #: plugins/bot-features/src/message_router.vala:618
 #, c-format
 msgid "Unknown provider: %s"
-msgstr ""
+msgstr "未知提供商：%s"
 
 #: plugins/bot-features/src/message_router.vala:619
 msgid ""
 "Available: openai, claude, gemini, groq, mistral, deepseek, perplexity, "
 "ollama, openclaw"
 msgstr ""
+"可用：openai、claude、gemini、groq、mistral、deepseek、perplexity、ollama、"
+"openclaw"
 
 #: plugins/bot-features/src/message_router.vala:625
 msgid "All providers:"
-msgstr ""
+msgstr "所有提供商："
 
 #: plugins/bot-features/src/message_router.vala:628
 msgid "All providers: /ki setup"
-msgstr ""
+msgstr "所有提供商：/ki 设置"
 
 #: plugins/bot-features/src/message_router.vala:637
 msgid "AI Providers"
-msgstr ""
+msgstr "所有提供商"
 
 #: plugins/bot-features/src/message_router.vala:646
 msgid "local"
-msgstr ""
+msgstr "本地"
 
 #: plugins/bot-features/src/message_router.vala:647
 msgid "Autonomous AI agent"
@@ -3508,20 +3525,20 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:649
 msgid "Details & Setup:"
-msgstr ""
+msgstr "详情和设置："
 
 #: plugins/bot-features/src/message_router.vala:653
 msgid "etc."
-msgstr ""
+msgstr "等等"
 
 #: plugins/bot-features/src/message_router.vala:665
 msgid "Change model:"
-msgstr ""
+msgstr "更改模型："
 
 #: plugins/bot-features/src/message_router.vala:666
 #, c-format
 msgid "Available models for %s:"
-msgstr ""
+msgstr "%s 的可用模型："
 
 #: plugins/bot-features/src/message_router.vala:693
 msgid "(OpenClaw manages models internally)"
@@ -3529,36 +3546,36 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:696
 msgid "(unknown provider)"
-msgstr ""
+msgstr "（未知提供商）"
 
 #: plugins/bot-features/src/message_router.vala:720
 msgid "Telegram not configured."
-msgstr ""
+msgstr "未配置 Telegram。"
 
 #: plugins/bot-features/src/message_router.vala:724
 msgid "Telegram bridge activated!"
-msgstr ""
+msgstr "Telegram 桥接已激活！"
 
 #: plugins/bot-features/src/message_router.vala:727
 msgid "Telegram bridge is already active."
-msgstr ""
+msgstr "Telegram 桥接已处于活动状态。"
 
 #: plugins/bot-features/src/message_router.vala:732
 msgid "Telegram bridge deactivated."
-msgstr ""
+msgstr "Telegram 桥接已停用。"
 
 #: plugins/bot-features/src/message_router.vala:747
 msgid "Not enough parameters."
-msgstr ""
+msgstr "参数不足。"
 
 #: plugins/bot-features/src/message_router.vala:754
 msgid "Telegram bridge configured and started!"
-msgstr ""
+msgstr "Telegram 桥接已配置并启动！"
 
 #: plugins/bot-features/src/message_router.vala:755
 #, c-format
 msgid "Chat ID: %s"
-msgstr ""
+msgstr "聊天 ID：%s"
 
 #: plugins/bot-features/src/message_router.vala:756
 #: plugins/bot-features/src/message_router.vala:803
@@ -3600,57 +3617,57 @@ msgstr ""
 #: plugins/bot-features/src/message_router.vala:776
 #: plugins/bot-features/src/message_router.vala:870
 msgid "Only XMPP -> Telegram"
-msgstr ""
+msgstr "仅 XMPP -> Telegram"
 
 #: plugins/bot-features/src/message_router.vala:781
 #, c-format
 msgid "Unknown: /telegram %s"
-msgstr ""
+msgstr "未知：/telegram %s"
 
 #: plugins/bot-features/src/message_router.vala:798
 msgid "Telegram Bridge"
-msgstr ""
+msgstr "Telegram 桥接"
 
 #: plugins/bot-features/src/message_router.vala:813
 #: plugins/bot-features/src/message_router.vala:815
 msgid "Set up Telegram"
-msgstr ""
+msgstr "设置 Telegram"
 
 #: plugins/bot-features/src/message_router.vala:820
 #: plugins/bot-features/src/message_router.vala:830
 msgid "Turn off bridge"
-msgstr ""
+msgstr "关闭桥接"
 
 #: plugins/bot-features/src/message_router.vala:822
 #: plugins/bot-features/src/message_router.vala:832
 msgid "Turn on bridge"
-msgstr ""
+msgstr "打开桥接"
 
 #: plugins/bot-features/src/message_router.vala:825
 #: plugins/bot-features/src/message_router.vala:835
 msgid "Show/change mode"
-msgstr ""
+msgstr "显示/更改模式"
 
 #: plugins/bot-features/src/message_router.vala:826
 #: plugins/bot-features/src/message_router.vala:836
 msgid "Test connection"
-msgstr ""
+msgstr "测试连接"
 
 #: plugins/bot-features/src/message_router.vala:853
 msgid "Telegram Setup"
-msgstr ""
+msgstr "Telegram 设置"
 
 #: plugins/bot-features/src/message_router.vala:855
 msgid "Step 1: Get a bot token"
-msgstr ""
+msgstr "步骤 1：获取机器人令牌"
 
 #: plugins/bot-features/src/message_router.vala:856
 msgid "Open Telegram and message @BotFather"
-msgstr ""
+msgstr "打开 Telegram 并向 @BotFather 发送消息"
 
 #: plugins/bot-features/src/message_router.vala:857
 msgid "Send: /newbot"
-msgstr ""
+msgstr "发送：/newbot"
 
 #: plugins/bot-features/src/message_router.vala:858
 msgid "You will receive a token (e.g. 123456:ABC-DEF1234)"
@@ -3690,7 +3707,7 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:908
 msgid "Local chat history cleared."
-msgstr ""
+msgstr "本地聊天记录已清除。"
 
 #: plugins/bot-features/src/message_router.vala:913
 #, c-format
@@ -3714,7 +3731,7 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:928
 msgid "Deleting server message archive (ALL users)..."
-msgstr ""
+msgstr "正在删除服务器消息归档（所有用户）…"
 
 #: plugins/bot-features/src/message_router.vala:934
 msgid "Server message archive (MAM) cleared."
@@ -3727,7 +3744,7 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:939
 msgid "ejabberd API not configured."
-msgstr ""
+msgstr "未配置 ejabberd API。"
 
 #: plugins/bot-features/src/message_router.vala:943
 msgid "Done! Chat history has been cleaned up."
@@ -3736,39 +3753,39 @@ msgstr ""
 #: plugins/bot-features/src/message_router.vala:954
 #, c-format
 msgid "Welcome! I am %s."
-msgstr ""
+msgstr "欢迎！我是 %s。"
 
 #: plugins/bot-features/src/message_router.vala:958
 #, c-format
 msgid "Bot: %s"
-msgstr ""
+msgstr "机器人：%s"
 
 #: plugins/bot-features/src/message_router.vala:961
 #, c-format
 msgid "AI: %s"
-msgstr ""
+msgstr "AI: %s"
 
 #: plugins/bot-features/src/message_router.vala:988
 msgid "Status:"
-msgstr ""
+msgstr "状态："
 
 #: plugins/bot-features/src/message_router.vala:992
 #, c-format
 msgid "AI: %s (%s / %s)"
-msgstr ""
+msgstr "AI: %s (%s / %s)"
 
 #: plugins/bot-features/src/message_router.vala:994
 msgid "AI: not configured"
-msgstr ""
+msgstr "AI：未配置"
 
 #: plugins/bot-features/src/message_router.vala:997
 #, c-format
 msgid "Telegram: %s"
-msgstr ""
+msgstr "Telegram: %s"
 
 #: plugins/bot-features/src/message_router.vala:999
 msgid "Telegram: not configured"
-msgstr ""
+msgstr "Telegram：未配置"
 
 #: plugins/bot-features/src/message_router.vala:1003
 msgid "Menus:"
@@ -3791,40 +3808,40 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:1015
 msgid "Basic commands:"
-msgstr ""
+msgstr "基本命令："
 
 #: plugins/bot-features/src/message_router.vala:1017
 #: plugins/bot-features/src/message_router.vala:1020
 msgid "Bot details"
-msgstr ""
+msgstr "机器人详情"
 
 #: plugins/bot-features/src/message_router.vala:1028
 msgid "Custom commands:"
-msgstr ""
+msgstr "自定义命令："
 
 #: plugins/bot-features/src/message_router.vala:1043
 #: plugins/bot-features/src/message_router.vala:1045
 msgid "Set up AI now"
-msgstr ""
+msgstr "立即设置 AI"
 
 #: plugins/bot-features/src/message_router.vala:1054
 msgid "Just send a message for the AI!"
-msgstr ""
+msgstr "只需向 AI 发送消息！"
 
 #: plugins/bot-features/src/message_router.vala:1058
 #: plugins/bot-features/src/message_router.vala:1060
 msgid "Set up Telegram now"
-msgstr ""
+msgstr "立即设置 Telegram"
 
 #: plugins/bot-features/src/message_router.vala:1064
 #: plugins/bot-features/src/message_router.vala:1066
 msgid "Turn on Telegram"
-msgstr ""
+msgstr "打开 Telegram"
 
 #: plugins/bot-features/src/message_router.vala:1112
 #, c-format
 msgid "Unknown: /api %s"
-msgstr ""
+msgstr "未知：/api %s"
 
 #: plugins/bot-features/src/message_router.vala:1127
 #, c-format
@@ -3838,12 +3855,12 @@ msgstr ""
 #: plugins/bot-features/src/message_router.vala:1138
 #: plugins/bot-features/src/message_router.vala:1146
 msgid "Authentication & token"
-msgstr ""
+msgstr "身份验证和令牌"
 
 #: plugins/bot-features/src/message_router.vala:1139
 #: plugins/bot-features/src/message_router.vala:1147
 msgid "Send & receive messages"
-msgstr ""
+msgstr "发送和接收消息"
 
 #: plugins/bot-features/src/message_router.vala:1140
 #: plugins/bot-features/src/message_router.vala:1148
@@ -3854,7 +3871,7 @@ msgstr ""
 #: plugins/bot-features/src/message_router.vala:1141
 #: plugins/bot-features/src/message_router.vala:1149
 msgid "Create, delete, manage bots"
-msgstr ""
+msgstr "创建、删除、管理机器人"
 
 #: plugins/bot-features/src/message_router.vala:1142
 #: plugins/bot-features/src/message_router.vala:1150
@@ -3869,23 +3886,23 @@ msgstr ""
 #: plugins/bot-features/src/message_router.vala:1144
 #: plugins/bot-features/src/message_router.vala:1152
 msgid "API server settings"
-msgstr ""
+msgstr "API 服务器设置"
 
 #: plugins/bot-features/src/message_router.vala:1167
 msgid "API: Authentication"
-msgstr ""
+msgstr "API：身份验证"
 
 #: plugins/bot-features/src/message_router.vala:1170
 msgid "All bot endpoints require a Bearer token."
-msgstr ""
+msgstr "所有机器人端点都需要持有者令牌。"
 
 #: plugins/bot-features/src/message_router.vala:1174
 msgid "Tokens are shown only once at creation."
-msgstr ""
+msgstr "令牌仅在创建时显示一次。"
 
 #: plugins/bot-features/src/message_router.vala:1183
 msgid "Management endpoints (no token needed):"
-msgstr ""
+msgstr "管理端点（无需令牌）："
 
 #: plugins/bot-features/src/message_router.vala:1185
 msgid "(only accessible from localhost)"
@@ -3893,15 +3910,15 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:1187
 msgid "Token management:"
-msgstr ""
+msgstr "令牌管理："
 
 #: plugins/bot-features/src/message_router.vala:1188
 msgid "Regenerate token:"
-msgstr ""
+msgstr "重新生成令牌："
 
 #: plugins/bot-features/src/message_router.vala:1191
 msgid "Revoke token:"
-msgstr ""
+msgstr "撤销令牌："
 
 #: plugins/bot-features/src/message_router.vala:1196
 #: plugins/bot-features/src/message_router.vala:1253
@@ -3915,11 +3932,11 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:1205
 msgid "API: Messages"
-msgstr ""
+msgstr "API：消息"
 
 #: plugins/bot-features/src/message_router.vala:1209
 msgid "1. Send message"
-msgstr ""
+msgstr "1. 发送消息"
 
 #: plugins/bot-features/src/message_router.vala:1219
 #: plugins/bot-features/src/message_router.vala:1236
@@ -3992,7 +4009,7 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:1320
 msgid "API: Bot Management"
-msgstr ""
+msgstr "API：机器人管理"
 
 #: plugins/bot-features/src/message_router.vala:1322
 msgid "(No token needed - localhost only)"
@@ -4000,7 +4017,7 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:1325
 msgid "1. Create bot"
-msgstr ""
+msgstr "1. 创建机器人"
 
 #: plugins/bot-features/src/message_router.vala:1334
 msgid "Modes: personal, dedicated, cloud"
@@ -4008,27 +4025,27 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:1339
 msgid "2. List bots"
-msgstr ""
+msgstr "2. 列出机器人"
 
 #: plugins/bot-features/src/message_router.vala:1342
 msgid "Filter by account:"
-msgstr ""
+msgstr "按账号筛选："
 
 #: plugins/bot-features/src/message_router.vala:1348
 msgid "3. Delete bot"
-msgstr ""
+msgstr "3. 删除机器人"
 
 #: plugins/bot-features/src/message_router.vala:1357
 msgid "4. Activate/deactivate bot"
-msgstr ""
+msgstr "4. 激活/停用机器人"
 
 #: plugins/bot-features/src/message_router.vala:1380
 msgid "API: Advanced Features"
-msgstr ""
+msgstr "API：高级功能"
 
 #: plugins/bot-features/src/message_router.vala:1384
 msgid "1. Send file"
-msgstr ""
+msgstr "1. 发送文件"
 
 #: plugins/bot-features/src/message_router.vala:1398
 msgid "2. Send reaction"
@@ -4052,7 +4069,7 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:1439
 msgid "5. Bot information"
-msgstr ""
+msgstr "5. 机器人信息"
 
 #: plugins/bot-features/src/message_router.vala:1441
 msgid "(incl. commands & sessions)"
@@ -4072,7 +4089,7 @@ msgstr ""
 #: plugins/bot-features/src/message_router.vala:1504
 #: plugins/bot-features/src/message_router.vala:1516
 msgid "Changes applied automatically."
-msgstr ""
+msgstr "更改已自动应用。"
 
 #: plugins/bot-features/src/message_router.vala:1466
 #: plugins/bot-features/src/message_router.vala:1482
@@ -4096,12 +4113,12 @@ msgstr ""
 #: plugins/bot-features/src/message_router.vala:1577
 #, c-format
 msgid "Certificate: %s"
-msgstr ""
+msgstr "证书：%s"
 
 #: plugins/bot-features/src/message_router.vala:1476
 #, c-format
 msgid "Key: %s"
-msgstr ""
+msgstr "密钥：%s"
 
 #: plugins/bot-features/src/message_router.vala:1478
 msgid "API server mode set to 'network'."
@@ -4150,20 +4167,20 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:1536
 msgid "New self-signed certificate created!"
-msgstr ""
+msgstr "新的自签名证书已创建！"
 
 #: plugins/bot-features/src/message_router.vala:1537
 #, c-format
 msgid "Path: %s"
-msgstr ""
+msgstr "路径：%s"
 
 #: plugins/bot-features/src/message_router.vala:1538
 msgid "Server will restart automatically with the new certificate."
-msgstr ""
+msgstr "服务器将使用新证书自动重启。"
 
 #: plugins/bot-features/src/message_router.vala:1547
 msgid "Self-signed certificate deleted."
-msgstr ""
+msgstr "自签名证书已删除。"
 
 #: plugins/bot-features/src/message_router.vala:1548
 msgid "A new one will be generated on next start in network mode."
@@ -4176,11 +4193,11 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:1563
 msgid "API: Server Settings"
-msgstr ""
+msgstr "API：服务器设置"
 
 #: plugins/bot-features/src/message_router.vala:1567
 msgid "Current:"
-msgstr ""
+msgstr "当前："
 
 #: plugins/bot-features/src/message_router.vala:1568
 msgid "Local (127.0.0.1)"
@@ -4190,11 +4207,11 @@ msgstr ""
 #: plugins/bot-features/src/message_router.vala:1621
 #, c-format
 msgid "Port: %d"
-msgstr ""
+msgstr "端口：%d"
 
 #: plugins/bot-features/src/message_router.vala:1572
 msgid "Automatic (self-signed)"
-msgstr ""
+msgstr "自动（自签名）"
 
 #: plugins/bot-features/src/message_router.vala:1577
 msgid "present and valid"
@@ -4222,7 +4239,7 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:1597
 msgid "TLS Certificate:"
-msgstr ""
+msgstr "TLS 证书："
 
 #: plugins/bot-features/src/message_router.vala:1598
 msgid "Custom certificate (PEM)"
@@ -4250,7 +4267,7 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:1617
 msgid "API: Server Status"
-msgstr ""
+msgstr "API：服务器状态"
 
 #: plugins/bot-features/src/message_router.vala:1620
 msgid "Network (HTTPS)"
@@ -4263,15 +4280,15 @@ msgstr ""
 #: plugins/bot-features/src/message_router.vala:1623
 #, c-format
 msgid "Protocol: %s"
-msgstr ""
+msgstr "协议：%s"
 
 #: plugins/bot-features/src/message_router.vala:1629
 msgid "TLS Configuration:"
-msgstr ""
+msgstr "TLS 配置："
 
 #: plugins/bot-features/src/message_router.vala:1631
 msgid "Mode: Automatic (self-signed)"
-msgstr ""
+msgstr "模式：自动（自签名）"
 
 #: plugins/bot-features/src/message_router.vala:1638
 msgid "Not found / expired"
@@ -4279,7 +4296,7 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:1640
 msgid "Mode: Custom certificate"
-msgstr ""
+msgstr "模式：自定义证书"
 
 #: plugins/bot-features/src/message_router.vala:1644
 msgid "Invalid / expired"
@@ -4291,7 +4308,7 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:1648
 msgid "Self-signed:"
-msgstr ""
+msgstr "自签名："
 
 #: plugins/bot-features/src/message_router.vala:1649
 msgid "Custom cert:"
@@ -4315,12 +4332,12 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:1670
 msgid "Test bot"
-msgstr ""
+msgstr "测试机器人"
 
 #: plugins/bot-features/src/message_router.vala:1680
 #: plugins/bot-features/src/message_router.vala:1705
 msgid "Get messages"
-msgstr ""
+msgstr "获取消息"
 
 #: plugins/bot-features/src/message_router.vala:1695
 msgid "Python example:"
@@ -4328,11 +4345,11 @@ msgstr ""
 
 #: plugins/bot-features/src/message_router.vala:1713
 msgid "All endpoints:"
-msgstr ""
+msgstr "所有端点："
 
 #: plugins/bot-features/src/telegram_bridge.vala:526
 msgid "File could not be downloaded"
-msgstr ""
+msgstr "无法下载文件"
 
 #: plugins/mqtt/src/alert_manager.vala:43
 msgid "Silent (no notification)"
@@ -4368,7 +4385,7 @@ msgstr ""
 
 #: plugins/mqtt/src/command_handler.vala:254
 msgid "MQTT Status\n"
-msgstr ""
+msgstr "MQTT 状态\n"
 
 #: plugins/mqtt/src/command_handler.vala:260
 #, c-format
@@ -4379,18 +4396,18 @@ msgstr ""
 #: plugins/mqtt/src/command_handler.vala:272
 #: plugins/mqtt/src/command_handler.vala:1388
 msgid "Connected ✔"
-msgstr ""
+msgstr "已连接 ✔"
 
 #: plugins/mqtt/src/command_handler.vala:261
 #: plugins/mqtt/src/command_handler.vala:272
 #: plugins/mqtt/src/command_handler.vala:1388
 msgid "Disconnected ✘"
-msgstr ""
+msgstr "已断开连接 ✘"
 
 #: plugins/mqtt/src/command_handler.vala:270
 #, c-format
 msgid "Account %s: %s\n"
-msgstr ""
+msgstr "账号 %s：%s\n"
 
 #: plugins/mqtt/src/command_handler.vala:277
 msgid "No active MQTT connections.\n"
@@ -4654,7 +4671,7 @@ msgstr ""
 #: plugins/mqtt/src/command_handler.vala:608
 #, c-format
 msgid "Priority: %s\n"
-msgstr ""
+msgstr "优先级：%s\n"
 
 #: plugins/mqtt/src/command_handler.vala:609
 #, c-format
@@ -4877,7 +4894,7 @@ msgstr ""
 #: plugins/mqtt/src/command_handler.vala:981
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:294
 msgid "unknown"
-msgstr ""
+msgstr "未知"
 
 #: plugins/mqtt/src/command_handler.vala:997
 msgid ""
@@ -4956,6 +4973,8 @@ msgid ""
 "Client: %s\n"
 "\n"
 msgstr ""
+"客户端：%s\n"
+"\n"
 
 #: plugins/mqtt/src/command_handler.vala:1074
 msgid ""
@@ -5008,7 +5027,7 @@ msgstr ""
 #: plugins/mqtt/src/command_handler.vala:1155
 #: plugins/mqtt/src/command_handler.vala:1165
 msgid "MQTT database not available."
-msgstr ""
+msgstr "MQTT 数据库不可用。"
 
 #: plugins/mqtt/src/command_handler.vala:1169
 #, c-format
@@ -5025,7 +5044,7 @@ msgstr ""
 #: plugins/mqtt/src/command_handler.vala:1174
 #, c-format
 msgid "• Connection Log: %d days\n"
-msgstr ""
+msgstr "• 连接日志：%d 天\n"
 
 #: plugins/mqtt/src/command_handler.vala:1176
 #, c-format
@@ -5125,30 +5144,30 @@ msgstr ""
 
 #: plugins/mqtt/src/command_handler.vala:1365
 msgid "MQTT Connection Config\n"
-msgstr ""
+msgstr "MQTT 连接配置\n"
 
 #: plugins/mqtt/src/command_handler.vala:1367
 #, c-format
 msgid "Connection: %s\n"
-msgstr ""
+msgstr "连接：%s\n"
 
 #: plugins/mqtt/src/command_handler.vala:1368
 #: plugins/mqtt/src/discovery_manager.vala:540
 #, c-format
 msgid "Enabled: %s\n"
-msgstr ""
+msgstr "已启用：%s\n"
 
 #: plugins/mqtt/src/command_handler.vala:1368
 #: plugins/mqtt/src/command_handler.vala:1372
 #: plugins/mqtt/src/discovery_manager.vala:540
 msgid "Yes"
-msgstr ""
+msgstr "是"
 
 #: plugins/mqtt/src/command_handler.vala:1368
 #: plugins/mqtt/src/command_handler.vala:1372
 #: plugins/mqtt/src/discovery_manager.vala:540
 msgid "No"
-msgstr ""
+msgstr "否"
 
 #: plugins/mqtt/src/command_handler.vala:1369
 #, c-format
@@ -5157,7 +5176,7 @@ msgstr ""
 
 #: plugins/mqtt/src/command_handler.vala:1370
 msgid "(auto-detect)"
-msgstr ""
+msgstr "（自动检测）"
 
 #: plugins/mqtt/src/command_handler.vala:1372
 #, c-format
@@ -5167,7 +5186,7 @@ msgstr ""
 #: plugins/mqtt/src/command_handler.vala:1373
 #, c-format
 msgid "Server Type: %s\n"
-msgstr ""
+msgstr "服务器类型：%s\n"
 
 #: plugins/mqtt/src/command_handler.vala:1376
 msgid "Auth: XMPP Credentials (shared)\n"
@@ -5190,11 +5209,11 @@ msgstr ""
 #: plugins/mqtt/src/command_handler.vala:1387
 #, c-format
 msgid "Status: %s\n"
-msgstr ""
+msgstr "状态：%s\n"
 
 #: plugins/mqtt/src/command_handler.vala:1390
 msgid "Status: No client\n"
-msgstr ""
+msgstr "状态：无客户端\n"
 
 #: plugins/mqtt/src/command_handler.vala:1394
 msgid ""
@@ -5349,7 +5368,7 @@ msgstr ""
 
 #: plugins/mqtt/src/discovery_manager.vala:345
 msgid "Subscriptions"
-msgstr ""
+msgstr "订阅"
 
 #: plugins/mqtt/src/discovery_manager.vala:349
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:499
@@ -5375,31 +5394,31 @@ msgstr ""
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:435
 #: plugins/mqtt/src/settings_page.vala:263
 msgid "Reconnect"
-msgstr ""
+msgstr "重新连接"
 
 #: plugins/mqtt/src/discovery_manager.vala:397
 msgid "Refresh Discovery"
-msgstr ""
+msgstr "刷新发现"
 
 #: plugins/mqtt/src/discovery_manager.vala:491
 msgid "auto"
-msgstr ""
+msgstr "自动"
 
 #: plugins/mqtt/src/discovery_manager.vala:493
 msgid "connected"
-msgstr ""
+msgstr "已连接"
 
 #: plugins/mqtt/src/discovery_manager.vala:493
 msgid "disconnected"
-msgstr ""
+msgstr "已断开连接"
 
 #: plugins/mqtt/src/discovery_manager.vala:495
 msgid "unconfigured"
-msgstr ""
+msgstr "未配置"
 
 #: plugins/mqtt/src/discovery_manager.vala:537
 msgid "MQTT Discovery Status\n"
-msgstr ""
+msgstr "MQTT 发现状态\n"
 
 #: plugins/mqtt/src/discovery_manager.vala:539
 msgid "Format: Device Discovery (HA 2024.x+)\n"
@@ -5408,12 +5427,12 @@ msgstr ""
 #: plugins/mqtt/src/discovery_manager.vala:541
 #, c-format
 msgid "Prefix: %s\n"
-msgstr ""
+msgstr "前缀：%s\n"
 
 #: plugins/mqtt/src/discovery_manager.vala:542
 #, c-format
 msgid "Node ID: %s\n"
-msgstr ""
+msgstr "节点 ID：%s\n"
 
 #: plugins/mqtt/src/discovery_manager.vala:543
 #, c-format
@@ -5450,7 +5469,7 @@ msgstr ""
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:238
 msgid "Connection"
-msgstr ""
+msgstr "连接"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:239
 #, c-format
@@ -5459,7 +5478,7 @@ msgstr ""
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:243
 msgid "Enable MQTT"
-msgstr ""
+msgstr "启用 MQTT"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:244
 msgid "Activate the MQTT client for this account"
@@ -5467,7 +5486,7 @@ msgstr ""
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:269
 msgid "Connection Mode"
-msgstr ""
+msgstr "连接模式"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:270
 msgid "How this account connects to MQTT"
@@ -5483,7 +5502,7 @@ msgstr ""
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:289
 msgid "XMPP Server MQTT"
-msgstr ""
+msgstr "XMPP 服务器 MQTT"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:290
 msgid ""
@@ -5507,7 +5526,7 @@ msgstr ""
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:304
 msgid "Use XMPP Credentials"
-msgstr ""
+msgstr "使用 XMPP 凭据"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:305
 msgid "Share your XMPP login with ejabberd's MQTT (recommended)"
@@ -5515,13 +5534,13 @@ msgstr ""
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:309
 msgid "MQTT Port"
-msgstr ""
+msgstr "MQTT 端口"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:315
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:337
 #: plugins/mqtt/src/settings_page.vala:167
 msgid "TLS Encryption"
-msgstr ""
+msgstr "TLS 加密"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:316
 msgid "ejabberd mod_mqtt usually runs on port 8883 with TLS"
@@ -5537,11 +5556,11 @@ msgstr ""
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:328
 msgid "Hostname"
-msgstr ""
+msgstr "主机名"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:346
 msgid "TLS Disabled"
-msgstr ""
+msgstr "TLS 已禁用"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:347
 #: plugins/mqtt/src/settings_page.vala:183
@@ -5551,7 +5570,7 @@ msgstr ""
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:358
 #: plugins/mqtt/src/settings_page.vala:194
 msgid "Authentication"
-msgstr ""
+msgstr "身份验证"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:359
 msgid "Credentials for the custom MQTT broker."
@@ -5559,17 +5578,17 @@ msgstr ""
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:362
 msgid "MQTT Username"
-msgstr ""
+msgstr "MQTT 用户名"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:366
 msgid "MQTT Password"
-msgstr ""
+msgstr "MQTT 密码"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:373
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:418
 #: plugins/mqtt/src/settings_page.vala:235
 msgid "Show Bot in Chat"
-msgstr ""
+msgstr "在聊天中显示机器人"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:377
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:422
@@ -5585,7 +5604,7 @@ msgstr ""
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:454
 #: plugins/mqtt/src/settings_page.vala:276
 msgid "Reconnecting…"
-msgstr ""
+msgstr "正在重新连接…"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:409
 msgid "Standalone MQTT"
@@ -5597,7 +5616,7 @@ msgstr ""
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:443
 msgid "Disabled — enable in Preferences first"
-msgstr ""
+msgstr "已禁用 — 请先在首选项中启用"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:449
 msgid "No broker configured — set in Preferences"
@@ -5605,7 +5624,7 @@ msgstr ""
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:466
 msgid "Configuration"
-msgstr ""
+msgstr "配置"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:469
 #: plugins/mqtt/src/topic_manager_dialog.vala:75
@@ -5690,7 +5709,7 @@ msgstr ""
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:579
 msgid "MQTT Bot"
-msgstr ""
+msgstr "MQTT 机器人"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:594
 msgid "Subscribe to Topic"
@@ -5700,7 +5719,7 @@ msgstr ""
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:1209
 #: plugins/mqtt/src/topic_manager_dialog.vala:94
 msgid "Subscribe"
-msgstr ""
+msgstr "订阅"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:622
 msgid "Alias (optional, e.g. 🌡 Living Room)"
@@ -5745,11 +5764,11 @@ msgstr ""
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:684
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:698
 msgid "Add Preset"
-msgstr ""
+msgstr "添加预设"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:687
 msgid "Name"
-msgstr "姓名"
+msgstr "名称"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:695
 msgid "Payload"
@@ -5782,7 +5801,7 @@ msgstr ""
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:756
 msgid "Priority"
-msgstr ""
+msgstr "优先级"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:761
 msgid "Add Alert"
@@ -5806,7 +5825,7 @@ msgstr ""
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:820
 msgid "Format"
-msgstr ""
+msgstr "格式"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:841
 msgid "Send as account"
@@ -5836,7 +5855,7 @@ msgstr "已禁用"
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:992
 #: plugins/mqtt/src/server_detector.vala:38
 msgid "ejabberd (mod_mqtt)"
-msgstr ""
+msgstr "ejabberd (mod_mqtt)"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:993
 msgid "Prosody (mod_pubsub_mqtt) — read-only"
@@ -5860,11 +5879,11 @@ msgstr ""
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:1064
 msgid "Notification priority"
-msgstr ""
+msgstr "通知优先级"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:1082
 msgid "Edit subscription"
-msgstr ""
+msgstr "编辑订阅"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:1349
 msgid "No alert rules configured"
@@ -5881,11 +5900,11 @@ msgstr ""
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:1437
 msgid "Edit"
-msgstr ""
+msgstr "编辑"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:1544
 msgid "Remove this preset"
-msgstr ""
+msgstr "移除此预设"
 
 #: plugins/mqtt/src/mqtt_bot_manager_dialog.vala:1559
 msgid "No publish presets"
@@ -5976,7 +5995,7 @@ msgstr ""
 
 #: plugins/mqtt/src/server_detector.vala:39
 msgid "Prosody (mod_pubsub_mqtt)"
-msgstr ""
+msgstr "Prosody (mod_pubsub_mqtt)"
 
 #: plugins/mqtt/src/server_detector.vala:40
 msgid "Standalone Broker"
@@ -5984,7 +6003,7 @@ msgstr ""
 
 #: plugins/mqtt/src/server_detector.vala:97
 msgid "Service Discovery module not available"
-msgstr ""
+msgstr "服务发现模块不可用"
 
 #: plugins/mqtt/src/server_detector.vala:190
 msgid "No MQTT server type detected — configure manually"
@@ -6014,7 +6033,7 @@ msgstr ""
 
 #: plugins/mqtt/src/settings_page.vala:149
 msgid "Host"
-msgstr ""
+msgstr "主机"
 
 #: plugins/mqtt/src/settings_page.vala:168
 msgid "Enable for port 8883 or secure connections"
@@ -6022,7 +6041,7 @@ msgstr ""
 
 #: plugins/mqtt/src/settings_page.vala:182
 msgid "⚠ TLS Disabled"
-msgstr ""
+msgstr "⚠ TLS 已禁用"
 
 #: plugins/mqtt/src/settings_page.vala:195
 msgid "Leave empty if the broker requires no authentication."
@@ -6030,11 +6049,11 @@ msgstr ""
 
 #: plugins/mqtt/src/settings_page.vala:199
 msgid "Username"
-msgstr ""
+msgstr "用户名"
 
 #: plugins/mqtt/src/settings_page.vala:214
 msgid "MQTT Bot Manager"
-msgstr ""
+msgstr "MQTT 机器人管理器"
 
 #: plugins/mqtt/src/settings_page.vala:215
 msgid "Publish presets, alerts, bridges, free-text and more"
@@ -6042,7 +6061,7 @@ msgstr ""
 
 #: plugins/mqtt/src/settings_page.vala:219
 msgid "Open Bot Manager"
-msgstr ""
+msgstr "打开机器人管理器"
 
 #: plugins/mqtt/src/settings_page.vala:220
 msgid ""
@@ -6055,15 +6074,15 @@ msgstr ""
 
 #: plugins/mqtt/src/settings_page.vala:255
 msgid "Connection Status"
-msgstr ""
+msgstr "连接状态"
 
 #: plugins/mqtt/src/settings_page.vala:256
 msgid "Not connected"
-msgstr ""
+msgstr "未连接"
 
 #: plugins/mqtt/src/settings_page.vala:269
 msgid "Disabled — enable first"
-msgstr ""
+msgstr "已禁用 — 请先启用"
 
 #: plugins/mqtt/src/settings_page.vala:273
 msgid "No broker host configured"
@@ -6094,7 +6113,7 @@ msgstr ""
 
 #: plugins/mqtt/src/topic_manager_dialog.vala:104
 msgid "MQTT → XMPP Bridge"
-msgstr ""
+msgstr "MQTT → XMPP 桥接"
 
 #: plugins/mqtt/src/topic_manager_dialog.vala:121
 msgid "Bridge"
@@ -6123,151 +6142,153 @@ msgstr ""
 
 #: plugins/tor-manager/src/settings_page.vala:22
 msgid "Tor"
-msgstr ""
+msgstr "Tor"
 
 #: plugins/tor-manager/src/settings_page.vala:27
 msgid "Tor Connection"
-msgstr ""
+msgstr "Tor 连接"
 
 #: plugins/tor-manager/src/settings_page.vala:31
 msgid "Enable Integrated Tor"
-msgstr ""
+msgstr "启用集成 Tor"
 
 #: plugins/tor-manager/src/settings_page.vala:32
 msgid "Starts a private Tor process for DinoX"
-msgstr ""
+msgstr "为 DinoX 启动一个私有 Tor 进程"
 
 #: plugins/tor-manager/src/settings_page.vala:52
 msgid "Bridges (Censorship Circumvention)"
-msgstr ""
+msgstr "网桥（规避审查）"
 
 #: plugins/tor-manager/src/settings_page.vala:53
 msgid "Required if Tor is blocked by your ISP or government."
-msgstr ""
+msgstr "当您的 ISP 或政府屏蔽了 Tor 时需要启用。"
 
 #: plugins/tor-manager/src/settings_page.vala:58
 msgid "Use Bridges"
-msgstr ""
+msgstr "使用网桥"
 
 #: plugins/tor-manager/src/settings_page.vala:59
 msgid "Hides the fact that you are using Tor."
-msgstr ""
+msgstr "隐藏您正在使用 Tor 的事实。"
 
 #: plugins/tor-manager/src/settings_page.vala:71
 msgid "Firewall Mode (Port 80/443 Only)"
-msgstr ""
+msgstr "防火墙模式（仅限 80/443 端口）"
 
 #: plugins/tor-manager/src/settings_page.vala:72
 msgid ""
 "Only connect to bridges using standard web ports. Helps behind strict "
 "firewalls."
-msgstr ""
+msgstr "仅使用标准 Web 端口连接到网桥。适用于严格防火墙环境。"
 
 #: plugins/tor-manager/src/settings_page.vala:79
 msgid ""
 "Warning: Only bridges on port 80/443 will work when Firewall Mode is enabled!"
-msgstr ""
+msgstr "警告：启用防火墙模式后，仅 80/443 端口的网桥有效！"
 
 #: plugins/tor-manager/src/settings_page.vala:110
 msgid "Bridge List (Auto or Manual Entry)"
-msgstr ""
+msgstr "网桥列表（自动或手动输入）"
 
 #: plugins/tor-manager/src/settings_page.vala:141
 msgid "Request Fresh Bridges"
-msgstr ""
+msgstr "请求新网桥"
 
 #: plugins/tor-manager/src/settings_page.vala:142
 msgid "Connects to Tor Project (Moat) to fetch unblocked bridges."
-msgstr ""
+msgstr "连接到 Tor Project（Moat）以获取未屏蔽的网桥。"
 
 #: plugins/tor-manager/src/settings_page.vala:177
 msgid "Alternatively get bridges at https://bridges.torproject.org/"
-msgstr ""
+msgstr "或者，获取网桥也可以访问 https://bridges.torproject.org/"
 
 #: plugins/tor-manager/src/settings_page.vala:226
 msgid "Loading..."
-msgstr ""
+msgstr "正在加载…"
 
 #: plugins/tor-manager/src/settings_page.vala:237
 msgid "Error fetching challenge"
-msgstr ""
+msgstr "获取验证码时出错"
 
 #: plugins/tor-manager/src/settings_page.vala:260
 msgid "Image Error"
-msgstr ""
+msgstr "图片错误"
 
 #: plugins/tor-manager/src/settings_page.vala:260
 msgid "Could not load CAPTCHA image."
-msgstr ""
+msgstr "无法加载验证码图片。"
 
 #: plugins/tor-manager/src/settings_page.vala:279
 msgid "Type characters from image..."
-msgstr ""
+msgstr "请输入图片中的字符…"
 
 #: plugins/tor-manager/src/settings_page.vala:283
 msgid "Solve CAPTCHA"
-msgstr ""
+msgstr "完成验证码"
 
 #: plugins/tor-manager/src/settings_page.vala:284
 msgid "Please type the characters you see in the image to receive bridges."
-msgstr ""
+msgstr "请输入图片中显示的字符以获取网桥。"
 
 #: plugins/tor-manager/src/settings_page.vala:289
 msgid "Submit"
-msgstr ""
+msgstr "提交"
 
 #: plugins/tor-manager/src/settings_page.vala:347
 #, c-format
 msgid "Received %d fresh bridges."
-msgstr ""
+msgstr "已获取 %d 个新网桥。"
 
 #: plugins/tor-manager/src/settings_page.vala:349
 #, c-format
 msgid ""
 "Good news! We found %d bridges on common ports (443/80). These are "
 "prioritized."
-msgstr ""
+msgstr "好消息！我们在常用端口（443/80）上找到了 %d 个网桥。这些网桥将被优先使用。"
 
 #: plugins/tor-manager/src/settings_page.vala:351
 msgid ""
 "Warning: None of the bridges use standard ports (443/80). If you are behind "
 "a strict firewall, you might need to try again."
 msgstr ""
+"警告：所有网桥均未使用标准端口（443/80）。如果您处于严格防火墙环境下，可能需"
+"要重试。"
 
 #: plugins/tor-manager/src/settings_page.vala:354
 msgid "Success"
-msgstr ""
+msgstr "成功"
 
 #: plugins/tor-manager/src/settings_page.vala:357
 #: plugins/tor-manager/src/settings_page.vala:369
 msgid "Try Again"
-msgstr ""
+msgstr "重试"
 
 #: plugins/tor-manager/src/settings_page.vala:368
 msgid "Failed"
-msgstr ""
+msgstr "失败"
 
 #: plugins/tor-manager/src/settings_page.vala:368
 msgid "No bridges received. Maybe the solution was wrong?"
-msgstr ""
+msgstr "未获取到任何网桥。可能出了点问题？"
 
 #: plugins/tor-manager/src/ui_indicator.vala:86
 #: plugins/tor-manager/src/ui_indicator.vala:117
 msgid "Tor Network"
-msgstr ""
+msgstr "Tor 网络"
 
 #: plugins/tor-manager/src/ui_indicator.vala:134
 msgid "Enable Tor"
-msgstr ""
+msgstr "启用 Tor"
 
 #: plugins/tor-manager/src/ui_indicator.vala:164
 msgid "Network Settings"
-msgstr ""
+msgstr "网络设置"
 
 #: plugins/tor-manager/src/ui_indicator.vala:183
 #, c-format
 msgid "Bootstrapping: %d%%"
-msgstr ""
+msgstr "正在引导：%d%%"
 
 #: plugins/tor-manager/src/ui_indicator.vala:184
 #, c-format
@@ -6275,40 +6296,42 @@ msgid ""
 "Tor Starting: %d%%\n"
 "%s"
 msgstr ""
+"Tor 正在启动：%d%%\n"
+"%s"
 
 #: plugins/tor-manager/src/ui_indicator.vala:202
 msgid "Bridges"
-msgstr ""
+msgstr "网桥"
 
 #: plugins/tor-manager/src/ui_indicator.vala:202
 msgid "Direct"
-msgstr ""
+msgstr "直接连接"
 
 #: plugins/tor-manager/src/ui_indicator.vala:206
 #, c-format
 msgid "Tor Connected (%s)"
-msgstr ""
+msgstr "Tor 已连接（%s）"
 
 #: plugins/tor-manager/src/ui_indicator.vala:207
 #, c-format
 msgid "Connected (%s)"
-msgstr ""
+msgstr "已连接（%s）"
 
 #: plugins/tor-manager/src/ui_indicator.vala:211
 msgid "Tor Starting..."
-msgstr ""
+msgstr "Tor 正在启动…"
 
 #: plugins/tor-manager/src/ui_indicator.vala:212
 msgid "Starting..."
-msgstr ""
+msgstr "正在启动…"
 
 #: plugins/tor-manager/src/ui_indicator.vala:217
 msgid "Tor Disabled"
-msgstr ""
+msgstr "Tor 已禁用"
 
 #: plugins/tor-manager/src/ui_indicator.vala:218
 msgid "Tor is disabled"
-msgstr ""
+msgstr "Tor 已禁用"
 
 #~ msgid "Help: How to join channels"
 #~ msgstr "帮助：如何加入频道"
