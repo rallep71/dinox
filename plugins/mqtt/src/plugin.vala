@@ -1542,18 +1542,6 @@ public class Plugin : RootInterface, Object {
                 var result = alert_manager.evaluate(topic, payload_str);
                 priority = result.priority;
 
-                /* If paused, still record history (done in evaluate)
-                 * but don't display as chat bubble */
-                if (alert_manager.paused && priority < MqttPriority.ALERT) {
-                    /* Still record to DB even when paused */
-                    if (mqtt_db != null) {
-                        mqtt_db.record_message(label, topic, payload_str,
-                                               qos, retained,
-                                               priority.to_string_key());
-                    }
-                    return;
-                }
-
                 /* Log triggered alerts */
                 if (result.triggered_rules.size > 0) {
                     debug("MQTT [%s]: Alert triggered on %s (%d rules, priority=%s)",
@@ -1562,28 +1550,37 @@ public class Plugin : RootInterface, Object {
                 }
             }
 
-            /* Record message to DB */
-            if (mqtt_db != null) {
-                mqtt_db.record_message(label, topic, payload_str,
-                                       qos, retained,
-                                       priority.to_string_key());
-            }
-
-            /* Retained message dedup: skip re-injection if the same
-             * retained message was already displayed.  Retained messages
-             * are re-delivered by the broker on every reconnect, which
-             * floods the chat with duplicates after reconnect or dialog
-             * Save & Apply.  Non-retained messages always pass through. */
+            /* Retained message dedup: skip if the same retained message
+             * was already seen.  Retained messages are re-delivered by
+             * the broker on every reconnect — without this check they
+             * flood both the DB and the chat with duplicates.
+             * Non-retained messages always pass through. */
             if (retained) {
                 string dedup_key = label + "\t" + topic;
                 string payload_hash = Checksum.compute_for_string(ChecksumType.SHA256, payload_str);
                 if (retained_cache.has_key(dedup_key) &&
                     retained_cache[dedup_key] == payload_hash) {
-                    /* Same retained payload already seen — skip chat injection
-                     * but still record to DB (done above). */
                     return;
                 }
                 retained_cache[dedup_key] = payload_hash;
+            }
+
+            /* If paused, record to DB but don't display as chat bubble */
+            if (alert_manager != null && alert_manager.paused
+                    && priority < MqttPriority.ALERT) {
+                if (mqtt_db != null) {
+                    mqtt_db.record_message(label, topic, payload_str,
+                                           qos, retained,
+                                           priority.to_string_key());
+                }
+                return;
+            }
+
+            /* Record message to DB */
+            if (mqtt_db != null) {
+                mqtt_db.record_message(label, topic, payload_str,
+                                       qos, retained,
+                                       priority.to_string_key());
             }
 
             /* Inject into bot conversation with priority.
