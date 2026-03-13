@@ -38,6 +38,7 @@ public class MessageMetaItem : ContentMetaItem {
     ulong marked_notify_handler_id = -1;
     uint pending_timeout_id = -1;
     Binding? marked_binding = null;
+    bool cached_dark_theme = false;
 
     public Label label = new Label("") { use_markup=true, xalign=0, selectable=true, wrap=true, wrap_mode=Pango.WrapMode.WORD_CHAR, hexpand=true, vexpand=true };
 
@@ -237,7 +238,14 @@ public class MessageMetaItem : ContentMetaItem {
         }
 
         if (theme_dependent && realize_id == -1) {
-            realize_id = label.realize.connect(update_label);
+            cached_dark_theme = Util.is_dark_theme(label);
+            realize_id = label.realize.connect(() => {
+                bool dark_now = Util.is_dark_theme(label);
+                if (dark_now != cached_dark_theme) {
+                    cached_dark_theme = dark_now;
+                    update_label();
+                }
+            });
         } else if (!theme_dependent && realize_id != -1) {
             label.disconnect(realize_id);
             realize_id = -1;

@@ -63,6 +63,20 @@ public class MqttBotConversation : Object {
     /* Standalone bare JID (constant) */
     private Jid? mqtt_standalone_bare_jid = null;
 
+    /* ── MQTT message coalescing ─────────────────────────────────
+     * Rapid sensor data (5-10 msgs/sec) would cause 5-10 full
+     * message-render cycles per second on the GTK main thread.
+     * We buffer MQTT messages per conversation and flush them
+     * as a single combined message after a short delay (200 ms).
+     * Command responses (inject_bot_message) bypass coalescing. */
+    private const uint COALESCE_MS = 200;
+    private HashMap<int, ArrayList<string>> coalesce_buffers =
+        new HashMap<int, ArrayList<string>>();
+    private HashMap<int, uint> coalesce_timers =
+        new HashMap<int, uint>();
+    private HashMap<int, MqttPriority> coalesce_max_prio =
+        new HashMap<int, MqttPriority>();
+
     /* ── Construction ────────────────────────────────────────────── */
 
     public MqttBotConversation(Plugin plugin) {
@@ -348,6 +362,15 @@ public class MqttBotConversation : Object {
         if (!bot_conversations.has_key(key)) return;
 
         Conversation conv = bot_conversations[key];
+        int cid = conv.id;
+
+        /* Cancel any pending coalesce timer */
+        if (coalesce_timers.has_key(cid) && coalesce_timers[cid] != 0) {
+            Source.remove(coalesce_timers[cid]);
+            coalesce_timers.unset(cid);
+        }
+        coalesce_buffers.unset(cid);
+        coalesce_max_prio.unset(cid);
 
         /* Unpin BEFORE closing — otherwise pinned conversations
          * can remain visible in the sidebar even after deactivation. */
@@ -487,11 +510,57 @@ public class MqttBotConversation : Object {
         /* Format: topic on first line, payload on second */
         string body = format_mqtt_message(display_topic, payload, priority);
 
+        /* Silent messages bypass coalescing */
         if (priority == MqttPriority.SILENT) {
             inject_silent_message(conversation, body);
-        } else {
-            inject_bot_message(conversation, body);
+            return;
         }
+
+        /* Alert-priority messages are injected immediately so the
+         * notification fires without delay. */
+        if (priority >= MqttPriority.ALERT) {
+            inject_bot_message(conversation, body);
+            return;
+        }
+
+        /* Coalesce normal-priority messages:
+         * Buffer the body and start a timer. When the timer fires,
+         * all buffered bodies are injected as one combined message. */
+        int cid = conversation.id;
+        if (!coalesce_buffers.has_key(cid)) {
+            coalesce_buffers[cid] = new ArrayList<string>();
+        }
+        coalesce_buffers[cid].add(body);
+
+        /* Track highest priority in batch */
+        if (!coalesce_max_prio.has_key(cid) || priority > coalesce_max_prio[cid]) {
+            coalesce_max_prio[cid] = priority;
+        }
+
+        /* Start flush timer if not already running */
+        if (!coalesce_timers.has_key(cid) || coalesce_timers[cid] == 0) {
+            Conversation conv_ref = conversation;
+            coalesce_timers[cid] = Timeout.add(COALESCE_MS, () => {
+                flush_coalesce_buffer(conv_ref);
+                return false;
+            });
+        }
+    }
+
+    /** Flush buffered MQTT messages for one conversation. */
+    private void flush_coalesce_buffer(Conversation conversation) {
+        int cid = conversation.id;
+        coalesce_timers[cid] = 0;
+
+        if (!coalesce_buffers.has_key(cid) || coalesce_buffers[cid].size == 0) {
+            return;
+        }
+
+        string combined = string.joinv("\n\n", coalesce_buffers[cid].to_array());
+        coalesce_buffers[cid].clear();
+        coalesce_max_prio.unset(cid);
+
+        inject_bot_message(conversation, combined);
     }
 
     /**

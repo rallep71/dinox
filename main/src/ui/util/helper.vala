@@ -20,6 +20,9 @@ namespace Dino.Ui.Util {
 
 private static Regex URL_REGEX;
 private static Map<unichar, unichar> MATCHING_CHARS;
+private static Regex QUOTE_REGEX_RAW;
+private static Regex QUOTE_REGEX_ESC;
+private static Regex[] MARKUP_REGEXES;
 private const unichar[] NON_TRAILING_CHARS = {'\'', '"', ',', '.', ';', '!', '?', '»', '”', '’', '`', '~', '‽', ':', '>', '*', '_'};
 private const string[] ALLOWED_SCHEMAS = {"http", "https", "ftp", "ftps", "irc", "ircs", "xmpp", "mailto", "sms", "smsto", "mms", "tel", "geo", "openpgp4fpr", "im", "news", "nntp", "sip", "ssh", "bitcoin", "sftp", "magnet", "vnc"};
 private const string[] tango_colors_light = {"FCE94F", "FCAF3E", "E9B96E", "8AE234", "729FCF", "AD7FA8", "EF2929"};
@@ -237,7 +240,14 @@ public static string parse_add_markup_theme(string s_, string? highlight_word, b
     if (parse_quotes) {
         string gt = already_escaped ? "&gt;" : ">";
         try {
-            Regex quote_regex = new Regex("((?<=\n)" + gt + ".*(\n|$))|(^" + gt + ".*(\n|$))");
+            Regex quote_regex;
+            if (already_escaped) {
+                if (QUOTE_REGEX_ESC == null) QUOTE_REGEX_ESC = new Regex("((?<=\n)&gt;.*(\n|$))|(^&gt;.*(\n|$))");
+                quote_regex = QUOTE_REGEX_ESC;
+            } else {
+                if (QUOTE_REGEX_RAW == null) QUOTE_REGEX_RAW = new Regex("((?<=\n)>.*(\n|$))|(^>.*(\n|$))");
+                quote_regex = QUOTE_REGEX_RAW;
+            }
             MatchInfo quote_match_info;
             quote_regex.match(s.down(), 0, out quote_match_info);
             if (quote_match_info.matches()) {
@@ -342,26 +352,30 @@ public static string parse_add_markup_theme(string s_, string? highlight_word, b
     }
 
     if (parse_text_markup) {
-        string[] markup_string = new string[]{"`", "_", "*", "~"};
         string[] convenience_tag = new string[]{"tt", "i", "b", "s"};
 
-        for (int i = 0; i < markup_string.length; i++) {
-            string markup_esc = Regex.escape_string(markup_string[i]);
-            try {
-                Regex regex = new Regex("(^|\\s)" + markup_esc + "(\\S|\\S.*?\\S)" + markup_esc);
-                MatchInfo match_info;
-                regex.match(s.down(), 0, out match_info);
-                if (match_info.matches()) {
-                    int start, end;
-                    match_info.fetch_pos(2, out start, out end);
-                    return parse_add_markup_theme(s[0:start-1], highlight_word, parse_links, parse_text_markup, false, dark_theme, ref theme_dependent, already_escaped) +
-                        "<span color='#9E9E9E'>" +  s[start-1:start] + "</span>" +
-                        @"<$(convenience_tag[i])>" + s[start:end] + @"</$(convenience_tag[i])>" +
-                        "<span color='#9E9E9E'>" + s[end:end+1] + "</span>" +
-                        parse_add_markup_theme(s[end+1:s.length], highlight_word, parse_links, parse_text_markup, false, dark_theme, ref theme_dependent, already_escaped);
-                }
-            } catch (RegexError e) {
-                assert_not_reached();
+        if (MARKUP_REGEXES == null) {
+            string[] markup_string = new string[]{"`", "_", "*", "~"};
+            MARKUP_REGEXES = new Regex[markup_string.length];
+            for (int k = 0; k < markup_string.length; k++) {
+                string me = Regex.escape_string(markup_string[k]);
+                try { MARKUP_REGEXES[k] = new Regex("(^|\\s)" + me + "(\\S|\\S.*?\\S)" + me); } catch (RegexError e) {}
+            }
+        }
+
+        for (int i = 0; i < MARKUP_REGEXES.length; i++) {
+            Regex regex = MARKUP_REGEXES[i];
+            if (regex == null) continue;
+            MatchInfo match_info;
+            regex.match(s.down(), 0, out match_info);
+            if (match_info.matches()) {
+                int start, end;
+                match_info.fetch_pos(2, out start, out end);
+                return parse_add_markup_theme(s[0:start-1], highlight_word, parse_links, parse_text_markup, false, dark_theme, ref theme_dependent, already_escaped) +
+                    "<span color='#9E9E9E'>" +  s[start-1:start] + "</span>" +
+                    @"<$(convenience_tag[i])>" + s[start:end] + @"</$(convenience_tag[i])>" +
+                    "<span color='#9E9E9E'>" + s[end:end+1] + "</span>" +
+                    parse_add_markup_theme(s[end+1:s.length], highlight_word, parse_links, parse_text_markup, false, dark_theme, ref theme_dependent, already_escaped);
             }
         }
     }
