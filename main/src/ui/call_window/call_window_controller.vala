@@ -217,6 +217,7 @@ public class Dino.Ui.CallWindowController : Object {
         peer_states[peer_id] = peer_state;
 
         peer_connection_ready_handler_ids[peer_id] = peer_state.connection_ready.connect(() => {
+            if (!participant_widgets.has_key(peer_id)) return;
             call_window.set_status(peer_id, "");
             
             // Show volume controls only in group calls (more than 1 participant)
@@ -240,7 +241,9 @@ public class Dino.Ui.CallWindowController : Object {
 
                 call_state.can_convert_into_groupcall.begin((_, res) => {
                     bool can_convert = call_state.can_convert_into_groupcall.end(res);
-                    participant_widgets[peer_id].may_show_invite_button = can_convert;
+                    if (participant_widgets.has_key(peer_id)) {
+                        participant_widgets[peer_id].may_show_invite_button = can_convert;
+                    }
                 });
 
                 devices_changed_handler_id = call_plugin.devices_changed.connect((media, incoming) => {
@@ -255,6 +258,7 @@ public class Dino.Ui.CallWindowController : Object {
             }
         });
         peer_video_updated_handler_ids[peer_id] = peer_state.counterpart_sends_video_updated.connect((mute) => {
+            if (!participant_widgets.has_key(peer_id) || !participant_videos.has_key(peer_id)) return;
             if (mute) {
                 Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(peer_jid.bare_jid, call.account, Conversation.Type.CHAT);
                 call_window.set_placeholder(peer_id, conversation, stream_interactor);
@@ -272,6 +276,7 @@ public class Dino.Ui.CallWindowController : Object {
             }
         });
         peer_encryption_handler_ids[peer_id] = peer_state.encryption_updated.connect((state, audio_encryption,  video_encryption) => {
+            if (!participant_widgets.has_key(peer_id) || !peer_states.has_key(peer_id)) return;
             update_encryption_indicator(participant_widgets[peer_id].encryption_button_controller, peer_states[peer_id].audio_content != null, audio_encryption, peer_states[peer_id].video_content != null, video_encryption);
         });
     }
@@ -353,7 +358,7 @@ public class Dino.Ui.CallWindowController : Object {
                 return false;
             });
         });
-        invite_handler_ids[participant_id] += participant_widget.invite_button_clicked.connect(() => invite_button_clicked());
+        invite_handler_ids[participant_id] = participant_widget.invite_button_clicked.connect(() => invite_button_clicked());
         
         // Connect volume slider to stream volume control
         volume_handler_ids[participant_id] = participant_widget.volume_changed.connect((volume) => {
@@ -479,20 +484,24 @@ public class Dino.Ui.CallWindowController : Object {
         update_current_audio_device(audio_settings_popover);
 
         audio_settings_popover.microphone_selected.connect((device) => {
+            if (call_state == null) return;
             call_state.set_audio_device(device);
             update_current_audio_device(audio_settings_popover);
         });
         audio_settings_popover.speaker_selected.connect((device) => {
+            if (call_state == null) return;
             call_state.set_audio_device(device);
             update_current_audio_device(audio_settings_popover);
         });
         audio_settings_popover.microphone_volume_changed.connect((volume) => {
+            if (call_state == null) return;
             var device = call_state.get_microphone_device();
             if (device != null) {
                 call_plugin.set_device_volume(device, volume);
             }
         });
         audio_settings_popover.speaker_volume_changed.connect((volume) => {
+            if (call_state == null) return;
             var device = call_state.get_speaker_device();
             if (device != null) {
                 call_plugin.set_device_volume(device, volume);
@@ -506,6 +515,7 @@ public class Dino.Ui.CallWindowController : Object {
     }
 
     private void update_current_audio_device(AudioSettingsPopover audio_settings_popover) {
+        if (call_state == null) return;
         audio_settings_popover.current_microphone_device = call_state.get_microphone_device();
         audio_settings_popover.current_speaker_device = call_state.get_speaker_device();
         // Update volume sliders

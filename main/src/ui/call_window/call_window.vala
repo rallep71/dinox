@@ -131,6 +131,7 @@ namespace Dino.Ui {
                 }
                 participant_bindings.unset(participant);
             }
+            if (!participant_widgets.has_key(participant)) return;
             participant_widgets[participant].set_video(new Adw.Bin());
             participants.remove(participant);
             grid.remove(participant_widgets[participant]);
@@ -140,12 +141,14 @@ namespace Dino.Ui {
         }
 
         public void set_video(string participant, Widget widget) {
+            if (!participant_widgets.has_key(participant)) return;
             participant_widgets[participant].set_video(widget);
             hide_control_elements = true;
             timeout_hide_control_elements();
         }
 
         public void set_placeholder(string participant, Conversation? conversation, StreamInteractor stream_interactor) {
+            if (!participant_widgets.has_key(participant)) return;
             participant_widgets[participant].set_placeholder(conversation, stream_interactor);
             hide_control_elements = false;
             foreach (ParticipantWidget participant_widget in participant_widgets.values) {
@@ -229,6 +232,7 @@ namespace Dino.Ui {
         }
 
         public void set_status(string participant_id, string state) {
+            if (!participant_widgets.has_key(participant_id)) return;
             participant_widgets[participant_id].set_status(state);
         }
 

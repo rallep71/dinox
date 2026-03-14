@@ -53,12 +53,12 @@ extern "C" void *dino_plugins_rtp_voice_processor_init_native(gint stream_delay)
     config.echo_canceller.mobile_mode = false; // Desktop mode: better echo cancellation quality
     
     config.noise_suppression.enabled = true;
-    config.noise_suppression.level = webrtc::AudioProcessing::Config::NoiseSuppression::kModerate; // kHigh was too aggressive, caused robotic artifacts
+    config.noise_suppression.level = webrtc::AudioProcessing::Config::NoiseSuppression::kLow;
     
     config.gain_controller1.enabled = true;
-    config.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kFixedDigital; // Fixed gain: no adaptive cutting of words
-    config.gain_controller1.target_level_dbfs = 3;
-    config.gain_controller1.compression_gain_db = 6;
+    config.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kFixedDigital;
+    config.gain_controller1.target_level_dbfs = 6;  // -6 dBFS target: more headroom than -3
+    config.gain_controller1.compression_gain_db = 9; // 9dB: compromise between 6 (too quiet) and 12 (too aggressive)
     config.gain_controller1.enable_limiter = true;
     
     config.high_pass_filter.enabled = true;
@@ -232,33 +232,25 @@ extern "C" void dino_plugins_rtp_voice_processor_set_compression_gain_db(void *n
 
     webrtc::AudioProcessing::Config config = native->apm->GetConfig();
     
-    // Always update compression_gain_db for Adaptive mode or as a fallback
-    config.gain_controller1.compression_gain_db = gain_db;
-    
     // Explicitly disable GainController2 to prevent conflicts
     config.gain_controller2.enabled = false;
 
+    // Always use kFixedDigital — kAdaptiveDigital causes word chopping/pumping
+    config.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kFixedDigital;
+    config.gain_controller1.enable_limiter = true;
+    config.gain_controller1.target_level_dbfs = 6;  // -6 dBFS: matches init config
+
     if (manual_mode) {
-        // In manual mode, we rely on our post-processing loop (below in process_stream).
-        // We revert WebRTC AGC to AdaptiveDigital but with a neutral config or just keep it running
-        // to handle noise suppression, but we don't want it to fight our gain.
-        // Actually, if we apply gain AFTER, we should let WebRTC do its thing on the original signal.
-        // BUT if gain_db is high, maybe the user wants the input to WebRTC to be high? 
-        // No, digital gain is usually post-ADC.
+        // Manual mode: post-processing gain handles amplification,
+        // so set WebRTC compression to 0 to avoid fighting the manual gain
+        config.gain_controller1.compression_gain_db = 0;
         
-        // Let's set WebRTC to AdaptiveDigital with default settings to ensure clean signal for AEC
-        config.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kAdaptiveDigital;
-        config.gain_controller1.enable_limiter = true;
-        config.gain_controller1.target_level_dbfs = 3;
-        
-        g_debug("voice_processor_native.cpp: Manual Mode ON. applied db=%.2f (factor=%.2f). WebRTC AGC set to standard Adaptive.", (float)gain_db, native->manual_gain_factor);
+        g_debug("voice_processor_native.cpp: Manual Mode ON. post-gain=%.2fdB (factor=%.2f). WebRTC AGC FixedDigital comp=0", (float)gain_db, native->manual_gain_factor);
     } else {
-        // Standard Adaptive Behavior
-        config.gain_controller1.mode = webrtc::AudioProcessing::Config::GainController1::kAdaptiveDigital;
-        config.gain_controller1.enable_limiter = true;
-        config.gain_controller1.target_level_dbfs = 3; 
+        // Auto mode: let WebRTC kFixedDigital handle gain (same as init)
+        config.gain_controller1.compression_gain_db = gain_db;
         
-        g_debug("voice_processor_native.cpp: Manual Mode OFF. WebRTC AGC Adaptive. Gain_db=%d", gain_db);
+        g_debug("voice_processor_native.cpp: Manual Mode OFF. WebRTC AGC FixedDigital. comp_gain=%ddB", gain_db);
     }
     
     native->apm->ApplyConfig(config);

@@ -146,6 +146,11 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
         if (mixer != null) {
             sink_peers++;
             Gst.Element rate = Gst.ElementFactory.make("audiorate", @"$(id)_rate_$(Random.next_int())");
+            // Allow small timestamp gaps (up to 40ms) without inserting silence.
+            // Without tolerance, audiorate fills every tiny discontinuity
+            // with silence samples which sounds like clicking/crackling.
+            rate.@set("tolerance", (uint64) 40 * Gst.MSECOND);
+            rate.@set("skip-to-first", true);
             pipe.add(rate);
             rate.link(mixer);
             update_recv_gain();
@@ -651,6 +656,11 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
         if (is_sink) {
             if (media == "audio") {
                 mixer = (Gst.Base.Aggregator) Gst.ElementFactory.make("audiomixer", @"mixer_$id");
+                // 20ms aggregation latency: gives audiomixer time to collect
+                // samples from all input pads before outputting.  Without this
+                // (default=0) it outputs immediately even when data hasn't
+                // arrived yet, producing silence gaps → crackling.
+                mixer.@set("latency", (uint64) 20 * Gst.MSECOND);
                 pipe.add(mixer);
                 mixer.sync_state_with_parent();
 

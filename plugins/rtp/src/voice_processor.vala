@@ -12,8 +12,10 @@ public class Dino.Plugins.Rtp.EchoProbe : Audio.Filter {
     public signal void on_new_delay(int delay);
     private uint period_samples;
     private uint period_size;
-    // Default delay of 150ms for typical audio path latency (speakers -> mic)
-    public int delay { get; private set; default = 150; }
+    // Default delay of 200ms for typical audio path latency (speakers -> mic)
+    // Accounts for pipeline buffering (audiomixer 20ms + output queue 50ms)
+    // plus acoustic path (~50ms) and driver latency.
+    public int delay { get; private set; default = 200; }
     private Base.Adapter adapter = new Base.Adapter();
 
     private uint buffers_since_log = 0;
@@ -44,10 +46,10 @@ public class Dino.Plugins.Rtp.EchoProbe : Audio.Filter {
             if (upstream_latency != CLOCK_TIME_NONE) {
                 int measured_delay = (int) (upstream_latency / MSECOND);
                 // Für AEC ist ein Delay von 0ms praktisch immer falsch.
-                // Wenn die Query nichts Sinnvolles liefert, behalten wir den bisherigen Wert.
-                // In der Praxis liefern manche Stacks gelegentlich viel zu kleine Werte (z.B. 10ms),
-                // was das AEC-Delay "thrashen" lässt und die Konvergenz verhindert.
-                if (measured_delay >= 150 && measured_delay < 2000) {
+                // Minimum 80ms: unser Pipeline-Pfad (audiomixer 20ms +
+                // output_queue ~50ms + Treiber) braucht mindestens so viel.
+                // Unter 80ms ist die Messung unplausibel.
+                if (measured_delay >= 80 && measured_delay < 2000) {
                     int new_delay = int.min(measured_delay, 384);
                     if (new_delay != this.delay) {
                         debug("Delay adjusted from %dms to %dms", this.delay, new_delay);

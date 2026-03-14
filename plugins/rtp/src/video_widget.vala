@@ -262,9 +262,11 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
         plugin.pause();
         pipe.add(sink);
         try {
-            prepare = Gst.parse_bin_from_description(@"videoconvert name=video_widget_$(id)_convert ! capsfilter name=video_widget_$(id)_caps caps=video/x-raw(memory:SystemMemory),format=BGRA", true);
+            prepare = Gst.parse_bin_from_description(@"queue max-size-buffers=2 leaky=downstream name=video_widget_$(id)_queue ! videoconvert name=video_widget_$(id)_convert ! capsfilter name=video_widget_$(id)_caps caps=video/x-raw(memory:SystemMemory),format=BGRA", true);
         } catch (GLib.Error e) {
             warning("Failed to parse video widget prepare bin: %s", e.message);
+            pipe.remove(sink);
+            plugin.unpause();
             return;
         }
         prepare.name = @"video_widget_$(id)_prepare";
@@ -287,12 +289,14 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
         pipe.add(sink);
         try {
 #if GST_1_20
-            prepare = Gst.parse_bin_from_description(@"videoflip video-direction=auto name=video_widget_$(id)_orientation ! videoflip method=horizontal-flip name=video_widget_$(id)_flip ! videoconvert name=video_widget_$(id)_convert ! capsfilter name=video_widget_$(id)_caps caps=video/x-raw(memory:SystemMemory),format=BGRA", true);
+            prepare = Gst.parse_bin_from_description(@"videoflip video-direction=auto name=video_widget_$(id)_orientation ! videoflip method=horizontal-flip name=video_widget_$(id)_flip ! queue max-size-buffers=2 leaky=downstream name=video_widget_$(id)_queue ! videoconvert name=video_widget_$(id)_convert ! capsfilter name=video_widget_$(id)_caps caps=video/x-raw(memory:SystemMemory),format=BGRA", true);
 #else
-            prepare = Gst.parse_bin_from_description(@"videoflip method=horizontal-flip name=video_widget_$(id)_flip ! videoconvert name=video_widget_$(id)_convert ! capsfilter name=video_widget_$(id)_caps caps=video/x-raw(memory:SystemMemory),format=BGRA", true);
+            prepare = Gst.parse_bin_from_description(@"videoflip method=horizontal-flip name=video_widget_$(id)_flip ! queue max-size-buffers=2 leaky=downstream name=video_widget_$(id)_queue ! videoconvert name=video_widget_$(id)_convert ! capsfilter name=video_widget_$(id)_caps caps=video/x-raw(memory:SystemMemory),format=BGRA", true);
 #endif
         } catch (GLib.Error e) {
             warning("Failed to parse video widget device prepare bin: %s", e.message);
+            pipe.remove(sink);
+            plugin.unpause();
             return;
         }
         prepare.name = @"video_widget_$(id)_prepare";
@@ -318,13 +322,21 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
         if (sink == null) return;
         if (attached) {
             debug("Detaching");
+            // FIRST: stop the prepare bin so videoconvert finishes its
+            // current frame.  This must happen BEFORE we unlink from the
+            // stream/device, otherwise remove_output flushes the upstream
+            // queue while videoconvert is still doing memcpy → SIGSEGV.
+            if (prepare != null) {
+                prepare.set_locked_state(true);
+                prepare.set_state(Gst.State.NULL);
+            }
             if (connected_stream != null) {
                 connected_stream.remove_output(prepare);
                 connected_stream = null;
             }
             if (connected_device != null) {
                 if (connected_device_element != null) {
-                    connected_device_element.unlink(sink);
+                    connected_device_element.unlink(prepare);
                 }
                 connected_device_element = null;
                 // Only unlink device if pipe still exists; if pipe was
@@ -335,8 +347,6 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
                 connected_device = null;
             }
             if (prepare != null) {
-                prepare.set_locked_state(true);
-                prepare.set_state(Gst.State.NULL);
                 if (pipe != null) pipe.remove(prepare);
                 prepare = null;
             }

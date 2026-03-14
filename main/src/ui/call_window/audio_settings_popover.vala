@@ -170,9 +170,6 @@ public class Dino.Ui.AudioSettingsPopover : Gtk.Popover {
         } else {
             ListBox speaker_list_box = new ListBox() { activate_on_single_click=true, selection_mode=SelectionMode.SINGLE };
             speaker_list_box.set_header_func(listbox_header_func);
-            speaker_list_box.row_selected.connect((row) => {
-
-            });
             Frame speaker_frame = new Frame(null);
             speaker_frame.set_child(speaker_list_box);
             foreach (Plugins.MediaDevice device in devices) {

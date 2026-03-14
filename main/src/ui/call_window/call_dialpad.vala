@@ -23,10 +23,10 @@ public class Dino.Ui.CallDialpad : Gtk.Popover {
     private const int[] DTMF_LOW  = { 697, 697, 697, 770, 770, 770, 852, 852, 852, 941, 941, 941 };
     private const int[] DTMF_HIGH = { 1209, 1336, 1477, 1209, 1336, 1477, 1209, 1336, 1477, 1209, 1336, 1477 };
 
-    // Debounce: prevent double-sending within 300ms
+    // Debounce: prevent double-sending within 80ms
     private int64 last_digit_time = 0;
     private char last_digit_char = '\0';
-    private const int64 DEBOUNCE_US = 300000; // 300ms in microseconds
+    private const int64 DEBOUNCE_US = 80000; // 80ms in microseconds
 
     // Persistent tone pipeline — created once, reused for all tones
     private Gst.Pipeline? tone_pipeline = null;
@@ -83,10 +83,10 @@ public class Dino.Ui.CallDialpad : Gtk.Popover {
             string digit_str = BUTTON_LABELS[i];
             int tone_idx = i;
             button.clicked.connect(() => {
-                // Debounce: ignore same digit within 300ms
+                // Debounce: ignore same digit within 80ms
                 int64 now = GLib.get_monotonic_time();
                 if (digit_str[0] == last_digit_char && (now - last_digit_time) < DEBOUNCE_US) {
-                    debug("DTMF debounce: ignoring duplicate '%c' within 300ms", digit_str[0]);
+                    debug("DTMF debounce: ignoring duplicate '%c' within 80ms", digit_str[0]);
                     return;
                 }
                 last_digit_char = digit_str[0];
@@ -103,13 +103,16 @@ public class Dino.Ui.CallDialpad : Gtk.Popover {
         this.has_arrow = true;
         this.position = PositionType.TOP;
 
-        // Pipeline is created lazily on first tone play (not eagerly)
-        // to avoid opening a PipeWire/PulseAudio playback stream
-        // as soon as the call window opens.
-
-        // Destroy pipeline when popover closes
-        this.closed.connect(() => {
-            destroy_pipeline();
+        // Pre-warm the GStreamer pipeline when the popover opens.
+        // Using Idle.add so GTK renders the popover first, then the
+        // pipeline creation runs without blocking the initial display.
+        this.show.connect(() => {
+            if (!pipeline_ready) {
+                Idle.add(() => {
+                    ensure_pipeline();
+                    return Source.REMOVE;
+                });
+            }
         });
     }
 
