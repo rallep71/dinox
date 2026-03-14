@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 14, 2026 (v1.1.6.6)
+> **Last Updated**: March 14, 2026 (v1.1.6.7)
 > **Current Release Line**: 1.1.6.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.6.6 |
+| **Current Version** | 1.1.6.7 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,18 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.6.7 (Call Audit Hardening, Audio Pipeline Fixes, AGC Tuning, Windows Systray)
+
+- **Video SIGSEGV fix**: Reordered detach() teardown — `set_state(NULL)` before `remove_output`/`unlink`, added queue element, fixed error path leaks
+- **12 null-pointer guards**: HashMap `has_key()` checks + `call_state == null` guards across call_window_controller and call_window
+- **Audio pipeline hardening**: audiomixer latency=20ms, output_queue 50ms time-based, drop-on-latency=true, audiorate tolerance=40ms
+- **WebRTC AGC tuning**: Consistent kFixedDigital mode (no more kAdaptiveDigital override), 9dB gain, -6dBFS target, kLow noise suppression
+- **Dialpad performance**: Pipeline pre-warm on show, persistent across open/close, 80ms debounce
+- **Audio settings popover**: Always shown (removed single-device hide logic), volume sliders always accessible
+- **Windows Systray**: Full Shell_NotifyIcon implementation (left-click toggle, right-click status menu). Missing DLLs added.
+- **CI**: Node.js 24 forced in all workflows, custom GitHub Pages workflow
+- 4 commits, 22 files changed, 588 insertions, 73 deletions
 
 ### v1.1.6.6 (Retraction Bugs, Chat Window Audit, Audio/Video Hardening, Windows Systray, CI Fixes)
 
