@@ -183,7 +183,7 @@ sudo zypper install \
     libgee-devel \
     sqlcipher-devel \
     libsecret-devel \
-    icu-devel \
+    libicu-devel \
     libdbusmenu-glib-devel \
     libgcrypt-devel \
     gpgme-devel \
@@ -194,10 +194,10 @@ sudo zypper install \
     gstreamer-plugins-base-devel \
     gstreamer-plugins-bad-devel \
     gstreamer-plugins-good \
-    pipewire-gstreamer \
+    gstreamer-plugin-pipewire \
     libnice-devel \
     libgnutls-devel \
-    libsrtp-devel \
+    libsrtp2-devel \
     geoclue2-devel \
     go
 
