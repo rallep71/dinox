@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 13, 2026 (v1.1.6.5)
+> **Last Updated**: March 14, 2026 (v1.1.6.6)
 > **Current Release Line**: 1.1.6.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.6.5 |
+| **Current Version** | 1.1.6.6 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,16 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.6.6 (Retraction Bugs, Chat Window Audit, Audio/Video Hardening, CI Retry)
+
+- **Retraction (XEP-0424)**: Desktop notification retraction, empty ID rejection, dead null-check removal, `ContentItem.is_own()` consolidation (6 copies → 1 helper)
+- **Chat window**: O(1) highlight via `main.pick()`, mutex deadlock fix, tile cache LRU (max 100), truncation text fix, reactions i18n, `decrypt_to_temp()` extraction, typo fix
+- **Audio widget**: Position reset on stop, download timeout race fix, `_disposed` guard in callbacks, null duration guard
+- **Video widget**: Preview timeout race fix, paintable flicker fix, temp file leak fix, seek throttle fix
+- **CI/Build**: Lyrebird download retry+gzip validation in windows-build.yml and ci-build-deps.sh
+- **i18n**: Chinese (Simplified) and Kabyle translation updates via Weblate
+- 15 files changed, 293 insertions, 257 deletions
 
 ### v1.1.6.5 (Location Sharing, Tor WebTunnel, i18n Audit, MQTT Fixes)
 

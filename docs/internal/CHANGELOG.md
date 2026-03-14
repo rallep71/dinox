@@ -5,6 +5,53 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.6.6] - 2026-03-14
+
+### Fixed — Message Retraction (XEP-0424)
+- **Notification retraction**: Desktop notification now retracted when message is deleted (deferred `Idle.add()` connection to avoid startup crash from module ordering)
+- **Empty retraction ID**: Reject empty/whitespace-only retraction IDs in receive path — previously caused silent failures
+- **Dead null-check**: Removed unreachable null-check in stanza parser (was after prior guard)
+- **Code consolidation**: 6 inline `is_own_message` copies replaced with `ContentItem.is_own()` static helper
+
+### Fixed — Chat Window
+- **O(1) highlight update**: `update_highlight()` replaced O(n) child iteration with `main.pick()` + parent chain walk
+- **Mutex deadlock risk**: Explicit `reloading_mutex.unlock()` on both branches of `load_earlier_messages`/`load_later_messages`
+- **Tile cache LRU**: Map tile cache now bounded at 100 entries with proper LRU eviction (including cache-hit touch)
+- **Truncation text**: Corrected "100,000" → "50,000" to match actual limit
+- **Reactions i18n**: Tooltip separator strings (comma, "and", "reacted with") wrapped in `_()`
+- **Video decrypt helper**: Extracted `decrypt_to_temp()` method — eliminates duplicated decryption logic
+- **Typo fix**: `SubscriptionNotitication` → `SubscriptionNotification`
+
+### Fixed — Audio Player Widget
+- **Playback position reset**: `saved_position = 0` on `stop()` — prevents stale position on replay
+- **Download timeout race**: `timeout_fired` bool pattern prevents use-after-free on slow downloads
+- **Disposed guard**: `_disposed` flag with guards in `bus_callback()` and `update_progress()` — prevents crash on rapid widget destruction
+- **Null duration guard**: `query_duration()` returns early if pipeline is null
+
+### Fixed — Video Player Widget
+- **Preview timeout race**: `timeout_fired` bool pattern for `generate_preview()` timeout
+- **Paintable flicker**: Removed `set_paintable(null)` before setting new texture
+- **Temp file leak**: Track `temp_open_file` and delete in `dispose()`
+- **Seek throttle**: Cancel pending `seek_timeout_id` before creating new one
+
+### Fixed — CI / Build
+- **Lyrebird download retry** (windows-build.yml): 3-attempt loop with `curl -fSL --retry 3`, gzip validation via `file` command, 10s backoff between attempts
+- **Lyrebird download retry** (ci-build-deps.sh): Same retry+validation pattern for Linux builds (build.yml, build-appimage.yml)
+
+### Changed — i18n / Translations
+- **Chinese (Simplified)**: Weblate translation update
+- **Kabyle**: Weblate translation update
+
+### Changed
+- **README**: Revised project description for clarity and features
+- **Version**: 1.1.6.5 → 1.1.6.6
+
+### Stats
+- 15 files changed, 293 insertions, 257 deletions
+- Major areas: retraction (4 fixes), chat window (7 fixes), audio widget (4 fixes), video widget (4 fixes), CI (2 fixes), i18n (2 translations)
+
+---
+
 ## [1.1.6.5] - 2026-03-13
 
 ### Added — Location Sharing (XEP-0080)
