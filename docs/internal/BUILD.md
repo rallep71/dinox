@@ -201,11 +201,16 @@ sudo zypper install \
     geoclue2-devel \
     go
 
-# Then build custom dependencies from source
+# Then build custom dependencies from source (REQUIRED — libomemo-c, protobuf-c,
+# mosquitto, lyrebird etc. are not available as openSUSE packages)
 ./scripts/ci-build-deps.sh
 ```
 
+> **Note (openSUSE):** You MUST run `ci-build-deps.sh` before `meson setup`. Libraries like `libomemo-c`, `protobuf-c`, `mosquitto`, and `lyrebird` are not packaged for openSUSE and must be built from source. The script handles this automatically.
+
 > **Note (openSUSE):** The CA certificate bundle is at `/etc/ssl/ca-bundle.pem`. DinoX detects this automatically at startup — no manual `GTLS_SYSTEM_CA_FILE` configuration needed.
+
+> **Optional (openSUSE):** For notification sounds install `libcanberra-devel`. This is the core library (not GTK-bound). If not installed, DinoX builds fine — just without notification sounds.
 
 ### Arch Linux / Manjaro
 

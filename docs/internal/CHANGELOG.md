@@ -5,6 +5,17 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.7.3] - 2026-03-14
+
+### Fixed — Locale Warning in AppImage (openSUSE)
+- **LC_ALL propagation**: `Gtk.init()` internally calls `setlocale(LC_ALL, "")` which re-reads environment variables — the fallback locale set by `setlocale()` alone was lost. Now sets `LC_ALL` env var to the working locale so GTK picks it up.
+- **LOCPATH removed from AppRun**: Setting `LOCPATH` forced glibc to skip `locale-archive` and look for individual locale directories that don't exist on openSUSE/Fedora. Removed entirely — host glibc finds its own `locale-archive` without help.
+
+### Fixed — Documentation
+- **BUILD.md**: Corrected 3 openSUSE package names (`libicu-devel`, `gstreamer-plugin-pipewire`, `libsrtp2-devel`)
+- **BUILD.md**: Added `ci-build-deps.sh` MUST-run warning for openSUSE (libomemo-c etc. not packaged)
+- **BUILD.md**: Added optional `libcanberra-devel` note for notification sounds on openSUSE
+
 ## [1.1.7.2] - 2026-03-14
 
 ### Fixed — Windows Startup Crash (GitHub #18)

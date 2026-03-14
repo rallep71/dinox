@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 14, 2026 (v1.1.7.2)
+> **Last Updated**: March 14, 2026 (v1.1.7.3)
 > **Current Release Line**: 1.1.7.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.7.2 |
+| **Current Version** | 1.1.7.3 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (DE/FR/ES 100%) |
 | **Build Status** | Clean |
@@ -20,6 +20,12 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.7.3 (Locale Fix for AppImage on openSUSE)
+- **LC_ALL env var**: Set working locale in `LC_ALL` so `Gtk.init()` doesn't re-fail
+- **LOCPATH removed**: Was breaking `locale-archive` resolution on openSUSE/Fedora
+- **BUILD.md**: Corrected 3 openSUSE package names, added `ci-build-deps.sh` warning, optional `libcanberra-devel` note
+- 2 commits, 5 files changed
 
 ### v1.1.7.2 (Windows Startup Fix, Channel Binding, Locale/IM Fixes)
 - **Windows startup crash**: `hold()`/`release()` around `unlock_parent.close()`→`activate()` transition to prevent GApplication use_count race (GitHub #18)
