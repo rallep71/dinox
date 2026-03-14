@@ -172,6 +172,7 @@ vala_args = [
     '--vapidir=' + (meson.current_source_dir() / 'vapi'),
 ]
 message('VAPI DIR: ' + (meson.current_source_dir() / 'vapi'))
+cc = meson.get_compiler('c')
 if host_machine.system() == 'windows'
     vala_args += ['--pkg', 'systray_win32']
     dependencies += [cc.find_library('shell32'), cc.find_library('user32')]

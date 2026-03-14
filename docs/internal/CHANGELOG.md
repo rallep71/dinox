@@ -5,6 +5,11 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.6.8] - 2026-03-14
+
+### Fixed — Build
+- **Windows CI build**: Define `cc = meson.get_compiler('c')` in `main/meson.build` before Windows-specific `cc.find_library()` calls — fresh CI builds failed with `Unknown variable "cc"` because cached local builds masked the missing definition
+
 ## [1.1.6.7] - 2026-03-14
 
 ### Fixed — Audio/Video Call Hardening

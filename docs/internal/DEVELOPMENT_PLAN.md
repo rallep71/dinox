@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 14, 2026 (v1.1.6.7)
+> **Last Updated**: March 14, 2026 (v1.1.6.8)
 > **Current Release Line**: 1.1.6.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.6.7 |
+| **Current Version** | 1.1.6.8 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (~85% translated) |
 | **Build Status** | Clean |
@@ -20,6 +20,9 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.6.8 (Windows CI Build Fix)
+- **meson.build fix**: Added `cc = meson.get_compiler('c')` before Windows block — `cc.find_library('shell32')` / `cc.find_library('user32')` failed on fresh CI builds
 
 ### v1.1.6.7 (Call Audit Hardening, Audio Pipeline Fixes, AGC Tuning, Windows Systray)
 
