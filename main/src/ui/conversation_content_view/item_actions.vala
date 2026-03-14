@@ -16,13 +16,7 @@ namespace Dino.Ui {
         if (conversation.type_ != Conversation.Type.GROUPCHAT) return null;
 
         // Don't kick yourself
-        bool is_own_message = false;
-        if (content_item is MessageItem) {
-            is_own_message = ((MessageItem) content_item).message.direction == Message.DIRECTION_SENT;
-        } else if (content_item is FileItem) {
-            is_own_message = ((FileItem) content_item).file_transfer.direction == FileTransfer.DIRECTION_SENT;
-        }
-        if (is_own_message) return null;
+        if (ContentItem.is_own(content_item)) return null;
 
         Jid? occupant_jid = content_item.jid;
         if (occupant_jid == null) return null;
@@ -46,13 +40,7 @@ namespace Dino.Ui {
         if (conversation.type_ != Conversation.Type.GROUPCHAT) return null;
 
         // Don't ban yourself
-        bool is_own_message = false;
-        if (content_item is MessageItem) {
-            is_own_message = ((MessageItem) content_item).message.direction == Message.DIRECTION_SENT;
-        } else if (content_item is FileItem) {
-            is_own_message = ((FileItem) content_item).file_transfer.direction == FileTransfer.DIRECTION_SENT;
-        }
-        if (is_own_message) return null;
+        if (ContentItem.is_own(content_item)) return null;
 
         Jid? occupant_jid = content_item.jid;
         if (occupant_jid == null) return null;
@@ -129,12 +117,7 @@ namespace Dino.Ui {
         bool can_delete_for_everyone = stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY).can_delete_for_everyone(conversation, content_item);
 
         // Check if it is own message to distinguish between Retraction and Moderation
-        bool is_own_message = false;
-        if (content_item is MessageItem) {
-            is_own_message = ((MessageItem) content_item).message.direction == Message.DIRECTION_SENT;
-        } else if (content_item is FileItem) {
-            is_own_message = ((FileItem) content_item).file_transfer.direction == FileTransfer.DIRECTION_SENT;
-        }
+        bool is_own_message = ContentItem.is_own(content_item);
 
         bool is_moderation = can_delete_for_everyone && !is_own_message;
 

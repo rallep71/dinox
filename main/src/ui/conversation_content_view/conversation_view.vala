@@ -45,7 +45,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
     private Gee.HashMap<Plugins.MetaConversationItem, Widget> widgets = new Gee.HashMap<Plugins.MetaConversationItem, Widget>();
     private Gee.List<Widget> widget_order = new Gee.ArrayList<Widget>();
     private ContentProvider content_populator;
-    private SubscriptionNotitication subscription_notification;
+    private SubscriptionNotification subscription_notification;
     private ExpiryNotification expiry_notification;
 
     private double? was_value;
@@ -145,7 +145,7 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
         vadjust_value_handler_id = scrolled.vadjustment.notify["value"].connect(on_value_notify);
 
         content_populator = new ContentProvider(stream_interactor);
-        subscription_notification = new SubscriptionNotitication(stream_interactor);
+        subscription_notification = new SubscriptionNotification(stream_interactor);
         expiry_notification = new ExpiryNotification(stream_interactor);
 
         add_meta_notification_handler_id = add_meta_notification.connect(on_add_meta_notification);
@@ -233,18 +233,20 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
 
         last_y = y;
 
-        // Get widget under pointer by checking which widget contains the mouse position
+        // Use GTK pick() to find the widget under the pointer in O(1),
+        // then walk up the parent chain to find the skeleton widget that
+        // is a direct child of main.  This replaces the previous O(n)
+        // iteration over all meta_items with compute_bounds per item.
+        Widget? picked = main.pick(x, y, Gtk.PickFlags.DEFAULT);
         Widget? w = null;
-        foreach (Plugins.MetaConversationItem item in meta_items) {
-            Widget widget = widgets[item];
-            
-            // Get widget bounds relative to main
-            Graphene.Rect bounds;
-            if (widget.compute_bounds(main, out bounds)) {
-                if (y >= bounds.origin.y && y <= (bounds.origin.y + bounds.size.height)) {
-                    w = widget;
-                    break;
-                }
+        if (picked != null) {
+            // Walk up to find the direct child of main
+            Widget? candidate = picked;
+            while (candidate != null && candidate.get_parent() != main) {
+                candidate = candidate.get_parent();
+            }
+            if (candidate != null && candidate.get_parent() == main) {
+                w = candidate;
             }
         }
 
@@ -258,18 +260,8 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
             return;
         }
 
-        // Get widget coordinates relative to the scrolled main container
-        double widget_y = 0;
-        double widget_x = 0;
-        
-        // Get bounds of the widget
-        Graphene.Rect bounds;
-        if (w.compute_bounds(main, out bounds)) {
-            widget_y = bounds.origin.y;
-            widget_x = bounds.origin.x;
-        }
-
-        // Get MessageItem
+        // Reverse-lookup: find the MetaConversationItem for this widget.
+        // Use item_item_skeletons (keyed by item) — iterate only until match.
         foreach (Plugins.MetaConversationItem item in item_item_skeletons.keys) {
             if (item_item_skeletons[item].get_widget() == w) {
                 current_meta_item = item as ContentMetaItem;
@@ -285,8 +277,10 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
             currently_highlighted.add_css_class("highlight");
 
             // Position menu at the widget's position
-            // Simply use the widget_y which compute_bounds gives us relative to main
-            message_menu_box.margin_top = (int)(widget_y);
+            Graphene.Rect bounds;
+            if (w.compute_bounds(main, out bounds)) {
+                message_menu_box.margin_top = (int)(bounds.origin.y);
+            }
         }
     }
 
@@ -795,9 +789,8 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
                 do_insert_item(item);
             }
             prune_newest_items();
-        } else {
-            reloading_mutex.unlock();
         }
+        reloading_mutex.unlock();
     }
 
     private void load_later_messages() {
@@ -811,9 +804,8 @@ public class ConversationView : Widget, Plugins.ConversationItemCollection, Plug
                 do_insert_item(item);
             }
             prune_oldest_items();
-        } else {
-            reloading_mutex.unlock();
         }
+        reloading_mutex.unlock();
     }
 
     /** Remove oldest items (top) when user scrolled down and loaded newer messages. */

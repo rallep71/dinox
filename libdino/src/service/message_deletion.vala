@@ -50,13 +50,8 @@ namespace Dino {
         }
 
         public bool can_delete_for_everyone(Conversation conversation, ContentItem content_item) {
-            bool is_own_message = false;
-            if (content_item is MessageItem) {
-                is_own_message = ((MessageItem) content_item).message.direction == Message.DIRECTION_SENT;
-            } else if (content_item is FileItem) {
-                is_own_message = ((FileItem) content_item).file_transfer.direction == FileTransfer.DIRECTION_SENT;
-                if (((FileItem) content_item).file_transfer.info == null) return false;
-            }
+            if (content_item is FileItem && ((FileItem) content_item).file_transfer.info == null) return false;
+            bool is_own_message = ContentItem.is_own(content_item);
 
             if (conversation.type_.is_muc_semantic()) {
                 // Use has_feature_offline to also check DB, not just in-memory cache.
@@ -88,14 +83,7 @@ namespace Dino {
                 perform_retraction = true;
                 delete_locally(conversation, content_item, conversation.account.bare_jid);
             } else if (conversation.type_.is_muc_semantic()) {
-                bool is_own_message = false;
-                if (content_item is MessageItem) {
-                    is_own_message = ((MessageItem) content_item).message.direction == Message.DIRECTION_SENT;
-                } else if (content_item is FileItem) {
-                    is_own_message = ((FileItem) content_item).file_transfer.direction == FileTransfer.DIRECTION_SENT;
-                }
-
-                if (is_own_message) {
+                if (ContentItem.is_own(content_item)) {
                     perform_retraction = true;
                     // Delete locally immediately so the user gets instant visual feedback.
                     // The server reflection will be consumed by the pipeline (returns true) without
@@ -187,7 +175,7 @@ namespace Dino {
 
         public override async bool run(Entities.Message message, Xmpp.MessageStanza stanza, Conversation conversation) {
             string? delete_message_id = Xep.MessageRetraction.get_retract_id(stanza);
-            if (delete_message_id == null) return false;
+            if (delete_message_id == null || delete_message_id.strip().length == 0) return false;
 
             ContentItem? content_item = stream_interactor.get_module<ContentItemStore>(ContentItemStore.IDENTITY).get_content_item_for_referencing_id(conversation, delete_message_id);
             
@@ -288,15 +276,7 @@ namespace Dino {
                 total_deleted += items.size;
             
             foreach (ContentItem item in items) {
-                // Check if it's our own message
-                bool is_own = false;
-                if (item is MessageItem) {
-                    is_own = ((MessageItem) item).message.direction == Message.DIRECTION_SENT;
-                } else if (item is FileItem) {
-                    is_own = ((FileItem) item).file_transfer.direction == FileTransfer.DIRECTION_SENT;
-                }
-                
-                if (is_own && can_delete_for_everyone(conversation, item)) {
+                if (ContentItem.is_own(item) && can_delete_for_everyone(conversation, item)) {
                     // Own message: Delete globally (server + local)
                     delete_globally(conversation, item);
                 } else {

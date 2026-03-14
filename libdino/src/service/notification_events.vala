@@ -36,6 +36,16 @@ public class NotificationEvents : StreamInteractionModule, Object {
 
         notifier_promise = new Promise<NotificationProvider>();
         notifier = notifier_promise.future;
+
+        // Connect lazily: MessageDeletion is started after NotificationEvents,
+        // so we defer the connection until the first provider is registered.
+        Idle.add(() => {
+            var deletion = stream_interactor.get_module<MessageDeletion>(MessageDeletion.IDENTITY);
+            if (deletion != null) {
+                deletion.item_deleted.connect((item) => on_item_deleted.begin(item));
+            }
+            return Source.REMOVE;
+        });
     }
 
     public async void register_notification_provider(NotificationProvider notification_provider) {
@@ -203,6 +213,23 @@ public class NotificationEvents : StreamInteractionModule, Object {
             yield notifier.retract_conversation_notifications(conversation);
         } catch (Gee.FutureError e) {
             warning("Failed to retract notifications: %s", e.message);
+        }
+    }
+
+    private async void on_item_deleted(ContentItem item) {
+        Conversation? conversation = null;
+        if (item is MessageItem) {
+            conversation = ((MessageItem) item).conversation;
+        } else if (item is FileItem) {
+            conversation = ((FileItem) item).conversation;
+        }
+        if (conversation == null) return;
+
+        try {
+            NotificationProvider notifier = yield notifier.wait_async();
+            yield notifier.retract_conversation_notifications(conversation);
+        } catch (Gee.FutureError e) {
+            warning("Failed to retract notification for deleted item: %s", e.message);
         }
     }
 }

@@ -208,7 +208,7 @@ public class MessageMetaItem : ContentMetaItem {
             theme_dependent = true;
         }
         if (message_truncated) {
-            markup_text += @"\n<i><span size='small' color='$dim_color'>[%s]</span></i>".printf(_("Message truncated - exceeds 100,000 characters"));
+            markup_text += @"\n<i><span size='small' color='$dim_color'>[%s]</span></i>".printf(_("Message truncated - exceeds 50,000 characters"));
             theme_dependent = true;
         }
 
@@ -265,6 +265,8 @@ public class MessageMetaItem : ContentMetaItem {
     // Shared session + tile cache for all map widgets (avoids per-widget Soup.Session and duplicate downloads)
     private static Soup.Session? shared_tile_session = null;
     private static HashMap<string, Gdk.Texture> tile_cache = new HashMap<string, Gdk.Texture>();
+    private static Gee.LinkedList<string> tile_cache_lru = new Gee.LinkedList<string>();
+    private const int MAX_TILE_CACHE_SIZE = 100;
 
     private static Soup.Session get_tile_session() {
         if (shared_tile_session == null) {
@@ -321,6 +323,9 @@ public class MessageMetaItem : ContentMetaItem {
         // Use cached tile or fetch from network
         if (tile_cache.has_key(tile_url)) {
             picture.set_paintable(tile_cache[tile_url]);
+            // LRU touch: move to end so frequently-used tiles are not evicted
+            tile_cache_lru.remove(tile_url);
+            tile_cache_lru.add(tile_url);
         } else {
             var cancel = new Cancellable();
             var msg = new Soup.Message("GET", tile_url);
@@ -337,6 +342,11 @@ public class MessageMetaItem : ContentMetaItem {
                         var pixbuf = new Gdk.Pixbuf.from_stream(stream);
                         var texture = Gdk.Texture.for_pixbuf(pixbuf);
                         tile_cache[tile_url] = texture;
+                        tile_cache_lru.add(tile_url);
+                        while (tile_cache_lru.size > MAX_TILE_CACHE_SIZE) {
+                            string oldest = tile_cache_lru.remove_at(0);
+                            tile_cache.unset(oldest);
+                        }
                         picture.set_paintable(texture);
                     }
                 } catch (Error e) {

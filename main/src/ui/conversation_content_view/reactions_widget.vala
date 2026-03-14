@@ -184,13 +184,13 @@ public class ReactionsWidget : Grid {
         StringBuilder tooltip_builder = new StringBuilder ();
         for (int i = 0; i < names.size - 1; i++) {
             tooltip_builder.append(names[i]);
-            if (i < names.size - 2) tooltip_builder.append(", ");
+            if (i < names.size - 2) tooltip_builder.append(_(" , ").strip() + " ");
         }
         if (names.size > 1) {
-            tooltip_builder.append(" and ");
+            tooltip_builder.append(" " + _("and") + " ");
         }
         tooltip_builder.append(names[names.size - 1]);
-        tooltip_builder.append(" reacted with " + reaction);
+        tooltip_builder.append(" " + _("reacted with %s").printf(reaction));
         reaction_buttons[reaction].set_tooltip_text(tooltip_builder.str);
     }
 

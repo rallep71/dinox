@@ -84,9 +84,26 @@ jobs:
           cd /tmp
           LYREBIRD_VER=0.8.1
           LYREBIRD_TAG="lyrebird-${LYREBIRD_VER}"
-          curl -sL -o "lyrebird-${LYREBIRD_VER}.tar.gz" \
-            "https://gitlab.torproject.org/api/v4/projects/417/repository/archive.tar.gz?sha=${LYREBIRD_TAG}"
-          tar xf "lyrebird-${LYREBIRD_VER}.tar.gz"
+          LYREBIRD_URL="https://gitlab.torproject.org/api/v4/projects/417/repository/archive.tar.gz?sha=${LYREBIRD_TAG}"
+          LYREBIRD_FILE="lyrebird-${LYREBIRD_VER}.tar.gz"
+
+          for attempt in 1 2 3; do
+            echo "Download attempt ${attempt}/3 ..."
+            curl -fSL --retry 3 --retry-delay 5 -o "${LYREBIRD_FILE}" "${LYREBIRD_URL}"
+            if file "${LYREBIRD_FILE}" | grep -qi 'gzip'; then
+              echo "✓ Valid gzip archive"
+              break
+            fi
+            echo "⚠ Downloaded file is not a valid gzip archive (attempt ${attempt})"
+            rm -f "${LYREBIRD_FILE}"
+            if [[ ${attempt} -eq 3 ]]; then
+              echo "✗ All download attempts failed"
+              exit 1
+            fi
+            sleep 10
+          done
+
+          tar xf "${LYREBIRD_FILE}"
           cd lyrebird-${LYREBIRD_TAG}-*
           CGO_ENABLED=0 go build -trimpath -ldflags '-s -w' -o lyrebird.exe ./cmd/lyrebird
           cp lyrebird.exe /mingw64/bin/

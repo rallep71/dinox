@@ -217,14 +217,31 @@ echo "Building lyrebird..."
 LYREBIRD_VER=0.8.1
 LYREBIRD_TAG="lyrebird-${LYREBIRD_VER}"
 LYREBIRD_PROJECT_ID=417
-wget -q -O "lyrebird-${LYREBIRD_VER}.tar.gz" \
-    "https://gitlab.torproject.org/api/v4/projects/${LYREBIRD_PROJECT_ID}/repository/archive.tar.gz?sha=${LYREBIRD_TAG}"
-tar xf "lyrebird-${LYREBIRD_VER}.tar.gz"
+LYREBIRD_URL="https://gitlab.torproject.org/api/v4/projects/${LYREBIRD_PROJECT_ID}/repository/archive.tar.gz?sha=${LYREBIRD_TAG}"
+LYREBIRD_FILE="lyrebird-${LYREBIRD_VER}.tar.gz"
+
+for attempt in 1 2 3; do
+    echo "Download attempt ${attempt}/3 ..."
+    wget -q --tries=3 --waitretry=5 -O "${LYREBIRD_FILE}" "${LYREBIRD_URL}"
+    if file "${LYREBIRD_FILE}" | grep -qi 'gzip'; then
+        echo "✓ Valid gzip archive"
+        break
+    fi
+    echo "⚠ Downloaded file is not a valid gzip archive (attempt ${attempt})"
+    rm -f "${LYREBIRD_FILE}"
+    if [[ ${attempt} -eq 3 ]]; then
+        echo "✗ All download attempts failed"
+        exit 1
+    fi
+    sleep 10
+done
+
+tar xf "${LYREBIRD_FILE}"
 cd lyrebird-${LYREBIRD_TAG}-*
 CGO_ENABLED=0 go build -trimpath -ldflags '-s -w' -o lyrebird ./cmd/lyrebird
 $SUDO install -m 755 lyrebird /usr/local/bin/lyrebird
 cd ..
-rm -rf lyrebird-${LYREBIRD_TAG}-* "lyrebird-${LYREBIRD_VER}.tar.gz"
+rm -rf lyrebird-${LYREBIRD_TAG}-* "${LYREBIRD_FILE}"
 echo "lyrebird $(lyrebird --version 2>&1 | head -1) installed."
 
 echo "Dependencies built and installed."

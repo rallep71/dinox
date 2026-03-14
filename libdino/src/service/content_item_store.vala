@@ -346,6 +346,15 @@ public abstract class ContentItem : Object {
         this.mark = mark;
     }
 
+    public static bool is_own(ContentItem content_item) {
+        if (content_item is MessageItem) {
+            return ((MessageItem) content_item).message.direction == Entities.Message.DIRECTION_SENT;
+        } else if (content_item is FileItem) {
+            return ((FileItem) content_item).file_transfer.direction == FileTransfer.DIRECTION_SENT;
+        }
+        return false;
+    }
+
     public int compare(ContentItem c) {
         return compare_func(this, c);
     }

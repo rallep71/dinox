@@ -5,13 +5,13 @@ using Dino.Entities;
 
 namespace Dino.Ui.ConversationSummary {
 
-public class SubscriptionNotitication : Object {
+public class SubscriptionNotification : Object {
 
     private StreamInteractor stream_interactor;
     private Conversation conversation;
     private ConversationView conversation_view;
 
-    public SubscriptionNotitication(StreamInteractor stream_interactor) {
+    public SubscriptionNotification(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
 
         stream_interactor.get_module<PresenceManager>(PresenceManager.IDENTITY).received_subscription_request.connect((jid, account) => {

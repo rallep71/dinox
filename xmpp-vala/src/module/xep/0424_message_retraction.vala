@@ -42,7 +42,6 @@ namespace Xmpp.Xep.MessageRetraction {
     }
 
     public static void set_retract_id(MessageStanza message, string message_id) {
-        if (message_id == null) return;
         
         // 1. Standard: XEP-0422 Fastening with Retract V1 (Current Standard)
         // Expected by modern clients (Conversations, Gajim, etc.)
