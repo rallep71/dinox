@@ -5,6 +5,50 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.6.7] - 2026-03-14
+
+### Fixed — Audio/Video Call Hardening
+- **Video SIGSEGV (exit code 139)**: Reordered `detach()` teardown — `set_state(NULL)` now runs BEFORE `remove_output`/`unlink`, preventing race condition where videoconvert memcpy runs on freed buffer
+- **Video pipeline queue**: Added `queue max-size-buffers=2 leaky=downstream` before videoconvert in both `display_stream` and `display_device` paths
+- **Video error path leaks**: `display_stream`/`display_device` now properly call `pipe.remove(sink)` + `plugin.unpause()` on parse failure
+- **Video unlink target**: Fixed `connected_device_element.unlink(sink)` → `unlink(prepare)` — was unlinking wrong element
+- **7 null-pointer guards**: `has_key()` checks before HashMap access in `call_window_controller.vala` (4) and `call_window.vala` (4)
+- **call_state NULL CRITICAL**: 5 null guards in signal handlers (`microphone_selected`, `speaker_selected`, `microphone_volume_changed`, `speaker_volume_changed`, `update_current_audio_device`)
+- **Handler ID corruption**: `invite_handler_ids[id] += connect()` → `= connect()` — `+=` was adding to previous handler ID
+- **Audio settings popover hidden**: Removed `size==1` early-return that hid volume sliders and WebRTC gain controls when only one audio device present
+- **Dead code removal**: Empty `row_selected` handler in `audio_settings_popover.vala`
+
+### Fixed — Audio Pipeline (Anti-Crackling)
+- **audiomixer latency**: Set to 20ms (was 0 default) — gives mixer time to collect samples before output
+- **output_queue**: Time-based buffering `max-size-time=50ms` with `max-size-buffers=0` and `max-size-bytes=0`
+- **drop-on-latency**: Changed from `false` to `true` on rtpbin — drops late packets instead of accumulating
+- **audiorate tolerance**: Set to 40ms (`uint64` cast for GstClockTime) + `skip-to-first=true` — prevents silence insertion on small timestamp gaps
+
+### Fixed — WebRTC Audio Processing (AGC Tuning)
+- **AGC mode consistency**: Both init and `set_compression_gain_db` now use `kFixedDigital` — previously `set_compression_gain_db` switched to `kAdaptiveDigital` which caused word chopping/pumping
+- **Compression gain**: 6dB → 9dB (compromise between too quiet and too aggressive)
+- **Target level**: -3dBFS → -6dBFS (more headroom)
+- **Noise suppression**: `kModerate` → `kLow` (less aggressive, preserves speech)
+- **EchoProbe default delay**: 150ms → 200ms (accounts for audiomixer 20ms + output_queue 50ms + acoustic path)
+- **EchoProbe minimum threshold**: 150ms → 80ms (allows lower-latency setups)
+
+### Fixed — Dialpad Performance
+- **Pipeline pre-warm**: GStreamer pipeline created via `Idle.add` on popover show instead of lazily on first tone
+- **Pipeline persistence**: Pipeline no longer destroyed on popover close — reused across opens
+- **Debounce**: 300ms → 80ms for more responsive DTMF input
+
+### Added — Windows
+- **Systray (Shell_NotifyIcon)**: Full Win32 tray icon replacing stub — left-click toggle, right-click menu with status (Online/Away/Busy/N/A) + Quit. C helper + VAPI bridge. Closes #18
+- **Missing DLLs**: libnpth-0, libprotobuf-c-1, libcjson-1, libevent_core/extra added to `update_dist.sh`
+
+### Changed — CI/Build
+- **Node.js 24**: `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true` in all 5 GitHub Actions workflows (Node.js 20 deprecation June 2026)
+- **GitHub Pages**: New `pages.yml` workflow replacing auto-generated `pages-build-deployment`
+
+### Stats
+- 4 commits, 22 files changed, 588 insertions, 73 deletions
+- Major areas: call hardening (10 files), Windows systray (6 files), CI (6 files)
+
 ## [1.1.6.6] - 2026-03-14
 
 ### Fixed — Message Retraction (XEP-0424)
