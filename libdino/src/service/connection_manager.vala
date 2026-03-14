@@ -305,6 +305,9 @@ public class ConnectionManager : Object {
         stream.get_module<Sasl.Module>(Sasl.Module.IDENTITY).received_auth_failure.connect((stream, node) => {
             set_connection_error(account, new ConnectionError(ConnectionError.Source.SASL, null));
         });
+        stream.get_module<Sasl.Module>(Sasl.Module.IDENTITY).channel_binding_failed.connect((stream) => {
+            set_connection_error(account, new ConnectionError(ConnectionError.Source.SASL, "channel-binding-required"));
+        });
 
         string connection_uuid = connections[account].uuid;
         stream.received_node.connect(() => {

@@ -253,7 +253,8 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
                 });
                 bindings += model.selected_account.bind_property("connection-error", enter_password_button, "visible", BindingFlags.SYNC_CREATE, (binding, from, ref to) => {
                     var error = (ConnectionManager.ConnectionError) from;
-                    to = error != null && error.source == ConnectionManager.ConnectionError.Source.SASL;
+                    to = error != null && error.source == ConnectionManager.ConnectionError.Source.SASL
+                         && error.identifier != "channel-binding-required";
                     return true;
                 });
 
@@ -760,6 +761,11 @@ public class Dino.Ui.AccountPreferencesSubpage : Adw.NavigationPage {
 
         switch (error.source) {
             case ConnectionManager.ConnectionError.Source.SASL:
+                if (error.identifier == "channel-binding-required") {
+                    string jid = model.selected_account.bare_jid;
+                    string domain = jid.contains("@") ? jid.split("@", 2)[1] : jid;
+                    return _("%s does not support SCRAM channel binding (MITM protection)").printf(domain);
+                }
                 return _("Wrong password");
             case ConnectionManager.ConnectionError.Source.TLS:
                 return _("Invalid TLS certificate");

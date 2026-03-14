@@ -579,6 +579,25 @@ export PIPEWIRE_RUNTIME_DIR="${PIPEWIRE_RUNTIME_DIR:-$XDG_RUNTIME_DIR}"
 # This allows the app to use German, French, etc. based on system LANG
 export TEXTDOMAINDIR="$APPDIR/usr/share/locale"
 
+# Locale data: The bundled glibc may not contain all locales compiled on the
+# host system.  Point LOCPATH at the system locale archive so that GTK does
+# not fall back to the "C" locale with a noisy warning.
+for locdir in /usr/lib/locale /usr/share/locale; do
+    if [ -d "$locdir" ]; then
+        export LOCPATH="$locdir"
+        break
+    fi
+done
+
+# GTK4 does not support legacy GTK3-era IM modules.  If the host sets
+# GTK_IM_MODULE to a GTK3-only module (e.g. cedilla, xim), GTK4 prints a
+# warning.  Unset only known GTK3-only modules; leave ibus/fcitx5/etc. alone.
+case "$GTK_IM_MODULE" in
+    cedilla|xim)
+        unset GTK_IM_MODULE
+        ;;
+esac
+
 # Set GSettings schema path
 export GSETTINGS_SCHEMA_DIR="$APPDIR/usr/share/glib-2.0/schemas:$GSETTINGS_SCHEMA_DIR"
 

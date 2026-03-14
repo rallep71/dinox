@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 14, 2026 (v1.1.7.1)
+> **Last Updated**: March 14, 2026 (v1.1.7.2)
 > **Current Release Line**: 1.1.7.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.7.1 |
+| **Current Version** | 1.1.7.2 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (DE/FR/ES 100%) |
 | **Build Status** | Clean |
@@ -20,6 +20,17 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.7.2 (Windows Startup Fix, Channel Binding, Locale/IM Fixes)
+- **Windows startup crash**: `hold()`/`release()` around `unlock_parent.close()`→`activate()` transition to prevent GApplication use_count race (GitHub #18)
+- **DBUS_SESSION_BUS_ADDRESS**: `"nul"` → `""` for safer behavior
+- **libevent DLL**: Added monolithic `libevent-2-1-7.dll` to Windows dist
+- **SCRAM channel binding**: Distinct `channel_binding_failed` signal → proper error message instead of "Wrong password" when server lacks -PLUS mechanisms
+- **Locale fallback**: Graceful fallback chain before `Gtk.init()` for openSUSE/custom locales
+- **GTK_IM_MODULE**: Only unsets GTK3-only modules (`cedilla`, `xim`); leaves ibus/fcitx5 alone
+- **AppImage**: LOCPATH export + conservative IM module handling in AppRun
+- **BUILD.md**: Added openSUSE Tumbleweed/Leap `zypper install` section
+- 10 files changed
 
 ### v1.1.7.1 (Hotfix: Native Linux SSL/TLS)
 - **CRITICAL FIX**: System CA cert probe was inside `#if WINDOWS` — moved outside so it runs on ALL platforms

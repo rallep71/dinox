@@ -223,6 +223,7 @@ SYSTEM_DLLS=(
     "libcjson-1.dll"
     
     # Tor async networking (transitive dep of tor.exe)
+    "libevent-2-1-7.dll"
     "libevent_core-2-1-7.dll"
     "libevent_extra-2-1-7.dll"
     

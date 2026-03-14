@@ -191,7 +191,11 @@ public class Dino.Ui.FreeDesktopNotifier : NotificationProvider, Object {
         string body = "";
         switch (error.source) {
             case ConnectionManager.ConnectionError.Source.SASL:
-                body = _("Wrong password");
+                if (error.identifier == "channel-binding-required") {
+                    body = _("%s does not support SCRAM channel binding (MITM protection)").printf(account.bare_jid.domainpart);
+                } else {
+                    body = _("Wrong password");
+                }
                 break;
             case ConnectionManager.ConnectionError.Source.TLS:
                 body = _("Invalid TLS certificate");

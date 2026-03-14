@@ -168,6 +168,45 @@ sudo dnf install \
 ./scripts/ci-build-deps.sh
 ```
 
+### openSUSE Tumbleweed / Leap
+
+```bash
+sudo zypper install \
+    gcc gcc-c++ \
+    git \
+    meson \
+    ninja \
+    vala \
+    gtk4-devel \
+    libadwaita-devel \
+    glib2-devel \
+    libgee-devel \
+    sqlcipher-devel \
+    libsecret-devel \
+    icu-devel \
+    libdbusmenu-glib-devel \
+    libgcrypt-devel \
+    gpgme-devel \
+    json-glib-devel \
+    qrencode-devel \
+    libsoup-devel \
+    gstreamer-devel \
+    gstreamer-plugins-base-devel \
+    gstreamer-plugins-bad-devel \
+    gstreamer-plugins-good \
+    pipewire-gstreamer \
+    libnice-devel \
+    libgnutls-devel \
+    libsrtp-devel \
+    geoclue2-devel \
+    go
+
+# Then build custom dependencies from source
+./scripts/ci-build-deps.sh
+```
+
+> **Note (openSUSE):** The CA certificate bundle is at `/etc/ssl/ca-bundle.pem`. DinoX detects this automatically at startup — no manual `GTLS_SYSTEM_CA_FILE` configuration needed.
+
 ### Arch Linux / Manjaro
 
 ```bash

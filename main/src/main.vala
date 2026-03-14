@@ -55,6 +55,31 @@ void main(string[] args) {
         internationalize(GETTEXT_PACKAGE, search_path_generator.get_locale_path(GETTEXT_PACKAGE, LOCALE_INSTALL_DIR));
 
         Gst.init(ref args);
+
+        // Suppress "Locale not supported by C library" by falling back gracefully.
+        // This happens when the system locale (e.g. a custom locale on openSUSE)
+        // isn't available in the C library or in AppImage's bundled glibc.
+        if (Intl.setlocale(LocaleCategory.ALL, "") == null) {
+            // Current locale is unsupported — try common fallbacks
+            string? lang = Environment.get_variable("LANG");
+            if (lang != null) {
+                // Try the base language without encoding (e.g. "de_DE" from "de_DE.UTF-8")
+                string base_lang = lang.split(".")[0];
+                if (Intl.setlocale(LocaleCategory.ALL, base_lang + ".UTF-8") == null) {
+                    Intl.setlocale(LocaleCategory.ALL, "C.UTF-8");
+                }
+            }
+        }
+
+        // GTK4 does not support legacy GTK3-era IM modules.  If GTK_IM_MODULE
+        // is set to a GTK3-only module (e.g. "cedilla", "xim"), GTK4 prints
+        // "No IM module matching GTK_IM_MODULE=… found".  Unset only known
+        // GTK3-only modules; leave ibus, fcitx5, etc. alone (GTK4 supports them).
+        string? im_module = Environment.get_variable("GTK_IM_MODULE");
+        if (im_module == "cedilla" || im_module == "xim") {
+            Environment.unset_variable("GTK_IM_MODULE");
+        }
+
         Gtk.init();
         
         // Ensure custom widget types are registered before loading templates that use them
@@ -165,7 +190,7 @@ void main(string[] args) {
         // Suppress "win32 session dbus binary not found" warning from GLib-GIO.
         // GApplication internally tries to connect to the session bus even with NON_UNIQUE,
         // but there is no DBus session bus daemon on Windows.
-        Environment.set_variable("DBUS_SESSION_BUS_ADDRESS", "nul", true);
+        Environment.set_variable("DBUS_SESSION_BUS_ADDRESS", "", true);
 #endif
 
         // Probe system CA certificate locations on ALL platforms.

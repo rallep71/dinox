@@ -5,6 +5,31 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.7.2] - 2026-03-14
+
+### Fixed — Windows Startup Crash (GitHub #18)
+- **GApplication race condition**: `unlock_parent.close()` dropped `use_count` to 0 before `activate()` created the MainWindow. On Windows, the Win32 message pump re-enters and terminates the main loop during this gap. Fix: `this.hold()` before close, `this.release()` after activate.
+- **DBUS_SESSION_BUS_ADDRESS**: Changed from `"nul"` to `""` — `"nul"` could be misinterpreted as a valid bus address on some GLib builds.
+- **libevent DLL**: Added monolithic `libevent-2-1-7.dll` to `update_dist.sh` (some Windows builds ship one monolithic DLL instead of split core/extra libs).
+
+### Fixed — SCRAM Channel Binding Error Message
+- **Wrong "Wrong password"**: When MITM protection (channel binding) was enabled but the server didn't support SCRAM-*-PLUS mechanisms, DinoX showed "Wrong password" instead of explaining the real problem.
+- **New signal**: `channel_binding_failed` in SASL module (distinct from `received_auth_failure`).
+- **New error identifier**: `"channel-binding-required"` propagated through `ConnectionManager`.
+- **UI**: Preferences, freedesktop notifications, and GNotifications now show "*server* does not support SCRAM channel binding (MITM protection)" with the actual domain name.
+- **"Enter password" button hidden**: No longer shown for channel-binding errors (password is not the problem).
+
+### Fixed — Linux Locale & IM Module Warnings
+- **Locale fallback**: Graceful fallback chain before `Gtk.init()` — tries base language `.UTF-8`, falls back to `C.UTF-8`. Suppresses "Locale not supported by C library" warning on openSUSE/custom locales.
+- **GTK_IM_MODULE handling**: Only unsets `GTK_IM_MODULE` for known GTK3-only modules (`cedilla`, `xim`). Leaves `ibus`, `fcitx5`, etc. alone — GTK4 supports them natively.
+
+### Fixed — AppImage on openSUSE/Fedora
+- **LOCPATH**: AppRun now exports `LOCPATH` pointing to system locale data, fixing locale warnings inside AppImage.
+- **IM module fix**: AppRun uses same conservative approach — only clears GTK3-only modules via `case` statement.
+
+### Changed — Documentation
+- **BUILD.md**: Added openSUSE Tumbleweed/Leap section with `zypper install` package list and CA cert note.
+
 ## [1.1.7.1] - 2026-03-14
 
 ### Fixed — Native Linux SSL/TLS

@@ -35,6 +35,7 @@ namespace Xmpp.Sasl {
         public bool use_full_name = false;
 
         public signal void received_auth_failure(XmppStream stream, StanzaNode node);
+        public signal void channel_binding_failed(XmppStream stream);
 
         public Module(string name, string password) {
             this.name = name;
@@ -387,7 +388,7 @@ namespace Xmpp.Sasl {
                 stream.add_flag(flag);
             } else if (require_channel_binding) {
                 warning("Channel binding required but no -PLUS mechanism available at %s (possible downgrade attack)", stream.remote_name.to_string());
-                received_auth_failure(stream, new StanzaNode.build("failure", NS_URI));
+                channel_binding_failed(stream);
                 return;
             } else if (Mechanism.PLAIN in supported_mechanisms) {
                 if (!(stream is TlsXmppStream)) {

@@ -110,7 +110,11 @@ namespace Dino.Ui {
             notification.set_default_action_and_target_value("app.preferences-account", new Variant.int32(account.id));
             switch (error.source) {
                 case ConnectionManager.ConnectionError.Source.SASL:
-                    notification.set_body("Wrong password");
+                    if (error.identifier == "channel-binding-required") {
+                        notification.set_body(_("%s does not support SCRAM channel binding (MITM protection)").printf(account.bare_jid.domainpart));
+                    } else {
+                        notification.set_body("Wrong password");
+                    }
                     break;
                 case ConnectionManager.ConnectionError.Source.TLS:
                     notification.set_body("Invalid TLS certificate");
