@@ -198,6 +198,9 @@ MOSQUITTO_VER=2.1.2
 wget -q -O "mosquitto-${MOSQUITTO_VER}.tar.gz" "https://mosquitto.org/files/source/mosquitto-${MOSQUITTO_VER}.tar.gz"
 tar xf "mosquitto-${MOSQUITTO_VER}.tar.gz"
 cd "mosquitto-${MOSQUITTO_VER}"
+# cJSON is only needed by the broker/ctrl tools.  We build client-lib only,
+# so make the hard REQUIRED dependency optional to avoid needing cJSON-devel.
+sed -i 's/find_package(cJSON REQUIRED)/find_package(cJSON)/' CMakeLists.txt
 cmake -DCMAKE_INSTALL_PREFIX=/usr \
       -DWITH_BROKER=OFF \
       -DWITH_CLIENTS=OFF \
@@ -205,7 +208,6 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr \
       -DWITH_PLUGINS=OFF \
       -DWITH_TESTS=OFF \
       -DWITH_DOCS=OFF \
-      -DWITH_CJSON=OFF \
       -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
       .
 make $MAKE_ARGS
