@@ -635,12 +635,13 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 (dsp ?? filter).link(volume_element);
                 volume_element.link(source_queue);
 
-                // Smooth ramp-up: 0→1.0 in 200ms (10 steps of 20ms)
+                // Smooth ramp-up: 0→1.0 in 200ms (40 steps of 5ms)
+                // Fine granularity avoids audible clicks at step boundaries.
                 int ramp_step = 0;
-                GLib.Timeout.add(20, () => {
+                GLib.Timeout.add(5, () => {
                     if (volume_element == null) return false;
                     ramp_step++;
-                    double vol = ramp_step / 10.0;
+                    double vol = ramp_step / 40.0;
                     if (vol >= 1.0) {
                         volume_element.@set("volume", 1.0);
                         return false;
@@ -670,14 +671,16 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 recv_volume.@set("volume", 0.0);
                 recv_volume.sync_state_with_parent();
                 mixer.link(recv_volume);
-                // Ramp up from 0.0 to target over 200ms (10 steps x 20ms)
-                // Target gain is 1/sqrt(N) to prevent clipping with N peers
+                // Ramp up from 0.0 to target over 200ms (40 steps × 5ms)
+                // Fine granularity avoids audible clicks at step boundaries.
                 double recv_vol = 0.0;
-                GLib.Timeout.add(20, () => {
+                int recv_ramp_step = 0;
+                GLib.Timeout.add(5, () => {
                     double target = get_target_recv_gain();
-                    recv_vol += target / 10.0;
                     if (recv_volume == null) return false;
-                    if (recv_vol >= target) {
+                    recv_ramp_step++;
+                    recv_vol = (recv_ramp_step / 40.0) * target;
+                    if (recv_ramp_step >= 40) {
                         recv_volume.@set("volume", target);
                         recv_ramp_done = true;
                         return false;

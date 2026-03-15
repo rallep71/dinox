@@ -128,10 +128,10 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
             return;
         }
         rtpbin.pad_added.connect(on_rtp_pad_added);
-        rtpbin.@set("latency", 200);
+        rtpbin.@set("latency", 100);
         rtpbin.@set("do-lost", true);
 //        rtpbin.@set("do-sync-event", true);
-        rtpbin.@set("drop-on-latency", true);
+        rtpbin.@set("drop-on-latency", false);
         rtpbin.connect("signal::request-pt-map", request_pt_map, this);
         pipe.add(rtpbin);
 
