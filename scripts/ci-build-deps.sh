@@ -12,7 +12,7 @@ set -e
 # Current versions (last checked/verified: 2026-03-13):
 #   SQLCipher              4.6.1   https://github.com/sqlcipher/sqlcipher/releases
 #   webrtc-audio-processing v2.1   https://github.com/rallep71/dinox/releases/download/vendor-deps/
-#   libnice                0.1.23  https://gitlab.freedesktop.org/libnice/libnice/-/tags
+#   libnice                0.1.23  https://github.com/rallep71/dinox/releases/download/vendor-deps/
 #   protobuf-c             1.5.2   https://github.com/protobuf-c/protobuf-c/releases
 #   libomemo-c             (fork)  https://github.com/rallep71/libomemo-c
 #   cJSON                  1.7.18  https://github.com/DaveGamble/cJSON/releases
@@ -152,7 +152,7 @@ rm -rf "webrtc-audio-processing-${WEBRTC_VER}" "webrtc-audio-processing-${WEBRTC
 # 3. libnice
 echo "Building libnice..."
 LIBNICE_VER=0.1.23
-wget -O "libnice-${LIBNICE_VER}.tar.gz" "https://gitlab.freedesktop.org/libnice/libnice/-/archive/${LIBNICE_VER}/libnice-${LIBNICE_VER}.tar.gz"
+wget -O "libnice-${LIBNICE_VER}.tar.gz" "https://github.com/rallep71/dinox/releases/download/vendor-deps/libnice-${LIBNICE_VER}.tar.gz"
 tar xf "libnice-${LIBNICE_VER}.tar.gz"
 cd "libnice-${LIBNICE_VER}"
 meson setup build --prefix=/usr -Dtests=disabled -Dgtk_doc=disabled $MESON_OPTS

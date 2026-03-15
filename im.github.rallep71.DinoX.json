@@ -93,7 +93,7 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://gitlab.freedesktop.org/libnice/libnice/-/archive/0.1.23/libnice-0.1.23.tar.gz",
+                    "url": "https://github.com/rallep71/dinox/releases/download/vendor-deps/libnice-0.1.23.tar.gz",
                     "sha256": "cd69da89d70b529e2eac955de006503a318123d36196482b14005a83e7cb2c21"
                 }
             ]
@@ -137,7 +137,7 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protobuf-cpp-3.21.12.tar.gz",
+                    "url": "https://github.com/rallep71/dinox/releases/download/vendor-deps/protobuf-cpp-3.21.12.tar.gz",
                     "sha256": "4eab9b524aa5913c6fffb20b2a8abf5ef7f95a80bc0701f3a6dbb4c607f73460"
                 }
             ]
@@ -377,7 +377,7 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.4.10/pipewire-1.4.10.tar.gz",
+                    "url": "https://github.com/rallep71/dinox/releases/download/vendor-deps/pipewire-1.4.10.tar.gz",
                     "sha256": "20184b3fac2e2759385302423bdf04db64490a3c79a091147993a822ae992128"
                 }
             ]
