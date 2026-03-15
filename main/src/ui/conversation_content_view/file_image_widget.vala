@@ -532,11 +532,13 @@ public class FileImageWidget : Widget {
                         var pb = result.animation.get_static_image();
                         // Animation frames/static images might also need orientation
                         pb = pb.apply_embedded_orientation();
-                        image.paintable = Texture.for_pixbuf(pb);
+                        if (pb != null && pb.get_pixels() != null) {
+                            image.paintable = Texture.for_pixbuf(pb);
+                        }
                         return false;
                     }
 
-                    if (result.pixbuf != null) {
+                    if (result.pixbuf != null && result.pixbuf.get_pixels() != null) {
                         image.paintable = Texture.for_pixbuf(result.pixbuf);
                     }
                     return false;
@@ -574,7 +576,7 @@ public class FileImageWidget : Widget {
             // Use the thumbnail's native size, don't attempt to scale
             debug("Preview: Using native thumbnail size for %s", file_transfer.file_name);
         }
-        if (pixbuf == null) {
+        if (pixbuf == null || pixbuf.get_pixels() == null) {
             warning("Can't scale thumbnail %s", file_transfer.file_name);
             throw new Error(-1, 0, "Error scaling preview image");
         }

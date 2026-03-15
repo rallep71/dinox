@@ -181,7 +181,7 @@ namespace Dino.Ui {
                 if (msg.status_code >= 200 && msg.status_code < 400 && bytes != null && bytes.get_size() > 0) {
                     var stream = new MemoryInputStream.from_bytes(bytes);
                     var pixbuf = new Gdk.Pixbuf.from_stream(stream);
-                    if (pixbuf != null) {
+                    if (pixbuf != null && pixbuf.get_pixels() != null) {
                         // Scale down if too large (max 300px wide, 200px tall)
                         int w = pixbuf.width;
                         int h = pixbuf.height;
