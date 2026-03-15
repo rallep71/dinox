@@ -205,7 +205,10 @@ public class FileImageWidget : Widget {
             }
 
             sticker_anim_iter.advance(null);
-            sticker_anim_picture.paintable = Texture.for_pixbuf(sticker_anim_iter.get_pixbuf());
+            var frame_pb = sticker_anim_iter.get_pixbuf();
+            if (frame_pb != null && frame_pb.get_pixels() != null) {
+                sticker_anim_picture.paintable = Texture.for_pixbuf(frame_pb);
+            }
 
             schedule_next_sticker_frame();
             return false;

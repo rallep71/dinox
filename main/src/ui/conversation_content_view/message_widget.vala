@@ -340,6 +340,7 @@ public class MessageMetaItem : ContentMetaItem {
                         debug("MessageMetaItem: Map tile downloaded (%d bytes)", (int)bytes.get_size());
                         var stream = new MemoryInputStream.from_bytes(bytes);
                         var pixbuf = new Gdk.Pixbuf.from_stream(stream);
+                        if (pixbuf == null || pixbuf.get_pixels() == null) return;
                         var texture = Gdk.Texture.for_pixbuf(pixbuf);
                         tile_cache[tile_url] = texture;
                         tile_cache_lru.add(tile_url);

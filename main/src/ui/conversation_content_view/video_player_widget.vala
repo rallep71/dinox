@@ -514,19 +514,23 @@ public class VideoPlayerWidget : Widget {
                     if (width > 0 && height > 0) {
                         Gst.MapInfo map;
                         if (buf.map(out map, Gst.MapFlags.READ)) {
-                            var bytes = new GLib.Bytes(map.data);
-                            size_t row_stride = (size_t)(width * 4);
-                            var texture = new Gdk.MemoryTexture(width, height,
-                                Gdk.MemoryFormat.R8G8B8A8, bytes, row_stride);
+                            if (map.data == null || map.size < (size_t)(width * height * 4)) {
+                                buf.unmap(map);
+                            } else {
+                                var bytes = new GLib.Bytes(map.data);
+                                size_t row_stride = (size_t)(width * 4);
+                                var texture = new Gdk.MemoryTexture(width, height,
+                                    Gdk.MemoryFormat.R8G8B8A8, bytes, row_stride);
 
-                            if (preview_image == null) {
-                                preview_image = new FixedRatioPicture() { min_width=100, min_height=100, max_width=320, max_height=240 };
-                                stack.add_child(preview_image);
+                                if (preview_image == null) {
+                                    preview_image = new FixedRatioPicture() { min_width=100, min_height=100, max_width=320, max_height=240 };
+                                    stack.add_child(preview_image);
+                                }
+                                preview_image.paintable = texture;
+                                stack.set_visible_child(preview_image);
+                                buf.unmap(map);
+                                debug("VideoPlayerWidget: preview thumbnail captured as static texture (%dx%d)", width, height);
                             }
-                            preview_image.paintable = texture;
-                            stack.set_visible_child(preview_image);
-                            buf.unmap(map);
-                            debug("VideoPlayerWidget: preview thumbnail captured as static texture (%dx%d)", width, height);
                         }
                     }
                 }
@@ -824,6 +828,10 @@ public class VideoPlayerWidget : Widget {
 
         Gst.MapInfo map;
         if (buf.map(out map, Gst.MapFlags.READ)) {
+            if (map.data == null || map.size < (size_t)(width * height * 4)) {
+                buf.unmap(map);
+                return;
+            }
             var bytes = new GLib.Bytes(map.data);
             buf.unmap(map);
 
