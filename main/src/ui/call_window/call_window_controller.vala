@@ -444,7 +444,10 @@ public class Dino.Ui.CallWindowController : Object {
         // Disconnect participant widget signal handlers
         if (participant_widgets.has_key(participant_id)) {
             if (invite_handler_ids.has_key(participant_id)) {
-                participant_widgets[participant_id].disconnect(invite_handler_ids[participant_id]);
+                ulong hid = invite_handler_ids[participant_id];
+                if (hid != 0 && SignalHandler.is_connected(participant_widgets[participant_id], hid)) {
+                    participant_widgets[participant_id].disconnect(hid);
+                }
             }
             if (debug_info_handler_ids.has_key(participant_id)) {
                 ulong hid = debug_info_handler_ids[participant_id];
@@ -625,8 +628,16 @@ public class Dino.Ui.CallWindowController : Object {
             devices_changed_handler_id = 0;
         }
 
-        foreach (ulong handler_id in call_window_handler_ids) call_window.disconnect(handler_id);
-        foreach (ulong handler_id in bottom_bar_handler_ids) call_window.bottom_bar.disconnect(handler_id);
+        foreach (ulong handler_id in call_window_handler_ids) {
+            if (handler_id != 0 && SignalHandler.is_connected(call_window, handler_id)) {
+                call_window.disconnect(handler_id);
+            }
+        }
+        foreach (ulong handler_id in bottom_bar_handler_ids) {
+            if (handler_id != 0 && SignalHandler.is_connected(call_window.bottom_bar, handler_id)) {
+                call_window.bottom_bar.disconnect(handler_id);
+            }
+        }
 
         var participant_ids = new ArrayList<string>();
         participant_ids.add_all(participant_widgets.keys);
