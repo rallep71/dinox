@@ -185,7 +185,8 @@ git clone https://github.com/rallep71/libomemo-c.git
 cd libomemo-c
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+      -DCMAKE_POLICY_VERSION_MINIMUM=3.5 ..
 make $MAKE_ARGS
 $SUDO make install
 $SUDO ldconfig
@@ -202,6 +203,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr \
       -DENABLE_CJSON_TEST=OFF \
       -DBUILD_SHARED_LIBS=ON \
       -DCMAKE_INSTALL_LIBDIR=lib \
+      -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
       .
 make $MAKE_ARGS
 $SUDO make install
@@ -225,6 +227,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr \
       -DWITH_TESTS=OFF \
       -DWITH_DOCS=OFF \
       -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+      -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
       .
 make $MAKE_ARGS
 $SUDO make install
