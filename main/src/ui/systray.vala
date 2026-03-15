@@ -60,7 +60,7 @@ public class StatusNotifierItem : Object {
     }
 
     // Load icon PNGs as ARGB32 pixel data for IconPixmap.
-    // If any loaded, clears icon_name so Qt trays use pixel data.
+    // Also sets icon_theme_path so Qt trays can find the icon by name.
     public void load_icon_pixmaps() {
         string icon_id = "im.github.rallep71.DinoX";
         int[] sizes = {32, 48};
@@ -69,6 +69,14 @@ public class StatusNotifierItem : Object {
         if (hicolor == null) {
             debug("Systray: no hicolor dir found for IconPixmap");
             return;
+        }
+
+        // Set IconThemePath to the parent of hicolor so Qt/KDE trays
+        // can look up the icon by name (e.g. /usr/share/icons).
+        string icons_dir = Path.get_dirname(hicolor);
+        if (icons_dir.length > 0) {
+            icon_theme_path = icons_dir;
+            debug("Systray: IconThemePath set to %s (from %s)", icons_dir, hicolor);
         }
 
         var builder = new VariantBuilder(new VariantType("a(iiay)"));
@@ -104,12 +112,26 @@ public class StatusNotifierItem : Object {
             dirs += Path.build_filename(appdir, "usr", "share", "icons", "hicolor");
         }
 
+        // Executable-relative paths: handles both installed prefix layout
+        // (bin/../share/icons) and running from build dir (build/main/../../main/data/icons).
+        try {
+            string exe = FileUtils.read_link("/proc/self/exe");
+            string exe_dir = Path.get_dirname(exe);
+            // Installed: /usr[/local]/bin/dinox → ../share/icons/hicolor
+            dirs += Path.build_filename(exe_dir, "..", "share", "icons", "hicolor");
+            // Build dir: build/main/dinox → ../../main/data/icons/hicolor
+            dirs += Path.build_filename(exe_dir, "..", "..", "main", "data", "icons", "hicolor");
+        } catch (FileError e) {
+            // /proc/self/exe not available (non-Linux) — skip
+        }
+
         string? xdg = Environment.get_variable("XDG_DATA_DIRS");
         if (xdg != null) {
             foreach (string d in xdg.split(":")) {
                 if (d.length > 0) dirs += Path.build_filename(d, "icons", "hicolor");
             }
         }
+        dirs += "/usr/local/share/icons/hicolor";
         dirs += "/usr/share/icons/hicolor";
 
         foreach (string dir in dirs) {
@@ -228,22 +250,11 @@ public class SystrayManager : Object {
             connection = conn;
             
             status_notifier = new StatusNotifierItem();
-            
-            // Set IconThemePath so the desktop can find the icon.
-            // AppImage: use bundled icons; regular install: system icons.
-            string? appdir = Environment.get_variable("APPDIR");
-            if (appdir != null) {
-                string theme_path = Path.build_filename(appdir, "usr", "share", "icons");
-                if (FileUtils.test(theme_path, FileTest.IS_DIR)) {
-                    status_notifier.icon_theme_path = theme_path;
-                    debug("Systray: IconThemePath set to %s", theme_path);
-                }
-            } else {
-                // Regular install: also set path for Qt trays that need explicit lookup
-                status_notifier.icon_theme_path = "/usr/share/icons";
-            }
 
-            // Load inline pixel data for Qt-based trays (Quickshell, etc.)
+            // Load inline pixel data and set IconThemePath based on where
+            // the icon was actually found — not hardcoded.  This ensures
+            // Qt-based trays (KDE Plasma, LXQt) can find the icon both
+            // when installed and when running from the build directory.
             status_notifier.load_icon_pixmaps();
             
             // Initialize Dbusmenu Server
@@ -360,6 +371,14 @@ public class SystrayManager : Object {
                 debug("Systray: Successfully registered with %s as %s", watcher_name, service_name);
                 registered = true;
                 sni_registered = true;
+
+                // Emit NewIcon so the tray host refreshes the icon immediately.
+                // KDE Plasma sometimes caches a placeholder if it fetches
+                // properties before the watcher registration completes.
+                if (connection != null && !connection.is_closed()) {
+                    SniDbus.emit_signal(connection, "/StatusNotifierItem",
+                        "NewIcon", null);
+                }
                 break;
                 
             } catch (Error e) {
