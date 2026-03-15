@@ -6,6 +6,11 @@ add_project_arguments(
   '-D_FORTIFY_SOURCE=2',
   '-Wformat',
   '-Werror=format-security',
+  # Suppress harmless warnings from Vala-generated C code
+  '-Wno-unused-variable',
+  '-Wno-unused-but-set-variable',
+  '-Wno-address',
+  '-Wno-discarded-qualifiers',
   language: 'c'
 )
 add_project_arguments(
