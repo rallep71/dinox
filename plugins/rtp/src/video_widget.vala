@@ -38,10 +38,7 @@ public class Dino.Plugins.Rtp.Paintable : Gdk.Paintable, Object {
 
     public void release_texture() {
         frozen = true;
-        if (image != null) {
-            image.dispose();
-            image = null;
-        }
+        image = null;
     }
 
     public void unfreeze() {
@@ -66,7 +63,6 @@ public class Dino.Plugins.Rtp.Paintable : Gdk.Paintable, Object {
                 image.get_intrinsic_height() != paintable.get_intrinsic_height() ||
                 image.get_intrinsic_aspect_ratio() != paintable.get_intrinsic_aspect_ratio();
 
-        if (image != null) this.image.dispose();
         this.image = paintable;
         this.pixel_aspect_ratio = pixel_aspect_ratio;
 
