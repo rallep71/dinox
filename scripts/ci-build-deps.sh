@@ -11,7 +11,7 @@ set -e
 # TODO: Check periodically for newer versions!
 # Current versions (last checked/verified: 2026-03-13):
 #   SQLCipher              4.6.1   https://github.com/sqlcipher/sqlcipher/releases
-#   webrtc-audio-processing v2.1   https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/tags
+#   webrtc-audio-processing v2.1   https://freedesktop.org/software/pulseaudio/webrtc-audio-processing/
 #   libnice                0.1.23  https://gitlab.freedesktop.org/libnice/libnice/-/tags
 #   protobuf-c             1.5.2   https://github.com/protobuf-c/protobuf-c/releases
 #   libomemo-c             (fork)  https://github.com/rallep71/libomemo-c
@@ -123,8 +123,8 @@ echo "SQLCipher $(sqlcipher :memory: 'select sqlite_version();' 2>/dev/null) wit
 
 # 2. webrtc-audio-processing
 echo "Building webrtc-audio-processing..."
-WEBRTC_VER=v2.1
-wget -O "webrtc-audio-processing-${WEBRTC_VER}.tar.gz" "https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/archive/${WEBRTC_VER}/webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
+WEBRTC_VER=2.1
+wget -O "webrtc-audio-processing-${WEBRTC_VER}.tar.gz" "https://freedesktop.org/software/pulseaudio/webrtc-audio-processing/webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
 tar xf "webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
 cd "webrtc-audio-processing-${WEBRTC_VER}"
 # Fix for abseil-cpp >= 20250814: removed deprecated Nullability template aliases.

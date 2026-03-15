@@ -115,9 +115,9 @@ MSYS2 only provides version 1.x, but DinoX needs v2.1 for the best audio quality
 
 ```bash
 cd /tmp
-WEBRTC_VER=v2.1
+WEBRTC_VER=2.1
 curl -sL -o "webrtc-audio-processing-${WEBRTC_VER}.tar.gz" \
-  "https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/archive/${WEBRTC_VER}/webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
+  "https://freedesktop.org/software/pulseaudio/webrtc-audio-processing/webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
 tar xf "webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
 cd "webrtc-audio-processing-${WEBRTC_VER}"
 # Fix for GCC 13+: Starting with this version, #include <cstdint> is no
@@ -314,9 +314,9 @@ cp lyrebird.exe /mingw64/bin/
 
 # webrtc-audio-processing v2.1 (Step 5)
 cd /tmp
-WEBRTC_VER=v2.1
+WEBRTC_VER=2.1
 curl -sL -o "webrtc-audio-processing-${WEBRTC_VER}.tar.gz" \
-  "https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/archive/${WEBRTC_VER}/webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
+  "https://freedesktop.org/software/pulseaudio/webrtc-audio-processing/webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
 tar xf "webrtc-audio-processing-${WEBRTC_VER}.tar.gz" && cd "webrtc-audio-processing-${WEBRTC_VER}"
 for f in webrtc/rtc_base/trace_event.h \
          webrtc/modules/audio_processing/aec3/multi_channel_content_detector.h; do

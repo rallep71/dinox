@@ -152,8 +152,8 @@ sqlcipher :memory: "PRAGMA compile_options;" 2>/dev/null | grep FTS5
 Or manually:
 ```bash
 # webrtc-audio-processing v2.1 (echo cancellation, noise suppression)
-wget -O webrtc-v2.1.tar.gz "https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/archive/v2.1/webrtc-audio-processing-v2.1.tar.gz"
-tar xf webrtc-v2.1.tar.gz && cd webrtc-audio-processing-v2.1
+wget -O webrtc-2.1.tar.gz "https://freedesktop.org/software/pulseaudio/webrtc-audio-processing/webrtc-audio-processing-2.1.tar.gz"
+tar xf webrtc-2.1.tar.gz && cd webrtc-audio-processing-2.1
 meson setup build --prefix=/usr && ninja -C build && sudo ninja -C build install && sudo ldconfig
 cd ..
 

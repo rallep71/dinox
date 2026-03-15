@@ -116,9 +116,9 @@ jobs:
         run: |
           echo "=== Building webrtc-audio-processing v2.1 ==="
           cd /tmp
-          WEBRTC_VER=v2.1
+          WEBRTC_VER=2.1
           curl -fSL --retry 3 -o "webrtc-audio-processing-${WEBRTC_VER}.tar.gz" \
-            "https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing/-/archive/${WEBRTC_VER}/webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
+            "https://freedesktop.org/software/pulseaudio/webrtc-audio-processing/webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
           tar xf "webrtc-audio-processing-${WEBRTC_VER}.tar.gz"
           cd "webrtc-audio-processing-${WEBRTC_VER}"
           # Fix for GCC 13+: some headers use uint8_t/int64_t without including <cstdint>
