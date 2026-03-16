@@ -19,6 +19,7 @@
 #include <windows.h>
 #include <shellapi.h>
 #include <stdarg.h>
+#include <stdio.h>
 
 /* Ensure definitions for older MinGW-w64 / SDK headers. */
 #ifndef NOTIFYICON_VERSION_4
