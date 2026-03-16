@@ -94,6 +94,13 @@ public class AddAccountDialog : Adw.Dialog {
         this.db = db;
         this.title = _("Add Account");
 
+#if WINDOWS
+        // GDK-Win32 has issues with Adw.Dialog sheet overlays: mouse events
+        // don't reach overlaid widgets reliably. Force floating (separate
+        // window) mode to avoid the cursor-behind-dialog problem.
+        this.presentation_mode = Adw.DialogPresentationMode.FLOATING;
+#endif
+
         // Sign in - Jid
         jid_entry.changed.connect(on_jid_entry_changed);
         sign_in_continue_button.clicked.connect(on_sign_in_continue_button_clicked);

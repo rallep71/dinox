@@ -87,24 +87,38 @@ void main(string[] args) {
             Path.build_filename(exe_dir, "lib", "gstreamer-1.0"), true);
 
         // Force GnuTLS to find the CA bundle.
+        // Strategy: (1) bundled ca-bundle.crt, (2) export Windows cert store
         string? trusted_certs = Environment.get_variable("GTLS_SYSTEM_CA_FILE");
         if (trusted_certs == null) {
+            string? ca_path = null;
+
+            // Try bundled CA bundle first
             string local_cert = Path.build_filename(exe_dir, "ssl", "certs", "ca-bundle.crt");
+            string local_cert_flat = Path.build_filename(exe_dir, "ca-bundle.crt");
             if (FileUtils.test(local_cert, FileTest.EXISTS)) {
-                Environment.set_variable("GTLS_SYSTEM_CA_FILE", local_cert, true);
-                Environment.set_variable("SSL_CERT_FILE", local_cert, true);
-                Environment.set_variable("SSL_CERT_DIR",
-                    Path.build_filename(exe_dir, "ssl", "certs"), true);
-                message("Set GTLS_SYSTEM_CA_FILE to %s", local_cert);
-            } else {
-                 string local_cert_flat = Path.build_filename(exe_dir, "ca-bundle.crt");
-                 if (FileUtils.test(local_cert_flat, FileTest.EXISTS)) {
-                    Environment.set_variable("GTLS_SYSTEM_CA_FILE", local_cert_flat, true);
-                    Environment.set_variable("SSL_CERT_FILE", local_cert_flat, true);
-                    message("Set GTLS_SYSTEM_CA_FILE to %s", local_cert_flat);
-                 } else {
-                    warning("No bundled CA certificate found next to executable");
-                 }
+                ca_path = local_cert;
+            } else if (FileUtils.test(local_cert_flat, FileTest.EXISTS)) {
+                ca_path = local_cert_flat;
+            }
+
+            // Fallback: export Windows system certificate store to a cached PEM file
+            if (ca_path == null) {
+                string cache_dir = Path.build_filename(Environment.get_user_data_dir(), "dinox");
+                string cached_pem = Path.build_filename(cache_dir, "windows-ca-bundle.pem");
+                if (CertstoreWin32.export_pem(cached_pem)) {
+                    ca_path = cached_pem;
+                    message("Exported Windows root certificates to %s", cached_pem);
+                } else {
+                    warning("No CA certificates available — TLS connections will fail");
+                }
+            }
+
+            if (ca_path != null) {
+                Environment.set_variable("GTLS_SYSTEM_CA_FILE", ca_path, true);
+                Environment.set_variable("SSL_CERT_FILE", ca_path, true);
+                string ca_dir = Path.get_dirname(ca_path);
+                Environment.set_variable("SSL_CERT_DIR", ca_dir, true);
+                message("Set GTLS_SYSTEM_CA_FILE to %s", ca_path);
             }
         }
 
