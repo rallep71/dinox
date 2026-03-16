@@ -245,7 +245,7 @@ Meson zeigt am Ende alle gefundenen Abhängigkeiten an. Prüfe, dass keine wicht
 ninja -C build
 ```
 
-Der Build dauert einige Minuten. Danach mit Schritt 11 fortfahren — **nicht** direkt aus `build/main/` starten, sondern immer über `dist/`.
+Der Build dauert einige Minuten. Danach mit Schritt 11 fortfahren.
 
 ---
 
