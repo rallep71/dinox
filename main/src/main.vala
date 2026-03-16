@@ -90,7 +90,12 @@ void main(string[] args) {
         string gst_plugin_dir = Path.build_filename(exe_dir, "lib", "gstreamer-1.0");
         Environment.set_variable("GST_PLUGIN_PATH", gst_plugin_dir, true);
         Environment.set_variable("GST_PLUGIN_SYSTEM_PATH", "", true);
-        Environment.set_variable("GST_PLUGIN_SCANNER", "", true);
+
+        // Cache the GStreamer plugin registry so subsequent starts are fast.
+        string gst_cache_dir = Path.build_filename(Environment.get_user_data_dir(), "dinox");
+        DirUtils.create_with_parents(gst_cache_dir, 0700);
+        Environment.set_variable("GST_REGISTRY",
+            Path.build_filename(gst_cache_dir, "gstreamer-registry.bin"), true);
 
         // Force GnuTLS to find the CA bundle.
         // Strategy: merge Windows system cert store + bundled MSYS2 ca-bundle.crt
@@ -185,15 +190,12 @@ void main(string[] args) {
         message("GStreamer initialized");
 
 #if _WIN32
-        // Log available GStreamer plugins for debugging
+        // Log GStreamer plugin summary for debugging
         var registry = Gst.Registry.@get();
         var plugins = registry.get_plugin_list();
         message("GStreamer: %u plugins loaded from %s",
                 plugins.length(),
                 Environment.get_variable("GST_PLUGIN_PATH") ?? "(default)");
-        foreach (unowned Gst.Plugin p in plugins) {
-            message("  gst-plugin: %s (%s)", p.get_name(), p.get_filename() ?? "built-in");
-        }
         // Check critical elements for video playback
         string[] critical = {"playbin", "videoconvert", "autoaudiosink",
                              "qtdemux", "matroskademux", "avdec_h264",

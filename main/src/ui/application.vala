@@ -207,6 +207,23 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             unlock_parent = null;
         }
 
+        // Re-present the main window so it ends up on top after the
+        // unlock dialog is gone.  On Windows the modal unlock_parent
+        // keeps z-order focus and the MainWindow can end up behind it.
+        // We use Idle.add so the window manager has time to process
+        // the close before we grab focus, plus a timed fallback.
+        if (window != null) {
+            var win = window;
+            Idle.add (() => {
+                win.present ();
+                return Source.REMOVE;
+            });
+            Timeout.add (300, () => {
+                win.present ();
+                return Source.REMOVE;
+            });
+        }
+
         message ("finish_post_unlock: done — releasing hold");
         this.release ();
     }
@@ -302,7 +319,12 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             unlock_parent.default_width = 460;
             unlock_parent.default_height = 260;
             unlock_parent.resizable = false;
+#if !WINDOWS
+            // On Linux, modal prevents interaction with other windows.
+            // On Windows (GDK-Win32), modal without a transient parent
+            // causes the mouse cursor to disappear/become unresponsive.
             unlock_parent.modal = true;
+#endif
 
             // Until the encrypted database is unlocked we don't have access to the user's
             // persisted color scheme preference. Use a consistent dark unlock screen.
@@ -368,6 +390,16 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
     private void set_unlock_window_content (Gtk.Widget child) {
         var win = ensure_unlock_window ();
         win.set_content (child);
+    }
+
+    // GDK-Win32 has issues with Adw.Dialog sheet overlays: mouse events
+    // don't reach overlaid widgets reliably. Force floating (separate
+    // window) mode to avoid the cursor-behind-dialog problem.
+    private void present_dialog (Adw.Dialog dialog, Gtk.Widget? parent) {
+#if WINDOWS
+        dialog.presentation_mode = Adw.DialogPresentationMode.FLOATING;
+#endif
+        dialog.present (parent);
     }
 
     private delegate void UnlockFormAction ();
@@ -904,7 +936,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                     dialog.added.connect ((conversation) => {
                         controller.select_conversation (conversation);
                     });
-                    dialog.present (window);
+                    present_dialog (dialog, window);
                 }
                 break;
             case "pubsub":
@@ -1028,7 +1060,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
             var conversation_details = ConversationDetails.setup_dialog (conversation, stream_interactor);
             conversation_details.stack.visible_child_name = stack_value;
-            conversation_details.present (window);
+            present_dialog (conversation_details, window);
         });
         add_action (open_conversation_details_action);
 
@@ -1044,7 +1076,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         contacts_action.activate.connect (() => {
             AddChatDialog add_chat_dialog = new AddChatDialog (stream_interactor, stream_interactor.get_accounts ());
             add_chat_dialog.added.connect ((conversation) => controller.select_conversation (conversation));
-            add_chat_dialog.present (window);
+            present_dialog (add_chat_dialog, window);
         });
         add_action (contacts_action);
         set_accels_for_action ("app.add_chat", KEY_COMBINATION_ADD_CHAT);
@@ -1052,7 +1084,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         SimpleAction conference_action = new SimpleAction ("add_conference", null);
         conference_action.activate.connect (() => {
             AddConferenceDialog add_conference_dialog = new AddConferenceDialog (stream_interactor);
-            add_conference_dialog.present (window);
+            present_dialog (add_conference_dialog, window);
         });
         add_action (conference_action);
         set_accels_for_action ("app.add_conference", KEY_COMBINATION_ADD_CONFERENCE);
@@ -1154,7 +1186,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             }
         });
 
-        dialog.present (window);
+        present_dialog (dialog, window);
     }
 
     private void show_preferences_window (string? navigate_to_page = null) {
@@ -1173,7 +1205,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             cached_preferences_dialog.reset_database_requested.connect (() => reset_database ());
             cached_preferences_dialog.factory_reset_requested.connect (() => factory_reset ());
         }
-        cached_preferences_dialog.present (window);
+        present_dialog (cached_preferences_dialog, window);
         
         // Navigate to specific page if requested (e.g. "tor" from the Tor indicator)
         if (navigate_to_page != null) {
@@ -1271,7 +1303,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             }
         });
 
-        dialog.present (window);
+        present_dialog (dialog, window);
     }
 
     private void show_preferences_account_window (Account account) {
@@ -1338,7 +1370,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         };
         about_dialog.developers = developers;
 
-        about_dialog.present (window);
+        present_dialog (about_dialog, window);
     }
 
     public void restore_from_backup () {
@@ -1415,7 +1447,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             }
         });
 
-        dialog.present (window);
+        present_dialog (dialog, window);
     }
 
     private void confirm_restore_backup (string backup_path, string? password) {
@@ -1437,7 +1469,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             }
         });
 
-        dialog.present (window);
+        present_dialog (dialog, window);
     }
 
     private void perform_restore_backup (string backup_path, string? password = null) {
@@ -1457,7 +1489,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
         progress_dialog.set_extra_child (spinner);
         progress_dialog.set_close_response ("none"); // Prevent closing
-        progress_dialog.present( window);
+        present_dialog (progress_dialog, window);
 
         // Capture password for use in thread
         string? restore_password = password;
@@ -1533,7 +1565,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                             _("Could not decrypt the backup file.\n\nPlease check if the password is correct.")
 );
                         error_dialog.add_response ("ok", _("OK"));
-                        error_dialog.present (window);
+                        present_dialog (error_dialog, window);
                         return false;
                     });
                     return null;
@@ -1683,7 +1715,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                         _("Could not restore the backup file.\n\nError: %s").printf( error_message ?? _("Unknown error"))
 );
                     error_dialog.add_response ("ok", _("OK"));
-                    error_dialog.present (window);
+                    present_dialog (error_dialog, window);
                     return false;
                 });
             }
@@ -1758,7 +1790,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         dialog.body = message;
         dialog.add_response ("close", _("Close"));
         dialog.set_response_appearance ("close", Adw.ResponseAppearance.DEFAULT);
-        dialog.present (window);
+        present_dialog (dialog, window);
     }
 
     private void clear_cache () {
@@ -1781,7 +1813,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             }
         });
 
-        dialog.present (window);
+        present_dialog (dialog, window);
     }
 
     private void perform_clear_cache (string cache_dir) {
@@ -1883,7 +1915,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             }
         });
 
-        dialog.present (window);
+        present_dialog (dialog, window);
     }
 
     private void perform_reset_database () {
@@ -1988,7 +2020,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             }
         });
 
-        dialog.present (window);
+        present_dialog (dialog, window);
     }
 
     private void confirm_factory_reset () {
@@ -2021,7 +2053,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             }
         });
 
-        dialog.present (window);
+        present_dialog (dialog, window);
     }
 
     private void perform_factory_reset () {
@@ -2208,7 +2240,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             }
         });
 
-        dialog.present (window);
+        present_dialog (dialog, window);
     }
 
     private void show_backup_file_chooser (string data_dir, string? password) {
@@ -2271,7 +2303,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         // No close button during backup
         progress_dialog.set_close_response( "");
 
-        progress_dialog.present (window);
+        present_dialog (progress_dialog, window);
 
         // Capture password for use in thread
         string? backup_password = password;
@@ -2513,7 +2545,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             dialog.close ();
         });
 
-        dialog.present (window);
+        present_dialog (dialog, window);
     }
 
     private void apply_color_scheme (string scheme) {

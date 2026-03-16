@@ -138,6 +138,9 @@ public class CertificateWarningDialog : Object {
         dialog.close_response = "cancel";
 
         dialog.response.connect(on_response);
+#if WINDOWS
+        dialog.presentation_mode = Adw.DialogPresentationMode.FLOATING;
+#endif
         dialog.present(parent);
     }
 
