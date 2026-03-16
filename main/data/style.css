@@ -456,11 +456,5 @@ window.dino-main .video-player-widget picture {
 
 window.dino-main .video-player-widget .compact-card-toolbar {
     margin: 6px;
-}
-
-/* Dark mode overrides (replaces deprecated style-dark.css resource) */
-@media (prefers-color-scheme: dark) {
-    .compact-card-toolbar {
-        background-color: shade(@view_bg_color, 1.5);
-    }
+    background-color: shade(@view_bg_color, 1.5);
 }
