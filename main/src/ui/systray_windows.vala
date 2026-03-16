@@ -113,6 +113,12 @@ namespace Dino.Ui {
             } else if (menu_id == -2) {
                 /* Second instance activation: always show window */
                 self.show_window();
+            } else if (menu_id == -3) {
+                /* System shutdown/logoff — graceful quit */
+                Idle.add(() => {
+                    self.quit_application();
+                    return Source.REMOVE;
+                });
             } else if (menu_id == MENU_QUIT_ID) {
                 /* Quit — use Idle to escape the Win32 message handler stack */
                 Idle.add(() => {
@@ -139,17 +145,17 @@ namespace Dino.Ui {
 
         private void show_window() {
             if (window == null) return;
-            window.present();
+            debug("Systray: show_window()");
             window.set_visible(true);
+            window.present();
             is_hidden = false;
         }
 
         private void hide_window() {
             if (window == null) return;
+            debug("Systray: hide_window()");
             window.set_visible(false);
             is_hidden = true;
-            // No application.hold() needed — hide_on_close=true in application.vala
-            // keeps the window object alive (matching Linux behaviour).
         }
 
         /* ---- quit ---- */

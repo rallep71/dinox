@@ -409,6 +409,19 @@ wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         return 0;
     }
 
+    /* Windows is shutting down / user is logging off.
+     * Tell our Vala-side to quit gracefully (menu_id = -3). */
+    if (msg == WM_QUERYENDSESSION) {
+        tray_log ("WM_QUERYENDSESSION — allowing shutdown");
+        return TRUE;  /* "yes, we can quit" */
+    }
+    if (msg == WM_ENDSESSION && wParam) {
+        tray_log ("WM_ENDSESSION — graceful shutdown");
+        if (user_callback)
+            user_callback (-3, user_data_ptr);   /* -3 = system shutdown */
+        return 0;
+    }
+
     /* Second instance asked us to show the window (single-instance). */
     if (msg == WM_ACTIVATE_INSTANCE) {
         tray_log ("WM_ACTIVATE_INSTANCE — showing window from second instance");
