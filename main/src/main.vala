@@ -57,6 +57,12 @@ void main(string[] args) {
 #if WINDOWS
         // Windows environment setup — MUST happen BEFORE Gst.init() and Gtk.init()
         // so that GTK4 can find schemas, pixbuf loaders, and GStreamer its plugins.
+
+        // Single-instance check: if another DinoX is running, activate it and exit.
+        if (!SystrayWin32.check_single_instance ()) {
+            Process.exit (0);
+        }
+
         string? exe_path = args.length > 0 ? args[0] : null;
         if (exe_path != null) {
              if (!exe_path.contains("\\") && !exe_path.contains("/")) {

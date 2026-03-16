@@ -8,11 +8,17 @@
 
 #include <glib.h>
 
-/* Callback: user clicked a menu item (menu_id = 0..N-1 items, or -1 for left-click) */
+/* Callback: user clicked a menu item (menu_id = 0..N-1 items, or -1 for left-click,
+ * -2 for "always show window" from second instance activation) */
 typedef void (*SystrayWin32Callback)(int menu_id, gpointer user_data);
 
 /* Callback: user clicked a balloon notification */
 typedef void (*SystrayWin32BalloonCallback)(gpointer user_data);
+
+/* Check if another DinoX instance is already running (named mutex).
+ * If yes, activates the existing instance and returns FALSE (caller should exit).
+ * If no, acquires the mutex and returns TRUE (caller is the primary instance). */
+gboolean systray_win32_check_single_instance (void);
 
 /* Initialise the tray icon.  tooltip_utf8 is shown on hover.
  * icon_resource_id: resource index in the .exe (1 = IDI_ICON1 from dinox.rc)

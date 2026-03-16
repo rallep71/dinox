@@ -11,6 +11,9 @@ namespace SystrayWin32 {
     [CCode (cname = "SystrayWin32BalloonCallback", has_target = false)]
     public delegate void BalloonCallback (void* user_data);
 
+    [CCode (cname = "systray_win32_check_single_instance")]
+    public static bool check_single_instance ();
+
     [CCode (cname = "systray_win32_init")]
     public static bool init (string tooltip,
                              int icon_resource_id,

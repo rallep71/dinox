@@ -55,6 +55,11 @@ static int             saved_icon_resource_id = 1;
 static gboolean        using_version_4 = FALSE;
 static FILE           *tray_log_file = NULL;
 
+static HANDLE          single_instance_mutex = NULL;
+static DWORD           last_context_menu_tick = 0;
+
+#define WM_ACTIVATE_INSTANCE  (WM_APP + 2)
+
 /* ---- debug log → %TEMP%/dinox_systray.log ---- */
 static void
 tray_log (const char *fmt, ...)
@@ -97,6 +102,30 @@ utf8_to_wchar (const gchar *s)
 }
 
 /* ---- public API ---- */
+
+gboolean
+systray_win32_check_single_instance (void)
+{
+    single_instance_mutex = CreateMutexW (NULL, FALSE,
+                                          L"DinoX_SingleInstance_Mutex");
+    if (GetLastError () == ERROR_ALREADY_EXISTS) {
+        /* Another instance is already running.
+         * Find its tray callback window and tell it to show itself. */
+        HWND existing = FindWindowW (L"DinoXSystrayMsg", NULL);
+        if (existing != NULL) {
+            PostMessageW (existing, WM_ACTIVATE_INSTANCE, 0, 0);
+            tray_log ("Another instance found (hwnd=%p), sent activate",
+                      (void *) existing);
+        }
+        if (single_instance_mutex) {
+            CloseHandle (single_instance_mutex);
+            single_instance_mutex = NULL;
+        }
+        return FALSE;   /* caller should exit */
+    }
+    tray_log ("Single-instance mutex acquired — we are the primary");
+    return TRUE;   /* we are the primary instance */
+}
 
 gboolean
 systray_win32_init (const gchar          *tooltip_utf8,
@@ -316,6 +345,11 @@ systray_win32_cleanup (void)
         DestroyWindow (msg_hwnd);
         msg_hwnd = NULL;
     }
+    if (single_instance_mutex) {
+        ReleaseMutex (single_instance_mutex);
+        CloseHandle (single_instance_mutex);
+        single_instance_mutex = NULL;
+    }
 
     user_callback  = NULL;
     user_data_ptr  = NULL;
@@ -341,7 +375,7 @@ show_context_menu (HWND hwnd)
     SetForegroundWindow (hwnd);
 
     int cmd = (int) TrackPopupMenu (popup_menu,
-        TPM_RETURNCMD | TPM_NONOTIFY | TPM_RIGHTBUTTON,
+        TPM_RETURNCMD | TPM_NONOTIFY | TPM_RIGHTBUTTON | TPM_BOTTOMALIGN,
         pt.x, pt.y, 0, hwnd, NULL);
 
     PostMessage (hwnd, WM_NULL, 0, 0);   /* dismiss cleanly */
@@ -364,6 +398,22 @@ wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         nid.uVersion = using_version_4 ? NOTIFYICON_VERSION_4
                                        : NOTIFYICON_VERSION;
         Shell_NotifyIconW (NIM_SETVERSION, &nid);
+        return 0;
+    }
+
+    /* Don't let Windows destroy our tray callback window.
+     * The shell's "Fenster schliessen" or system shutdown may send
+     * WM_CLOSE to all top-level windows of the process. */
+    if (msg == WM_CLOSE) {
+        tray_log ("WM_CLOSE received on msg_hwnd — ignoring (tray stays alive)");
+        return 0;
+    }
+
+    /* Second instance asked us to show the window (single-instance). */
+    if (msg == WM_ACTIVATE_INSTANCE) {
+        tray_log ("WM_ACTIVATE_INSTANCE — showing window from second instance");
+        if (user_callback)
+            user_callback (-2, user_data_ptr);   /* -2 = always show */
         return 0;
     }
 
@@ -409,17 +459,29 @@ wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
             balloon_data_ptr = NULL;
             break;
 
-        /* ---- Right-click / context menu (V4 primary) ---- */
+        /* ---- Right-click / context menu ---- */
         case WM_CONTEXTMENU:
             tray_log ("Right-click (WM_CONTEXTMENU)");
-            show_context_menu (hwnd);
+            {
+                DWORD now = GetTickCount ();
+                if (now - last_context_menu_tick > 400) {
+                    last_context_menu_tick = now;
+                    show_context_menu (hwnd);
+                }
+            }
             break;
 
         case WM_RBUTTONUP:
-            /* V3 fallback — V4 sends WM_CONTEXTMENU instead. */
-            if (!using_version_4) {
-                tray_log ("Right-click (WM_RBUTTONUP, v3)");
-                show_context_menu (hwnd);
+            /* Handle in ALL modes — Windows 10/11 may send WM_RBUTTONUP
+             * even in V4, or fail to deliver WM_CONTEXTMENU entirely
+             * (shell intercepts right-click for its own menu). */
+            tray_log ("Right-click (WM_RBUTTONUP)");
+            {
+                DWORD now = GetTickCount ();
+                if (now - last_context_menu_tick > 400) {
+                    last_context_menu_tick = now;
+                    show_context_menu (hwnd);
+                }
             }
             break;
 
@@ -434,6 +496,7 @@ wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 #else /* !_WIN32 — stubs for Linux builds (never called) */
 
+gboolean systray_win32_check_single_instance (void) { return TRUE; }
 gboolean systray_win32_init (const gchar *t, int r, SystrayWin32Callback c, gpointer u) { return FALSE; }
 void systray_win32_set_menu (const gchar **l, guint32 m) {}
 void systray_win32_set_tooltip (const gchar *t) {}

@@ -110,6 +110,9 @@ namespace Dino.Ui {
             if (menu_id == -1) {
                 /* Left-click: toggle window */
                 self.toggle_window_visibility();
+            } else if (menu_id == -2) {
+                /* Second instance activation: always show window */
+                self.show_window();
             } else if (menu_id == MENU_QUIT_ID) {
                 /* Quit — use Idle to escape the Win32 message handler stack */
                 Idle.add(() => {
