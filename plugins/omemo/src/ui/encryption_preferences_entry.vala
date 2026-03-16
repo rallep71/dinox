@@ -232,7 +232,9 @@ public class OmemoPreferencesWidget : Adw.PreferencesGroup {
                 qrcode_picture.margin_bottom = qrcode_picture.margin_start = QUIET_ZONE_MODULES * MODULE_SIZE_PX;
         qrcode_popover.add_css_class("qrcode-container");
 
-        show_qrcode_button.popover = qrcode_popover;
+        // Use set_popover() instead of property assignment to avoid
+        // -Wincompatible-pointer-types (C setter takes GtkWidget*, not GtkPopover*)
+        show_qrcode_button.set_popover(qrcode_popover);
     }
 
     private void show_label_dialog(Adw.ActionRow action_row, int32 sid, string? current_label) {

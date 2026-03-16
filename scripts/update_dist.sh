@@ -523,6 +523,17 @@ if [ -d "/mingw64/share/icons/Adwaita" ]; then
     echo "  [OK] Adwaita icons"
 fi
 
+# Adwaita fonts (libadwaita 1.6+ uses Adwaita Sans/Mono)
+if [ -d "/mingw64/share/fonts/adwaita" ]; then
+    mkdir -p dist/share/fonts
+    cp -r /mingw64/share/fonts/adwaita dist/share/fonts/
+    echo "  [OK] Adwaita fonts"
+elif [ -d "/mingw64/share/fonts/Adwaita" ]; then
+    mkdir -p dist/share/fonts
+    cp -r /mingw64/share/fonts/Adwaita dist/share/fonts/
+    echo "  [OK] Adwaita fonts"
+fi
+
 # Hicolor icons (fallback icon theme)
 if [ -d "/mingw64/share/icons/hicolor" ]; then
     cp -r /mingw64/share/icons/hicolor dist/share/icons/

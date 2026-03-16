@@ -84,6 +84,7 @@ pacman -S --noconfirm \
     mingw-w64-x86_64-librsvg \
     mingw-w64-x86_64-hicolor-icon-theme \
     mingw-w64-x86_64-adwaita-icon-theme \
+    mingw-w64-x86_64-cantarell-fonts \
     mingw-w64-x86_64-mosquitto \
     mingw-w64-x86_64-tor \
     mingw-w64-x86_64-go \
@@ -317,7 +318,7 @@ pacman -S --noconfirm git tar base-devel \
     mingw-w64-x86_64-{libgcrypt,gpgme,gnutls,qrencode,libsecret,libsrtp,libnice} \
     mingw-w64-x86_64-{gstreamer,gst-plugins-base,gst-plugins-good,gst-plugins-bad,gst-libav} \
     mingw-w64-x86_64-{opus,openh264,libvpx,protobuf-c} \
-    mingw-w64-x86_64-{openssl,librsvg,hicolor-icon-theme,adwaita-icon-theme} \
+    mingw-w64-x86_64-{openssl,librsvg,hicolor-icon-theme,adwaita-icon-theme,cantarell-fonts} \
     mingw-w64-x86_64-{mosquitto,tor,go,imagemagick}
 
 # Lyrebird (Step 4)
@@ -399,3 +400,4 @@ ninja -C build && bash scripts/update_dist.sh
 | Terminal closes during `pacman -Syu` | Normal — reopen terminal, run `pacman -Su` |
 | `ninja: error: loading 'build.ninja'` | Run `meson setup build` first |
 | Missing DLLs on startup | Run `bash scripts/update_dist.sh` again |
+| `couldn't load font "Adwaita Mono"` | Install `pacman -S mingw-w64-x86_64-cantarell-fonts` and re-run `update_dist.sh` |

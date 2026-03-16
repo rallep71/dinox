@@ -81,7 +81,6 @@
     <file>occupant_list_item.ui</file>
     <file>quote.ui</file>
     <file>search_autocomplete.ui</file>
-    <file>style-dark.css</file>
     <file>style.css</file>
   </gresource>
 </gresources>
