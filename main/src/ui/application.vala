@@ -147,6 +147,9 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         });
 
         NotificationEvents notification_events = stream_interactor.get_module<NotificationEvents> (NotificationEvents.IDENTITY);
+#if WINDOWS
+        notification_events.register_notification_provider.begin(new WindowsNotifier(stream_interactor));
+#else
         get_notifications_dbus.begin ((_, res) => {
             DBusNotifications? dbus_notifications = get_notifications_dbus.end (res);
             if (dbus_notifications != null) {
@@ -156,6 +159,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 notification_events.register_notification_provider.begin (new GNotificationsNotifier (stream_interactor));
             }
         });
+#endif
 
         notification_events.notify_content_item.connect ((content_item, conversation) => {
             var desktop_env = Environment.get_variable ("XDG_CURRENT_DESKTOP");

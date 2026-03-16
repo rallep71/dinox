@@ -31,6 +31,9 @@ static gboolean        initialised = FALSE;
 static SystrayWin32Callback user_callback = NULL;
 static gpointer             user_data_ptr = NULL;
 
+static SystrayWin32BalloonCallback balloon_callback = NULL;
+static gpointer                     balloon_data_ptr = NULL;
+
 /* ---- forward ---- */
 static LRESULT CALLBACK wnd_proc (HWND, UINT, WPARAM, LPARAM);
 
@@ -148,6 +151,61 @@ systray_win32_set_tooltip (const gchar *tooltip_utf8)
 }
 
 void
+systray_win32_show_balloon (const gchar                  *title_utf8,
+                            const gchar                  *body_utf8,
+                            int                           icon_type,
+                            SystrayWin32BalloonCallback   callback,
+                            gpointer                      balloon_user_data)
+{
+    if (!initialised) return;
+
+    balloon_callback = callback;
+    balloon_data_ptr = balloon_user_data;
+
+    nid.uFlags = NIF_INFO;
+
+    /* Title (max 63 chars) */
+    memset (nid.szInfoTitle, 0, sizeof (nid.szInfoTitle));
+    if (title_utf8) {
+        wchar_t *wtitle = utf8_to_wchar (title_utf8);
+        if (wtitle) {
+            wcsncpy (nid.szInfoTitle, wtitle, G_N_ELEMENTS (nid.szInfoTitle) - 1);
+            g_free (wtitle);
+        }
+    }
+
+    /* Body (max 255 chars) */
+    memset (nid.szInfo, 0, sizeof (nid.szInfo));
+    if (body_utf8) {
+        wchar_t *wbody = utf8_to_wchar (body_utf8);
+        if (wbody) {
+            wcsncpy (nid.szInfo, wbody, G_N_ELEMENTS (nid.szInfo) - 1);
+            g_free (wbody);
+        }
+    }
+
+    /* Icon type: NIIF_NONE=0, NIIF_INFO=1, NIIF_WARNING=2, NIIF_ERROR=3 */
+    nid.dwInfoFlags = (icon_type >= 0 && icon_type <= 3) ? (DWORD) icon_type : NIIF_INFO;
+
+    Shell_NotifyIconW (NIM_MODIFY, &nid);
+}
+
+void
+systray_win32_hide_balloon (void)
+{
+    if (!initialised) return;
+
+    balloon_callback = NULL;
+    balloon_data_ptr = NULL;
+
+    /* Set szInfo to empty string to dismiss the balloon */
+    nid.uFlags = NIF_INFO;
+    memset (nid.szInfo, 0, sizeof (nid.szInfo));
+    memset (nid.szInfoTitle, 0, sizeof (nid.szInfoTitle));
+    Shell_NotifyIconW (NIM_MODIFY, &nid);
+}
+
+void
 systray_win32_cleanup (void)
 {
     if (!initialised) return;
@@ -166,6 +224,8 @@ systray_win32_cleanup (void)
 
     user_callback  = NULL;
     user_data_ptr  = NULL;
+    balloon_callback = NULL;
+    balloon_data_ptr = NULL;
 }
 
 /* ---- Window procedure ---- */
@@ -179,6 +239,23 @@ wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
             /* Left-click: toggle window visibility. */
             if (user_callback)
                 user_callback (-1, user_data_ptr);
+            break;
+
+        case NIN_BALLOONUSERCLICK:
+            /* User clicked the balloon notification. */
+            if (balloon_callback) {
+                SystrayWin32BalloonCallback cb = balloon_callback;
+                gpointer data = balloon_data_ptr;
+                balloon_callback = NULL;
+                balloon_data_ptr = NULL;
+                cb (data);
+            }
+            break;
+
+        case NIN_BALLOONTIMEOUT:
+            /* Balloon dismissed (timed out or closed). */
+            balloon_callback = NULL;
+            balloon_data_ptr = NULL;
             break;
 
         case WM_RBUTTONUP: {
@@ -216,6 +293,8 @@ wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 gboolean systray_win32_init (const gchar *t, int r, SystrayWin32Callback c, gpointer u) { return FALSE; }
 void systray_win32_set_menu (const gchar **l, guint32 m) {}
 void systray_win32_set_tooltip (const gchar *t) {}
+void systray_win32_show_balloon (const gchar *t, const gchar *b, int i, SystrayWin32BalloonCallback c, gpointer u) {}
+void systray_win32_hide_balloon (void) {}
 void systray_win32_cleanup (void) {}
 
 #endif

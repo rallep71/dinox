@@ -8,6 +8,9 @@ namespace SystrayWin32 {
     [CCode (cname = "SystrayWin32Callback", has_target = false)]
     public delegate void Callback (int menu_id, void* user_data);
 
+    [CCode (cname = "SystrayWin32BalloonCallback", has_target = false)]
+    public delegate void BalloonCallback (void* user_data);
+
     [CCode (cname = "systray_win32_init")]
     public static bool init (string tooltip,
                              int icon_resource_id,
@@ -21,6 +24,16 @@ namespace SystrayWin32 {
 
     [CCode (cname = "systray_win32_set_tooltip")]
     public static void set_tooltip (string tooltip);
+
+    [CCode (cname = "systray_win32_show_balloon")]
+    public static void show_balloon (string title,
+                                     string body,
+                                     int icon_type,
+                                     BalloonCallback? callback,
+                                     void* user_data);
+
+    [CCode (cname = "systray_win32_hide_balloon")]
+    public static void hide_balloon ();
 
     [CCode (cname = "systray_win32_cleanup")]
     public static void cleanup ();

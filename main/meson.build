@@ -151,6 +151,7 @@ sources = files(
 if host_machine.system() == 'windows'
     sources += files('src/ui/systray_windows.vala')
     sources += files('src/ui/systray_win32.c')
+    sources += files('src/ui/notifier_windows.vala')
 else
     sources += files('src/ui/systray.vala')
     sources += files('src/ui/systray_sni_dbus.c')

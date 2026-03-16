@@ -11,6 +11,9 @@
 /* Callback: user clicked a menu item (menu_id = 0..N-1 items, or -1 for left-click) */
 typedef void (*SystrayWin32Callback)(int menu_id, gpointer user_data);
 
+/* Callback: user clicked a balloon notification */
+typedef void (*SystrayWin32BalloonCallback)(gpointer user_data);
+
 /* Initialise the tray icon.  tooltip_utf8 is shown on hover.
  * icon_resource_id: resource index in the .exe (1 = IDI_ICON1 from dinox.rc)
  * Returns TRUE on success. */
@@ -26,6 +29,18 @@ void     systray_win32_set_menu (const gchar **labels, guint32 checked_mask);
 
 /* Update the hover tooltip. */
 void     systray_win32_set_tooltip (const gchar *tooltip_utf8);
+
+/* Show a balloon notification (title + body).
+ * icon_type: 0 = none, 1 = info, 2 = warning, 3 = error.
+ * If callback is non-NULL, it will be called when the user clicks the balloon. */
+void     systray_win32_show_balloon (const gchar                  *title_utf8,
+                                     const gchar                  *body_utf8,
+                                     int                           icon_type,
+                                     SystrayWin32BalloonCallback   callback,
+                                     gpointer                      balloon_user_data);
+
+/* Hide any currently showing balloon. */
+void     systray_win32_hide_balloon (void);
 
 /* Remove tray icon and clean up. */
 void     systray_win32_cleanup (void);

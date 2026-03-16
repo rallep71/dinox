@@ -87,6 +87,9 @@ public class Database {
         }
 
         // S4: Restrict file permissions to owner-only (0600) — after potential migration which replaces the file
+        // On Windows, Posix.chmod() is a no-op (MinGW stub). DB files inherit
+        // user-only ACLs from %APPDATA% parent directory, which is sufficient.
+#if !WINDOWS
         Posix.chmod(file_name, Posix.S_IRUSR | Posix.S_IWUSR);
         // Also chmod WAL and SHM files if they exist
         if (FileUtils.test(file_name + "-wal", FileTest.EXISTS)) {
@@ -95,6 +98,7 @@ public class Database {
         if (FileUtils.test(file_name + "-shm", FileTest.EXISTS)) {
             Posix.chmod(file_name + "-shm", Posix.S_IRUSR | Posix.S_IWUSR);
         }
+#endif
 
         this.tables = tables;
         if (debug) db.trace((message) => GLib.debug(@"Qlite trace: $message"));
