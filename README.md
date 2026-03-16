@@ -67,6 +67,8 @@ DTMF Support (RFC 4733) with Dialpad UI for XMPP SIP Provider telephony.
 
 Download the latest Windows build from [GitHub Releases](https://github.com/rallep71/dinox/releases/latest). Extract the ZIP archive and run `dinox.exe`.
 
+To build DinoX from source on Windows, see the build instructions: [Deutsch](docs/internal/WINDOWS_BUILD.md) | [English](docs/internal/WINDOWS_BUILD_EN.md)
+
 > **⚠ Important:** The DinoX Windows executable is currently undergoing the official Microsoft code signing process for Windows 10/11. Once completed, DinoX will launch without any SmartScreen warnings. Until then, Windows SmartScreen may show a warning — click **"More info"** → **"Run anyway"** to proceed. You can verify the download integrity using the `.sha256` checksum file.
 
 ### Flatpak
