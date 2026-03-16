@@ -252,24 +252,35 @@ webtunnel 192.95.36.142:443 CDF2E852BF539B82BC10E27E9115A342BCFE8D62 url=https:/
         }
 
         public async void set_enabled(bool enabled) {
-            if (is_transitioning) {
-                debug("TorManager: set_enabled(%s) ignored — transition already in progress.", enabled.to_string());
-                return;
-            }
-            debug("TorManager: set_enabled(%s) called. Current state: %s", enabled.to_string(), is_enabled.to_string());
+            // Always update desired state + DB immediately, even during transitions
             is_enabled = enabled;
-            is_transitioning = true;
 
             var val = enabled ? "true" : "false";
-            
             db.settings.upsert()
                     .value(db.settings.key, "tor_manager_enabled", true)
                     .value(db.settings.value, val)
                     .perform();
 
+            if (is_transitioning) {
+                debug("TorManager: set_enabled(%s) during active transition.", enabled.to_string());
+                if (!enabled) {
+                    // Kill Tor process immediately — the running start_tor
+                    // will notice is_enabled==false at its next yield and bail out
+                    controller.stop();
+                }
+                return;
+            }
+            debug("TorManager: set_enabled(%s) called. Current state: %s", enabled.to_string(), is_enabled.to_string());
+            is_transitioning = true;
+
             if (enabled) {
                 debug("TorManager: Starting Tor...");
                 yield start_tor(true);
+                // If user toggled OFF while we were starting, clean up now
+                if (!is_enabled) {
+                    debug("TorManager: User disabled Tor during startup. Cleaning up.");
+                    yield stop_tor(true);
+                }
             } else {
                 debug("TorManager: Stopping Tor and cleaning up...");
                 yield stop_tor(true);

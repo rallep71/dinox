@@ -60,7 +60,7 @@ systray_win32_init (const gchar          *tooltip_utf8,
     user_callback  = callback;
     user_data_ptr  = user_data;
 
-    /* Register a minimal window class for the message-only window. */
+    /* Register a minimal window class for the tray callback window. */
     WNDCLASSEXW wc = {0};
     wc.cbSize        = sizeof (wc);
     wc.lpfnWndProc   = wnd_proc;
@@ -68,11 +68,18 @@ systray_win32_init (const gchar          *tooltip_utf8,
     wc.lpszClassName  = L"DinoXSystrayMsg";
     RegisterClassExW (&wc);
 
-    /* Message-only window (HWND_MESSAGE parent → invisible, no taskbar entry). */
-    msg_hwnd = CreateWindowExW (0, L"DinoXSystrayMsg", L"DinoX Tray",
-                                0, 0, 0, 0, 0, HWND_MESSAGE, NULL,
+    /* Use a normal hidden window (not HWND_MESSAGE) for better compatibility
+     * with Windows 10/11 message dispatch.  WS_EX_TOOLWINDOW prevents a
+     * taskbar entry; the 0×0 size keeps it invisible. */
+    msg_hwnd = CreateWindowExW (WS_EX_TOOLWINDOW,
+                                L"DinoXSystrayMsg", L"DinoX Tray",
+                                WS_POPUP, 0, 0, 0, 0,
+                                NULL, NULL,
                                 GetModuleHandleW (NULL), NULL);
-    if (msg_hwnd == NULL) return FALSE;
+    if (msg_hwnd == NULL) {
+        g_warning ("Systray: CreateWindowExW failed (error %lu)", GetLastError ());
+        return FALSE;
+    }
 
     /* Load icon from the .exe resource (IDI_ICON1 = 1 in dinox.rc). */
     HICON icon = LoadIconW (GetModuleHandleW (NULL),
@@ -99,8 +106,19 @@ systray_win32_init (const gchar          *tooltip_utf8,
         }
     }
 
-    Shell_NotifyIconW (NIM_ADD, &nid);
+    if (!Shell_NotifyIconW (NIM_ADD, &nid)) {
+        g_warning ("Systray: Shell_NotifyIconW(NIM_ADD) failed (error %lu)", GetLastError ());
+        DestroyWindow (msg_hwnd);
+        msg_hwnd = NULL;
+        return FALSE;
+    }
+
+    /* Request NOTIFYICON_VERSION so the shell delivers NIN_BALLOON* events. */
+    nid.uVersion = NOTIFYICON_VERSION;
+    Shell_NotifyIconW (NIM_SETVERSION, &nid);
+
     initialised = TRUE;
+    g_message ("Systray: tray icon created (hwnd=%p)", (void*)msg_hwnd);
 
     /* Create an empty popup menu (will be filled by set_menu). */
     popup_menu = CreatePopupMenu ();
@@ -234,9 +252,13 @@ static LRESULT CALLBACK
 wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     if (msg == WM_TRAYICON) {
-        switch (LOWORD (lParam)) {
+        UINT event = LOWORD (lParam);
+        g_debug ("Systray: WM_TRAYICON event=0x%04x", event);
+
+        switch (event) {
         case WM_LBUTTONUP:
             /* Left-click: toggle window visibility. */
+            g_debug ("Systray: left-click (WM_LBUTTONUP)");
             if (user_callback)
                 user_callback (-1, user_data_ptr);
             break;
@@ -260,6 +282,7 @@ wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
         case WM_RBUTTONUP: {
             /* Right-click: show context menu at cursor position. */
+            g_debug ("Systray: right-click (WM_RBUTTONUP)");
             if (popup_menu == NULL) break;
 
             POINT pt = {0, 0};
@@ -274,6 +297,28 @@ wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
                 pt.x, pt.y, 0, hwnd, NULL);
 
             PostMessage (hwnd, WM_NULL, 0, 0);   /* dismiss cleanly */
+
+            g_debug ("Systray: menu selection = %d", cmd);
+            if (cmd > 0 && user_callback)
+                user_callback (cmd - 1, user_data_ptr);
+            break;
+        }
+
+        case WM_CONTEXTMENU: {
+            /* Windows 10/11 may send WM_CONTEXTMENU instead of WM_RBUTTONUP
+             * depending on notification icon version and shell behavior. */
+            g_debug ("Systray: right-click (WM_CONTEXTMENU)");
+            if (popup_menu == NULL) break;
+
+            POINT pt = {0, 0};
+            GetCursorPos (&pt);
+            SetForegroundWindow (hwnd);
+
+            int cmd = (int) TrackPopupMenu (popup_menu,
+                TPM_RETURNCMD | TPM_NONOTIFY | TPM_RIGHTBUTTON,
+                pt.x, pt.y, 0, hwnd, NULL);
+
+            PostMessage (hwnd, WM_NULL, 0, 0);
 
             if (cmd > 0 && user_callback)
                 user_callback (cmd - 1, user_data_ptr);
