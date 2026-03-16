@@ -91,11 +91,18 @@ void main(string[] args) {
         Environment.set_variable("GST_PLUGIN_PATH", gst_plugin_dir, true);
         Environment.set_variable("GST_PLUGIN_SYSTEM_PATH", "", true);
 
-        // Cache the GStreamer plugin registry so subsequent starts are fast.
-        string gst_cache_dir = Path.build_filename(Environment.get_user_data_dir(), "dinox");
-        DirUtils.create_with_parents(gst_cache_dir, 0700);
-        Environment.set_variable("GST_REGISTRY",
-            Path.build_filename(gst_cache_dir, "gstreamer-registry.bin"), true);
+        // GStreamer registry cache — use the pre-generated one next to the
+        // plugins if it exists (created by update_dist.sh), otherwise fall
+        // back to a user-data cache so subsequent starts are still fast.
+        string bundled_registry = Path.build_filename(gst_plugin_dir, "registry.bin");
+        if (FileUtils.test(bundled_registry, FileTest.EXISTS)) {
+            Environment.set_variable("GST_REGISTRY", bundled_registry, true);
+        } else {
+            string gst_cache_dir = Path.build_filename(Environment.get_user_data_dir(), "dinox");
+            DirUtils.create_with_parents(gst_cache_dir, 0700);
+            Environment.set_variable("GST_REGISTRY",
+                Path.build_filename(gst_cache_dir, "gstreamer-registry.bin"), true);
+        }
 
         // Force GnuTLS to find the CA bundle.
         // Strategy: merge Windows system cert store + bundled MSYS2 ca-bundle.crt

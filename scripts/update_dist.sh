@@ -594,6 +594,33 @@ if [ -d "main/data/icons/hicolor" ]; then
 fi
 
 # ============================================
+# Pre-generate GStreamer plugin registry cache
+# Without this, the first start has to load+inspect every plugin DLL
+# (~39 DLLs) which takes 30-60+ seconds on Windows.
+# The registry is a binary cache of plugin capabilities (elements,
+# formats, codecs). With a pre-built registry, Gst.init() just reads
+# the cache file → start in <1 second.
+# ============================================
+echo "[6b/8] Pre-generating GStreamer registry cache..."
+DIST_ABS="$(cd dist && pwd -W 2>/dev/null || pwd)"
+GST_DIR="$DIST_ABS/lib/gstreamer-1.0"
+GST_REG="$GST_DIR/registry.bin"
+if [ -d "dist/lib/gstreamer-1.0" ] && command -v gst-inspect-1.0 >/dev/null 2>&1; then
+    GST_PLUGIN_PATH="$GST_DIR" \
+    GST_PLUGIN_SYSTEM_PATH="" \
+    GST_REGISTRY="$GST_REG" \
+    gst-inspect-1.0 >/dev/null 2>&1
+    if [ -f "$GST_REG" ]; then
+        REG_SIZE=$(du -h "$GST_REG" 2>/dev/null | cut -f1)
+        echo "  [OK] Registry cache created ($REG_SIZE)"
+    else
+        echo "  [WARN] gst-inspect-1.0 ran but no registry file was created"
+    fi
+else
+    echo "  [SKIP] gst-inspect-1.0 not found — registry will be built on first start"
+fi
+
+# ============================================
 # Summary
 # ============================================
 echo ""
