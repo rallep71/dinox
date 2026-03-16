@@ -766,7 +766,14 @@ public class VideoPlayerWidget : Widget {
                 GLib.Error err;
                 string dbg;
                 msg.parse_error(out err, out dbg);
-                warning("VideoPlayerWidget: playback error: %s", err.message);
+                warning("VideoPlayerWidget: playback error: %s\n  debug: %s", err.message, dbg ?? "(none)");
+
+                // Check for missing-plugin and log details
+                unowned Gst.Structure? st = msg.get_structure();
+                if (st != null) {
+                    warning("VideoPlayerWidget: error structure: %s", st.to_string());
+                }
+
                 cleanup_playback();
                 if (controls_bar != null) controls_bar.visible = false;
                 if (start_play_button != null) start_play_button.visible = true;

@@ -181,6 +181,22 @@ SYSTEM_DLLS=(
     "libopenh264-7.dll"
     "libvpx-1.dll"
     
+    # FFmpeg (needed by gst-libav plugin for broad codec support)
+    "libavcodec-*.dll"
+    "libavformat-*.dll"
+    "libavutil-*.dll"
+    "libswresample-*.dll"
+    "libswscale-*.dll"
+    "libavfilter-*.dll"
+    
+    # Vorbis (needed by matroska/WebM audio)
+    "libvorbis-0.dll"
+    "libvorbisenc-2.dll"
+    "libvorbisfile-3.dll"
+    "libogg-0.dll"
+    "libFLAC-*.dll"
+    "libmpg123-0.dll"
+    
     # Signal protocol (not in MSYS2's standard packages, built separately for OMEMO)
     # "libsignal-protocol-c-2.dll"
     
@@ -299,7 +315,9 @@ if [ -d "/mingw64/lib/gstreamer-1.0" ]; then
                   opus vpx openh264 app audioparsers \
                   playback typefindfunctions videoconvert videoscale \
                   videorate videoparsersbad d3d11 d3d12 mediafoundation \
-                  isomp4 audiofx libav; do
+                  isomp4 audiofx libav \
+                  matroska ogg vorbis flac wavparse gdkpixbuf \
+                  mpg123 alaw mulaw; do
         for f in /mingw64/lib/gstreamer-1.0/*${plugin}*.dll; do
             [ -f "$f" ] && cp "$f" dist/lib/gstreamer-1.0/
         done
@@ -533,6 +551,25 @@ elif [ -d "/mingw64/share/fonts/Adwaita" ]; then
     cp -r /mingw64/share/fonts/Adwaita dist/share/fonts/
     echo "  [OK] Adwaita fonts"
 fi
+
+# Fontconfig configuration (so bundled fonts are found)
+mkdir -p dist/etc/fonts
+if [ -d "/mingw64/etc/fonts" ]; then
+    cp -r /mingw64/etc/fonts/* dist/etc/fonts/
+    echo "  [OK] Fontconfig config copied from MSYS2"
+fi
+# Ensure bundled fonts dir is in the config — add a local snippet.
+mkdir -p dist/etc/fonts/conf.d
+cat > dist/etc/fonts/local.conf <<'FCEOF'
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+<fontconfig>
+  <!-- Bundled DinoX fonts -->
+  <dir>../share/fonts</dir>
+  <dir>WINDOWSFONTDIR</dir>
+</fontconfig>
+FCEOF
+echo "  [OK] Fontconfig local.conf created"
 
 # Hicolor icons (fallback icon theme)
 if [ -d "/mingw64/share/icons/hicolor" ]; then

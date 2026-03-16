@@ -82,9 +82,15 @@ void main(string[] args) {
             Path.build_filename(exe_dir, "lib", "gdk-pixbuf-2.0", "2.10.0", "loaders"), true);
         Environment.set_variable("GTK_PATH", exe_dir, true);
 
-        // GStreamer plugin path
-        Environment.set_variable("GST_PLUGIN_PATH",
-            Path.build_filename(exe_dir, "lib", "gstreamer-1.0"), true);
+        // Fontconfig — tell it to use our bundled config + fonts.
+        string fc_conf = Path.build_filename(exe_dir, "etc", "fonts");
+        Environment.set_variable("FONTCONFIG_PATH", fc_conf, true);
+
+        // GStreamer plugin path — only look in our bundled dir, not system.
+        string gst_plugin_dir = Path.build_filename(exe_dir, "lib", "gstreamer-1.0");
+        Environment.set_variable("GST_PLUGIN_PATH", gst_plugin_dir, true);
+        Environment.set_variable("GST_PLUGIN_SYSTEM_PATH", "", true);
+        Environment.set_variable("GST_PLUGIN_SCANNER", "", true);
 
         // Force GnuTLS to find the CA bundle.
         // Strategy: merge Windows system cert store + bundled MSYS2 ca-bundle.crt
@@ -177,6 +183,28 @@ void main(string[] args) {
         message("Initializing GStreamer…");
         Gst.init(ref args);
         message("GStreamer initialized");
+
+#if _WIN32
+        // Log available GStreamer plugins for debugging
+        var registry = Gst.Registry.@get();
+        var plugins = registry.get_plugin_list();
+        message("GStreamer: %u plugins loaded from %s",
+                plugins.length(),
+                Environment.get_variable("GST_PLUGIN_PATH") ?? "(default)");
+        foreach (unowned Gst.Plugin p in plugins) {
+            message("  gst-plugin: %s (%s)", p.get_name(), p.get_filename() ?? "built-in");
+        }
+        // Check critical elements for video playback
+        string[] critical = {"playbin", "videoconvert", "autoaudiosink",
+                             "qtdemux", "matroskademux", "avdec_h264",
+                             "openh264dec", "avdec_aac", "opusdec"};
+        foreach (string el in critical) {
+            var factory = Gst.ElementFactory.find(el);
+            if (factory == null) {
+                warning("GStreamer: MISSING element '%s' — video playback may fail!", el);
+            }
+        }
+#endif
 
         // Suppress "Locale not supported by C library" by falling back gracefully.
         // This happens when the system locale (e.g. a custom locale on openSUSE)

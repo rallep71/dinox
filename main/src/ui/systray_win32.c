@@ -18,6 +18,21 @@
 
 #include <windows.h>
 #include <shellapi.h>
+#include <stdarg.h>
+
+/* Ensure definitions for older MinGW-w64 / SDK headers. */
+#ifndef NOTIFYICON_VERSION_4
+#define NOTIFYICON_VERSION_4  4
+#endif
+#ifndef NIN_SELECT
+#define NIN_SELECT      (WM_USER + 0)
+#endif
+#ifndef NIN_KEYSELECT
+#define NIN_KEYSELECT   (WM_USER + 1)
+#endif
+#ifndef NIF_SHOWTIP
+#define NIF_SHOWTIP     0x00000080
+#endif
 
 #define WM_TRAYICON  (WM_APP + 1)
 #define MAX_MENU_ITEMS 32
@@ -33,6 +48,39 @@ static gpointer             user_data_ptr = NULL;
 
 static SystrayWin32BalloonCallback balloon_callback = NULL;
 static gpointer                     balloon_data_ptr = NULL;
+
+static UINT            WM_TASKBARCREATED = 0;
+static int             saved_icon_resource_id = 1;
+static gboolean        using_version_4 = FALSE;
+static FILE           *tray_log_file = NULL;
+
+/* ---- debug log → %TEMP%/dinox_systray.log ---- */
+static void
+tray_log (const char *fmt, ...)
+{
+    va_list ap;
+    va_start (ap, fmt);
+
+    if (tray_log_file == NULL) {
+        const char *tmp = g_get_tmp_dir ();
+        char *path = g_build_filename (tmp, "dinox_systray.log", NULL);
+        tray_log_file = fopen (path, "w");
+        g_free (path);
+        if (tray_log_file)
+            fprintf (tray_log_file, "=== DinoX Systray Debug Log ===\n\n");
+    }
+    if (tray_log_file) {
+        va_list copy;
+        va_copy (copy, ap);
+        vfprintf (tray_log_file, fmt, copy);
+        va_end (copy);
+        fprintf (tray_log_file, "\n");
+        fflush (tray_log_file);
+    }
+
+    g_logv ("Systray", G_LOG_LEVEL_MESSAGE, fmt, ap);
+    va_end (ap);
+}
 
 /* ---- forward ---- */
 static LRESULT CALLBACK wnd_proc (HWND, UINT, WPARAM, LPARAM);
@@ -77,17 +125,32 @@ systray_win32_init (const gchar          *tooltip_utf8,
                                 NULL, NULL,
                                 GetModuleHandleW (NULL), NULL);
     if (msg_hwnd == NULL) {
-        g_warning ("Systray: CreateWindowExW failed (error %lu)", GetLastError ());
+        tray_log ("CreateWindowExW failed (error %lu)", GetLastError ());
         return FALSE;
     }
 
-    /* Load icon from the .exe resource (IDI_ICON1 = 1 in dinox.rc). */
-    HICON icon = LoadIconW (GetModuleHandleW (NULL),
-                            MAKEINTRESOURCEW (icon_resource_id));
+    saved_icon_resource_id = icon_resource_id;
+
+    /* Register "TaskbarCreated" message — Explorer sends this after restart. */
+    WM_TASKBARCREATED = RegisterWindowMessageW (L"TaskbarCreated");
+
+    /* Load icon at the correct small-icon size for the notification area. */
+    int cx = GetSystemMetrics (SM_CXSMICON);
+    int cy = GetSystemMetrics (SM_CYSMICON);
+    HICON icon = (HICON) LoadImageW (GetModuleHandleW (NULL),
+                                      MAKEINTRESOURCEW (icon_resource_id),
+                                      IMAGE_ICON, cx, cy, LR_DEFAULTCOLOR);
     if (icon == NULL) {
-        /* Fallback to the default application icon (IDI_APPLICATION = 32512). */
+        /* Fallback: load at default size. */
+        icon = LoadIconW (GetModuleHandleW (NULL),
+                          MAKEINTRESOURCEW (icon_resource_id));
+    }
+    if (icon == NULL) {
+        /* Last resort: standard application icon. */
         icon = LoadIconW (NULL, MAKEINTRESOURCEW (32512));
     }
+    tray_log ("Icon loaded: %p (resource %d, size %dx%d)",
+              (void *) icon, icon_resource_id, cx, cy);
 
     /* Set up NOTIFYICONDATAW. */
     memset (&nid, 0, sizeof (nid));
@@ -107,18 +170,30 @@ systray_win32_init (const gchar          *tooltip_utf8,
     }
 
     if (!Shell_NotifyIconW (NIM_ADD, &nid)) {
-        g_warning ("Systray: Shell_NotifyIconW(NIM_ADD) failed (error %lu)", GetLastError ());
+        tray_log ("Shell_NotifyIconW(NIM_ADD) FAILED (error %lu)", GetLastError ());
         DestroyWindow (msg_hwnd);
         msg_hwnd = NULL;
         return FALSE;
     }
 
-    /* Request NOTIFYICON_VERSION so the shell delivers NIN_BALLOON* events. */
-    nid.uVersion = NOTIFYICON_VERSION;
-    Shell_NotifyIconW (NIM_SETVERSION, &nid);
+    /* Try NOTIFYICON_VERSION_4 (Windows Vista+), fall back to v3. */
+    nid.uVersion = NOTIFYICON_VERSION_4;
+    if (Shell_NotifyIconW (NIM_SETVERSION, &nid)) {
+        using_version_4 = TRUE;
+        tray_log ("Using NOTIFYICON_VERSION_4");
+        /* V4 requires NIF_SHOWTIP for tooltip to appear. */
+        nid.uFlags |= NIF_SHOWTIP;
+        Shell_NotifyIconW (NIM_MODIFY, &nid);
+    } else {
+        nid.uVersion = NOTIFYICON_VERSION;
+        Shell_NotifyIconW (NIM_SETVERSION, &nid);
+        using_version_4 = FALSE;
+        tray_log ("Using NOTIFYICON_VERSION (v3 fallback)");
+    }
 
     initialised = TRUE;
-    g_message ("Systray: tray icon created (hwnd=%p)", (void*)msg_hwnd);
+    tray_log ("Tray icon created (hwnd=%p, version=%s)",
+              (void *) msg_hwnd, using_version_4 ? "4" : "3");
 
     /* Create an empty popup menu (will be filled by set_menu). */
     popup_menu = CreatePopupMenu ();
@@ -227,6 +302,7 @@ void
 systray_win32_cleanup (void)
 {
     if (!initialised) return;
+    tray_log ("Cleanup: removing tray icon");
     initialised = FALSE;
 
     Shell_NotifyIconW (NIM_DELETE, &nid);
@@ -244,27 +320,79 @@ systray_win32_cleanup (void)
     user_data_ptr  = NULL;
     balloon_callback = NULL;
     balloon_data_ptr = NULL;
+
+    if (tray_log_file) {
+        fprintf (tray_log_file, "=== Log closed ===\n");
+        fclose (tray_log_file);
+        tray_log_file = NULL;
+    }
 }
 
 /* ---- Window procedure ---- */
 
+static void
+show_context_menu (HWND hwnd)
+{
+    if (popup_menu == NULL) return;
+
+    POINT pt = {0, 0};
+    GetCursorPos (&pt);
+    SetForegroundWindow (hwnd);
+
+    int cmd = (int) TrackPopupMenu (popup_menu,
+        TPM_RETURNCMD | TPM_NONOTIFY | TPM_RIGHTBUTTON,
+        pt.x, pt.y, 0, hwnd, NULL);
+
+    PostMessage (hwnd, WM_NULL, 0, 0);   /* dismiss cleanly */
+
+    tray_log ("Menu command = %d", cmd);
+    if (cmd > 0 && user_callback)
+        user_callback (cmd - 1, user_data_ptr);
+}
+
 static LRESULT CALLBACK
 wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+    /* Explorer restarted — re-create our tray icon. */
+    if (WM_TASKBARCREATED != 0 && msg == WM_TASKBARCREATED) {
+        tray_log ("TaskbarCreated — re-adding tray icon");
+        nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
+        if (using_version_4)
+            nid.uFlags |= NIF_SHOWTIP;
+        Shell_NotifyIconW (NIM_ADD, &nid);
+        nid.uVersion = using_version_4 ? NOTIFYICON_VERSION_4
+                                       : NOTIFYICON_VERSION;
+        Shell_NotifyIconW (NIM_SETVERSION, &nid);
+        return 0;
+    }
+
     if (msg == WM_TRAYICON) {
         UINT event = LOWORD (lParam);
-        g_debug ("Systray: WM_TRAYICON event=0x%04x", event);
+        tray_log ("WM_TRAYICON event=0x%04x wParam=0x%08lx lParam=0x%08lx",
+                  event, (unsigned long) wParam, (unsigned long) lParam);
 
         switch (event) {
-        case WM_LBUTTONUP:
-            /* Left-click: toggle window visibility. */
-            g_debug ("Systray: left-click (WM_LBUTTONUP)");
+
+        /* ---- Left-click / keyboard select (V4 primary) ---- */
+        case NIN_SELECT:
+        case NIN_KEYSELECT:
+            tray_log ("Left-click (NIN_SELECT / NIN_KEYSELECT)");
             if (user_callback)
                 user_callback (-1, user_data_ptr);
             break;
 
+        case WM_LBUTTONUP:
+            /* V3 fallback — V4 sends NIN_SELECT instead. */
+            if (!using_version_4) {
+                tray_log ("Left-click (WM_LBUTTONUP, v3)");
+                if (user_callback)
+                    user_callback (-1, user_data_ptr);
+            }
+            break;
+
+        /* ---- Balloon notifications ---- */
         case NIN_BALLOONUSERCLICK:
-            /* User clicked the balloon notification. */
+            tray_log ("Balloon user click");
             if (balloon_callback) {
                 SystrayWin32BalloonCallback cb = balloon_callback;
                 gpointer data = balloon_data_ptr;
@@ -275,55 +403,25 @@ wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
             break;
 
         case NIN_BALLOONTIMEOUT:
-            /* Balloon dismissed (timed out or closed). */
+            tray_log ("Balloon timeout");
             balloon_callback = NULL;
             balloon_data_ptr = NULL;
             break;
 
-        case WM_RBUTTONUP: {
-            /* Right-click: show context menu at cursor position. */
-            g_debug ("Systray: right-click (WM_RBUTTONUP)");
-            if (popup_menu == NULL) break;
-
-            POINT pt = {0, 0};
-            GetCursorPos (&pt);
-
-            /* Required so TrackPopupMenu works properly when DinoX
-             * is not the foreground window. */
-            SetForegroundWindow (hwnd);
-
-            int cmd = (int) TrackPopupMenu (popup_menu,
-                TPM_RETURNCMD | TPM_NONOTIFY | TPM_RIGHTBUTTON,
-                pt.x, pt.y, 0, hwnd, NULL);
-
-            PostMessage (hwnd, WM_NULL, 0, 0);   /* dismiss cleanly */
-
-            g_debug ("Systray: menu selection = %d", cmd);
-            if (cmd > 0 && user_callback)
-                user_callback (cmd - 1, user_data_ptr);
+        /* ---- Right-click / context menu (V4 primary) ---- */
+        case WM_CONTEXTMENU:
+            tray_log ("Right-click (WM_CONTEXTMENU)");
+            show_context_menu (hwnd);
             break;
-        }
 
-        case WM_CONTEXTMENU: {
-            /* Windows 10/11 may send WM_CONTEXTMENU instead of WM_RBUTTONUP
-             * depending on notification icon version and shell behavior. */
-            g_debug ("Systray: right-click (WM_CONTEXTMENU)");
-            if (popup_menu == NULL) break;
-
-            POINT pt = {0, 0};
-            GetCursorPos (&pt);
-            SetForegroundWindow (hwnd);
-
-            int cmd = (int) TrackPopupMenu (popup_menu,
-                TPM_RETURNCMD | TPM_NONOTIFY | TPM_RIGHTBUTTON,
-                pt.x, pt.y, 0, hwnd, NULL);
-
-            PostMessage (hwnd, WM_NULL, 0, 0);
-
-            if (cmd > 0 && user_callback)
-                user_callback (cmd - 1, user_data_ptr);
+        case WM_RBUTTONUP:
+            /* V3 fallback — V4 sends WM_CONTEXTMENU instead. */
+            if (!using_version_4) {
+                tray_log ("Right-click (WM_RBUTTONUP, v3)");
+                show_context_menu (hwnd);
+            }
             break;
-        }
+
         default:
             break;
         }
