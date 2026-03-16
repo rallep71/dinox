@@ -181,21 +181,17 @@ SYSTEM_DLLS=(
     "libopenh264-7.dll"
     "libvpx-1.dll"
     
-    # FFmpeg (needed by gst-libav plugin for broad codec support)
-    "libavcodec-*.dll"
-    "libavformat-*.dll"
-    "libavutil-*.dll"
-    "libswresample-*.dll"
-    "libswscale-*.dll"
-    "libavfilter-*.dll"
-    
-    # Vorbis (needed by matroska/WebM audio)
+    # Vorbis/Ogg/FLAC (needed by matroska/WebM audio, voice messages)
     "libvorbis-0.dll"
     "libvorbisenc-2.dll"
     "libvorbisfile-3.dll"
     "libogg-0.dll"
-    "libFLAC-*.dll"
+    "libFLAC-12.dll"
     "libmpg123-0.dll"
+    
+    # Note: FFmpeg DLLs (libavcodec, etc.) are NOT listed here.
+    # If mingw-w64-x86_64-ffmpeg is installed, the gst-libav plugin and
+    # its FFmpeg deps are picked up automatically by step 4e (auto-detect).
     
     # Signal protocol (not in MSYS2's standard packages, built separately for OMEMO)
     # "libsignal-protocol-c-2.dll"
