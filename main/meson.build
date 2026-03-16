@@ -152,6 +152,7 @@ if host_machine.system() == 'windows'
     sources += files('src/ui/systray_windows.vala')
     sources += files('src/ui/systray_win32.c')
     sources += files('src/ui/notifier_windows.vala')
+    sources += files('src/ui/toast_win32.c')
 else
     sources += files('src/ui/systray.vala')
     sources += files('src/ui/systray_sni_dbus.c')
@@ -176,7 +177,10 @@ message('VAPI DIR: ' + (meson.current_source_dir() / 'vapi'))
 cc = meson.get_compiler('c')
 if host_machine.system() == 'windows'
     vala_args += ['--pkg', 'systray_win32']
-    dependencies += [cc.find_library('shell32'), cc.find_library('user32')]
+    vala_args += ['--pkg', 'toast_win32']
+    dependencies += [cc.find_library('shell32'), cc.find_library('user32'),
+                     cc.find_library('ole32'), cc.find_library('propsys'),
+                     cc.find_library('shlwapi')]
 else
     vala_args += ['--pkg', 'systray_sni_dbus']
     vala_args += ['-D', 'HAVE_MALLOC_TRIM']
