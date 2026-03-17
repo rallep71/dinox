@@ -1938,7 +1938,6 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
     private void perform_reset_database () {
         string data_dir = Path.build_filename (Environment.get_user_data_dir (), "dinox");
-        string db_path = Path.build_filename (data_dir, "dino.db");
 
         // Close the database before deleting
         // We need to restart the app after this
@@ -1982,6 +1981,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             }
 #else
             // Delete the main database file
+            string db_path = Path.build_filename (data_dir, "dino.db");
             FileUtils.unlink( db_path);
             FileUtils.unlink (db_path + "-shm");
             FileUtils.unlink (db_path + "-wal");
