@@ -890,10 +890,10 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         
         try {
             FileUtils.set_contents(batch_path, batch_content);
-            // Start batch file hidden with START /B
-            string wipe_cmd = "cmd.exe /c start /b \"\" \"" + batch_path + "\"";
-            debug("Panic wipe command: %s", wipe_cmd);
-            Process.spawn_command_line_async(wipe_cmd);
+            // Start batch file hidden using Subprocess to prevent CMD window flash
+            string[] wipe_argv = {"cmd.exe", "/c", "start /b \"\" \"" + batch_path + "\""};
+            debug("Panic wipe command: cmd.exe /c start /b \"\" \"%s\"", batch_path);
+            new Subprocess.newv (wipe_argv, SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
         } catch (Error e) {
             warning("Panic wipe spawn failed: %s", e.message);
         }
@@ -1637,16 +1637,9 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             bool success = false;
 
             try {
-                Process.spawn_sync (
-                    null,
-                    argv,
-                    null,
-                    SpawnFlags.SEARCH_PATH,
-                    null,
-                    null,
-                    out stderr_str,
-                    out exit_status
-);
+                Subprocess proc = new Subprocess.newv (argv, SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_PIPE);
+                proc.communicate_utf8 (null, null, null, out stderr_str);
+                exit_status = proc.get_exit_status ();
                 success = (exit_status == 0);
                 if (!success && stderr_str != null) {
                     error_message = stderr_str;
@@ -1680,16 +1673,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 #endif
 
                 try {
-                    Process.spawn_sync (
-                        null,
-                        argv_config,
-                        null,
-                        SpawnFlags.SEARCH_PATH,
-                        null,
-                        null,
-                        null,
-                        null
-);
+                    Subprocess proc_cfg = new Subprocess.newv (argv_config, SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
+                    proc_cfg.wait (null);
                 } catch (Error err) {
                     // Config extraction might fail if backup doesn't have config, that's ok
                 }
@@ -1988,8 +1973,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             batch_content += "(goto) 2>nul & del \"%~f0\"\r\n";
             try {
                 FileUtils.set_contents(batch_path, batch_content);
-                string reset_cmd = "cmd.exe /c start /b \"\" \"" + batch_path + "\"";
-                Process.spawn_command_line_async(reset_cmd);
+                string[] reset_argv = {"cmd.exe", "/c", "start /b \"\" \"" + batch_path + "\""};
+                new Subprocess.newv (reset_argv, SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
             } catch (Error e) {
                 warning("Database reset batch failed: %s", e.message);
             }
@@ -2150,8 +2135,8 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             try {
                 // Use cmd.exe /c start to launch new instance after a short delay
                 string exe_win = exe_path.replace("/", "\\");
-                string restart_cmd = "cmd.exe /c ping 127.0.0.1 -n 2 >nul & start \"\" \"%s\"".printf(exe_win);
-                Process.spawn_command_line_async(restart_cmd);
+                string[] restart_argv = {"cmd.exe", "/c", "ping 127.0.0.1 -n 2 >nul & start \"\" \"%s\"".printf(exe_win)};
+                new Subprocess.newv (restart_argv, SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
             } catch (Error err) {
                 warning("Failed to restart: %s", err.message);
             }
@@ -2404,16 +2389,9 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
             warning("Backup: Starting tar process...");
             try {
-                Process.spawn_sync (
-                    null,
-                    argv,
-                    null,
-                    SpawnFlags.SEARCH_PATH,
-                    null,
-                    out stdout_str,
-                    out stderr_str,
-                    out exit_status
-);
+                Subprocess proc = new Subprocess.newv (argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
+                proc.communicate_utf8 (null, null, out stdout_str, out stderr_str);
+                exit_status = proc.get_exit_status ();
                 success = (exit_status == 0);
                 warning("Backup: tar finished with exit code %d", exit_status);
             } catch (Error err) {
