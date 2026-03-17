@@ -497,7 +497,7 @@ public class KeyManagementDialog : Object {
                 try {
                     // Start the agent but DO NOT WAIT for it.
                     // On Windows/MSYS2, 'wait()' hangs because the daemon process doesn't fully detach its IO handles.
-                    new Subprocess.newv(agent_launch_argv, SubprocessFlags.NONE);
+                    new Subprocess.newv(agent_launch_argv, SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
                 } catch (Error e) { debug("Failed to launch gpg-agent daemon: %s", e.message); }
             } else {
                 debug("gpg-agent binary not found in PATH or standard locations.");

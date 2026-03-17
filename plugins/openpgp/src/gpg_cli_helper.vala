@@ -293,7 +293,7 @@ private static bool run_gpg_internal(string[] extra_args, string? stdin_data, ou
                 return exit_status == 0;
             } else {
                 debug("GPGHelper.run_gpg_internal: Interactive mode, creating subprocess...");
-                var subprocess = new Subprocess.newv(cmd, SubprocessFlags.NONE);
+                var subprocess = new Subprocess.newv(cmd, SubprocessFlags.STDERR_SILENCE);
                 debug("GPGHelper.run_gpg_internal: Waiting for subprocess...");
                 subprocess.wait();
                 debug("GPGHelper.run_gpg_internal: Subprocess finished");

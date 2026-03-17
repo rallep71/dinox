@@ -206,6 +206,10 @@ void main(string[] args) {
 
         // Suppress "win32 session dbus binary not found" warning
         Environment.set_variable("DBUS_SESSION_BUS_ADDRESS", "", true);
+
+        // Prevent GStreamer from forking gst-plugin-scanner.exe (which
+        // flashes a CMD window).  In-process scanning is fine for us.
+        Environment.set_variable("GST_REGISTRY_FORK", "no", true);
 #endif
 
         message("Initializing GStreamer…");
