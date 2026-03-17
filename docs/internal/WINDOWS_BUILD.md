@@ -359,7 +359,7 @@ Nach dem Start von DinoX die Datei `%TEMP%\dinox_systray.log` öffnen (z.B. im E
 
 ```
 === DinoX Systray Debug Log ===
-Build: 2026-03-16-v2
+Build: 2026-03-17-v8
 ```
 
 Wenn dort das aktuelle Datum und die aktuelle Version steht → der neue Code läuft.
@@ -457,5 +457,5 @@ cd ~/dinox && git pull && rm -rf build && meson setup build -Dplugin-omemo=enabl
 | DLLs fehlen beim Start | `bash scripts/update_dist.sh` nochmal ausführen |
 | `couldn't load font "Adwaita Mono"` | `pacman -S mingw-w64-x86_64-cantarell-fonts` installieren und `update_dist.sh` erneut starten |
 | Nach `git pull` + `ninja` hat sich nichts geändert | **`rm -rf build`** und komplett neu bauen (siehe Abschnitt oben). Ninja erkennt per git geänderte Dateien oft nicht! |
-| Systray / Rechtsklick-Menü funktioniert nicht | Prüfe `%TEMP%\dinox_systray.log` — steht dort `Build: 2026-03-16-v2`? Wenn nicht: `rm -rf build` und neu bauen |
+| Systray / Rechtsklick-Menü funktioniert nicht | Prüfe `%TEMP%\dinox_systray.log` — steht dort `Build: 2026-03-17-v8`? Wenn nicht: `rm -rf build` und neu bauen |
 | DinoX startet, aber alte Version läuft | Altes `dinox.exe` noch im Taskmanager? Beenden, dann `bash scripts/update_dist.sh` und neu starten |

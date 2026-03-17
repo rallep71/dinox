@@ -33,11 +33,9 @@ rm -f dist/tor 2>/dev/null || true         # Linux binary without .exe
 echo "[3/8] Copying main executable..."
 cp build/main/dinox.exe dist/
 
-# Copy Windows launcher script
-if [ -f "scripts/dinox.bat" ]; then
-    cp scripts/dinox.bat dist/
-    echo "  [OK] dinox.bat (Windows launcher with environment setup)"
-fi
+# Remove legacy launcher script if present (dinox.exe handles everything now;
+# keeping the .bat file caused confusion because it opens a CMD window).
+rm -f dist/dinox.bat 2>/dev/null || true
 
 # ============================================
 # Core DLLs (must be next to dinox.exe for Windows DLL loading)
@@ -623,6 +621,10 @@ if [ -d "main/data/icons/scalable" ]; then
     done
     echo "  [OK] DinoX custom symbolic icons (hicolor fallback)"
 fi
+
+# Remove stale GTK3 icon-theme.cache files — these cause GTK4 to skip
+# scanning directories for new icons on some systems.
+find dist/share/icons -name 'icon-theme.cache' -delete 2>/dev/null || true
 
 # ============================================
 # Pre-generate GStreamer plugin registry cache

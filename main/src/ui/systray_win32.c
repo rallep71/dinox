@@ -38,7 +38,7 @@
 
 #define WM_TRAYICON  (WM_APP + 1)
 #define MAX_MENU_ITEMS 32
-#define SYSTRAY_BUILD_ID "2026-03-17-v7"
+#define SYSTRAY_BUILD_ID "2026-03-17-v8"
 
 /* ---- owner-drawn menu item colors ---- */
 /* Stored per menu item: color + label for drawing */
@@ -125,7 +125,16 @@ tray_log (const char *fmt, ...)
  * window, the extra entry is redundant and confusing.  Setting an empty
  * custom jump list via ICustomDestinationList removes it while keeping the
  * "Pin to taskbar" and "Close window" entries intact.
+ *
+ * Additionally, SetCurrentProcessExplicitAppUserModelID is called so
+ * that Windows associates the correct App ID with our process — this is
+ * required for the jump-list suppression to stick and prevents Windows
+ * from auto-generating a launch shortcut based on the executable path.
  */
+
+/* SetCurrentProcessExplicitAppUserModelID (shell32.dll) */
+typedef HRESULT (WINAPI *pfn_SetAppUserModelID)(PCWSTR);
+
 /* ICustomDestinationList {6332DEBF-87B5-4670-90C0-5E57B408A49E} */
 static const IID IID_ICustomDestinationList = {
     0x6332DEBF, 0x87B5, 0x4670,
@@ -143,6 +152,20 @@ suppress_jumplist (void)
     HRESULT hr;
     void *cdl = NULL;
 
+    /* 1) Set explicit AppUserModelID so Windows associates our process
+     *    with a stable ID instead of auto-generating one from the exe path. */
+    HMODULE shell32 = GetModuleHandleW (L"shell32.dll");
+    if (shell32) {
+        pfn_SetAppUserModelID pSetID = (pfn_SetAppUserModelID)
+            GetProcAddress (shell32, "SetCurrentProcessExplicitAppUserModelID");
+        if (pSetID) {
+            hr = pSetID (L"im.github.rallep71.DinoX");
+            tray_log ("suppress_jumplist: SetAppUserModelID %s (0x%08lx)",
+                      SUCCEEDED (hr) ? "OK" : "FAILED", (unsigned long) hr);
+        }
+    }
+
+    /* 2) Delete any existing jump list, then commit an empty one. */
     hr = CoInitializeEx (NULL, COINIT_APARTMENTTHREADED);
     gboolean did_coinit = SUCCEEDED (hr);
 
@@ -160,15 +183,25 @@ suppress_jumplist (void)
      * 6: AppendKnownCategory  7: AddUserTasks  8: CommitList
      * 9: GetRemovedDestinations  10: DeleteList  11: AbortList */
 
-    /* BeginList(out UINT minSlots, IID riid, out IObjectArray) */
+    typedef HRESULT (STDMETHODCALLTYPE *pfn_SetAppID)(void *, LPCWSTR);
     typedef HRESULT (STDMETHODCALLTYPE *pfn_BeginList)(void *, UINT *, const IID *, void **);
-    /* CommitList() */
     typedef HRESULT (STDMETHODCALLTYPE *pfn_CommitList)(void *);
-    /* Release() */
+    typedef HRESULT (STDMETHODCALLTYPE *pfn_DeleteList)(void *, LPCWSTR);
     typedef ULONG   (STDMETHODCALLTYPE *pfn_Release)(void *);
 
     void **vtbl = *(void ***)cdl;
 
+    /* SetAppID on the destination list object */
+    hr = ((pfn_SetAppID)vtbl[3])(cdl, L"im.github.rallep71.DinoX");
+    tray_log ("suppress_jumplist: CDL.SetAppID %s (0x%08lx)",
+              SUCCEEDED (hr) ? "OK" : "FAILED", (unsigned long) hr);
+
+    /* DeleteList — removes the entire custom jump list for our AppID. */
+    hr = ((pfn_DeleteList)vtbl[10])(cdl, L"im.github.rallep71.DinoX");
+    tray_log ("suppress_jumplist: DeleteList %s (0x%08lx)",
+              SUCCEEDED (hr) ? "OK" : "FAILED", (unsigned long) hr);
+
+    /* Also do BeginList + CommitList with zero entries (belt and suspenders). */
     UINT min_slots = 0;
     void *removed = NULL;
     /* IID_IObjectArray {92CA9DCD-5622-4BBA-A805-5E9F541BD8C9} */
@@ -755,6 +788,39 @@ systray_win32_attach_parent_console (void)
         freopen ("CONOUT$", "w", stderr);
         /* Also fix up stdin so interactive input works if needed. */
         freopen ("CONIN$",  "r", stdin);
+        tray_log ("AttachConsole(PARENT) succeeded — attached to parent console");
+    } else {
+        /* Expected when double-clicked from Explorer (no parent console). */
+        tray_log ("AttachConsole(PARENT) returned FALSE (error %lu) — no parent console",
+                  GetLastError ());
+    }
+}
+
+/* ---- Set process-level AppUserModelID ---- */
+/*
+ * Must be called BEFORE any windows are created (so before Gtk.init()).
+ * This tells Windows which app identity to use for taskbar grouping and
+ * jump list operations.  Without it, Windows generates one from the exe
+ * path and our suppress_jumplist() may not target the right ID.
+ */
+void
+systray_win32_set_app_id (const gchar *app_id_utf8)
+{
+    if (app_id_utf8 == NULL) return;
+    HMODULE shell32 = GetModuleHandleW (L"shell32.dll");
+    if (!shell32) shell32 = LoadLibraryW (L"shell32.dll");
+    if (shell32) {
+        pfn_SetAppUserModelID pSetID = (pfn_SetAppUserModelID)
+            GetProcAddress (shell32, "SetCurrentProcessExplicitAppUserModelID");
+        if (pSetID) {
+            wchar_t *wid = utf8_to_wchar (app_id_utf8);
+            HRESULT hr = pSetID (wid);
+            tray_log ("SetAppUserModelID('%s') %s (0x%08lx)",
+                      app_id_utf8,
+                      SUCCEEDED (hr) ? "OK" : "FAILED",
+                      (unsigned long) hr);
+            g_free (wid);
+        }
     }
 }
 
@@ -768,5 +834,6 @@ void systray_win32_show_balloon (const gchar *t, const gchar *b, int i, SystrayW
 void systray_win32_hide_balloon (void) {}
 void systray_win32_cleanup (void) {}
 void systray_win32_attach_parent_console (void) {}
+void systray_win32_set_app_id (const gchar *app_id_utf8) {}
 
 #endif

@@ -63,6 +63,11 @@ void main(string[] args) {
         // but when run from a terminal we want log output to be visible.
         SystrayWin32.attach_parent_console ();
 
+        // Set AppUserModelID BEFORE any windows are created.
+        // This controls taskbar grouping and is required for jump list
+        // suppression to work (must happen before Gtk.init).
+        SystrayWin32.set_app_id ("im.github.rallep71.DinoX");
+
         // Single-instance check: if another DinoX is running, activate it and exit.
         if (!SystrayWin32.check_single_instance ()) {
             Process.exit (0);

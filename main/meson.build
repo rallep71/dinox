@@ -271,7 +271,7 @@ if host_machine.system() == 'windows'
     sources += win_res
 endif
 
-exe_dino = executable('dinox', sources, c_args: c_args, vala_args: vala_args, link_args: extra_link_args, dependencies: dependencies, install: true, install_rpath: default_install_rpath)
+exe_dino = executable('dinox', sources, c_args: c_args, vala_args: vala_args, link_args: extra_link_args, dependencies: dependencies, install: true, install_rpath: default_install_rpath, win_subsystem: 'windows')
 
 # Install app icons (PNG sizes for better systray support)
 install_data('data/icons/hicolor/16x16/apps/im.github.rallep71.DinoX.png', install_dir: get_option('datadir') / 'icons/hicolor/16x16/apps')

@@ -529,23 +529,49 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             var display = Gdk.Display.get_default();
             if (display != null) {
                 var icon_theme = Gtk.IconTheme.get_for_display(display);
-                string exe_path = Environment.find_program_in_path("dinox.exe") ?? "";
-                string exe_dir = exe_path != "" ? Path.get_dirname(exe_path) : Environment.get_current_dir();
-                // Try to get exe dir from argv[0] or GApplication
-                string? prgname = Environment.get_prgname();
-                if (prgname != null && (prgname.contains("\\") || prgname.contains("/"))) {
-                    exe_dir = Path.get_dirname(prgname);
+
+                // Use the reliable DINOX_EXE_DIR set in main.vala
+                string exe_dir = get_executable_dir();
+                string icon_base = Path.build_filename(exe_dir, "share", "icons");
+
+                // 1) Add the top-level icons dir (contains hicolor/ and Adwaita/)
+                if (FileUtils.test(icon_base, FileTest.IS_DIR)) {
+                    icon_theme.add_search_path(icon_base);
+                    message("startup: Added icon search path: %s", icon_base);
+                } else {
+                    warning("startup: Icon directory NOT FOUND: %s", icon_base);
                 }
-                string icon_path = Path.build_filename(exe_dir, "share", "icons");
-                if (FileUtils.test(icon_path, FileTest.IS_DIR)) {
-                    icon_theme.add_search_path(icon_path);
-                    debug("startup: Added icon search path: %s", icon_path);
-                }
-                // Explicitly register GResource icon path for custom dino-* icons.
+
+                // 2) Explicitly register GResource icon path for custom dino-* icons.
                 // GTK4 should do this automatically via resource_base_path, but on
                 // Windows the auto-discovery can fail (display timing, theme issues).
                 icon_theme.add_resource_path("/im/github/rallep71/DinoX/icons");
-                debug("startup: Added icon resource path: /im/github/rallep71/DinoX/icons");
+                message("startup: Added icon resource path: /im/github/rallep71/DinoX/icons");
+
+                // 3) Verify: check if our custom icons are discoverable.
+                //    If not, log warnings so we can diagnose the problem.
+                string[] test_icons = { "dino-phone-symbolic", "dino-file-image-symbolic",
+                                        "dino-status-online", "dino-security-high-symbolic" };
+                foreach (string icon_name in test_icons) {
+                    if (icon_theme.has_icon(icon_name)) {
+                        message("startup: Icon '%s' — FOUND", icon_name);
+                    } else {
+                        warning("startup: Icon '%s' — NOT FOUND (will be invisible in UI!)", icon_name);
+                    }
+                }
+
+                // Log icon theme state for debugging
+                message("startup: Icon theme name: %s", icon_theme.theme_name);
+                string[] search_paths = icon_theme.get_search_path();
+                foreach (string sp in search_paths) {
+                    message("startup: Icon search path: %s", sp);
+                }
+                string[] resource_paths = icon_theme.get_resource_path();
+                if (resource_paths != null) {
+                    foreach (string rp in resource_paths) {
+                        message("startup: Icon resource path: %s", rp);
+                    }
+                }
             }
 #endif
 

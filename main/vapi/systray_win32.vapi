@@ -43,4 +43,7 @@ namespace SystrayWin32 {
 
     [CCode (cname = "systray_win32_attach_parent_console")]
     public static void attach_parent_console ();
+
+    [CCode (cname = "systray_win32_set_app_id")]
+    public static void set_app_id (string app_id);
 }

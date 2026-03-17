@@ -58,4 +58,9 @@ void     systray_win32_cleanup (void);
  * from Explorer (no parent console exists). */
 void     systray_win32_attach_parent_console (void);
 
+/* Set the process-level AppUserModelID (must be called BEFORE any windows
+ * are created).  This controls how Windows groups the app in the taskbar
+ * and is required for jump list suppression to work correctly. */
+void     systray_win32_set_app_id (const gchar *app_id_utf8);
+
 #endif /* SYSTRAY_WIN32_H */
