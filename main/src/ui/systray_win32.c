@@ -37,7 +37,7 @@
 
 #define WM_TRAYICON  (WM_APP + 1)
 #define MAX_MENU_ITEMS 32
-#define SYSTRAY_BUILD_ID "2026-03-16-v2"
+#define SYSTRAY_BUILD_ID "2026-03-17-v3"
 
 /* ---- state ---- */
 static HWND            msg_hwnd   = NULL;

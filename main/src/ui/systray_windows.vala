@@ -29,6 +29,7 @@ namespace Dino.Ui {
         private bool disposed = false;
         private bool holding = false;
         private bool tray_available = false;
+        private bool first_hide = true;   /* show balloon on first hide-to-tray */
 
         /* Menu layout:  Online(0) Away(1) Busy(2) N/A(3) sep(4) Quit(5) */
         private const int MENU_QUIT_ID = 5;
@@ -58,11 +59,29 @@ namespace Dino.Ui {
             this.window = window;
 
             window.close_request.connect(() => {
-                if (Dino.Application.get_default().settings.keep_background && tray_available) {
+                var app = Dino.Application.get_default();
+                bool bg = (app != null) ? app.settings.keep_background : true;
+                debug("Systray: close_request fired — keep_background=%s, tray_available=%s",
+                      bg.to_string(), tray_available.to_string());
+
+                if (bg && tray_available) {
                     // Just hide — matches Linux behaviour (no balloon, no hold)
                     hide_window();
+
+                    // First time: show a balloon so the user knows where to find the icon
+                    if (first_hide) {
+                        first_hide = false;
+                        SystrayWin32.show_balloon(
+                            "DinoX",
+                            _("DinoX is still running. Click the DinoX icon near the clock (notification area) to reopen the window. Right-click for status and quit."),
+                            1,   /* NIIF_INFO */
+                            null, null);
+                    }
+
                     return true;
                 } else {
+                    debug("Systray: close_request → quitting (bg=%s, tray=%s)",
+                          bg.to_string(), tray_available.to_string());
                     quit_application();
                     return true;
                 }
