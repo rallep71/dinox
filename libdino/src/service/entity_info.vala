@@ -129,6 +129,24 @@ public class EntityInfo : StreamInteractionModule, Object {
             return has_feature_cached == 1;
         }
 
+        // Check DB before issuing network request (avoids round-trip for
+        // previously-seen JIDs like MUC rooms that don't send entity caps).
+        bool db_hit = db.entity.select()
+                .with(db.entity.account_id, "=", account.id)
+                .with(db.entity.jid_id, "=", db.get_jid_id(jid))
+                .with(db.entity.resource, "=", jid.resourcepart ?? "")
+                .join_with(db.entity_feature, db.entity.caps_hash, db.entity_feature.entity)
+                .with(db.entity_feature.feature, "=", feature)
+                .count() > 0;
+        if (db_hit) return true;
+        // Also check if entity exists in DB without the feature (negative cache).
+        bool entity_known = db.entity.select()
+                .with(db.entity.account_id, "=", account.id)
+                .with(db.entity.jid_id, "=", db.get_jid_id(jid))
+                .with(db.entity.resource, "=", jid.resourcepart ?? "")
+                .count() > 0;
+        if (entity_known) return false;
+
         ServiceDiscovery.InfoResult? info_result = yield get_info_result(account, jid, entity_caps_hashes[jid]);
         if (info_result == null) return false;
 

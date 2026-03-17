@@ -548,19 +548,34 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 icon_theme.add_resource_path("/im/github/rallep71/DinoX/icons");
                 message("startup: Added icon resource path: /im/github/rallep71/DinoX/icons");
 
-                // 3) Verify: check if our custom icons are discoverable.
-                //    If not, log warnings so we can diagnose the problem.
-                string[] test_icons = { "dino-phone-symbolic", "dino-file-image-symbolic",
-                                        "dino-status-online", "dino-security-high-symbolic",
-                                        "notification-symbolic", "face-robot-symbolic",
-                                        "sync-synchronizing-symbolic" };
+                // 3) Ensure icon theme is Adwaita — GTK4 on Windows might
+                //    default to a different theme without a desktop environment.
+                if (icon_theme.theme_name != "Adwaita") {
+                    message("startup: Icon theme was '%s', forcing 'Adwaita'", icon_theme.theme_name);
+                    icon_theme.theme_name = "Adwaita";
+                }
+
+                // 4) Verify: check if our custom AND standard Adwaita icons are discoverable.
+                //    If standard Adwaita icons fail, the theme is not loading at all.
+                string[] test_icons = {
+                    // Custom bundled icons (GResource + hicolor fallback)
+                    "dino-phone-symbolic", "dino-file-image-symbolic",
+                    "dino-status-online", "dino-security-high-symbolic",
+                    "notification-symbolic", "face-robot-symbolic",
+                    "sync-synchronizing-symbolic", "check-plain-symbolic",
+                    // Standard Adwaita icons (must come from Adwaita theme dir)
+                    "document-edit-symbolic", "edit-delete-symbolic",
+                    "go-next-symbolic", "dialog-information-symbolic"
+                };
+                int found_count = 0;
                 foreach (string icon_name in test_icons) {
                     if (icon_theme.has_icon(icon_name)) {
-                        message("startup: Icon '%s' — FOUND", icon_name);
+                        found_count++;
                     } else {
                         warning("startup: Icon '%s' — NOT FOUND (will be invisible in UI!)", icon_name);
                     }
                 }
+                message("startup: Icon verification: %d/%d icons found", found_count, test_icons.length);
 
                 // Log icon theme state for debugging
                 message("startup: Icon theme name: %s", icon_theme.theme_name);
@@ -572,6 +587,14 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 if (resource_paths != null) {
                     foreach (string rp in resource_paths) {
                         message("startup: Icon resource path: %s", rp);
+                    }
+                }
+
+                // Check if Adwaita index.theme exists in the search path
+                foreach (string sp in search_paths) {
+                    string adwaita_index = Path.build_filename(sp, "Adwaita", "index.theme");
+                    if (FileUtils.test(adwaita_index, FileTest.EXISTS)) {
+                        message("startup: Found Adwaita index.theme: %s", adwaita_index);
                     }
                 }
             }

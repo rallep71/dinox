@@ -23,6 +23,14 @@ public class SearchPathGenerator {
         
         string? locale_dir = null;
         string dirname = Path.get_dirname(exec_path);
+
+        // Portable/Windows distribution: check <exe_dir>/locale/ first.
+        // This is where update_dist.sh places the .mo files.
+        string portable_locale = Path.build_filename(dirname, "locale");
+        if (FileUtils.test(Path.build_filename(portable_locale, "de", "LC_MESSAGES", gettext_package + ".mo"), FileTest.IS_REGULAR)) {
+            return portable_locale;
+        }
+
         // Does our environment look like a CMake build dir?
         if (dirname.contains("dino") || dirname == "." || dirname.contains("build")) {
             string exec_locale = Path.build_filename(dirname, "locale");

@@ -779,6 +779,14 @@ wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  * But when launched from CMD or MSYS2, we want stdout/stderr to go to
  * that terminal.  AttachConsole(ATTACH_PARENT_PROCESS) connects us to
  * the parent's console; then we reopen the C stdio streams to CONOUT$.
+ *
+ * When there IS no parent console (Explorer double-click), we allocate
+ * a hidden console.  This is critical: without a console, every child
+ * process that is itself a console application (gpg.exe, gpg-agent.exe,
+ * openssl.exe, etc.) will cause Windows to create a NEW visible console
+ * window — producing the "flashing CMD" effect.  With a hidden console
+ * attached to our process, all children (and grandchildren) inherit it
+ * transparently, and no visible windows appear.
  */
 void
 systray_win32_attach_parent_console (void)
@@ -790,9 +798,20 @@ systray_win32_attach_parent_console (void)
         freopen ("CONIN$",  "r", stdin);
         tray_log ("AttachConsole(PARENT) succeeded — attached to parent console");
     } else {
-        /* Expected when double-clicked from Explorer (no parent console). */
-        tray_log ("AttachConsole(PARENT) returned FALSE (error %lu) — no parent console",
-                  GetLastError ());
+        /* No parent console (Explorer / desktop shortcut launch).
+         * Allocate our own console and immediately hide it so that
+         * child processes inherit a console handle instead of Windows
+         * creating a new visible CMD window for each one. */
+        AllocConsole ();
+        HWND console_hwnd = GetConsoleWindow ();
+        if (console_hwnd)
+            ShowWindow (console_hwnd, SW_HIDE);
+
+        /* Redirect C stdio to NUL — there is no terminal to write to. */
+        freopen ("NUL", "w", stdout);
+        freopen ("NUL", "w", stderr);
+        freopen ("NUL", "r", stdin);
+        tray_log ("Allocated hidden console for child-process inheritance");
     }
 }
 

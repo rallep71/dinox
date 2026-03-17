@@ -32,6 +32,23 @@ void main(string[] args) {
 
     try{
         string? exec_path = args.length > 0 ? args[0] : null;
+
+#if WINDOWS
+        // Resolve exec_path to absolute path EARLY — before SearchPathGenerator
+        // needs it.  On Windows Explorer launch, args[0] may be just "dinox.exe"
+        // (no path separators), so Path.get_dirname() would return "." which
+        // resolves to CWD (often C:\Windows\System32).  We must resolve it to
+        // the actual exe directory for locale and plugin path detection.
+        if (exec_path != null) {
+            if (!exec_path.contains("\\") && !exec_path.contains("/")) {
+                exec_path = Environment.find_program_in_path(exec_path);
+            }
+            if (exec_path != null && !Path.is_absolute(exec_path)) {
+                exec_path = Path.build_filename(Environment.get_current_dir(), exec_path);
+            }
+        }
+#endif
+
         SearchPathGenerator search_path_generator = new SearchPathGenerator(exec_path);
 
         // Apply user language override before gettext init
@@ -73,15 +90,7 @@ void main(string[] args) {
             Process.exit (0);
         }
 
-        string? exe_path = args.length > 0 ? args[0] : null;
-        if (exe_path != null) {
-             if (!exe_path.contains("\\") && !exe_path.contains("/")) {
-                  exe_path = Environment.find_program_in_path(exe_path);
-             }
-             if (exe_path != null && !Path.is_absolute(exe_path)) {
-                  exe_path = Path.build_filename(Environment.get_current_dir(), exe_path);
-             }
-        }
+        string? exe_path = exec_path;  // Already resolved to absolute path above
         string exe_dir = (exe_path != null) ? Path.get_dirname(exe_path) : Environment.get_current_dir();
 
         // Publish exe_dir so plugins can find bundled files without relying on cwd
@@ -286,13 +295,25 @@ void main(string[] args) {
             string icon_path = Path.build_filename(exe_dir, "share", "icons");
             if (FileUtils.test(icon_path, FileTest.IS_DIR)) {
                  icon_theme.add_search_path(icon_path);
-                 message("Added icon path: %s", icon_path);
+                 message("Added icon search path: %s", icon_path);
             } else {
                  icon_path = Path.build_filename(exe_dir, "..", "share", "icons");
                  if (FileUtils.test(icon_path, FileTest.IS_DIR)) {
                       icon_theme.add_search_path(icon_path);
-                      message("Added icon path: %s", icon_path);
+                      message("Added icon search path: %s", icon_path);
                  }
+            }
+
+            // Register GResource icon path for bundled dino-* and custom icons.
+            // Must be set EARLY — before any UI template is loaded.
+            icon_theme.add_resource_path("/im/github/rallep71/DinoX/icons");
+            message("Added icon resource path: /im/github/rallep71/DinoX/icons");
+
+            // Ensure icon theme name is "Adwaita" — on Windows, GTK4 might
+            // default to a different theme if no desktop environment is detected.
+            if (icon_theme.theme_name != "Adwaita") {
+                message("Icon theme was '%s', forcing 'Adwaita'", icon_theme.theme_name);
+                icon_theme.theme_name = "Adwaita";
             }
         }
 #endif

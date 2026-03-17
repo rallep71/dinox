@@ -334,6 +334,31 @@ for core_dll in libdino-0.dll libxmpp-vala-0.dll libqlite-0.dll libcrypto-vala-0
 done
 
 # ============================================
+# Translation files (.mo) for in-app language switching
+# Without these, gettext cannot find translations and the app stays English.
+# Structure: dist/locale/<lang>/LC_MESSAGES/<package>.mo
+# ============================================
+echo "[4e/8] Copying translation files..."
+MO_COUNT=0
+# Main app translations (dino.mo)
+for mo in build/main/po/*/LC_MESSAGES/dino.mo; do
+    [ -f "$mo" ] || continue
+    lang=$(echo "$mo" | sed 's|.*/po/\([^/]*\)/LC_MESSAGES/.*|\1|')
+    mkdir -p "dist/locale/$lang/LC_MESSAGES"
+    cp "$mo" "dist/locale/$lang/LC_MESSAGES/"
+    MO_COUNT=$((MO_COUNT + 1))
+done
+# Plugin translations (dino-omemo.mo, dino-openpgp.mo, etc.)
+for mo in build/plugins/*/po/*/LC_MESSAGES/*.mo; do
+    [ -f "$mo" ] || continue
+    lang=$(echo "$mo" | sed 's|.*/po/\([^/]*\)/LC_MESSAGES/.*|\1|')
+    mkdir -p "dist/locale/$lang/LC_MESSAGES"
+    cp "$mo" "dist/locale/$lang/LC_MESSAGES/"
+    MO_COUNT=$((MO_COUNT + 1))
+done
+echo "  [OK] $MO_COUNT translation files copied"
+
+# ============================================
 # AUTO-DETECT missing DLL dependencies (recursive!)
 # This scans ALL DLLs/EXEs in dist/ using objdump to find their
 # imports, then copies any missing DLL from MSYS2's /mingw64/bin/.

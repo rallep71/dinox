@@ -80,6 +80,7 @@ public class MucManager : StreamInteractionModule, Object {
 
     // already_autojoin: Without this flag we'd be retrieving bookmarks (to check for autojoin) from the sender on every join
     public async Muc.JoinResult? join(Account account, Jid jid, string? nick, string? password, bool already_autojoin = false, Cancellable? cancellable = null) {
+        int64 t_start = GLib.get_monotonic_time();
         XmppStream? stream = stream_interactor.get_stream(account);
         if (stream == null) return null;
 
@@ -94,7 +95,10 @@ public class MucManager : StreamInteractionModule, Object {
 
         bool receive_history = true;
         EntityInfo entity_info = stream_interactor.get_module<EntityInfo>(EntityInfo.IDENTITY);
+        int64 t_mam_start = GLib.get_monotonic_time();
         bool can_do_mam = yield entity_info.has_feature(account, jid, Xmpp.MessageArchiveManagement.NS_URI);
+        message("MUC join [%s]: MAM check took %" + int64.FORMAT + " ms (result=%s)",
+                jid.to_string(), (GLib.get_monotonic_time() - t_mam_start) / 1000, can_do_mam.to_string());
         if (can_do_mam) {
             receive_history = false;
             history_since = null;
@@ -105,7 +109,10 @@ public class MucManager : StreamInteractionModule, Object {
         }
         mucs_joining[account].add(jid);
 
+        int64 t_enter_start = GLib.get_monotonic_time();
         Muc.JoinResult? res = yield stream.get_module<Xep.Muc.Module>(Xep.Muc.Module.IDENTITY).enter(stream, jid.bare_jid, nick_, password, history_since, receive_history, null);
+        message("MUC join [%s]: enter() took %" + int64.FORMAT + " ms",
+                jid.to_string(), (GLib.get_monotonic_time() - t_enter_start) / 1000);
 
         mucs_joining[account].remove(jid);
 
@@ -122,9 +129,9 @@ public class MucManager : StreamInteractionModule, Object {
             if (can_do_mam) {
                 var history_sync = stream_interactor.get_module<MessageProcessor>(MessageProcessor.IDENTITY).history_sync;
                 if (conversation == null) {
-                    // We never joined the conversation before, just fetch the latest MAM page.
-                    // Respect sync_not_before to avoid fetching ancient history after a panic wipe.
-                    yield history_sync.fetch_latest_page(account, jid.bare_jid, null, history_sync.sync_not_before, cancellable);
+                    // We never joined the conversation before — fetch latest MAM page
+                    // in the background so the room opens immediately.
+                    history_sync.fetch_latest_page.begin(account, jid.bare_jid, null, history_sync.sync_not_before, cancellable);
                 } else {
                     // Fetch everything up to the last time the user actively joined
                     if (!mucs_sync_cancellables.has_key(account)) {
@@ -159,6 +166,8 @@ public class MucManager : StreamInteractionModule, Object {
             warning("Failed to add MUC JID to joined list: %s", e.message);
         }
 
+        message("MUC join [%s]: total %" + int64.FORMAT + " ms (nick=%s)",
+                jid.to_string(), (GLib.get_monotonic_time() - t_start) / 1000, res.nick ?? "FAILED");
         return res;
     }
 
