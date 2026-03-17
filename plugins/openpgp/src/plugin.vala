@@ -137,7 +137,7 @@ public class Plugin : Plugins.RootInterface, Object {
         try {
             // Use --homedir to ensure we target the correct agent
             string[] kill_args = { "gpgconf", "--homedir", env_gnupg_home, "--kill", "gpg-agent" };
-            var subprocess = new Subprocess.newv(kill_args, SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
+            var subprocess = new Subprocess.newv(kill_args, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
             subprocess.wait();
             int exit_status = subprocess.get_if_exited() ? subprocess.get_exit_status() : -1;
             debug("OpenPGP: Killed gpg-agent (exit=%d)", exit_status);

@@ -59,7 +59,7 @@ namespace Dino.Plugins.TorManager {
 #else
                 string[] argv = {"tor", "--version"};
 #endif
-                Subprocess proc = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
+                Subprocess proc = new Subprocess.newv(argv, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
                 yield proc.wait_async();
                 if (proc.get_if_exited() && proc.get_exit_status() == 0) {
                     debug("Tor executable found.");
