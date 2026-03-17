@@ -58,6 +58,11 @@ void main(string[] args) {
         // Windows environment setup — MUST happen BEFORE Gst.init() and Gtk.init()
         // so that GTK4 can find schemas, pixbuf loaders, and GStreamer its plugins.
 
+        // Attach to parent console if launched from CMD/MSYS2.
+        // With -mwindows the EXE is GUI subsystem (no console on double-click),
+        // but when run from a terminal we want log output to be visible.
+        SystrayWin32.attach_parent_console ();
+
         // Single-instance check: if another DinoX is running, activate it and exit.
         if (!SystrayWin32.check_single_instance ()) {
             Process.exit (0);

@@ -38,7 +38,7 @@
 
 #define WM_TRAYICON  (WM_APP + 1)
 #define MAX_MENU_ITEMS 32
-#define SYSTRAY_BUILD_ID "2026-03-17-v6"
+#define SYSTRAY_BUILD_ID "2026-03-17-v7"
 
 /* ---- owner-drawn menu item colors ---- */
 /* Stored per menu item: color + label for drawing */
@@ -740,6 +740,24 @@ wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return DefWindowProcW (hwnd, msg, wParam, lParam);
 }
 
+/* ---- Attach to parent console (for CMD/MSYS2 log output) ---- */
+/*
+ * With -mwindows the EXE is GUI subsystem → no console on double-click.
+ * But when launched from CMD or MSYS2, we want stdout/stderr to go to
+ * that terminal.  AttachConsole(ATTACH_PARENT_PROCESS) connects us to
+ * the parent's console; then we reopen the C stdio streams to CONOUT$.
+ */
+void
+systray_win32_attach_parent_console (void)
+{
+    if (AttachConsole (ATTACH_PARENT_PROCESS)) {
+        freopen ("CONOUT$", "w", stdout);
+        freopen ("CONOUT$", "w", stderr);
+        /* Also fix up stdin so interactive input works if needed. */
+        freopen ("CONIN$",  "r", stdin);
+    }
+}
+
 #else /* !_WIN32 — stubs for Linux builds (never called) */
 
 gboolean systray_win32_check_single_instance (void) { return TRUE; }
@@ -749,5 +767,6 @@ void systray_win32_set_tooltip (const gchar *t) {}
 void systray_win32_show_balloon (const gchar *t, const gchar *b, int i, SystrayWin32BalloonCallback c, gpointer u) {}
 void systray_win32_hide_balloon (void) {}
 void systray_win32_cleanup (void) {}
+void systray_win32_attach_parent_console (void) {}
 
 #endif

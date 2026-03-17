@@ -40,4 +40,7 @@ namespace SystrayWin32 {
 
     [CCode (cname = "systray_win32_cleanup")]
     public static void cleanup ();
+
+    [CCode (cname = "systray_win32_attach_parent_console")]
+    public static void attach_parent_console ();
 }

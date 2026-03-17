@@ -51,4 +51,11 @@ void     systray_win32_hide_balloon (void);
 /* Remove tray icon and clean up. */
 void     systray_win32_cleanup (void);
 
+/* Attach to parent console (if launched from CMD/MSYS2).
+ * With -mwindows the EXE has no console by default; this re-attaches
+ * stdout/stderr to an existing parent console so log output is visible
+ * when the user runs dinox.exe from a terminal.  No-op when double-clicked
+ * from Explorer (no parent console exists). */
+void     systray_win32_attach_parent_console (void);
+
 #endif /* SYSTRAY_WIN32_H */
