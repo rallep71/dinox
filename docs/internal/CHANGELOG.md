@@ -5,6 +5,58 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.7.6] - 2026-03-17
+
+### Fixed — Windows: Font Rendering
+- **gtk-font-name**: Was never set → GTK4 default `"Sans 10"` → fontconfig without alias rules resolved to random fonts (Microsoft Sans Serif). Now explicitly set to `"Segoe UI 10"` in `Gtk.Settings` and `settings.ini`.
+- **gtk-hint-font-metrics**: Enabled (was false by default) → forces pixel-aligned glyph positioning for sharper text rendering.
+- **fontconfig fonts.conf**: Generated in `update_dist.sh` with proper alias mappings: Sans→Segoe UI, monospace→Consolas, serif→Times New Roman, system-ui→Segoe UI. Plus font rendering defaults (antialias, hinting, hintslight, rgb, lcddefault).
+- **Avatar letters**: Used generic `"Sans"` font family which resolved badly on Windows. Now uses `"Segoe UI"` on Windows via `#if WINDOWS` conditional.
+
+### Fixed — Windows: GDK Surface Assertions
+- **`gdk_surface_get_device_position: assertion 'GDK_IS_SURFACE (surface)' failed`**: Added `get_realized()` guards at 6 critical code paths where motion events fired on widgets whose GDK surface was already destroyed (conversation switch, window close):
+  - `conversation_view.vala`: `update_highlight()` → `pick()` (primary crash source), `on_leave_notify_event()`
+  - `chat_text_view.vala`: `queue_resize_if_needed()` timeout
+  - `chat_input/view.vala`: `highlight_state_description()` timeout
+  - `file_image_widget.vala`: motion leave handler
+  - `video_player_widget.vala`: motion leave handler
+
+### Fixed — Windows: Systray Context Menu
+- **Owner-drawn GDI painting removed**: The right-click menu used `MF_OWNERDRAW` with raw Win32 GDI calls (`Ellipse()`, `DEFAULT_GUI_FONT`, `GetSysColor()`) — looked like Windows 98.
+- **Native MF_STRING rendering**: Now uses plain `MF_STRING` menu items that Windows 10/11 renders natively with Segoe UI, ClearType, DPI scaling, and theme-aware colors (light/dark mode support).
+- **Colored emoji indicators**: Status circles provided by Unicode emoji (🟢🟠🔴⚪) already embedded in labels by `systray_windows.vala` — no more custom GDI circle painting.
+
+### Fixed — Windows: Portable ZIP / CI Build
+- **GDK-Pixbuf loaders**: Copied to wrong path (`dist/lib/` instead of `dist/lib/gdk-pixbuf-2.0/`) — image loading broken in portable builds.
+- **loaders.cache**: Had MSYS2 absolute paths (`/mingw64/lib/...`) — regenerated with `gdk-pixbuf-query-loaders` for portable relative paths.
+- **Missing CI packages**: `glib-networking` (GIO TLS backend!), `hicolor-icon-theme`, `adwaita-icon-theme` were only transitively installed — now explicitly listed in `windows-build.yml`.
+- **MQTT plugin**: Added `-Dplugin-mqtt=enabled` to CI meson setup and all build documentation.
+
+### Fixed — Windows: Window Buttons + Prior Font Pass
+- **CSD window buttons**: Positioned on the left side (Windows convention) via `headerbar-close-button-position` setting.
+- **Xft font settings**: Initial hinting/antialiasing settings in `settings.ini` (later superseded by the comprehensive font fix above).
+
+### Fixed — Windows: Icon Discovery
+- **hicolor index.theme**: System `hicolor-icon-theme` `index.theme` was being overwritten by our sparse icon directory listing. Now preserves the system file so GTK4 icon discovery works correctly.
+
+### Fixed — MUC Reactions After Restart
+- **Broken reactions in group chats**: After app restart or reconnect, reactions (XEP-0444) on MUC messages were silently dropped because the occupant→JID mapping was lost. Fixed the stanza-id lookup path.
+
+### Fixed — Encryption/Mark Icons After Avatar Refactor
+- **Missing icons**: Encryption lock and delivery mark icons disappeared after the avatar defer refactor. Fixed icon loading path.
+
+### Fixed — Build Warnings
+- **abseil-cpp >= 20250814**: New `absl::Nullable`/`absl::Nonnull` annotations broke webrtc-audio-processing v2.1 build. CI now patches them out.
+- **Various**: Unused variable, const annotations, critical build warnings resolved across platforms.
+
+### Changed — Documentation
+- **WINDOWS_BUILD.md / WINDOWS_BUILD_EN.md**: Added `-Dplugin-mqtt=enabled` to all meson setup commands, mandatory clean rebuild instructions.
+- **Obsolete files**: Removed `windowsbuild.txt` (superseded by comprehensive docs).
+
+### Stats
+- 80+ commits, 50+ files changed
+- Major areas: font rendering (8 files), systray modernization (1 file, -136 lines), CI hardening (2 files), GDK stability (5 files), icon fixes (3 files), MUC reactions (2 files)
+
 ## [1.1.7.5] - 2026-03-15
 
 ### Fixed — Windows: App Still Exits After Unlock (GitHub #18 — continued)

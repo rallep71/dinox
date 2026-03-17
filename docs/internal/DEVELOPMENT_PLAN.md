@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 15, 2026 (v1.1.7.5)
+> **Last Updated**: March 17, 2026 (v1.1.7.6)
 > **Current Release Line**: 1.1.7.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.7.5 |
+| **Current Version** | 1.1.7.6 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (DE/FR/ES 100%) |
 | **Build Status** | Clean |
@@ -20,6 +20,17 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.7.6 (Windows: Font Rendering, Systray Modernization, CI Hardening, Stability)
+- **Font rendering**: `gtk-font-name` set to "Segoe UI 10", `gtk-hint-font-metrics` enabled, fontconfig `fonts.conf` with Windows font aliases, avatar letter font fixed
+- **GDK surface assertions**: `get_realized()` guards at 6 critical motion-event code paths (conversation_view, chat_text_view, chat_input/view, file_image_widget, video_player_widget)
+- **Systray menu**: Replaced ugly GDI owner-drawn painting with native `MF_STRING` items — Windows renders with Segoe UI, ClearType, DPI, dark mode support
+- **Portable ZIP fixes**: GDK-Pixbuf loaders path, loaders.cache portable paths, missing CI packages (glib-networking, icon themes)
+- **Window buttons**: CSD close/minimize on the left, MQTT plugin enabled in CI
+- **Icon fixes**: hicolor index.theme preserved, encryption/mark icons restored after avatar refactor
+- **MUC reactions**: Fixed reactions lost after restart/reconnect (occupant→JID mapping)
+- **Build**: abseil nullability patch, unused variable warnings, const annotations
+- 80+ commits, 50+ files changed
 
 ### v1.1.7.5 (Windows Exit Fix — hold/release + debug diagnostics)
 - **finish_post_unlock()**: `this.hold()` at start, `this.release()` at end — prevents GApplication from quitting during the entire unlock→main transition
