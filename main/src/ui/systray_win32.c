@@ -18,6 +18,7 @@
 
 #include <windows.h>
 #include <shellapi.h>
+#include <objbase.h>
 #include <stdarg.h>
 #include <stdio.h>
 
@@ -37,7 +38,7 @@
 
 #define WM_TRAYICON  (WM_APP + 1)
 #define MAX_MENU_ITEMS 32
-#define SYSTRAY_BUILD_ID "2026-03-17-v4"
+#define SYSTRAY_BUILD_ID "2026-03-17-v5"
 
 /* ---- owner-drawn menu item colors ---- */
 /* Stored per menu item: color + label for drawing */
@@ -115,6 +116,83 @@ tray_log (const char *fmt, ...)
 
     g_logv ("Systray", G_LOG_LEVEL_MESSAGE, fmt, ap);
     va_end (ap);
+}
+
+/* ---- suppress taskbar Jump List "launch" entry ---- */
+/*
+ * Windows shows a "DinoX" launch entry in the taskbar right-click menu by
+ * default.  Since left-clicking the taskbar button already toggles the
+ * window, the extra entry is redundant and confusing.  Setting an empty
+ * custom jump list via ICustomDestinationList removes it while keeping the
+ * "Pin to taskbar" and "Close window" entries intact.
+ */
+/* ICustomDestinationList {6332DEBF-87B5-4670-90C0-5E57B408A49E} */
+static const IID IID_ICustomDestinationList = {
+    0x6332DEBF, 0x87B5, 0x4670,
+    { 0x90, 0xC0, 0x5E, 0x57, 0xB4, 0x08, 0xA4, 0x9E }
+};
+/* CLSID_DestinationList {77F10CF0-3DB5-4966-B520-B7C54FD35ED6} */
+static const CLSID CLSID_DestinationList = {
+    0x77F10CF0, 0x3DB5, 0x4966,
+    { 0xB5, 0x20, 0xB7, 0xC5, 0x4F, 0xD3, 0x5E, 0xD6 }
+};
+
+static void
+suppress_jumplist (void)
+{
+    HRESULT hr;
+    void *cdl = NULL;
+
+    hr = CoInitializeEx (NULL, COINIT_APARTMENTTHREADED);
+    gboolean did_coinit = SUCCEEDED (hr);
+
+    hr = CoCreateInstance (&CLSID_DestinationList, NULL, CLSCTX_INPROC_SERVER,
+                           &IID_ICustomDestinationList, &cdl);
+    if (FAILED (hr) || cdl == NULL) {
+        tray_log ("suppress_jumplist: CoCreateInstance failed (0x%08lx)", (unsigned long) hr);
+        if (did_coinit) CoUninitialize ();
+        return;
+    }
+
+    /* ICustomDestinationList vtable layout (IUnknown + interface):
+     * 0: QueryInterface  1: AddRef  2: Release
+     * 3: SetAppID  4: BeginList  5: AppendCategory
+     * 6: AppendKnownCategory  7: AddUserTasks  8: CommitList
+     * 9: GetRemovedDestinations  10: DeleteList  11: AbortList */
+
+    /* BeginList(out UINT minSlots, IID riid, out IObjectArray) */
+    typedef HRESULT (STDMETHODCALLTYPE *pfn_BeginList)(void *, UINT *, const IID *, void **);
+    /* CommitList() */
+    typedef HRESULT (STDMETHODCALLTYPE *pfn_CommitList)(void *);
+    /* Release() */
+    typedef ULONG   (STDMETHODCALLTYPE *pfn_Release)(void *);
+
+    void **vtbl = *(void ***)cdl;
+
+    UINT min_slots = 0;
+    void *removed = NULL;
+    /* IID_IObjectArray {92CA9DCD-5622-4BBA-A805-5E9F541BD8C9} */
+    static const IID IID_IObjectArray = {
+        0x92CA9DCD, 0x5622, 0x4BBA,
+        { 0xA8, 0x05, 0x5E, 0x9F, 0x54, 0x1B, 0xD8, 0xC9 }
+    };
+
+    hr = ((pfn_BeginList)vtbl[4])(cdl, &min_slots, &IID_IObjectArray, &removed);
+    if (SUCCEEDED (hr)) {
+        hr = ((pfn_CommitList)vtbl[8])(cdl);
+        tray_log ("suppress_jumplist: CommitList %s (0x%08lx)",
+                  SUCCEEDED (hr) ? "OK" : "FAILED", (unsigned long) hr);
+        /* Release the removed-destinations array */
+        if (removed) {
+            void **rv = *(void ***)removed;
+            ((pfn_Release)rv[2])(removed);
+        }
+    } else {
+        tray_log ("suppress_jumplist: BeginList failed (0x%08lx)", (unsigned long) hr);
+    }
+
+    ((pfn_Release)vtbl[2])(cdl);
+    if (did_coinit) CoUninitialize ();
 }
 
 /* ---- forward ---- */
@@ -259,6 +337,10 @@ systray_win32_init (const gchar          *tooltip_utf8,
     tray_log ("  RBUTTONUP  = handled in ALL modes");
     tray_log ("  mutex      = %p", (void *) single_instance_mutex);
     tray_log ("========================");
+
+    /* Remove the "DinoX" launch entry from the taskbar right-click menu.
+     * Left-click already toggles the window, so the extra item is redundant. */
+    suppress_jumplist ();
 
     /* Create an empty popup menu (will be filled by set_menu). */
     popup_menu = CreatePopupMenu ();
