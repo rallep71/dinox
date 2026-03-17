@@ -67,10 +67,14 @@ public class Dino.Reactions : StreamInteractionModule, Object {
         } else {
             // The MUC server needs to 1) support stable stanza ids 2) either support occupant ids or be a private room (where we know real jids)
             var entity_info = stream_interactor.get_module<EntityInfo>(EntityInfo.IDENTITY);
-            bool server_supports_sid = entity_info.has_feature_cached(conversation.account, conversation.counterpart.bare_jid, Xep.UniqueStableStanzaIDs.NS_URI);
+            // Use has_feature_offline (checks in-memory cache + DB) instead of
+            // has_feature_cached (in-memory only). After app restart/reconnect
+            // the in-memory caches are empty for MUC rooms, but the DB still
+            // has the features from previous disco#info queries.
+            bool server_supports_sid = entity_info.has_feature_offline(conversation.account, conversation.counterpart.bare_jid, Xep.UniqueStableStanzaIDs.NS_URI);
             if (!server_supports_sid) return false;
 
-            bool? supports_occupant_ids = entity_info.has_feature_cached(conversation.account, conversation.counterpart, Xep.OccupantIds.NS_URI);
+            bool? supports_occupant_ids = entity_info.has_feature_offline(conversation.account, conversation.counterpart, Xep.OccupantIds.NS_URI);
             if (supports_occupant_ids) return true;
 
             return stream_interactor.get_module<MucManager>(MucManager.IDENTITY).is_private_room(conversation.account, conversation.counterpart);
