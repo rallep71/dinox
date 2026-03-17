@@ -316,7 +316,7 @@ private static bool run_gpg_internal(string[] extra_args, string? stdin_data, ou
             
             Bytes? stdout_bytes = null;
             Bytes? stderr_bytes = null;
-            Bytes? input_bytes = (stdin_data != null && stdin_data.length > 0) ? new Bytes(stdin_data.data) : null;
+            Bytes? input_bytes = (stdin_data != null && stdin_data.length > 0) ? new Bytes(stdin_data.data) : new Bytes(new uint8[0]);
             debug("GPGHelper.run_gpg_internal: Communicating with subprocess...");
             subprocess.communicate(input_bytes, null, out stdout_bytes, out stderr_bytes);
             debug("GPGHelper.run_gpg_internal: Communication complete");
@@ -1374,7 +1374,7 @@ private static bool download_key_from_openpgp_org_api(string key_id) {
             var subprocess = new Subprocess.newv(curl_args, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
             Bytes? stdout_bytes = null;
             Bytes? stderr_bytes = null;
-            subprocess.communicate(null, null, out stdout_bytes, out stderr_bytes);
+            subprocess.communicate(new Bytes(new uint8[0]), null, out stdout_bytes, out stderr_bytes);
             
             int curl_exit = subprocess.get_if_exited() ? subprocess.get_exit_status() : -1;
             

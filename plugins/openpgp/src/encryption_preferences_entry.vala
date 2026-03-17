@@ -341,7 +341,7 @@ namespace Dino.Plugins.OpenPgp {
                 string? stdout_str = null;
                 string? stderr_str = null;
 
-                yield proc.communicate_utf8_async(null, null, out stdout_str, out stderr_str);
+                yield proc.communicate_utf8_async("", null, out stdout_str, out stderr_str);
 
                 if (proc.get_exit_status() == 0 && stdout_str != null) {
                     string? current_fpr = null;

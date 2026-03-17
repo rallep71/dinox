@@ -1638,7 +1638,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
 
             try {
                 Subprocess proc = new Subprocess.newv (argv, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_PIPE);
-                proc.communicate_utf8 (null, null, null, out stderr_str);
+                proc.communicate_utf8 ("", null, null, out stderr_str);
                 exit_status = proc.get_exit_status ();
                 success = (exit_status == 0);
                 if (!success && stderr_str != null) {
@@ -2390,7 +2390,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             warning("Backup: Starting tar process...");
             try {
                 Subprocess proc = new Subprocess.newv (argv, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
-                proc.communicate_utf8 (null, null, out stdout_str, out stderr_str);
+                proc.communicate_utf8 ("", null, out stdout_str, out stderr_str);
                 exit_status = proc.get_exit_status ();
                 success = (exit_status == 0);
                 warning("Backup: tar finished with exit code %d", exit_status);

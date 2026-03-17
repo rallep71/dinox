@@ -151,7 +151,7 @@ public class KeyManagementDialog : Object {
             string? stdout_str = null;
             string? stderr_str = null;
             
-            yield proc.communicate_utf8_async(null, null, out stdout_str, out stderr_str);
+            yield proc.communicate_utf8_async("", null, out stdout_str, out stderr_str);
             
             if (proc.get_exit_status() == 0 && stdout_str != null) {
                 parse_gpg_output(stdout_str);
@@ -636,7 +636,7 @@ public class KeyManagementDialog : Object {
             string? stdout_str = null;
             string? stderr_str = null;
             
-            yield proc.communicate_utf8_async(null, null, out stdout_str, out stderr_str);
+            yield proc.communicate_utf8_async("", null, out stdout_str, out stderr_str);
             
             if (proc.get_exit_status() == 0) {
                 // Invalidate secret keys cache so incoming PGP messages can be decrypted immediately
@@ -691,7 +691,7 @@ public class KeyManagementDialog : Object {
             string? stdout_str = null;
             string? stderr_str = null;
             
-            yield proc.communicate_utf8_async(null, null, out stdout_str, out stderr_str);
+            yield proc.communicate_utf8_async("", null, out stdout_str, out stderr_str);
             
             if (proc.get_exit_status() == 0 && stdout_str != null && stdout_str.length > 0) {
                 try {
@@ -745,7 +745,7 @@ public class KeyManagementDialog : Object {
             string? stdout_str = null;
             string? stderr_str = null;
 
-            yield proc.communicate_utf8_async(null, null, out stdout_str, out stderr_str);
+            yield proc.communicate_utf8_async("", null, out stdout_str, out stderr_str);
             
             if (proc.get_exit_status() == 0) {
                 keys_changed();
@@ -944,7 +944,7 @@ public class KeyManagementDialog : Object {
                     var proc = new Subprocess.newv(argv, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
                     string? stdout_str = null;
                     string? stderr_str = null;
-                    proc.communicate_utf8(null, null, out stdout_str, out stderr_str);
+                    proc.communicate_utf8("", null, out stdout_str, out stderr_str);
                     delete_ok = (proc.get_exit_status() == 0);
                     if (!delete_ok) {
                         debug("Delete after revoke failed: %s", stderr_str ?? "");
@@ -1041,7 +1041,7 @@ public class KeyManagementDialog : Object {
             string[] argv = { gpg_bin, "--homedir", openpgp_gnupg_home, "--list-secret-keys", "--with-colons" };
             var proc = new Subprocess.newv(argv, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
             string? stdout_str = null;
-            proc.communicate_utf8(null, null, out stdout_str, null);
+            proc.communicate_utf8("", null, out stdout_str, null);
             
             if (stdout_str == null) return null;
             
