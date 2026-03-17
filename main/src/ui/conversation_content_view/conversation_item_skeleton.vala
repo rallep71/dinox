@@ -41,6 +41,7 @@ public class ConversationItemSkeleton : Plugins.ConversationItemWidgetInterface,
     private bool defer_heavy_work = false;
     private bool header_initialized = false;
     private bool content_initialized = false;
+    private bool avatar_initialized = false;
     private uint deferred_header_source_id = 0;
     private uint deferred_content_source_id = 0;
 
@@ -78,12 +79,27 @@ public class ConversationItemSkeleton : Plugins.ConversationItemWidgetInterface,
                 if (main_grid.parent == null) {
                     return false;
                 }
+                ensure_avatar_initialized();
                 ensure_content_initialized();
                 return false;
             });
         } else {
+            ensure_avatar_initialized();
             ensure_content_initialized();
         }
+
+        // Signal connections and margin must run immediately (not deferred),
+        // otherwise set_header() is never called and encryption/mark icons
+        // are never initialized.
+        notify_show_skeleton1_handler_id = this.notify["show-skeleton"].connect(update_margin);
+        notify_show_skeleton2_handler_id = this.notify["show-skeleton"].connect(set_header);
+
+        update_margin();
+    }
+
+    private void ensure_avatar_initialized() {
+        if (avatar_initialized) return;
+        avatar_initialized = true;
 
         if (item.requires_header) {
             // TODO: For MUC messags, use real jid from message if known
@@ -94,11 +110,6 @@ public class ConversationItemSkeleton : Plugins.ConversationItemWidgetInterface,
             click_controller.pressed.connect(on_avatar_clicked);
             avatar_picture.add_controller(click_controller);
         }
-
-        notify_show_skeleton1_handler_id = this.notify["show-skeleton"].connect(update_margin);
-        notify_show_skeleton2_handler_id = this.notify["show-skeleton"].connect(set_header);
-
-        update_margin();
     }
 
     private void ensure_content_initialized() {
