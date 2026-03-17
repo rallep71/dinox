@@ -496,6 +496,22 @@ else
     echo "  [INFO] obfs4proxy not found (lyrebird provides obfs4 support)"
 fi
 
+# Tor GeoIP data files (needed for bridge/country selection)
+GEOIP_SRC=""
+for gp in /mingw64/share/tor/geoip C:/msys64/mingw64/share/tor/geoip; do
+    if [ -f "$gp" ]; then
+        GEOIP_SRC="$(dirname "$gp")"
+        break
+    fi
+done
+if [ -n "$GEOIP_SRC" ]; then
+    mkdir -p dist/share/tor
+    cp "$GEOIP_SRC/geoip" dist/share/tor/ 2>/dev/null && echo "  [OK] geoip"
+    cp "$GEOIP_SRC/geoip6" dist/share/tor/ 2>/dev/null && echo "  [OK] geoip6"
+else
+    echo "  [WARN] GeoIP files not found. Tor may have trouble selecting bridges."
+fi
+
 # ============================================
 # Resources (share/)
 # ============================================

@@ -349,7 +349,12 @@ namespace Dino.Plugins.TorManager {
         private async void wait_until_port_open(int port) {
             debug("Waiting for Tor request port %d to open...", port);
             // Wait up to 20 seconds (200 * 100ms) - Bridges can be slow to initialize
-            for (int i = 0; i < 200; i++) { 
+            for (int i = 0; i < 200; i++) {
+                // Abort early if user disabled Tor while we were waiting
+                if (!is_running) {
+                    debug("Tor stopped while waiting for port %d. Aborting.", port);
+                    return;
+                }
                 try {
                     Socket socket = new Socket(SocketFamily.IPV4, SocketType.STREAM, SocketProtocol.TCP);
                     InetAddress address = new InetAddress.from_string("127.0.0.1");
@@ -383,11 +388,12 @@ namespace Dino.Plugins.TorManager {
 
                 // Also kill lyrebird.exe (pluggable transport child process).
                 // TerminateProcess only kills the target process, not its children.
+                // Use async kill to avoid blocking the GTK main loop.
                 try {
                     var kill_pt = new Subprocess.newv(
                         {"taskkill", "/F", "/IM", "lyrebird.exe"},
                         SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
-                    kill_pt.wait();
+                    kill_pt.wait_async.begin();
                 } catch (Error e) {
                     // Ignored: lyrebird might not be running
                 }
