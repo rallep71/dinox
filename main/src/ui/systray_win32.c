@@ -37,7 +37,27 @@
 
 #define WM_TRAYICON  (WM_APP + 1)
 #define MAX_MENU_ITEMS 32
-#define SYSTRAY_BUILD_ID "2026-03-17-v3"
+#define SYSTRAY_BUILD_ID "2026-03-17-v4"
+
+/* ---- owner-drawn menu item colors ---- */
+/* Stored per menu item: color + label for drawing */
+typedef struct {
+    COLORREF circle_color;      /* fill color for status circle */
+    gboolean draw_circle;       /* TRUE = draw colored circle, FALSE = text only */
+    gboolean is_active;         /* TRUE = this is the currently selected status */
+    wchar_t  label[128];
+} MenuItemData;
+
+static MenuItemData menu_items[MAX_MENU_ITEMS];
+static int          menu_item_count = 0;
+
+/* Status colors: green, orange, red, grey */
+static COLORREF status_colors[4] = {
+    RGB (0x22, 0xC5, 0x5E),   /* Online  = green  */
+    RGB (0xFF, 0xA5, 0x00),   /* Away    = orange */
+    RGB (0xE0, 0x40, 0x40),   /* Busy    = red    */
+    RGB (0x99, 0x99, 0x99),   /* N/A     = grey   */
+};
 
 /* ---- state ---- */
 static HWND            msg_hwnd   = NULL;
@@ -257,9 +277,35 @@ systray_win32_set_menu (const gchar **labels, guint32 checked_mask)
 
     if (labels == NULL) return;
 
+    menu_item_count = 0;
+
     for (int i = 0; labels[i] != NULL && i < MAX_MENU_ITEMS; i++) {
         if (labels[i][0] == '\0') {
             AppendMenuW (popup_menu, MF_SEPARATOR, 0, NULL);
+        } else if (i < 4) {
+            /* Status items (0-3): owner-drawn with colored circle.
+             * Strip any leading emoji from the label — we draw the circle ourselves. */
+            const gchar *text = labels[i];
+            /* Skip leading UTF-8 emoji + whitespace (emoji can be 3-4 bytes) */
+            while (*text && ((unsigned char)*text >= 0x80 || *text == ' '))
+                text++;
+            /* If stripping removed everything, use original */
+            if (*text == '\0') text = labels[i];
+
+            MenuItemData *mid = &menu_items[i];
+            mid->circle_color = status_colors[i];
+            mid->draw_circle  = TRUE;
+            mid->is_active    = (checked_mask & (1u << i)) != 0;
+            memset (mid->label, 0, sizeof (mid->label));
+            wchar_t *w = utf8_to_wchar (text);
+            if (w) {
+                wcsncpy (mid->label, w, 127);
+                g_free (w);
+            }
+
+            AppendMenuW (popup_menu, MF_OWNERDRAW,
+                         (UINT_PTR)(i + 1), (LPCWSTR)(uintptr_t) i);
+            menu_item_count = i + 1;
         } else {
             wchar_t *w = utf8_to_wchar (labels[i]);
             UINT flags = MF_STRING;
@@ -403,6 +449,92 @@ show_context_menu (HWND hwnd)
 static LRESULT CALLBACK
 wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+    /* ---- Owner-drawn menu: measure item ---- */
+    if (msg == WM_MEASUREITEM) {
+        MEASUREITEMSTRUCT *mis = (MEASUREITEMSTRUCT *) lParam;
+        if (mis->CtlType == ODT_MENU) {
+            int idx = (int)(uintptr_t) mis->itemData;
+            if (idx >= 0 && idx < menu_item_count) {
+                /* Measure text with the menu font */
+                HDC hdc = GetDC (hwnd);
+                HFONT menu_font = (HFONT) GetStockObject (DEFAULT_GUI_FONT);
+                HFONT old_font = (HFONT) SelectObject (hdc, menu_font);
+                SIZE sz;
+                GetTextExtentPoint32W (hdc, menu_items[idx].label,
+                                       (int) wcslen (menu_items[idx].label), &sz);
+                SelectObject (hdc, old_font);
+                ReleaseDC (hwnd, hdc);
+                /* circle(10) + gap(6) + text + padding */
+                mis->itemWidth  = 10 + 6 + sz.cx + 8;
+                mis->itemHeight = (sz.cy > 20) ? sz.cy + 4 : 20;
+            }
+            return TRUE;
+        }
+    }
+
+    /* ---- Owner-drawn menu: draw item ---- */
+    if (msg == WM_DRAWITEM) {
+        DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *) lParam;
+        if (dis->CtlType == ODT_MENU) {
+            int idx = (int)(uintptr_t) dis->itemData;
+            if (idx >= 0 && idx < menu_item_count) {
+                MenuItemData *mid = &menu_items[idx];
+
+                /* Background */
+                BOOL selected = (dis->itemState & ODS_SELECTED) != 0;
+                COLORREF bg = selected ? GetSysColor (COLOR_HIGHLIGHT)
+                                       : GetSysColor (COLOR_MENU);
+                COLORREF fg = selected ? GetSysColor (COLOR_HIGHLIGHTTEXT)
+                                       : GetSysColor (COLOR_MENUTEXT);
+                HBRUSH bg_brush = CreateSolidBrush (bg);
+                FillRect (dis->hDC, &dis->rcItem, bg_brush);
+                DeleteObject (bg_brush);
+
+                int y_center = (dis->rcItem.top + dis->rcItem.bottom) / 2;
+                int x = dis->rcItem.left + 6;
+
+                /* Draw colored circle (filled) */
+                if (mid->draw_circle) {
+                    int r = 5;  /* radius */
+                    HBRUSH circle_brush = CreateSolidBrush (mid->circle_color);
+                    HPEN circle_pen = CreatePen (PS_SOLID, 1, mid->circle_color);
+                    HBRUSH old_br = (HBRUSH) SelectObject (dis->hDC, circle_brush);
+                    HPEN old_pn = (HPEN) SelectObject (dis->hDC, circle_pen);
+                    Ellipse (dis->hDC, x - r, y_center - r, x + r, y_center + r);
+                    SelectObject (dis->hDC, old_br);
+                    SelectObject (dis->hDC, old_pn);
+                    DeleteObject (circle_brush);
+                    DeleteObject (circle_pen);
+
+                    /* Bold outline for active status */
+                    if (mid->is_active) {
+                        HPEN bold_pen = CreatePen (PS_SOLID, 2,
+                                                    selected ? fg : RGB(0,0,0));
+                        HBRUSH hollow = (HBRUSH) GetStockObject (HOLLOW_BRUSH);
+                        SelectObject (dis->hDC, bold_pen);
+                        SelectObject (dis->hDC, hollow);
+                        Ellipse (dis->hDC, x - r - 1, y_center - r - 1,
+                                             x + r + 1, y_center + r + 1);
+                        DeleteObject (bold_pen);
+                    }
+                    x += r + 6;
+                }
+
+                /* Draw text */
+                HFONT menu_font = (HFONT) GetStockObject (DEFAULT_GUI_FONT);
+                HFONT old_font = (HFONT) SelectObject (dis->hDC, menu_font);
+                SetBkMode (dis->hDC, TRANSPARENT);
+                SetTextColor (dis->hDC, fg);
+                RECT text_rect = dis->rcItem;
+                text_rect.left = x;
+                DrawTextW (dis->hDC, mid->label, -1, &text_rect,
+                           DT_SINGLELINE | DT_VCENTER | DT_LEFT);
+                SelectObject (dis->hDC, old_font);
+            }
+            return TRUE;
+        }
+    }
+
     /* Explorer restarted — re-create our tray icon. */
     if (WM_TASKBARCREATED != 0 && msg == WM_TASKBARCREATED) {
         tray_log ("TaskbarCreated — re-adding tray icon");
@@ -447,8 +579,12 @@ wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
     if (msg == WM_TRAYICON) {
         UINT event = LOWORD (lParam);
-        tray_log ("WM_TRAYICON event=0x%04x wParam=0x%08lx lParam=0x%08lx",
-                  event, (unsigned long) wParam, (unsigned long) lParam);
+
+        /* Only log meaningful events, skip WM_MOUSEMOVE (0x0200) spam */
+        if (event != WM_MOUSEMOVE) {
+            tray_log ("WM_TRAYICON event=0x%04x wParam=0x%08lx lParam=0x%08lx",
+                      event, (unsigned long) wParam, (unsigned long) lParam);
+        }
 
         switch (event) {
 
