@@ -126,7 +126,7 @@ public class ContactDetailsProvider : Plugins.ContactDetailsProvider, Object {
                                   "--keyserver-options", "import-minimal",
                                   "--recv-keys", key_id_or_email };
                 
-                var proc = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
+                var proc = new Subprocess.newv(argv, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
                 string? stdout_str = null;
                 string? stderr_str = null;
                 proc.communicate_utf8(null, null, out stdout_str, out stderr_str);
@@ -138,7 +138,7 @@ public class ContactDetailsProvider : Plugins.ContactDetailsProvider, Object {
                     string[] argv2 = { gpg_bin, "--homedir", openpgp_gnupg_home, "--batch", "--yes", 
                                        "--keyserver", "hkps://keyserver.ubuntu.com", 
                                        "--recv-keys", key_id_or_email };
-                    var proc2 = new Subprocess.newv(argv2, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
+                    var proc2 = new Subprocess.newv(argv2, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
                     proc2.communicate_utf8(null, null, out stdout_str, out stderr_str);
                     success = proc2.get_exit_status() == 0;
                     if (!success) {

@@ -125,7 +125,7 @@ namespace Dino.Plugins.TorManager {
 #if WINDOWS
                 // Windows: Use taskkill to kill any running tor.exe
                 string[] kill_cmd = {"taskkill", "/F", "/IM", "tor.exe"};
-                var kill_proc = new Subprocess.newv(kill_cmd, SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
+                var kill_proc = new Subprocess.newv(kill_cmd, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
                 yield kill_proc.wait_async();
 #else
                 // Linux/macOS: Use pkill to match config file path
@@ -321,7 +321,7 @@ namespace Dino.Plugins.TorManager {
 #endif
 
             try {
-                tor_process = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
+                tor_process = new Subprocess.newv(argv, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
                 is_running = true;
                 is_starting = false;
                 debug("Tor process started with PID: %s", tor_process.get_identifier());
@@ -392,7 +392,7 @@ namespace Dino.Plugins.TorManager {
                 try {
                     var kill_pt = new Subprocess.newv(
                         {"taskkill", "/F", "/IM", "lyrebird.exe"},
-                        SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
+                        SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
                     kill_pt.wait_async.begin();
                 } catch (Error e) {
                     // Ignored: lyrebird might not be running

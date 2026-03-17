@@ -251,7 +251,7 @@ namespace Dino.Plugins.OpenPgp {
                     argv[argv.length - 1] = "/dev/null";
 #endif
 
-                    Subprocess proc = new Subprocess.newv(argv, SubprocessFlags.STDIN_PIPE);
+                    Subprocess proc = new Subprocess.newv(argv, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
                     proc.communicate_utf8("test", null, null, null);
                     
                     success = proc.get_successful();
@@ -337,7 +337,7 @@ namespace Dino.Plugins.OpenPgp {
                 string[] argv = { gpg_bin, "--homedir", openpgp_gnupg_home, "--list-secret-keys", "--with-colons" };
                 
                 // Use Subprocess for async execution to not block UI
-                var proc = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
+                var proc = new Subprocess.newv(argv, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
                 string? stdout_str = null;
                 string? stderr_str = null;
 
