@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 0 16 16" width="16px">
+  <g fill="#222222">
+    <!-- Head (rounded square) -->
+    <rect x="3" y="3" width="10" height="10" rx="2" ry="2"/>
+    <!-- Antenna -->
+    <rect x="7.25" y="0.5" width="1.5" height="2.5" rx="0.75"/>
+    <!-- Left eye -->
+    <rect x="5" y="5.5" width="2" height="2" rx="0.5" fill="#fff"/>
+    <!-- Right eye -->
+    <rect x="9" y="5.5" width="2" height="2" rx="0.5" fill="#fff"/>
+    <!-- Mouth -->
+    <rect x="5.5" y="9.5" width="5" height="1" rx="0.5" fill="#fff"/>
+    <!-- Left ear -->
+    <rect x="0.5" y="6" width="2" height="4" rx="1"/>
+    <!-- Right ear -->
+    <rect x="13.5" y="6" width="2" height="4" rx="1"/>
+  </g>
+</svg>

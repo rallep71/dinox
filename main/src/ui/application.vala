@@ -551,7 +551,9 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 // 3) Verify: check if our custom icons are discoverable.
                 //    If not, log warnings so we can diagnose the problem.
                 string[] test_icons = { "dino-phone-symbolic", "dino-file-image-symbolic",
-                                        "dino-status-online", "dino-security-high-symbolic" };
+                                        "dino-status-online", "dino-security-high-symbolic",
+                                        "notification-symbolic", "face-robot-symbolic",
+                                        "sync-synchronizing-symbolic" };
                 foreach (string icon_name in test_icons) {
                     if (icon_theme.has_icon(icon_name)) {
                         message("startup: Icon '%s' — FOUND", icon_name);

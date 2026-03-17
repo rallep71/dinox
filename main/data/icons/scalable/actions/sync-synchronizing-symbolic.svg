@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 0 16 16" width="16px">
+  <g fill="#222222">
+    <!-- Top-right arrow (clockwise) -->
+    <path d="M 8 1 A 6 6 0 0 1 13.66 10 L 12 9 A 4.5 4.5 0 0 0 8 2.5 V 4.5 L 5 2.25 L 8 0 Z"/>
+    <!-- Bottom-left arrow (counter-clockwise) -->
+    <path d="M 8 15 A 6 6 0 0 1 2.34 6 L 4 7 A 4.5 4.5 0 0 0 8 13.5 V 11.5 L 11 13.75 L 8 16 Z"/>
+  </g>
+</svg>

@@ -28,6 +28,7 @@
     <file>icons/scalable/actions/dino-emoticon-add-symbolic.svg</file>
     <file>icons/scalable/actions/dino-qr-code-symbolic.svg</file>
     <file>icons/scalable/actions/small-x-symbolic.svg</file>
+    <file>icons/scalable/actions/sync-synchronizing-symbolic.svg</file>
     <file>icons/scalable/devices/dino-device-desktop-symbolic.svg</file>
     <file>icons/scalable/devices/dino-device-phone-symbolic.svg</file>
     <file>icons/scalable/devices/dino-phone-hangup-symbolic.svg</file>
@@ -56,6 +57,8 @@
     <file>icons/scalable/status/dino-tick-symbolic.svg</file>
     <file>icons/scalable/status/dino-video-off-symbolic.svg</file>
     <file>icons/scalable/status/dino-video-symbolic.svg</file>
+    <file>icons/scalable/status/face-robot-symbolic.svg</file>
+    <file>icons/scalable/status/notification-symbolic.svg</file>
     <!-- App icon SVG removed from GResource: GTK4/librsvg renders the SVG-wrapped
          base64 PNG with a light background in About dialog and header bar.
          Using installed hicolor PNGs directly ensures the dark icon is shown. -->
