@@ -313,20 +313,38 @@ while ($true) { Get-Process dinox -ErrorAction SilentlyContinue |
 ## Rebuilding after code changes
 
 > **⚠️ IMPORTANT: After `git pull` you MUST delete the `build` directory!**
->
-> Ninja on MSYS2 often does NOT detect changes pulled via git.
-> If you only run `ninja -C build`, you may get the OLD code!
-> Always do a clean rebuild after `git pull`.
+> Ninja often does NOT detect files changed via `git pull`, because the
+> timestamps of downloaded files can be older than the compiled object files
+> in the `build/` directory. This means: Ninja skips those files and your build
+> still contains the **old code**, even though the source has changed.
 
-### Standard update (after `git pull`)
+### Standard update (after every `git pull`)
 
 ```bash
 cd ~/dinox
+
+# 1. Pull latest changes
 git pull
+
+# 2. COMPLETELY delete build directory (MANDATORY!)
 rm -rf build
-meson setup build -Dplugin-omemo=enabled -Dplugin-rtp=enabled -Dplugin-openpgp=enabled -Dplugin-ice=enabled -Dplugin-http-files=enabled
+
+# 3. Set up Meson from scratch
+meson setup build \
+    -Dplugin-omemo=enabled \
+    -Dplugin-rtp=enabled \
+    -Dplugin-openpgp=enabled \
+    -Dplugin-ice=enabled \
+    -Dplugin-http-files=enabled
+
+# 4. Compile
 ninja -C build
+ninja -C build 2>&1 | tee build_warnings.txt
+# 5. Update distribution (DLLs, icons, plugins etc.)
 bash scripts/update_dist.sh
+
+# 6. Run
+./dist/dinox.exe
 ```
 
 ### One-liner (copy & paste)
@@ -337,12 +355,15 @@ cd ~/dinox && git pull && rm -rf build && meson setup build -Dplugin-omemo=enabl
 
 ### Verify the new build
 
-After starting `./dist/dinox.exe`, check:
+After starting DinoX, open the file `%TEMP%\dinox_systray.log` (e.g. in Explorer, type `%TEMP%` in the address bar, then look for `dinox_systray.log`). At the top it should say:
+
 ```
-%TEMP%\dinox_systray.log
+=== DinoX Systray Debug Log ===
+Build: 2026-03-17-v8
 ```
-The first line should contain `Build: 2026-03-16-v2` (or newer).
-If you see an older build ID → the old code is still running. Kill all `dinox.exe` in Task Manager and rebuild.
+
+If you see today's date and the current version → the new code is running.
+If the file is missing or contains no `Build:` line → the old code is still running. In that case: `rm -rf build` and start again from Step 3.
 
 ---
 
@@ -401,6 +422,8 @@ if m:
 open('meson.build', 'w').write(text)
 PYEOF
 meson setup build --wipe --prefix=/mingw64 && ninja -C build && ninja -C build install
+
+# libomemo-c (Step 6)
 cd /tmp && git clone --depth 1 https://github.com/rallep71/libomemo-c.git
 cd libomemo-c
 cmake -G Ninja -S . -B build -DCMAKE_INSTALL_PREFIX=/mingw64 -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
@@ -434,5 +457,5 @@ cd ~/dinox && git pull && rm -rf build && meson setup build -Dplugin-omemo=enabl
 | Missing DLLs on startup | Run `bash scripts/update_dist.sh` again |
 | `couldn't load font "Adwaita Mono"` | Install `pacman -S mingw-w64-x86_64-cantarell-fonts` and re-run `update_dist.sh` |
 | Nothing changed after `git pull` + `ninja` | **`rm -rf build`** and do a full clean rebuild (see section above). Ninja often doesn't detect git-pulled changes! |
-| Systray / right-click menu not working | Check `%TEMP%\dinox_systray.log` — does it show `Build: 2026-03-16-v2`? If not: `rm -rf build` and rebuild |
+| Systray / right-click menu not working | Check `%TEMP%\dinox_systray.log` — does it show `Build: 2026-03-17-v8`? If not: `rm -rf build` and rebuild |
 | DinoX starts but runs old version | Old `dinox.exe` still in Task Manager? Kill it, then run `bash scripts/update_dist.sh` and restart |

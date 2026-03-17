@@ -315,6 +315,20 @@ void main(string[] args) {
                 message("Icon theme was '%s', forcing 'Adwaita'", icon_theme.theme_name);
                 icon_theme.theme_name = "Adwaita";
             }
+
+            // Window decoration buttons on the LEFT (like macOS/custom) and
+            // smooth font rendering via subpixel hinting.
+            // The settings.ini in dist/share/gtk-4.0/ has these too, but
+            // applying them here ensures they take effect even if the file
+            // is missing or GTK loaded defaults before reading it.
+            var gtk_settings = Gtk.Settings.get_for_display(display);
+            if (gtk_settings != null) {
+                gtk_settings.gtk_decoration_layout = "close,minimize,maximize:";
+                gtk_settings.gtk_xft_antialias = 1;
+                gtk_settings.gtk_xft_hinting = 1;
+                gtk_settings.gtk_xft_hintstyle = "hintslight";
+                gtk_settings.gtk_xft_rgba = "rgb";
+            }
         }
 #endif
 

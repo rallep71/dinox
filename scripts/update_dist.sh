@@ -612,12 +612,18 @@ if [ -d "/mingw64/share/icons/hicolor" ]; then
     echo "  [OK] Hicolor icons"
 fi
 
-# GTK4 settings
-if [ -f "/mingw64/share/gtk-4.0/settings.ini" ]; then
-    mkdir -p dist/share/gtk-4.0
-    cp /mingw64/share/gtk-4.0/settings.ini dist/share/gtk-4.0/
-    echo "  [OK] GTK settings"
-fi
+# GTK4 settings — generate custom settings.ini for Windows.
+# The MSYS2 default has no font rendering or decoration config.
+mkdir -p dist/share/gtk-4.0
+cat > dist/share/gtk-4.0/settings.ini <<'GTKEOF'
+[Settings]
+gtk-decoration-layout=close,minimize,maximize:
+gtk-xft-antialias=1
+gtk-xft-hinting=1
+gtk-xft-hintstyle=hintslight
+gtk-xft-rgba=rgb
+GTKEOF
+echo "  [OK] GTK settings (font hinting + decoration layout)"
 
 # Pixbuf loaders cache
 if [ -f "/mingw64/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache" ]; then
