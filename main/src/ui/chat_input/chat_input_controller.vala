@@ -68,7 +68,7 @@ public class ChatInputController : Object {
             if (root != null) {
                 var dlg = new Adw.AlertDialog(
                     _("Video recording failed"),
-                    _("The video encoder could not be initialized: %s\n\nPlease ensure GStreamer plugins are installed (gst-plugins-good, gst-plugins-ugly, gst-libav).").printf(msg));
+                    _("The video encoder could not be initialized:\n\n%s").printf(msg));
                 dlg.add_response("ok", _("OK"));
                 dlg.present(root);
             }

@@ -58,6 +58,44 @@ public class VideoRecorder : GLib.Object {
     public VideoRecorder() {
     }
 
+    /**
+     * Detect the Linux distribution from /etc/os-release and return
+     * a distro-specific install hint for GStreamer H.264 encoder packages.
+     */
+    private static string get_h264_install_hint() {
+        string? os_id = null;
+        try {
+            string contents;
+            FileUtils.get_contents("/etc/os-release", out contents);
+            foreach (string line in contents.split("\n")) {
+                // Match ID= or ID_LIKE= to detect derivative distros too
+                if (line.has_prefix("ID=")) {
+                    os_id = line.substring(3).replace("\"", "").down();
+                    break;
+                }
+            }
+        } catch (FileError e) {
+            // /etc/os-release not found — likely Windows or unusual system
+        }
+
+        if (os_id != null) {
+            if (os_id.contains("opensuse") || os_id.contains("suse")) {
+                return "openSUSE: sudo zypper install gstreamer-plugins-ugly gstreamer-plugins-libav "
+                     + "(Packman-Repo erforderlich: https://ftp.gwdg.de/pub/linux/misc/packman/suse/)";
+            }
+            if (os_id.contains("fedora") || os_id.contains("rhel") || os_id.contains("centos")) {
+                return "Fedora/RHEL: sudo dnf install gstreamer1-plugins-ugly gstreamer1-libav "
+                     + "(RPM Fusion repo may be required: https://rpmfusion.org/)";
+            }
+            if (os_id.contains("arch") || os_id.contains("manjaro") || os_id.contains("endeavouros")) {
+                return "Arch: sudo pacman -S gst-plugins-ugly gst-libav";
+            }
+        }
+        // Debian/Ubuntu default (also fallback for unknown distros)
+        return "Debian/Ubuntu: sudo apt install gstreamer1.0-plugins-ugly gstreamer1.0-libav "
+             + "(or gstreamer1.0-vaapi for Intel/AMD hardware encoding)";
+    }
+
     ~VideoRecorder() {
         if (is_recording) {
             cancel_recording();
@@ -189,8 +227,9 @@ public class VideoRecorder : GLib.Object {
             // We do NOT fall back to VP8/WebM because most mobile XMPP clients
             // (Monocles, Conversations) cannot play WebM video messages.
             // H.264/MP4 is the only universally supported format.
+            string hint = get_h264_install_hint();
             throw new Error(Quark.from_string("VideoRecorder"), 0,
-                "No working H.264 video encoder found. Install one of: gstreamer1.0-vaapi (Intel/AMD), gstreamer1.0-plugins-ugly (x264), gstreamer1.0-libav (ffmpeg), or libgstreamer-plugins-bad1.0 (openh264)");
+                "No working H.264 video encoder found.\n\n%s".printf(hint));
         }
 
         // Force Constrained Baseline profile for maximum mobile compatibility.
