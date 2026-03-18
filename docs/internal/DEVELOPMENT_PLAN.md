@@ -781,38 +781,7 @@ This document is organized as a **chronological release timeline** first, follow
 | **MQTT Dashboard** | Bot-conversation paradigm replaces traditional dashboard. Chat commands (`/mqtt subscribe`, `/mqtt status`, `/mqtt history`) provide interactive topic management within XMPP conversations. ASCII sparklines for numeric data. | **DONE** |
 | **MQTT Settings UI** | Broker host/port, TLS, server type detection (ejabberd vs Prosody), XMPP credential reuse. Per-account and standalone mode. Preferences → MQTT panel. | **DONE** |
 | **Home Assistant / Node-RED** | Subscribe to HA discovery topics, control actuators, Node-RED flow integration. 3 network scenarios documented (LAN, mixed, cloud). Bridge formatting for XMPP↔MQTT. | **DONE** |
-| **MQTT Bridge: File Transfer** | Extend bridge to forward files (images, PDFs, etc.) from MQTT to XMPP. Node-RED (or any MQTT publisher) sends URL or base64-Daten → DinoX bridge uploads via HTTP Upload (XEP-0363) → sends OOB download link to target JID. OMEMO encryption applies automatically. Use-case: Node-RED KI-Flows erzeugen Bilder/Reports → publizieren auf MQTT-Topic → DinoX leitet an XMPP-Kontakte/MUCs weiter. | **PLANNED** |
-
-#### MQTT Bridge File Transfer — Implementation Plan
-
-Typischer Flow: **Node-RED** (KI-Flow, Bildgenerierung, Reports) → **MQTT publish** → **DinoX Bridge** (existiert) → **HTTP Upload + OOB** → **XMPP mit OMEMO**
-
-**Phase 1: URL-basiertes File Forwarding**
-- Bridge rule bekommt neues `format`: `"file"` (zusätzlich zu `"full"`, `"payload"`, `"short"`)
-- MQTT payload = plain URL (z.B. Node-RED schickt `https://example.com/report.pdf`)
-- DinoX lädt die Datei runter, re-uploaded via HTTP Upload (XEP-0363), sendet OOB-Message an Ziel-JID
-- OMEMO-Verschlüsselung greift automatisch (wie bei Textmessages)
-
-**Phase 2: Base64/Binary Payload**
-- MQTT payload = JSON: `{"filename": "chart.png", "mime": "image/png", "data": "<base64>"}`
-- Node-RED kann z.B. KI-generierte Bilder direkt als base64 senden
-- DinoX decodiert, schreibt temp-Datei, uploaded via HTTP Upload, sendet OOB
-- Größenlimit konfigurierbar pro Bridge-Rule (Standard: 10 MB)
-
-**Phase 3: Text + Attachments kombiniert**
-- MQTT payload = JSON: `{"text": "Tagesbericht ...", "attachments": [{"url": "...", "filename": "report.pdf"}]}`
-- DinoX sendet Text als normale Nachricht + Dateien als OOB-Messages
-- Ermöglicht Node-RED KI-Flows die Text + Bilder/PDFs in einem Rutsch zu schicken
-
-**Betroffene Dateien:**
-- `plugins/mqtt/src/bridge_manager.vala` — `deliver_message()` erweitert für File-Handling
-- `libdino/src/service/file_manager.vala` — HTTP Upload API (existiert, wiederverwenden)
-- `plugins/mqtt/src/mqtt_bot_manager_dialog.vala` — UI für File-Bridge Format-Option
-- `plugins/mqtt/src/connection_config.vala` — Größenlimit-Config
-
-**Dependencies (alle bereits vorhanden):**
-- HTTP Upload (XEP-0363)
-- OMEMO File Encryption (encrypt-then-upload)
+| **MQTT Bridge: File Transfer** | Binary transfer via magic-byte detection (17 formats: images, audio, video, documents). MQTT binary payloads are saved to temp file and forwarded via HTTP Upload (XEP-0363) with automatic OMEMO encryption. 10MB limit, security-audited temp file handling (`/tmp/dinox-mqtt-*`). Works with Node-RED and any MQTT publisher. | **DONE** |
 - ejabberd `mod_mqtt`
 
 ### Q2 2026: PipeWire Compatibility (Video Messages & Call Pipeline)
@@ -830,7 +799,7 @@ Detailed analysis and implementation plan: [PIPEWIRE_MIGRATION_PLAN.md](PIPEWIRE
 | Item | Description | Status |
 |------|-------------|--------|
 | **Windows Code Signing (SignPath)** | Authenticode certificate via SignPath Foundation (free for OSS). Eliminates SmartScreen warnings. Build-integrated via GitHub Actions. Application submitted Feb 2026, awaiting approval. | ⏳ Waiting for SignPath approval since Feb 11, 2026 |
-| **Notification Sounds (Windows)** | Linux notification sounds (messages + call ringtone) are complete via libcanberra. Windows needs a native backend (PlaySound/XAudio2) since libcanberra is not available. | TODO |
+| **Notification Sounds (Windows)** | Messages and incoming calls already play Windows system sounds via Toast notifications (`ms-winsoundevent`). Missing: outgoing call ringback, MQTT alerts without toast, custom sound selection. Full native backend (PlaySound/XAudio2) still needed for these cases. | PARTIAL |
 | **Screen Sharing** | Share desktop or windows during calls | TODO |
 | **Whiteboard** | Collaborative drawing (protocol TBD) | CONCEPT |
 

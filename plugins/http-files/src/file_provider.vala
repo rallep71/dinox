@@ -88,17 +88,31 @@ public class FileProvider : Dino.FileProvider, Object {
             // - If no OOB but body is a single http(s):// URL: treat as file transfer
             //   (many clients use HTTP Upload without OOB element)
             string? url_candidate = null;
+            bool from_body_only = false;
             if (oob_url != null) {
                 url_candidate = oob_url;
             } else if (message.body != null && FileProvider.omemo_url_regex.match(message.body)) {
                 url_candidate = message.body;
             } else if (message.body != null && FileProvider.http_url_regex.match(message.body.strip())) {
                 url_candidate = message.body.strip();
+                from_body_only = true;
             }
 
             bool normal_file = url_candidate != null && FileProvider.http_url_regex.match(url_candidate);
             bool omemo_file = url_candidate != null && FileProvider.omemo_url_regex.match(url_candidate);
             if (normal_file || omemo_file) {
+                // Body-only URLs (no OOB element) might be regular webpage links
+                // sent by other clients (Gajim, Monal, Conversations, etc.) rather
+                // than file transfers.  Do a HEAD request to check Content-Type.
+                if (from_body_only && normal_file) {
+                    bool is_webpage = yield outer.check_is_webpage(url_candidate);
+                    if (is_webpage) {
+                        debug("http-files: body-only URL is a webpage, treating as text message: %s",
+                              FileProvider.sanitize_for_log(url_candidate));
+                        return false;
+                    }
+                }
+
                 debug("http-files: incoming legacy file message normal=%s omemo=%s url_from=%s url=%s body='%s'",
                       normal_file.to_string(),
                       omemo_file.to_string(),
@@ -136,6 +150,59 @@ public class FileProvider : Dino.FileProvider, Object {
         }
 
         file_incoming(additional_info, message.from, message.time, message.local_time, conversation, receive_data, file_meta);
+    }
+
+    /**
+     * Quick HEAD check to determine if a URL points to a webpage.
+     * Returns true if Content-Type is text/html or application/xhtml+xml.
+     * Returns false on error or any other Content-Type (assume downloadable file).
+     */
+    public async bool check_is_webpage(string url) {
+        try {
+            Uri.parse(url, UriFlags.NONE);
+        } catch (Error e) {
+            return false;
+        }
+
+        yield ensure_soup_context();
+
+        var head_message = new Soup.Message("HEAD", url);
+        head_message.request_headers.append("Accept-Encoding", "identity");
+
+#if SOUP_3_0
+        string transfer_host = "";
+        try {
+            transfer_host = Uri.parse(url, UriFlags.NONE).get_host();
+        } catch (Error e) { }
+        head_message.accept_certificate.connect((peer_cert, errors) => {
+            return ConnectionManager.on_invalid_certificate(transfer_host, peer_cert, errors, dino_db);
+        });
+#endif
+
+        try {
+#if SOUP_3_0
+            yield session.send_async(head_message, GLib.Priority.LOW, null);
+#else
+            yield session.send_async(head_message, null);
+#endif
+        } catch (Error e) {
+            return false;
+        }
+
+        uint status = head_message.status_code;
+        if (status < 200 || status >= 300) {
+            return false;
+        }
+
+        string? content_type = null;
+        head_message.response_headers.foreach((name, val) => {
+            if (name.down() == "content-type") content_type = val;
+        });
+
+        if (content_type == null) return false;
+
+        string ct_lower = content_type.down().strip();
+        return ct_lower.has_prefix("text/html") || ct_lower.has_prefix("application/xhtml");
     }
 
     public async FileMeta get_meta_info(FileTransfer file_transfer, FileReceiveData receive_data, FileMeta file_meta) throws FileReceiveError {

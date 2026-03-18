@@ -97,9 +97,11 @@ public class FileDefaultWidget : Gtk.Box {
                 popover_menu.closed.connect(on_pointer_left);
                 break;
             case FileTransfer.State.NOT_STARTED:
-                if (mime_description != null) {
-                    mime_label.label =  _("%s offered: %s").printf(mime_description, get_size_string(size));
-                } else if (size != -1) {
+                if (mime_description != null && size >= 0) {
+                    mime_label.label =  _("%%s offered: %%s").printf(mime_description, get_size_string(size));
+                } else if (mime_description != null) {
+                    mime_label.label = _("%%s offered").printf(mime_description);
+                } else if (size >= 0) {
                     mime_label.label = _("File offered: %s").printf(get_size_string(size));
                 } else {
                     mime_label.label = _("File offered");
@@ -157,7 +159,9 @@ public class FileDefaultWidget : Gtk.Box {
     }
 
     public static string get_size_string(int64 size) {
-        if (size < 1024) {
+        if (size < 0) {
+            return _("—");
+        } else if (size < 1024) {
             return @"$(size) B";
         } else if (size < 1000 * 1000) {
             return @"$(size / 1000) kB";
