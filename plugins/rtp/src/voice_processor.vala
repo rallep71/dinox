@@ -171,8 +171,9 @@ public class Dino.Plugins.Rtp.VoiceProcessor : Audio.Filter {
     }
 
     public override bool start() {
-        debug("VoiceProcessor.start(echo_probe=%s, initial_delay=%dms)", echo_probe != null ? "yes" : "no", echo_probe != null ? echo_probe.delay : -1);
-        native = init_native(echo_probe.delay);
+        int initial_delay = echo_probe != null ? echo_probe.delay : 200;
+        debug("VoiceProcessor.start(echo_probe=%s, initial_delay=%dms)", echo_probe != null ? "yes" : "no", initial_delay);
+        native = init_native(initial_delay);
         if (process_outgoing_buffer_handler_id == 0 && echo_probe != null) {
             process_outgoing_buffer_handler_id = echo_probe.on_new_buffer.connect(process_outgoing_buffer);
         }

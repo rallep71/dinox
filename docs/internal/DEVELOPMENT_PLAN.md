@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 17, 2026 (v1.1.7.6)
+> **Last Updated**: March 18, 2026 (v1.1.7.7)
 > **Current Release Line**: 1.1.7.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.7.6 |
+| **Current Version** | 1.1.7.7 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (DE/FR/ES 100%) |
 | **Build Status** | Clean |
@@ -20,6 +20,20 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.7.7 (AV Call Stability, Tor DNS Leak Fix, Proxy Hardening)
+- **Echo probe null dereference** (voice_processor.vala): SIGSEGV when `echo_probe == null` in `start()` — safe conditional added
+- **SRTP crypto_session destroy race** (stream.vala): nulled before EOS → incoming packets hit null decryptor. Reordered.
+- **RTP/RTCP EOS null crash** (stream.vala): EOS callbacks after send pads nulled. Null guards added.
+- **Video caps.get_size() crash** (video_widget.vala): out-of-bounds when caps empty. Size check added.
+- **EOS timeout too short** (audio_recorder.vala): 500ms→3000ms for MP4 faststart rewrite
+- **Windows H.264 encoder** (video_recorder.vala): `mfh264enc` added as first fallback
+- **Tor DNS anonymity leak** (stream_connect.vala): SRV lookups done locally before Tor proxy — ISP sees target server. Fixed: skip SRV when `proxy_type=="tor"`
+- **is_transitioning deadlock** (tor_manager.vala): exception in start/stop_tor prevents future toggles. try-finally added.
+- **lyrebird.exe zombie** (tor_controller.vala): Windows pluggable transport not killed on restart. taskkill added.
+- **Quieter startup**: 39× `message()`→`debug()` for less noise
+- **URL display fix**: body-only URLs shown as clickable text instead of broken file offers
+- 11 files changed, 9 bugs fixed (5 CRITICAL, 3 HIGH, 1 Windows-specific)
 
 ### v1.1.7.6 (Windows: Font Rendering, Systray Modernization, CI Hardening, Stability)
 - **Font rendering**: `gtk-font-name` set to "Segoe UI 10", `gtk-hint-font-metrics` enabled, fontconfig `fonts.conf` with Windows font aliases, avatar letter font fixed

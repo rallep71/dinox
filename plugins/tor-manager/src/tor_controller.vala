@@ -123,10 +123,17 @@ namespace Dino.Plugins.TorManager {
             // We do this BEFORE finding a free port to free up the default port (9155) if possible.
             try {
 #if WINDOWS
-                // Windows: Use taskkill to kill any running tor.exe
+                // Windows: Use taskkill to kill any running tor.exe and lyrebird.exe (pluggable transport)
                 string[] kill_cmd = {"taskkill", "/F", "/IM", "tor.exe"};
                 var kill_proc = new Subprocess.newv(kill_cmd, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
                 yield kill_proc.wait_async();
+                try {
+                    string[] kill_pt_cmd = {"taskkill", "/F", "/IM", "lyrebird.exe"};
+                    var kill_pt = new Subprocess.newv(kill_pt_cmd, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
+                    yield kill_pt.wait_async();
+                } catch (Error e) {
+                    // lyrebird might not be running — that's fine
+                }
 #else
                 // Linux/macOS: Use pkill to match config file path
                 string[] kill_cmd = {"pkill", "-9", "-f", "dinox/tor/torrc"};

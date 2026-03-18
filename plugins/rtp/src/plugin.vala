@@ -47,10 +47,11 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
 
     private int pause_count = 0;
     public void pause() {
-//        if (pause_count == 0) {
-//            debug("Pausing pipe for modifications");
-//            pipe.set_state(Gst.State.PAUSED);
-//        }
+        // Live pipeline must NOT be paused globally — live sources
+        // (camera/mic) stop producing data and downstream elements
+        // time out with "Internal data stream error".
+        // Safety is handled via pad probes at the specific modification
+        // points (codec_util.update_rescale_caps, video_widget attach/detach).
         pause_count++;
     }
     public void unpause() {

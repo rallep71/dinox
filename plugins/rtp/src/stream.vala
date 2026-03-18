@@ -699,6 +699,7 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
     }
 
     private void on_send_rtp_eos() {
+        if (send_rtp == null) return;
         if (send_rtp_src_pad != null) {
             send_rtp_src_pad.unlink(send_rtp.get_static_pad("sink"));
             send_rtp_src_pad = null;
@@ -712,6 +713,7 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
     }
 
     private void on_send_rtcp_eos() {
+        if (send_rtcp == null) return;
         send_rtcp.set_locked_state(true);
         send_rtcp.set_state(Gst.State.NULL);
         // This happens async, so pipe might be gone by now.
@@ -745,9 +747,9 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
         // so on_recv_rtp_data() won't access a NULL crypto_session.
         push_recv_data = false;
         created = false;
-        crypto_session = null;
         if (recv_rtp != null) recv_rtp.end_of_stream();
         if (recv_rtcp != null) recv_rtcp.end_of_stream();
+        crypto_session = null;
         
         // Disconnect all appsink signals before destroying elements
         if (send_rtp != null) {

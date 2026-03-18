@@ -132,12 +132,17 @@ webtunnel 192.95.36.142:443 CDF2E852BF539B82BC10E27E9115A342BCFE8D62 url=https:/
 
         private async void cleanup_lingering_proxies() {
             // 1. Collect targets first to avoid DB locking/iterator invalidation during updates
+            //    Only clear SOCKS5 proxies that point to localhost (Tor-managed).
+            //    Manual SOCKS5 proxies (external hosts) must be preserved.
             var targets = new Gee.ArrayList<int>();
             
             foreach (var row in db.account.select()) {
                 string ptype = row[db.account.proxy_type];
                 if (ptype == "socks5") {
-                    targets.add(row[db.account.id]);
+                    string phost = row[db.account.proxy_host] ?? "";
+                    if (phost == "127.0.0.1" || phost == "localhost" || phost == "::1" || phost == "") {
+                        targets.add(row[db.account.id]);
+                    }
                 }
             }
 
@@ -209,9 +214,12 @@ webtunnel 192.95.36.142:443 CDF2E852BF539B82BC10E27E9115A342BCFE8D62 url=https:/
             // If running, restart to apply
             if (is_enabled && !is_transitioning) {
                 is_transitioning = true;
-                yield stop_tor(false);
-                yield start_tor(true);
-                is_transitioning = false;
+                try {
+                    yield stop_tor(false);
+                    yield start_tor(true);
+                } finally {
+                    is_transitioning = false;
+                }
             }
         }
 
@@ -227,9 +235,12 @@ webtunnel 192.95.36.142:443 CDF2E852BF539B82BC10E27E9115A342BCFE8D62 url=https:/
             
             if (is_enabled && !is_transitioning) {
                 is_transitioning = true;
-                yield stop_tor(false);
-                yield start_tor(true);
-                is_transitioning = false;
+                try {
+                    yield stop_tor(false);
+                    yield start_tor(true);
+                } finally {
+                    is_transitioning = false;
+                }
             }
         }
 
@@ -245,9 +256,12 @@ webtunnel 192.95.36.142:443 CDF2E852BF539B82BC10E27E9115A342BCFE8D62 url=https:/
 
             if (is_enabled && !is_transitioning) {
                 is_transitioning = true;
-                yield stop_tor(false);
-                yield start_tor(true);
-                is_transitioning = false;
+                try {
+                    yield stop_tor(false);
+                    yield start_tor(true);
+                } finally {
+                    is_transitioning = false;
+                }
             }
         }
 
@@ -273,19 +287,22 @@ webtunnel 192.95.36.142:443 CDF2E852BF539B82BC10E27E9115A342BCFE8D62 url=https:/
             debug("TorManager: set_enabled(%s) called. Current state: %s", enabled.to_string(), is_enabled.to_string());
             is_transitioning = true;
 
-            if (enabled) {
-                debug("TorManager: Starting Tor...");
-                yield start_tor(true);
-                // If user toggled OFF while we were starting, clean up now
-                if (!is_enabled) {
-                    debug("TorManager: User disabled Tor during startup. Cleaning up.");
+            try {
+                if (enabled) {
+                    debug("TorManager: Starting Tor...");
+                    yield start_tor(true);
+                    // If user toggled OFF while we were starting, clean up now
+                    if (!is_enabled) {
+                        debug("TorManager: User disabled Tor during startup. Cleaning up.");
+                        yield stop_tor(true);
+                    }
+                } else {
+                    debug("TorManager: Stopping Tor and cleaning up...");
                     yield stop_tor(true);
                 }
-            } else {
-                debug("TorManager: Stopping Tor and cleaning up...");
-                yield stop_tor(true);
+            } finally {
+                is_transitioning = false;
             }
-            is_transitioning = false;
         }
 
         public async void start_tor(bool apply_proxy = false) {

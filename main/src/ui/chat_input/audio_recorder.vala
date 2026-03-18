@@ -70,6 +70,10 @@ public class AudioRecorder : GLib.Object {
         if (encoder == null) {
             encoder = ElementFactory.make("voaacenc", "encoder");
         }
+        if (encoder == null) {
+            // Windows Media Foundation AAC — available on Windows 10+
+            encoder = ElementFactory.make("mfaacenc", "encoder");
+        }
         parser = ElementFactory.make("aacparse", "parser");
         muxer = ElementFactory.make("mp4mux", "muxer");
         sink = ElementFactory.make("filesink", "sink");
@@ -85,9 +89,13 @@ public class AudioRecorder : GLib.Object {
         // Second audioconvert: S16LE (after NS+compressor) → F32LE (for avenc_aac)
         convert2 = ElementFactory.make("audioconvert", "convert2");
 
-        if (encoder.get_factory().get_name() == "avenc_aac" || encoder.get_factory().get_name() == "voaacenc") {
+        string encoder_name = encoder.get_factory().get_name();
+        if (encoder_name == "avenc_aac" || encoder_name == "voaacenc") {
             // 64kbps is decent for mono AAC-LC
             encoder.set("bitrate", 64000);
+        } else if (encoder_name == "mfaacenc") {
+            // Media Foundation AAC: bitrate in bits/sec
+            encoder.set("bitrate", (uint) 64000);
         }
 
         // Start muted - unmute after 400ms to suppress PipeWire transient crackling
@@ -213,9 +221,9 @@ public class AudioRecorder : GLib.Object {
             // 2. Send EOS so mp4mux writes the moov atom
             pipeline.send_event(new Event.eos());
             
-            // 3. Wait for muxer to finalize (max 500ms)
+            // 3. Wait for muxer to finalize (max 3s — faststart rewrites the entire file)
             if (bus != null) {
-                bus.timed_pop_filtered((Gst.ClockTime)(500 * Gst.MSECOND),
+                bus.timed_pop_filtered(3 * Gst.SECOND,
                     Gst.MessageType.EOS | Gst.MessageType.ERROR);
                 bus = null;
             }

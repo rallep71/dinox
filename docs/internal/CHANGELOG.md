@@ -5,6 +5,37 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.7.7] - 2026-03-18
+
+### Fixed — Audio/Video Calls (Linux + Windows)
+- **CRITICAL: Echo probe null dereference** (`voice_processor.vala`): `echo_probe.delay` called when `echo_probe == null` in `start()` → SIGSEGV. Now uses safe conditional: `int initial_delay = echo_probe != null ? echo_probe.delay : 200;`
+- **CRITICAL: SRTP crypto_session destroy race** (`stream.vala`): `crypto_session = null` was set BEFORE `recv_rtp.end_of_stream()`, causing incoming packets to hit null SRTP decryptor. Moved nulling AFTER EOS.
+- **CRITICAL: on_send_rtp_eos/on_send_rtcp_eos null crash** (`stream.vala`): EOS callbacks could fire after `send_rtp`/`send_rtcp` was already nulled. Added null guards.
+- **HIGH: Video caps.get_size() crash** (`video_widget.vala`): `input_caps_changed()` called `caps.get_size()` without checking for 0 → out-of-bounds access. Added size check.
+- **HIGH: EOS timeout too short** (`audio_recorder.vala`): 500ms EOS timeout was insufficient for MP4 faststart file rewrite on slow storage → truncated voice messages. Increased to 3000ms.
+- **Windows: Missing H.264 encoder** (`video_recorder.vala`): Windows Media Foundation `mfh264enc` added as first H.264 encoder in fallback chain (before VAAPI/VA/x264/avenc/openh264).
+- **GStreamer pipeline stability** (`plugin.vala`, `codec_util.vala`): `pause()` kept as safe no-op; pad probe added in `update_rescale_caps()` to prevent capsfilter race.
+
+### Fixed — SOCKS5 Proxy / Tor (Linux + Windows)
+- **CRITICAL: Tor DNS anonymity leak** (`stream_connect.vala`): SRV DNS lookups were performed locally BEFORE connecting through Tor proxy — ISP DNS sees which XMPP server user contacts. Fix: skip SRV lookups when `proxy_type == "tor"`, connect directly to `domain:5222`/`domain:443` through the Tor circuit.
+- **CRITICAL: is_transitioning permanent deadlock** (`tor_manager.vala`): If `start_tor()`/`stop_tor()` threw an exception, `is_transitioning` flag was never reset → Tor could never be toggled again. Fixed with try-finally in `set_enabled()`, `set_bridges()`, `update_use_bridges()`, `update_firewall_ports()`.
+- **HIGH: lyrebird.exe zombie processes** (`tor_controller.vala`): Windows only — `lyrebird.exe` (pluggable transport bridge) was not killed on Tor restart, accumulating zombie processes holding ports. Added `taskkill /F /IM lyrebird.exe` to the zombie killer in `start()`.
+
+### Changed — Logging
+- **Quieter startup**: Demoted 39× `message()` calls to `debug()` in `main.vala`, `application.vala`, `muc_manager.vala` — reduces noise in normal operation while keeping full diagnostics at debug level.
+
+### Fixed — URL Display
+- **Body-only URLs**: Incoming messages containing only a URL in the body were displayed as broken file transfer offers instead of clickable text links.
+
+### Changed — Documentation
+- README updates: startup instructions, SmartScreen removal, geolocation limitation, PipeWire migration plan
+
+### Stats
+- 11 files changed across 4 subsystems (RTP/calls, Tor/proxy, XMPP core, UI)
+- 6 AV bugs fixed (3 CRITICAL, 2 HIGH, 1 Windows-specific)
+- 3 proxy bugs fixed (2 CRITICAL, 1 HIGH)
+- Major security fix: Tor DNS leak prevention
+
 ## [1.1.7.6] - 2026-03-17
 
 ### Fixed — Windows: Font Rendering

@@ -229,7 +229,7 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
 
     public void input_caps_changed(GLib.Object pad, ParamSpec spec) {
         Gst.Caps? caps = ((Gst.Pad)pad).caps;
-        if (caps == null) {
+        if (caps == null || caps.get_size() == 0) {
             debug("Input: No caps");
             return;
         }
@@ -276,10 +276,14 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
         }
         prepare.name = @"video_widget_$(id)_prepare";
         prepare.get_static_pad("sink").notify["caps"].connect(input_caps_changed);
+        prepare.set_locked_state(true);
         pipe.add(prepare);
-        connected_stream.add_output(prepare);
         prepare.link(sink);
+        connected_stream.add_output(prepare);
+        prepare.set_locked_state(false);
+        prepare.sync_state_with_parent();
         sink.set_locked_state(false);
+        sink.sync_state_with_parent();
         plugin.unpause();
         attached = true;
     }
@@ -314,11 +318,15 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
 #if GST_1_20
         }
 #endif
+        prepare.set_locked_state(true);
         pipe.add(prepare);
+        prepare.link(sink);
         connected_device_element = connected_device.link_source();
         connected_device_element.link(prepare);
-        prepare.link(sink);
+        prepare.set_locked_state(false);
+        prepare.sync_state_with_parent();
         sink.set_locked_state(false);
+        sink.sync_state_with_parent();
         plugin.unpause();
         attached = true;
     }

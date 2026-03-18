@@ -190,7 +190,15 @@ public class VideoRecorder : GLib.Object {
         // H.264 encoder - try hardware first, then software fallbacks
         // Each encoder is validated with a 1-frame test pipeline to catch runtime failures
         // (e.g. openh264enc factory exists but the Cisco library can't initialize)
-        video_encoder = try_create_encoder("vaapih264enc", "video-encoder");
+        // Windows Media Foundation H.264 — native on Windows 10+, fastest option
+        video_encoder = try_create_encoder("mfh264enc", "video-encoder");
+        if (video_encoder != null) {
+            debug("Using mfh264enc (Windows Media Foundation) as H.264 encoder");
+            video_encoder.set("bitrate", (uint) 1500000); // bps
+        }
+        if (video_encoder == null) {
+            video_encoder = try_create_encoder("vaapih264enc", "video-encoder");
+        }
         if (video_encoder == null) {
             video_encoder = try_create_encoder("vah264enc", "video-encoder");
         }
@@ -261,6 +269,10 @@ public class VideoRecorder : GLib.Object {
         if (audio_encoder == null) {
             audio_encoder = ElementFactory.make("voaacenc", "audio-encoder");
         }
+        if (audio_encoder == null) {
+            // Windows Media Foundation AAC — available on Windows 10+
+            audio_encoder = ElementFactory.make("mfaacenc", "audio-encoder");
+        }
         audio_parser = ElementFactory.make("aacparse", "audio-parser");
 
         // === Muxer + Sink ===
@@ -289,7 +301,7 @@ public class VideoRecorder : GLib.Object {
         if (audio_convert == null) missing += "audioconvert (gst-plugins-base)";
         if (audio_resample == null) missing += "audioresample (gst-plugins-base)";
         if (audio_capsfilter == null) missing += "capsfilter (gstreamer)";
-        if (audio_encoder == null) missing += "AAC encoder (avenc_aac from gst-libav, or voaacenc from gst-plugins-bad)";
+        if (audio_encoder == null) missing += "AAC encoder (avenc_aac, voaacenc, or mfaacenc)";
         if (audio_parser == null) missing += "aacparse (gst-plugins-good)";
         if (audio_queue == null) missing += "queue (gstreamer)";
         if (muxer == null) missing += "mp4mux (gst-plugins-good)";
@@ -316,6 +328,8 @@ public class VideoRecorder : GLib.Object {
         debug("VideoRecorder: using audio encoder '%s'", audio_enc_name);
         if (audio_enc_name == "avenc_aac" || audio_enc_name == "voaacenc") {
             audio_encoder.set("bitrate", 96000);
+        } else if (audio_enc_name == "mfaacenc") {
+            audio_encoder.set("bitrate", (uint) 96000);
         } else if (audio_enc_name == "vorbisenc") {
             audio_encoder.set("bitrate", 96000);
         } else if (audio_enc_name == "opusenc") {

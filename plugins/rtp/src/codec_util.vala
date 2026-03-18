@@ -267,8 +267,20 @@ public class Dino.Plugins.Rtp.CodecUtil {
     public void update_rescale_caps(Gst.Element encode_element, Gst.Caps caps) {
         Gst.Bin? encode_bin = encode_element as Gst.Bin;
         if (encode_bin == null) return;
+        Gst.Element? rescale = encode_bin.get_by_name(@"$(encode_bin.name)_rescale");
         Gst.Element rescale_caps = encode_bin.get_by_name(@"$(encode_bin.name)_rescale_caps");
-        rescale_caps.set("caps", caps);
+        if (rescale == null) {
+            rescale_caps.set("caps", caps);
+            return;
+        }
+        // Block data on videoscale's src pad so no buffer is mid-copy
+        // in videoconvert when we change the capsfilter.
+        // Prevents SIGSEGV in gst_video_frame_copy_plane.
+        Gst.Pad srcpad = rescale.get_static_pad("src");
+        srcpad.add_probe(Gst.PadProbeType.BLOCK_DOWNSTREAM, (pad, info) => {
+            rescale_caps.set("caps", caps);
+            return Gst.PadProbeReturn.REMOVE;
+        });
     }
 
     public Gst.Caps? get_rescale_caps(Gst.Element encode_element) {

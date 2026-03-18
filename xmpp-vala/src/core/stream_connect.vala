@@ -34,6 +34,14 @@ namespace Xmpp {
             // Use custom host and port, skip SRV lookup
             debug("Using custom connection: %s:%u", custom_host, custom_port);
             targets.append(new SrvTargetInfo() { host=custom_host, port=custom_port, service="xmpp-client", priority=0});
+        } else if (proxy_type == "tor") {
+            // SECURITY: When using Tor, skip local SRV DNS lookups entirely.
+            // Local DNS queries leak which XMPP server the user connects to,
+            // defeating Tor's anonymity. Let GLib's SOCKS5 proxy handle DNS
+            // resolution through the Tor network (remote DNS via SOCKS5 CONNECT).
+            debug("Tor proxy active: skipping local SRV lookup, connecting to %s:5222 via SOCKS5", remote.to_string());
+            targets.append(new SrvTargetInfo() { host=remote.to_string(), port=5222, service="xmpp-client", priority=0});
+            targets.append(new SrvTargetInfo() { host=remote.to_string(), port=443, service="xmpps-client", priority=10});
         } else {
             // Standard SRV lookup
             GLibFixes.Resolver resolver = GLibFixes.Resolver.get_default();
