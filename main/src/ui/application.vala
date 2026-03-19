@@ -915,9 +915,11 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         
         try {
             FileUtils.set_contents(batch_path, batch_content);
-            // Start batch file hidden using Subprocess to prevent CMD window flash
-            string[] wipe_argv = {"cmd.exe", "/c", "start /b \"\" \"" + batch_path + "\""};
-            debug("Panic wipe command: cmd.exe /c start /b \"\" \"%s\"", batch_path);
+            // Start batch file hidden — each argv element must be separate
+            // so that GLib's CreateProcessW quoting doesn't mangle embedded quotes.
+            // "start /b" prevents a visible CMD window; "" is the window title.
+            string[] wipe_argv = {"cmd.exe", "/c", "start", "/b", "", batch_path};
+            debug("Panic wipe: start /b \"%s\"", batch_path);
             new Subprocess.newv (wipe_argv, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
         } catch (Error e) {
             warning("Panic wipe spawn failed: %s", e.message);
@@ -1997,7 +1999,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             batch_content += "(goto) 2>nul & del \"%~f0\"\r\n";
             try {
                 FileUtils.set_contents(batch_path, batch_content);
-                string[] reset_argv = {"cmd.exe", "/c", "start /b \"\" \"" + batch_path + "\""};
+                string[] reset_argv = {"cmd.exe", "/c", "start", "/b", "", batch_path};
                 new Subprocess.newv (reset_argv, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
             } catch (Error e) {
                 warning("Database reset batch failed: %s", e.message);
