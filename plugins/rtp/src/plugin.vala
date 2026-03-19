@@ -551,7 +551,19 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
         }
 
         // If we have any pulseaudio devices, present only those. Don't want duplicated devices from pipewire and pulseaudio.
-        return pulse_devices.size > 0 ? pulse_devices : other_devices;
+        var result = pulse_devices.size > 0 ? pulse_devices : other_devices;
+
+        // Deduplicate by display_name: multiple GStreamer providers (e.g.
+        // wasapi + wasapi2 on Windows) can enumerate the same physical device.
+        var seen = new HashSet<string>();
+        var deduped = new ArrayList<MediaDevice>();
+        foreach (MediaDevice dev in result) {
+            if (!seen.contains(dev.display_name)) {
+                seen.add(dev.display_name);
+                deduped.add(dev);
+            }
+        }
+        return deduped;
     }
 
     public Gee.List<MediaDevice> get_video_sources() {
@@ -588,7 +600,19 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
         }
 
         // If we have any pipewire devices, present only those. Don't want duplicated devices from pipewire and video for linux.
-        return pipewire_devices.size > 0 ? pipewire_devices : other_devices;
+        var result = pipewire_devices.size > 0 ? pipewire_devices : other_devices;
+
+        // Deduplicate by display_name: multiple GStreamer providers can
+        // enumerate the same physical device.
+        var seen = new HashSet<string>();
+        var deduped = new ArrayList<MediaDevice>();
+        foreach (MediaDevice dev in result) {
+            if (!seen.contains(dev.display_name)) {
+                seen.add(dev.display_name);
+                deduped.add(dev);
+            }
+        }
+        return deduped;
     }
 
     private int get_max_fps(Device device) {
