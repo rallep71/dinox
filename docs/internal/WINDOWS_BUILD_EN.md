@@ -75,6 +75,7 @@ pacman -S --noconfirm \
     mingw-w64-x86_64-gst-plugins-base \
     mingw-w64-x86_64-gst-plugins-good \
     mingw-w64-x86_64-gst-plugins-bad \
+    mingw-w64-x86_64-gst-plugins-ugly \
     mingw-w64-x86_64-gst-libav \
     mingw-w64-x86_64-opus \
     mingw-w64-x86_64-openh264 \
@@ -380,7 +381,7 @@ pacman -S --noconfirm git tar base-devel \
     mingw-w64-x86_64-{gtk4,libadwaita,glib2,glib-networking,gdk-pixbuf2,libgee} \
     mingw-w64-x86_64-{libsoup3,json-glib,sqlcipher,sqlite3,icu} \
     mingw-w64-x86_64-{libgcrypt,gpgme,gnutls,qrencode,libsecret,libsrtp,libnice} \
-    mingw-w64-x86_64-{gstreamer,gst-plugins-base,gst-plugins-good,gst-plugins-bad,gst-libav} \
+    mingw-w64-x86_64-{gstreamer,gst-plugins-base,gst-plugins-good,gst-plugins-bad,gst-plugins-ugly,gst-libav} \
     mingw-w64-x86_64-{opus,openh264,libvpx,protobuf-c} \
     mingw-w64-x86_64-{openssl,librsvg,hicolor-icon-theme,adwaita-icon-theme,cantarell-fonts} \
     mingw-w64-x86_64-{mosquitto,tor,go,imagemagick}
