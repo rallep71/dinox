@@ -309,7 +309,7 @@ if [ -d "/mingw64/lib/gstreamer-1.0" ]; then
     for plugin in coreelements audioconvert audioresample audiorate volume autodetect \
                   wasapi wasapi2 directsound rtp rtpmanager srtp dtls nice webrtc \
                   opus vpx openh264 x264 voaac app audioparsers \
-                  playback typefindfunctions videoconvert videoscale videoflip \
+                  playback typefindfunctions videoconvert videoscale videofilter \
                   videorate videoparsersbad d3d11 d3d12 mediafoundation \
                   isomp4 audiofx libav \
                   videotestsrc audiotestsrc audiomixer \
