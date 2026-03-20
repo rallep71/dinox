@@ -301,9 +301,9 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
         pipe.add(sink);
         try {
 #if GST_1_20
-            prepare = Gst.parse_bin_from_description(@"videoflip video-direction=auto name=video_widget_$(id)_orientation ! videoflip method=horizontal-flip name=video_widget_$(id)_flip ! queue max-size-buffers=2 leaky=downstream name=video_widget_$(id)_queue ! videoconvert name=video_widget_$(id)_convert ! capsfilter name=video_widget_$(id)_caps caps=video/x-raw(memory:SystemMemory),format=BGRA", true);
+            prepare = Gst.parse_bin_from_description(@"queue max-size-buffers=2 leaky=downstream name=video_widget_$(id)_queue ! videoflip video-direction=auto name=video_widget_$(id)_orientation ! videoflip method=horizontal-flip name=video_widget_$(id)_flip ! videoconvert name=video_widget_$(id)_convert ! capsfilter name=video_widget_$(id)_caps caps=video/x-raw(memory:SystemMemory),format=BGRA", true);
 #else
-            prepare = Gst.parse_bin_from_description(@"videoflip method=horizontal-flip name=video_widget_$(id)_flip ! queue max-size-buffers=2 leaky=downstream name=video_widget_$(id)_queue ! videoconvert name=video_widget_$(id)_convert ! capsfilter name=video_widget_$(id)_caps caps=video/x-raw(memory:SystemMemory),format=BGRA", true);
+            prepare = Gst.parse_bin_from_description(@"queue max-size-buffers=2 leaky=downstream name=video_widget_$(id)_queue ! videoflip method=horizontal-flip name=video_widget_$(id)_flip ! videoconvert name=video_widget_$(id)_convert ! capsfilter name=video_widget_$(id)_caps caps=video/x-raw(memory:SystemMemory),format=BGRA", true);
 #endif
         } catch (GLib.Error e) {
             warning("Failed to parse video widget device prepare bin: %s", e.message);
@@ -312,15 +312,7 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
             return;
         }
         prepare.name = @"video_widget_$(id)_prepare";
-#if GST_1_20
-        if (prepare is Gst.Bin) {
-            ((Gst.Bin) prepare).get_by_name(@"video_widget_$(id)_flip").get_static_pad("sink").notify["caps"].connect(input_caps_changed);
-        } else {
-#endif
-            prepare.get_static_pad("sink").notify["caps"].connect(input_caps_changed);
-#if GST_1_20
-        }
-#endif
+        prepare.get_static_pad("sink").notify["caps"].connect(input_caps_changed);
         prepare.set_locked_state(true);
         pipe.add(prepare);
         prepare.link(sink);
