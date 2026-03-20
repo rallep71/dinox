@@ -750,6 +750,16 @@ public class VideoPlayerWidget : Widget {
 
         playbin.set("uri", file_to_play.get_uri());
         playbin.set("video-sink", vbin);
+#if WINDOWS
+        // Windows: playbin's internal autoaudiosink may fail to find wasapi2.
+        // Set audio-sink explicitly.
+        var asink = ElementFactory.make("wasapi2sink", "play-asink");
+        if (asink != null) {
+            asink.set("async", false);
+            asink.set("sync", true);
+            playbin.set("audio-sink", asink);
+        }
+#endif
 
         playback_pipeline = playbin;
 
