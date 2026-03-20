@@ -219,7 +219,10 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
         this.layout_manager = new Gtk.BinLayout();
 
         id = last_id++;
-        sink = new Sink() { async = false, sync = true };
+        // sync=false: render frames immediately without waiting for
+        // pipeline clock, matching the audio sink behavior (also sync=false)
+        // to avoid A/V desync caused by different processing chain lengths.
+        sink = new Sink() { async = false, sync = false };
         widget = new Gtk.Picture.for_paintable(sink.paintable);
         widget.insert_after(this, null);
         active_widgets++;
