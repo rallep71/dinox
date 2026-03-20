@@ -304,10 +304,13 @@ fi
 
 # Copy GStreamer plugins (for audio/video)
 if [ -d "/mingw64/lib/gstreamer-1.0" ]; then
+    # Clean old plugins to avoid stale DLLs from previous runs
+    rm -rf dist/lib/gstreamer-1.0
     mkdir -p dist/lib/gstreamer-1.0
     # Only copy essential plugins to keep size manageable
+    # Note: wasapi2 replaces both old wasapi and directsound on Windows 10+
     for plugin in coreelements audioconvert audioresample audiorate volume autodetect \
-                  wasapi2 directsound rtp rtpmanager srtp dtls nice webrtc \
+                  wasapi2 rtp rtpmanager srtp dtls nice webrtc \
                   opus vpx openh264 x264 voaac app audioparsers \
                   playback typefindfunctions videoconvert videoscale videofilter \
                   videorate videoparsersbad d3d11 d3d12 mediafoundation \
