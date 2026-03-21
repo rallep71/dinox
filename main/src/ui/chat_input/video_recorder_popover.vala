@@ -30,6 +30,8 @@ public class VideoRecorderPopover : Popover {
 
         // Allow the popover to be large enough for video preview
         this.width_request = 360;
+        // Prevent auto-close when GStreamer pipeline grabs focus (Windows)
+        this.autohide = false;
 
         Box main_box = new Box(Orientation.VERTICAL, 8);
         main_box.margin_start = 12;

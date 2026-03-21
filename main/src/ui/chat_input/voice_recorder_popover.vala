@@ -28,6 +28,8 @@ public class VoiceRecorderPopover : Popover {
 
     public VoiceRecorderPopover(AudioRecorder recorder) {
         this.recorder = recorder;
+        // Prevent auto-close when GStreamer pipeline grabs focus (Windows)
+        this.autohide = false;
         
         Box main_box = new Box(Orientation.VERTICAL, 8);
         main_box.margin_start = 12;

@@ -125,7 +125,6 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
             preview_window.close();
             preview_window = null;
         }
-        testing = false;
     }
 
     private void test_microphone() {
@@ -206,7 +205,10 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
         var sink = device_service.create_audio_sink(spk_name);
 
         if (source == null || convert == null || sink == null) {
+            warning("Mic test playback: failed to create elements (source=%s convert=%s sink=%s)",
+                source != null ? "ok" : "NULL", convert != null ? "ok" : "NULL", sink != null ? "ok" : "NULL");
             test_mic_row.subtitle = original_test_mic_subtitle;
+            testing = false;
             return;
         }
 
