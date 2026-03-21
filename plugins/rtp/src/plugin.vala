@@ -438,7 +438,7 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
             default:
                 break;
         }
-        if (device != null) {
+        if (device != null && device.media != null) {
             devices_changed(device.media, device.is_sink);
         }
         return Source.CONTINUE;
