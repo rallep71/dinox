@@ -189,6 +189,7 @@ public class AudioVideoDeviceService : GLib.Object {
 
     private Gst.Element? create_element_for(ArrayList<DeviceInfo> devices, string device_name,
                                               string[] fallback_factories, string element_name) {
+        // 1. If a specific device was requested, find it by display_name
         if (device_name != "") {
             foreach (var info in devices) {
                 if (info.display_name == device_name && info.gst_device != null) {
@@ -196,9 +197,26 @@ public class AudioVideoDeviceService : GLib.Object {
                     if (element != null) return element;
                 }
             }
-            warning("AudioVideoDeviceService: Device '%s' not found, using default", device_name);
+            warning("AudioVideoDeviceService: Device '%s' not found, trying default device", device_name);
         }
-        // Try each fallback factory in order until one succeeds
+
+        // 2. "System Default" or named device not found — use GstDevice for the default
+        //    On Windows, bare factory elements (wasapi2src etc.) without device properties
+        //    often fail. GstDevice.create_element() sets the device index/path automatically.
+        foreach (var info in devices) {
+            if (info.is_default && info.gst_device != null) {
+                var element = info.gst_device.create_element(element_name);
+                if (element != null) return element;
+            }
+        }
+        // No default flag? Try the first available device.
+        if (devices.size > 0 && devices[0].gst_device != null) {
+            var element = devices[0].gst_device.create_element(element_name);
+            if (element != null) return element;
+        }
+
+        // 3. Last resort: bare factory elements (works on Linux where auto* elements
+        //    connect to the session's default device via PulseAudio/PipeWire)
         foreach (string factory in fallback_factories) {
             var element = Gst.ElementFactory.make(factory, element_name);
             if (element != null) return element;

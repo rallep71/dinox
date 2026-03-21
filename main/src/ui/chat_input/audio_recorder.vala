@@ -80,7 +80,19 @@ public class AudioRecorder : GLib.Object {
         sink = ElementFactory.make("filesink", "sink");
 
         if (source == null || volume == null || level == null || convert == null || resample == null || capsfilter == null || encoder == null || parser == null || muxer == null || sink == null) {
-            throw new Error(Quark.from_string("AudioRecorder"), 0, "Could not create GStreamer elements. Missing plugins? (good/bad/ugly/libav)");
+            string[] missing = {};
+            if (source == null) missing += "audio source";
+            if (volume == null) missing += "volume (gstreamer)";
+            if (level == null) missing += "level (gst-plugins-good)";
+            if (convert == null) missing += "audioconvert (gst-plugins-base)";
+            if (resample == null) missing += "audioresample (gst-plugins-base)";
+            if (capsfilter == null) missing += "capsfilter (gstreamer)";
+            if (encoder == null) missing += "AAC encoder (avenc_aac/voaacenc/mfaacenc)";
+            if (parser == null) missing += "aacparse (gst-plugins-good)";
+            if (muxer == null) missing += "mp4mux (gst-plugins-good)";
+            if (sink == null) missing += "filesink (gstreamer)";
+            throw new Error(Quark.from_string("AudioRecorder"), 0,
+                "Could not create GStreamer elements. Missing: %s".printf(string.joinv(", ", missing)));
         }
 
         // 48kHz mono S16LE -- matches PipeWire native rate, avoids resampling artifacts
@@ -95,7 +107,7 @@ public class AudioRecorder : GLib.Object {
             // 64kbps is decent for mono AAC-LC
             encoder.set("bitrate", 64000);
         } else if (encoder_name == "mfaacenc") {
-            // Media Foundation AAC: bitrate in bits/sec
+            // mfaacenc: bitrate in bps
             encoder.set("bitrate", (uint) 64000);
         }
 

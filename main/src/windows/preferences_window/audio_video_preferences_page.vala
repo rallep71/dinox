@@ -10,7 +10,6 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
     [GtkChild] unowned Adw.ComboRow msg_mic_row;
     [GtkChild] unowned Adw.ComboRow msg_speaker_row;
     [GtkChild] unowned Adw.ComboRow msg_camera_row;
-    [GtkChild] unowned Adw.ExpanderRow test_expander;
     [GtkChild] unowned Adw.ActionRow test_mic_row;
     [GtkChild] unowned Adw.ActionRow test_speaker_row;
     [GtkChild] unowned Adw.ActionRow test_camera_row;
@@ -22,6 +21,8 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
     private bool wired = false;
 
     private Gst.Pipeline? test_pipeline;
+    private Gtk.Window? preview_window;
+    private bool testing = false;
     private string? mic_test_file;
     private string? original_test_mic_subtitle;
     private string? original_test_speaker_subtitle;
@@ -120,9 +121,16 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
             test_pipeline.set_state(Gst.State.NULL);
             test_pipeline = null;
         }
+        if (preview_window != null) {
+            preview_window.close();
+            preview_window = null;
+        }
+        testing = false;
     }
 
     private void test_microphone() {
+        if (testing) return;
+        testing = true;
         stop_test_pipeline();
 
         string mic_name = get_combo_value(call_mic_row);
@@ -142,6 +150,7 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
 
         if (source == null || convert == null || wavenc == null || sink == null) {
             test_mic_row.subtitle = original_test_mic_subtitle;
+            testing = false;
             warning("Mic test: failed to create pipeline elements");
             return;
         }
@@ -171,6 +180,7 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
                 warning("Mic test record error: %s", err.message);
                 pipeline.set_state(Gst.State.NULL);
                 test_mic_row.subtitle = original_test_mic_subtitle;
+                testing = false;
                 return false;
             }
             return true;
@@ -220,6 +230,7 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
             if (msg.type == Gst.MessageType.EOS || msg.type == Gst.MessageType.ERROR) {
                 pipeline.set_state(Gst.State.NULL);
                 test_mic_row.subtitle = original_test_mic_subtitle;
+                testing = false;
                 // Clean up temp file
                 if (mic_test_file != null) {
                     FileUtils.remove(mic_test_file);
@@ -234,6 +245,8 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
     }
 
     private void test_speaker() {
+        if (testing) return;
+        testing = true;
         stop_test_pipeline();
 
         string spk_name = get_combo_value(call_speaker_row);
@@ -247,6 +260,7 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
 
         if (source == null || convert == null || sink == null) {
             test_speaker_row.subtitle = original_test_speaker_subtitle;
+            testing = false;
             warning("Speaker test: failed to create pipeline elements");
             return;
         }
@@ -266,6 +280,7 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
             if (msg.type == Gst.MessageType.EOS || msg.type == Gst.MessageType.ERROR) {
                 pipeline.set_state(Gst.State.NULL);
                 test_speaker_row.subtitle = original_test_speaker_subtitle;
+                testing = false;
                 return false;
             }
             return true;
@@ -283,6 +298,8 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
     }
 
     private void test_camera() {
+        if (testing) return;
+        testing = true;
         stop_test_pipeline();
 
         string cam_name = get_combo_value(call_camera_row);
@@ -304,6 +321,7 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
             }
             if (source == null || convert == null || scale == null || rate == null || capsfilter == null || sink == null) {
                 test_camera_row.subtitle = original_test_camera_subtitle;
+                testing = false;
                 warning("Camera test: failed to create pipeline elements");
                 return;
             }
@@ -322,19 +340,18 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
         test_pipeline = pipeline;
 
         // Create preview window if gdkpixbufsink is available
-        Gtk.Window? preview_window = null;
         Gtk.Picture? picture = null;
 
         if (sink.get_factory() != null && sink.get_factory().get_name() == "gdkpixbufsink") {
-            preview_window = new Gtk.Window();
-            preview_window.title = _("Camera Preview");
-            preview_window.default_width = 320;
-            preview_window.default_height = 240;
-            preview_window.resizable = false;
+            this.preview_window = new Gtk.Window();
+            this.preview_window.title = _("Camera Preview");
+            this.preview_window.default_width = 320;
+            this.preview_window.default_height = 240;
+            this.preview_window.resizable = false;
 
             picture = new Gtk.Picture();
-            preview_window.child = picture;
-            preview_window.present();
+            this.preview_window.child = picture;
+            this.preview_window.present();
 
             // Poll for pixbuf updates
             Timeout.add(66, () => { // ~15fps
@@ -359,7 +376,8 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
                 warning("Camera test error: %s", err.message);
                 pipeline.set_state(Gst.State.NULL);
                 test_camera_row.subtitle = original_test_camera_subtitle;
-                if (preview_window != null) preview_window.close();
+                if (this.preview_window != null) { this.preview_window.close(); this.preview_window = null; }
+                testing = false;
                 return false;
             }
             return true;
@@ -373,7 +391,8 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
                 pipeline.set_state(Gst.State.NULL);
                 test_pipeline = null;
                 test_camera_row.subtitle = original_test_camera_subtitle;
-                if (preview_window != null) preview_window.close();
+                if (this.preview_window != null) { this.preview_window.close(); this.preview_window = null; }
+                testing = false;
             }
             return false;
         });

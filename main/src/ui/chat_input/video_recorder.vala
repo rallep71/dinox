@@ -196,7 +196,7 @@ public class VideoRecorder : GLib.Object {
         video_encoder = try_create_encoder("mfh264enc", "video-encoder");
         if (video_encoder != null) {
             debug("Using mfh264enc (Windows Media Foundation) as H.264 encoder");
-            video_encoder.set("bitrate", (uint) 1500000); // bps
+            video_encoder.set("bitrate", (uint) 1500); // kbps (mfh264enc uses kbps)
         }
         if (video_encoder == null) {
             video_encoder = try_create_encoder("vaapih264enc", "video-encoder");
@@ -330,6 +330,7 @@ public class VideoRecorder : GLib.Object {
         if (audio_enc_name == "avenc_aac" || audio_enc_name == "voaacenc") {
             audio_encoder.set("bitrate", 96000);
         } else if (audio_enc_name == "mfaacenc") {
+            // mfaacenc uses bitrate in bps
             audio_encoder.set("bitrate", (uint) 96000);
         } else if (audio_enc_name == "vorbisenc") {
             audio_encoder.set("bitrate", 96000);
