@@ -596,10 +596,11 @@ public class AudioPlayerWidget : Box {
         var play_pipe = new Gst.Pipeline("audio-playback");
         var play_src = ElementFactory.make("uridecodebin", "play-src");
         var play_conv = ElementFactory.make("audioconvert", "play-conv");
+        var play_resample = ElementFactory.make("audioresample", "play-resample");
         var app = (Dino.Ui.Application) GLib.Application.get_default();
         var play_sink = app.av_device_service.create_audio_sink(app.settings.msg_audio_output_device);
 
-        if (play_src == null || play_conv == null || play_sink == null) {
+        if (play_src == null || play_conv == null || play_resample == null || play_sink == null) {
             warning("Could not create audio playback pipeline");
             return;
         }
@@ -608,8 +609,9 @@ public class AudioPlayerWidget : Box {
         play_src.set("caps", Caps.from_string("audio/x-raw"));
         play_src.set("uri", file_to_play.get_uri());
 
-        play_pipe.add_many(play_src, play_conv, play_sink);
-        play_conv.link(play_sink);
+        play_pipe.add_many(play_src, play_conv, play_resample, play_sink);
+        play_conv.link(play_resample);
+        play_resample.link(play_sink);
 
         // Dynamic pad linking from uridecodebin
         play_src.pad_added.connect((pad) => {

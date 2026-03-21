@@ -750,7 +750,8 @@ public class VideoPlayerWidget : Widget {
 
         playbin.set("uri", file_to_play.get_uri());
         playbin.set("video-sink", vbin);
-        // Use saved audio output device from preferences
+        // Use saved audio output device from preferences — wrap in bin with
+        // audioconvert + audioresample so WASAPI2 format negotiation works on Windows
         var app = (Dino.Ui.Application) GLib.Application.get_default();
         var asink = app.av_device_service.create_audio_sink(app.settings.msg_audio_output_device);
         if (asink != null) {
@@ -758,7 +759,19 @@ public class VideoPlayerWidget : Widget {
                 asink.set("async", false);
                 asink.set("sync", true);
             }
-            playbin.set("audio-sink", asink);
+            var aconv = ElementFactory.make("audioconvert", "play-aconv");
+            var aresample = ElementFactory.make("audioresample", "play-aresample");
+            if (aconv != null && aresample != null) {
+                var abin = new Gst.Bin("audio-sink-bin");
+                abin.add_many(aconv, aresample, asink);
+                aconv.link(aresample);
+                aresample.link(asink);
+                var aghost = new Gst.GhostPad("sink", aconv.get_static_pad("sink"));
+                abin.add_pad(aghost);
+                playbin.set("audio-sink", abin);
+            } else {
+                playbin.set("audio-sink", asink);
+            }
         }
 
         playback_pipeline = playbin;

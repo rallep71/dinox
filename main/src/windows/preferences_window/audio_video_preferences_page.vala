@@ -144,10 +144,11 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
         var pipeline = new Gst.Pipeline("mic-test-record");
         var source = device_service.create_audio_source(mic_name);
         var convert = Gst.ElementFactory.make("audioconvert", "convert");
+        var resample = Gst.ElementFactory.make("audioresample", "resample");
         var wavenc = Gst.ElementFactory.make("wavenc", "encoder");
         var sink = Gst.ElementFactory.make("filesink", "sink");
 
-        if (source == null || convert == null || wavenc == null || sink == null) {
+        if (source == null || convert == null || resample == null || wavenc == null || sink == null) {
             test_mic_row.subtitle = original_test_mic_subtitle;
             testing = false;
             warning("Mic test: failed to create pipeline elements");
@@ -156,9 +157,10 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
 
         sink.set_property("location", mic_test_file);
 
-        pipeline.add_many(source, convert, wavenc, sink);
+        pipeline.add_many(source, convert, resample, wavenc, sink);
         source.link(convert);
-        convert.link(wavenc);
+        convert.link(resample);
+        resample.link(wavenc);
         wavenc.link(sink);
 
         test_pipeline = pipeline;
@@ -202,11 +204,13 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
         var pipeline = new Gst.Pipeline("mic-test-playback");
         var source = Gst.ElementFactory.make("uridecodebin", "source");
         var convert = Gst.ElementFactory.make("audioconvert", "convert");
+        var resample = Gst.ElementFactory.make("audioresample", "resample");
         var sink = device_service.create_audio_sink(spk_name);
 
-        if (source == null || convert == null || sink == null) {
-            warning("Mic test playback: failed to create elements (source=%s convert=%s sink=%s)",
-                source != null ? "ok" : "NULL", convert != null ? "ok" : "NULL", sink != null ? "ok" : "NULL");
+        if (source == null || convert == null || resample == null || sink == null) {
+            warning("Mic test playback: failed to create elements (source=%s convert=%s resample=%s sink=%s)",
+                source != null ? "ok" : "NULL", convert != null ? "ok" : "NULL",
+                resample != null ? "ok" : "NULL", sink != null ? "ok" : "NULL");
             test_mic_row.subtitle = original_test_mic_subtitle;
             testing = false;
             return;
@@ -214,8 +218,9 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
 
         source.set_property("uri", File.new_for_path(mic_test_file).get_uri());
 
-        pipeline.add_many(source, convert, sink);
-        convert.link(sink);
+        pipeline.add_many(source, convert, resample, sink);
+        convert.link(resample);
+        resample.link(sink);
 
         // uridecodebin pads are dynamic
         source.pad_added.connect((pad) => {
@@ -258,9 +263,10 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
         var pipeline = new Gst.Pipeline("speaker-test");
         var source = Gst.ElementFactory.make("audiotestsrc", "source");
         var convert = Gst.ElementFactory.make("audioconvert", "convert");
+        var resample = Gst.ElementFactory.make("audioresample", "resample");
         var sink = device_service.create_audio_sink(spk_name);
 
-        if (source == null || convert == null || sink == null) {
+        if (source == null || convert == null || resample == null || sink == null) {
             test_speaker_row.subtitle = original_test_speaker_subtitle;
             testing = false;
             warning("Speaker test: failed to create pipeline elements");
@@ -271,9 +277,10 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
         source.set_property("freq", 440.0);
         source.set_property("num-buffers", 48000 / 1024);  // ~1 second at 48kHz
 
-        pipeline.add_many(source, convert, sink);
+        pipeline.add_many(source, convert, resample, sink);
         source.link(convert);
-        convert.link(sink);
+        convert.link(resample);
+        resample.link(sink);
 
         test_pipeline = pipeline;
 
