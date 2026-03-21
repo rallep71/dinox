@@ -314,9 +314,9 @@ if [ -d "/mingw64/lib/gstreamer-1.0" ]; then
                   opus vpx openh264 x264 voaac app audioparsers \
                   playback typefindfunctions videoconvert videoscale videofilter \
                   videorate videoparsersbad d3d11 d3d12 mediafoundation \
-                  isomp4 audiofx libav \
+                  isomp4 audiofx level libav \
                   videotestsrc audiotestsrc audiomixer \
-                  matroska ogg vorbis flac wavparse gdkpixbuf \
+                  matroska ogg vorbis flac wavparse wavenc gdkpixbuf \
                   mpg123 alaw mulaw; do
         for f in /mingw64/lib/gstreamer-1.0/*${plugin}*.dll; do
             [ -f "$f" ] && cp "$f" dist/lib/gstreamer-1.0/
