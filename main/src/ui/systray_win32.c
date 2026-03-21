@@ -682,10 +682,6 @@ systray_win32_attach_parent_console (void)
         /* Also fix up stdin so interactive input works if needed. */
         freopen ("CONIN$",  "r", stdin);
         tray_log ("AttachConsole(PARENT) succeeded — attached to parent console");
-        /* When attached to a parent console (CMD/PowerShell), auto-enable
-         * GLib debug output so diagnostic messages are visible. */
-        if (!g_getenv ("G_MESSAGES_DEBUG"))
-            g_setenv ("G_MESSAGES_DEBUG", "all", FALSE);
     } else {
         /* No parent console (Explorer / desktop shortcut launch).
          * Allocate our own console and immediately hide it so that
@@ -698,18 +694,18 @@ systray_win32_attach_parent_console (void)
 
         /* Redirect C stdio to NUL — there is no terminal to write to. */
         freopen ("NUL", "w", stdout);
-        if (log_file && *log_file) {
+        if (log_file && *log_file)
             freopen (log_file, "w", stderr);
-            /* Auto-enable GLib debug output when a log file is in use,
-             * unless the user already set G_MESSAGES_DEBUG explicitly. */
-            if (!g_getenv ("G_MESSAGES_DEBUG"))
-                g_setenv ("G_MESSAGES_DEBUG", "all", FALSE);
-        } else {
+        else
             freopen ("NUL", "w", stderr);
-        }
         freopen ("NUL", "r", stdin);
         tray_log ("Allocated hidden console for child-process inheritance");
     }
+
+    /* Auto-enable GLib debug output ONLY when DINOX_LOG_FILE is explicitly
+     * set.  Normal shell usage (CMD, PowerShell, MSYS2) stays quiet. */
+    if (log_file && *log_file && !g_getenv ("G_MESSAGES_DEBUG"))
+        g_setenv ("G_MESSAGES_DEBUG", "all", FALSE);
 }
 
 /* ---- Set process-level AppUserModelID ---- */
