@@ -161,6 +161,9 @@ public class VideoRecorder : GLib.Object {
         video_source = app.av_device_service.create_video_source(app.settings.msg_video_device);
         video_convert = ElementFactory.make("videoconvert", "video-convert");
         video_scale = ElementFactory.make("videoscale", "video-scale");
+        if (video_scale != null) {
+            video_scale.set("add-borders", true);
+        }
         video_rate = ElementFactory.make("videorate", "video-rate");
         video_capsfilter = ElementFactory.make("capsfilter", "video-caps");
         video_queue = ElementFactory.make("queue", "video-queue");
@@ -304,12 +307,13 @@ public class VideoRecorder : GLib.Object {
                 "Could not create GStreamer elements. Missing: %s. Install: gst-plugins-good, gst-plugins-bad, gst-plugins-ugly, gst-libav".printf(details));
         }
 
-        // Configure video caps: fixed 720p@30fps — range caps like [1,1280]
-        // propagate backwards to pipewiresrc which rejects them with EINVAL (-22)
-        // on PipeWire >= 1.2 (openSUSE, Fedora, Arch). videoscale + videorate
-        // upstream handle any camera resolution/framerate.
+        // Configure video caps: fixed VGA 640x480@24fps — sufficient for
+        // video messages and much lighter on CPU than 720p@30fps.
+        // Range caps like [1,1280] propagate backwards to pipewiresrc which
+        // rejects them with EINVAL (-22) on PipeWire >= 1.2.
+        // videoscale (add-borders=true) preserves aspect ratio.
         video_capsfilter.set("caps", Caps.from_string(
-            "video/x-raw, width=1280, height=720, framerate=30/1"));
+            "video/x-raw, width=640, height=480, framerate=24/1"));
 
         // Configure audio caps: 48kHz mono
         audio_capsfilter.set("caps", Caps.from_string(
