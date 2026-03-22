@@ -304,9 +304,12 @@ public class VideoRecorder : GLib.Object {
                 "Could not create GStreamer elements. Missing: %s. Install: gst-plugins-good, gst-plugins-bad, gst-plugins-ugly, gst-libav".printf(details));
         }
 
-        // Configure video caps: max 720p, max 30fps - accept lower resolutions
+        // Configure video caps: fixed 720p@30fps — range caps like [1,1280]
+        // propagate backwards to pipewiresrc which rejects them with EINVAL (-22)
+        // on PipeWire >= 1.2 (openSUSE, Fedora, Arch). videoscale + videorate
+        // upstream handle any camera resolution/framerate.
         video_capsfilter.set("caps", Caps.from_string(
-            "video/x-raw, width=[1,1280], height=[1,720], framerate=[1/1,30/1]"));
+            "video/x-raw, width=1280, height=720, framerate=30/1"));
 
         // Configure audio caps: 48kHz mono
         audio_capsfilter.set("caps", Caps.from_string(
