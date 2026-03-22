@@ -317,6 +317,7 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
 
         var pipeline = new Gst.Pipeline("camera-test");
         var source = device_service.create_video_source(cam_name);
+        if (source != null) source.set("do-timestamp", true);
         var convert = Gst.ElementFactory.make("videoconvert", "convert");
         var scale = Gst.ElementFactory.make("videoscale", "scale");
         var rate = Gst.ElementFactory.make("videorate", "rate");
@@ -339,8 +340,41 @@ public class Dino.Ui.AudioVideoPreferencesPage : Adw.PreferencesPage {
         var caps = Gst.Caps.from_string("video/x-raw,width=320,height=240,framerate=15/1");
         capsfilter.set_property("caps", caps);
 
+        // Source-side capsfilter with device-reported raw caps — prevents
+        // downstream target caps from reaching pipewiresrc as ranges,
+        // which PipeWire >= 1.2 rejects with EINVAL (-22).
+        Gst.Element? src_capsfilter = null;
+        var all_device_caps = device_service.get_video_device_caps(cam_name);
+        if (all_device_caps != null) {
+            var raw_only = new Gst.Caps.empty();
+            for (uint i = 0; i < all_device_caps.get_size(); i++) {
+                unowned Gst.Structure s = all_device_caps.get_structure(i);
+                unowned Gst.CapsFeatures? f = all_device_caps.get_features(i);
+                if (!s.has_name("video/x-raw")) continue;
+                if (f != null && f.contains("memory:DMABuf")) continue;
+                if (s.has_field("format")) {
+                    unowned string? fmt = s.get_string("format");
+                    if (fmt == "DMA_DRM") continue;
+                }
+                raw_only.append_structure_full(s.copy(),
+                    f != null ? f.copy() : null);
+            }
+            if (!raw_only.is_empty()) {
+                src_capsfilter = Gst.ElementFactory.make("capsfilter", "src-caps");
+                if (src_capsfilter != null) {
+                    src_capsfilter.set("caps", raw_only);
+                }
+            }
+        }
+
         pipeline.add_many(source, convert, scale, rate, capsfilter, sink);
-        source.link(convert);
+        if (src_capsfilter != null) {
+            pipeline.add(src_capsfilter);
+            source.link(src_capsfilter);
+            src_capsfilter.link(convert);
+        } else {
+            source.link(convert);
+        }
         convert.link(scale);
         scale.link(rate);
         rate.link(capsfilter);

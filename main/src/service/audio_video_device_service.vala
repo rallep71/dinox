@@ -187,6 +187,30 @@ public class AudioVideoDeviceService : GLib.Object {
 #endif
     }
 
+    /**
+     * Return the GstDevice caps for the named video device.
+     * Follows the same lookup priority as create_video_source().
+     * Returns null when no device caps are available (bare factory fallback).
+     */
+    public Gst.Caps? get_video_device_caps(string device_name) {
+        if (device_name != "") {
+            foreach (var info in video_inputs) {
+                if (info.display_name == device_name && info.gst_device != null) {
+                    return info.gst_device.caps;
+                }
+            }
+        }
+        foreach (var info in video_inputs) {
+            if (info.is_default && info.gst_device != null) {
+                return info.gst_device.caps;
+            }
+        }
+        if (video_inputs.size > 0 && video_inputs[0].gst_device != null) {
+            return video_inputs[0].gst_device.caps;
+        }
+        return null;
+    }
+
     private Gst.Element? create_element_for(ArrayList<DeviceInfo> devices, string device_name,
                                               string[] fallback_factories, string element_name) {
         // 1. If a specific device was requested, find it by display_name

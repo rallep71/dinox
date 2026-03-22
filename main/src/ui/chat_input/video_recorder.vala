@@ -159,6 +159,7 @@ public class VideoRecorder : GLib.Object {
         // === VIDEO branch ===
         var app = (Dino.Ui.Application) GLib.Application.get_default();
         video_source = app.av_device_service.create_video_source(app.settings.msg_video_device);
+        video_source.set("do-timestamp", true);
         video_convert = ElementFactory.make("videoconvert", "video-convert");
         video_scale = ElementFactory.make("videoscale", "video-scale");
         if (video_scale != null) {
@@ -167,6 +168,37 @@ public class VideoRecorder : GLib.Object {
         video_rate = ElementFactory.make("videorate", "video-rate");
         video_capsfilter = ElementFactory.make("capsfilter", "video-caps");
         video_queue = ElementFactory.make("queue", "video-queue");
+
+        // Source-side capsfilter: constrain negotiation to video/x-raw formats
+        // the camera actually supports.  Without this, videoscale/videorate
+        // broaden downstream caps to ranges ([1,MAX]) that propagate back to
+        // pipewiresrc, which PipeWire >= 1.2 rejects with EINVAL (-22).
+        // This mirrors the proven approach from the RTP call pipeline (device.vala).
+        Element? video_src_capsfilter = null;
+        var all_device_caps = app.av_device_service.get_video_device_caps(
+            app.settings.msg_video_device);
+        if (all_device_caps != null) {
+            var raw_only = new Gst.Caps.empty();
+            for (uint i = 0; i < all_device_caps.get_size(); i++) {
+                unowned Gst.Structure s = all_device_caps.get_structure(i);
+                unowned Gst.CapsFeatures? f = all_device_caps.get_features(i);
+                if (!s.has_name("video/x-raw")) continue;
+                if (f != null && f.contains("memory:DMABuf")) continue;
+                if (s.has_field("format")) {
+                    unowned string? fmt = s.get_string("format");
+                    if (fmt == "DMA_DRM") continue;
+                }
+                raw_only.append_structure_full(s.copy(),
+                    f != null ? f.copy() : null);
+            }
+            if (!raw_only.is_empty()) {
+                video_src_capsfilter = ElementFactory.make("capsfilter", "video-src-caps");
+                if (video_src_capsfilter != null) {
+                    video_src_capsfilter.set("caps", raw_only);
+                    debug("VideoRecorder: source-side caps = %s", raw_only.to_string());
+                }
+            }
+        }
 
         // Tee for preview + recording
         tee = ElementFactory.make("tee", "video-tee");
@@ -355,6 +387,9 @@ public class VideoRecorder : GLib.Object {
             audio_source, audio_volume, audio_convert, audio_resample, audio_capsfilter,
             audio_queue, audio_convert2, audio_encoder,
             muxer, sink);
+        if (video_src_capsfilter != null) {
+            pipeline.add(video_src_capsfilter);
+        }
         if (video_parser != null) {
             pipeline.add(video_parser);
         }
@@ -363,8 +398,20 @@ public class VideoRecorder : GLib.Object {
         }
 
         // Link video source chain up to tee
-        // video_source → video_convert → video_scale → video_rate → video_caps → tee
-        if (!video_source.link(video_convert) || !video_convert.link(video_scale) ||
+        // video_source → [src_capsfilter →] video_convert → video_scale → video_rate → video_caps → tee
+        if (video_src_capsfilter != null) {
+            if (!video_source.link(video_src_capsfilter) ||
+                !video_src_capsfilter.link(video_convert)) {
+                throw new Error(Quark.from_string("VideoRecorder"), 0,
+                    "Could not link video source → source capsfilter");
+            }
+        } else {
+            if (!video_source.link(video_convert)) {
+                throw new Error(Quark.from_string("VideoRecorder"), 0,
+                    "Could not link video source → videoconvert");
+            }
+        }
+        if (!video_convert.link(video_scale) ||
             !video_scale.link(video_rate) || !video_rate.link(video_capsfilter) ||
             !video_capsfilter.link(tee)) {
             throw new Error(Quark.from_string("VideoRecorder"), 0,
