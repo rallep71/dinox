@@ -1,3 +1,4 @@
+#include <gst/gst.h>
 #include <gst/video/video.h>
 
 GstVideoInfo *gst_video_frame_get_video_info(GstVideoFrame *frame) {
@@ -7,6 +8,16 @@ GstVideoInfo *gst_video_frame_get_video_info(GstVideoFrame *frame) {
 void *gst_video_frame_get_data(GstVideoFrame *frame, size_t* length) {
     *length = frame->info.height * frame->info.stride[0];
     return frame->data[0];
+}
+
+GstPadProbeReturn rtp_deep_copy_buffer_probe(GstPad *pad, GstPadProbeInfo *info, gpointer user_data) {
+    GstBuffer *buf = GST_PAD_PROBE_INFO_BUFFER(info);
+    if (buf) {
+        GstBuffer *copy = gst_buffer_copy_deep(buf);
+        gst_buffer_unref(buf);
+        info->data = copy;
+    }
+    return GST_PAD_PROBE_OK;
 }
 
 #pragma GCC diagnostic push

@@ -1,6 +1,7 @@
 private static extern unowned Gst.Video.Info gst_video_frame_get_video_info(Gst.Video.Frame frame);
 [CCode (array_length_type = "size_t", type = "void*")]
 private static extern unowned uint8[] gst_video_frame_get_data(Gst.Video.Frame frame);
+private static extern Gst.PadProbeReturn rtp_deep_copy_buffer_probe(Gst.Pad pad, Gst.PadProbeInfo info);
 
 public class Dino.Plugins.Rtp.Paintable : Gdk.Paintable, Object {
     private Gdk.Paintable image;
@@ -270,7 +271,7 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
         plugin.pause();
         pipe.add(sink);
         try {
-            prepare = Gst.parse_bin_from_description(@"queue max-size-buffers=2 leaky=downstream copy-buffers=true name=video_widget_$(id)_queue ! videoconvert name=video_widget_$(id)_convert ! capsfilter name=video_widget_$(id)_caps caps=video/x-raw(memory:SystemMemory),format=BGRA", true);
+            prepare = Gst.parse_bin_from_description(@"queue max-size-buffers=2 leaky=downstream name=video_widget_$(id)_queue ! videoconvert name=video_widget_$(id)_convert ! capsfilter name=video_widget_$(id)_caps caps=video/x-raw(memory:SystemMemory),format=BGRA", true);
         } catch (GLib.Error e) {
             warning("Failed to parse video widget prepare bin: %s", e.message);
             pipe.remove(sink);
@@ -278,6 +279,10 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
             return;
         }
         prepare.name = @"video_widget_$(id)_prepare";
+        var queue_elem = ((Gst.Bin) prepare).get_by_name(@"video_widget_$(id)_queue");
+        if (queue_elem != null) {
+            queue_elem.get_static_pad("src").add_probe(Gst.PadProbeType.BUFFER, rtp_deep_copy_buffer_probe);
+        }
         prepare.get_static_pad("sink").notify["caps"].connect(input_caps_changed);
         prepare.set_locked_state(true);
         pipe.add(prepare);
@@ -301,9 +306,9 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
         pipe.add(sink);
         try {
 #if GST_1_20
-            prepare = Gst.parse_bin_from_description(@"queue max-size-buffers=2 leaky=downstream copy-buffers=true name=video_widget_$(id)_queue ! videoconvert name=video_widget_$(id)_preconvert ! videoflip video-direction=auto name=video_widget_$(id)_orientation ! videoflip method=horizontal-flip name=video_widget_$(id)_flip ! videoconvert name=video_widget_$(id)_convert ! capsfilter name=video_widget_$(id)_caps caps=video/x-raw(memory:SystemMemory),format=BGRA", true);
+            prepare = Gst.parse_bin_from_description(@"queue max-size-buffers=2 leaky=downstream name=video_widget_$(id)_queue ! videoconvert name=video_widget_$(id)_preconvert ! videoflip video-direction=auto name=video_widget_$(id)_orientation ! videoflip method=horizontal-flip name=video_widget_$(id)_flip ! videoconvert name=video_widget_$(id)_convert ! capsfilter name=video_widget_$(id)_caps caps=video/x-raw(memory:SystemMemory),format=BGRA", true);
 #else
-            prepare = Gst.parse_bin_from_description(@"queue max-size-buffers=2 leaky=downstream copy-buffers=true name=video_widget_$(id)_queue ! videoconvert name=video_widget_$(id)_preconvert ! videoflip method=horizontal-flip name=video_widget_$(id)_flip ! videoconvert name=video_widget_$(id)_convert ! capsfilter name=video_widget_$(id)_caps caps=video/x-raw(memory:SystemMemory),format=BGRA", true);
+            prepare = Gst.parse_bin_from_description(@"queue max-size-buffers=2 leaky=downstream name=video_widget_$(id)_queue ! videoconvert name=video_widget_$(id)_preconvert ! videoflip method=horizontal-flip name=video_widget_$(id)_flip ! videoconvert name=video_widget_$(id)_convert ! capsfilter name=video_widget_$(id)_caps caps=video/x-raw(memory:SystemMemory),format=BGRA", true);
 #endif
         } catch (GLib.Error e) {
             warning("Failed to parse video widget device prepare bin: %s", e.message);
@@ -312,6 +317,10 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
             return;
         }
         prepare.name = @"video_widget_$(id)_prepare";
+        var dev_queue_elem = ((Gst.Bin) prepare).get_by_name(@"video_widget_$(id)_queue");
+        if (dev_queue_elem != null) {
+            dev_queue_elem.get_static_pad("src").add_probe(Gst.PadProbeType.BUFFER, rtp_deep_copy_buffer_probe);
+        }
         prepare.get_static_pad("sink").notify["caps"].connect(input_caps_changed);
         prepare.set_locked_state(true);
         pipe.add(prepare);
