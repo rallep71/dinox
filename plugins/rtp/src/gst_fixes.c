@@ -12,8 +12,26 @@ void *gst_video_frame_get_data(GstVideoFrame *frame, size_t* length) {
 
 GstPadProbeReturn rtp_deep_copy_buffer_probe(GstPad *pad, GstPadProbeInfo *info, gpointer user_data) {
     GstBuffer *buf = GST_PAD_PROBE_INFO_BUFFER(info);
-    if (buf) {
-        GstBuffer *copy = gst_buffer_copy_deep(buf);
+    if (!buf) return GST_PAD_PROBE_OK;
+
+    guint n = gst_buffer_n_memory(buf);
+    if (n == 0) return GST_PAD_PROBE_OK;
+
+    // Pre-validate: verify every memory block is mappable before deep-copying.
+    // DMA-BUF memory recycled by PipeWire/VA-API becomes unmappable; trying to
+    // deep-copy such a buffer would SIGSEGV inside gst_buffer_copy_into.
+    for (guint i = 0; i < n; i++) {
+        GstMemory *mem = gst_buffer_peek_memory(buf, i);
+        if (!mem) return GST_PAD_PROBE_DROP;
+        GstMapInfo map;
+        if (!gst_memory_map(mem, &map, GST_MAP_READ)) {
+            return GST_PAD_PROBE_DROP;
+        }
+        gst_memory_unmap(mem, &map);
+    }
+
+    GstBuffer *copy = gst_buffer_copy_deep(buf);
+    if (copy) {
         gst_buffer_unref(buf);
         info->data = copy;
     }

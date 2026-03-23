@@ -486,12 +486,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
 
     private Gst.Caps get_best_caps() {
         if (media == "audio") {
-            // Explicit format=S16LE is critical: VoiceProcessor's GstAudioFilter
-            // template requires exactly S16LE. Without specifying format here,
-            // audioconvert may negotiate F32LE (common on Windows/WASAPI2) and
-            // the capsfilter→VoiceProcessor link fails silently (no audioconvert
-            // between them to bridge the gap).
-            return Gst.Caps.from_string("audio/x-raw,rate=48000,channels=1,layout=interleaved,format=S16LE");
+            return Gst.Caps.from_string("audio/x-raw,rate=48000,channels=1");
         } else if (media == "video" && device != null && device.caps.get_size() > 0) {
             int best_index = -1;
             Value? best_fraction = null;

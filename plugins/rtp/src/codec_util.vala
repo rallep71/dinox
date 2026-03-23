@@ -197,6 +197,10 @@ public class Dino.Plugins.Rtp.CodecUtil {
     public static string? get_encode_prefix(string media, string codec, string encode, JingleRtp.PayloadType? payload_type) {
         if (encode == "msdkh264enc") return "capsfilter caps=video/x-raw,format=NV12 ! ";
         if (encode == "vah264lpenc" || encode == "vah264enc") return "capsfilter caps=video/x-raw,format=NV12 ! ";
+        // mfh264enc (Windows Media Foundation): explicit NV12 format, same as
+        // VA-API on Linux. Without this, videoconvert may negotiate a format
+        // mfh264enc cannot handle, stalling the encoder and freezing the feed.
+        if (encode == "mfh264enc") return "capsfilter caps=video/x-raw,format=NV12 ! ";
         if (encode == "openh264enc") return "capsfilter caps=video/x-raw,format=I420 ! ";
         return null;
     }
@@ -206,7 +210,8 @@ public class Dino.Plugins.Rtp.CodecUtil {
         if (encode == "msdkh264enc") return @" rate-control=vbr key-int-max=30";
         if (encode == "vah264lpenc" || encode == "vah264enc") return @" rate-control=vbr key-int-max=30";
         // Windows Media Foundation H.264 — native hardware-accelerated encoder
-        if (encode == "mfh264enc") return " bframes=0 gop-size=30";
+        // low-latency=true reduces initial buffering (faster call setup)
+        if (encode == "mfh264enc") return " bframes=0 gop-size=30 low-latency=true";
         // openh264enc uses bitrate in bits/sec and gop-size for keyframe interval
         if (encode == "openh264enc") return " bitrate=1500000 gop-size=30";
         if (encode == "x264enc") return @" byte-stream=1 speed-preset=faster tune=zerolatency bframes=0 cabac=false dct8x8=false key-int-max=30";

@@ -281,7 +281,12 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
         prepare.name = @"video_widget_$(id)_prepare";
         var queue_elem = ((Gst.Bin) prepare).get_by_name(@"video_widget_$(id)_queue");
         if (queue_elem != null) {
-            queue_elem.get_static_pad("src").add_probe(Gst.PadProbeType.BUFFER, rtp_deep_copy_buffer_probe);
+            // Deep-copy on the sink (input) pad so DMA-BUF buffers are
+            // converted to system memory immediately on arrival.  Previously
+            // the probe was on the src (output) pad, which left DMA-BUF
+            // buffers sitting in the queue where PipeWire could recycle their
+            // backing memory before the copy → SIGSEGV.
+            queue_elem.get_static_pad("sink").add_probe(Gst.PadProbeType.BUFFER, rtp_deep_copy_buffer_probe);
         }
         prepare.get_static_pad("sink").notify["caps"].connect(input_caps_changed);
         prepare.set_locked_state(true);
@@ -319,7 +324,7 @@ public class Dino.Plugins.Rtp.VideoWidget : Gtk.Widget, Dino.Plugins.VideoCallWi
         prepare.name = @"video_widget_$(id)_prepare";
         var dev_queue_elem = ((Gst.Bin) prepare).get_by_name(@"video_widget_$(id)_queue");
         if (dev_queue_elem != null) {
-            dev_queue_elem.get_static_pad("src").add_probe(Gst.PadProbeType.BUFFER, rtp_deep_copy_buffer_probe);
+            dev_queue_elem.get_static_pad("sink").add_probe(Gst.PadProbeType.BUFFER, rtp_deep_copy_buffer_probe);
         }
         prepare.get_static_pad("sink").notify["caps"].connect(input_caps_changed);
         prepare.set_locked_state(true);
