@@ -490,7 +490,11 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
 
     private Gst.Caps get_best_caps() {
         if (media == "audio") {
-            return Gst.Caps.from_string("audio/x-raw,rate=48000,channels=1");
+            // Explicit format=S16LE,layout=interleaved: ensures upstream
+            // audioconvert produces S16LE (required by VoiceProcessor).
+            // Without this, WASAPI2 on Windows would pass F32LE through,
+            // causing VoiceProcessor to block and no audio data to flow.
+            return Gst.Caps.from_string("audio/x-raw,rate=48000,channels=1,format=S16LE,layout=interleaved");
         } else if (media == "video" && device != null && device.caps.get_size() > 0) {
             int best_index = -1;
             Value? best_fraction = null;
