@@ -246,7 +246,11 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 payloader_links[payload_type][ssrc] = payloader_links[payload_type][ssrc] + 1;
             }
             if (new_codec) {
-                tee.link(codecs[payload_type]);
+                bool link_ok = tee.link(codecs[payload_type]);
+                warning("AUDIO-CHECK[2/4] %s encode pipeline linked to tee: codec=%s encoder=%s link=%s",
+                        id, codec ?? "?",
+                        codecs[payload_type].name ?? "?",
+                        link_ok ? "OK" : "FAILED");
             }
             // Bandwidth coordination: immediately cap encoder bitrate
             // when a new outgoing peer is added for video.
@@ -712,6 +716,14 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 (dsp ?? filter).link(source_queue);
             }
             source_queue.link(tee);
+
+            // ── Audio diagnostics: verify chain negotiated caps ──
+            if (media == "audio") {
+                Gst.Pad? tee_sink = tee.get_static_pad("sink");
+                Gst.Caps? negotiated = tee_sink != null ? tee_sink.get_current_caps() : null;
+                warning("AUDIO-CHECK[1/4] source chain built: %s → caps: %s",
+                        id, negotiated != null ? negotiated.to_string() : "NOT YET NEGOTIATED");
+            }
         }
         if (is_sink) {
             if (media == "audio") {

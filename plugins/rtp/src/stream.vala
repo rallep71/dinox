@@ -607,6 +607,7 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
     }
 #endif
 
+    private uint rtp_pkt_count = 0;
     private Gst.FlowReturn on_new_sample(Gst.App.Sink sink) {
         if (sink == null) {
             debug("Sink is null");
@@ -619,6 +620,11 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
         Gst.Sample sample = sink.pull_sample();
         Gst.Buffer buffer = sample.get_buffer();
         if (sink == send_rtp) {
+            rtp_pkt_count++;
+            if (rtp_pkt_count == 1 || rtp_pkt_count == 50) {
+                warning("AUDIO-CHECK[4/4] %s RTP packet #%u sent (%u bytes)",
+                        media, rtp_pkt_count, (uint) buffer.get_size());
+            }
             uint buffer_ssrc = 0, buffer_seq = 0;
             Gst.RTP.Buffer rtp_buffer;
             if (Gst.RTP.Buffer.map(buffer, Gst.MapFlags.READ, out rtp_buffer)) {
@@ -1162,8 +1168,10 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
             pipe.add(this.input_queue);
             this.input_queue.sync_state_with_parent();
 
-            input_pad.link(this.input_queue.get_static_pad("sink"));
-            this.input_queue.get_static_pad("src").link(send_rtp_sink_pad);
+            var link1 = input_pad.link(this.input_queue.get_static_pad("sink"));
+            var link2 = this.input_queue.get_static_pad("src").link(send_rtp_sink_pad);
+            warning("AUDIO-CHECK[3/4] %s input linked to rtpbin: pad→queue=%s queue→rtp=%s",
+                    media, link1.to_string(), link2.to_string());
             plugin.unpause();
         }
     }
