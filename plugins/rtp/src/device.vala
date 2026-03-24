@@ -380,7 +380,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
             }
             codec_bitrates[payload_type].remove_all(remove);
             if (media == "video") {
-                if (bitrate < 128) bitrate = 128;
+                if (bitrate < 256) bitrate = 256;
                 // Multi-peer bandwidth coordination: cap at per-peer budget
                 int source_peers = get_source_peer_count(payload_type);
                 if (source_peers > 1) {

@@ -441,6 +441,9 @@ public class Dino.Plugins.Rtp.Stream : Xmpp.Xep.JingleRtp.Stream {
             });
         }
         if (input_device != null && media == "video") {
+            if (target_send_bitrate <= 256) {
+                target_send_bitrate = 1500;
+            }
             input_device.update_bitrate(payload_type, target_send_bitrate);
         }
 
