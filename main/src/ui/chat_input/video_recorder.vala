@@ -453,14 +453,15 @@ public class VideoRecorder : GLib.Object {
         }
         warning("VideoRecorder TIMING: add elements = %lldms", (GLib.get_monotonic_time() - t0) / 1000);
 
-        // Link video chain — use TEMPLATE_CAPS instead of DEFAULT to skip
-        // expensive runtime CAPS queries. On Windows, each link() triggers a
-        // caps query that propagates back to mfvideosrc which enumerates all
-        // camera modes via Media Foundation (~seconds per query). Template caps
-        // are static and instant. Actual caps negotiation happens when the
-        // pipeline transitions to PLAYING.
+        // Link video chain — use TEMPLATE_CAPS + NO_RECONFIGURE to skip
+        // expensive runtime CAPS queries. On Windows, each link() sends a
+        // RECONFIGURE event downstream which triggers caps queries that
+        // propagate back to mfvideosrc, enumerating all camera modes via
+        // Media Foundation (~seconds per query). NO_RECONFIGURE prevents these
+        // post-link events. Actual caps negotiation happens at set_state(PLAYING).
         t0 = GLib.get_monotonic_time();
-        var FAST = Gst.PadLinkCheck.HIERARCHY | Gst.PadLinkCheck.TEMPLATE_CAPS;
+        var FAST = Gst.PadLinkCheck.HIERARCHY | Gst.PadLinkCheck.TEMPLATE_CAPS
+                 | Gst.PadLinkCheck.NO_RECONFIGURE;
 
         // video_source → [src_capsfilter →] video_convert → video_scale → video_rate → video_caps → tee
         if (video_src_capsfilter != null) {
