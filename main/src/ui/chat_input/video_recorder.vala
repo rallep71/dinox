@@ -453,73 +453,86 @@ public class VideoRecorder : GLib.Object {
         }
         warning("VideoRecorder TIMING: add elements = %lldms", (GLib.get_monotonic_time() - t0) / 1000);
 
-        // Link video chain — use TEMPLATE_CAPS + NO_RECONFIGURE to skip
-        // expensive runtime CAPS queries. On Windows, each link() sends a
-        // RECONFIGURE event downstream which triggers caps queries that
-        // propagate back to mfvideosrc, enumerating all camera modes via
-        // Media Foundation (~seconds per query). NO_RECONFIGURE prevents these
-        // post-link events. Actual caps negotiation happens at set_state(PLAYING).
+        // Link video chain — skip ALL link checks and specify explicit pad names.
+        // On Windows, gst_element_link_pads_full with null names calls
+        // gst_element_get_compatible_pad() which triggers caps queries back to
+        // mfvideosrc (Media Foundation device enumeration, ~seconds).
+        // With NOTHING flag + explicit pads, linking is just pointer assignment.
+        // Actual caps negotiation happens at set_state(PLAYING).
         t0 = GLib.get_monotonic_time();
-        var FAST = Gst.PadLinkCheck.HIERARCHY | Gst.PadLinkCheck.TEMPLATE_CAPS
-                 | Gst.PadLinkCheck.NO_RECONFIGURE;
+        int64 t_link;
+        var FAST = Gst.PadLinkCheck.NOTHING;
 
         // video_source → [src_capsfilter →] video_convert → video_scale → video_rate → video_caps → tee
+        t_link = GLib.get_monotonic_time();
         if (video_src_capsfilter != null) {
-            if (!video_source.link_pads(null, video_src_capsfilter, null, FAST) ||
-                !video_src_capsfilter.link_pads(null, video_convert, null, FAST)) {
+            if (!video_source.link_pads("src", video_src_capsfilter, "sink", FAST) ||
+                !video_src_capsfilter.link_pads("src", video_convert, "sink", FAST)) {
                 throw new Error(Quark.from_string("VideoRecorder"), 0,
                     "Could not link video source → source capsfilter");
             }
         } else {
-            if (!video_source.link_pads(null, video_convert, null, FAST)) {
+            if (!video_source.link_pads("src", video_convert, "sink", FAST)) {
                 throw new Error(Quark.from_string("VideoRecorder"), 0,
                     "Could not link video source → videoconvert");
             }
         }
-        if (!video_convert.link_pads(null, video_scale, null, FAST) ||
-            !video_scale.link_pads(null, video_rate, null, FAST) ||
-            !video_rate.link_pads(null, video_capsfilter, null, FAST) ||
-            !video_capsfilter.link_pads(null, tee, null, FAST)) {
+        warning("VideoRecorder TIMING: link src→convert = %lldms",
+                (GLib.get_monotonic_time() - t_link) / 1000);
+        t_link = GLib.get_monotonic_time();
+        if (!video_convert.link_pads("src", video_scale, "sink", FAST) ||
+            !video_scale.link_pads("src", video_rate, "sink", FAST) ||
+            !video_rate.link_pads("src", video_capsfilter, "sink", FAST) ||
+            !video_capsfilter.link_pads("src", tee, "sink", FAST)) {
             throw new Error(Quark.from_string("VideoRecorder"), 0,
                 "Could not link video source chain");
         }
+        warning("VideoRecorder TIMING: link convert→tee = %lldms",
+                (GLib.get_monotonic_time() - t_link) / 1000);
 
         // Tee → preview branch: preview_queue → preview_convert → preview_sink
+        t_link = GLib.get_monotonic_time();
         var tee_preview_pad = tee.request_pad_simple("src_%u");
         var preview_queue_pad = preview_queue.get_static_pad("sink");
         if (tee_preview_pad.link(preview_queue_pad, FAST) != PadLinkReturn.OK) {
             throw new Error(Quark.from_string("VideoRecorder"), 0,
                 "Could not link tee to preview queue");
         }
-        if (!preview_queue.link_pads(null, preview_convert, null, FAST) ||
-            !preview_convert.link_pads(null, preview_sink, null, FAST)) {
+        if (!preview_queue.link_pads("src", preview_convert, "sink", FAST) ||
+            !preview_convert.link_pads("src", preview_sink, "sink", FAST)) {
             throw new Error(Quark.from_string("VideoRecorder"), 0,
                 "Could not link preview branch");
         }
+        warning("VideoRecorder TIMING: link preview = %lldms",
+                (GLib.get_monotonic_time() - t_link) / 1000);
 
         // Tee → record branch: video_queue → video_encoder → [video_parser →] muxer
+        t_link = GLib.get_monotonic_time();
         var tee_record_pad = tee.request_pad_simple("src_%u");
         var record_queue_pad = video_queue.get_static_pad("sink");
         if (tee_record_pad.link(record_queue_pad, FAST) != PadLinkReturn.OK) {
             throw new Error(Quark.from_string("VideoRecorder"), 0,
                 "Could not link tee to record queue");
         }
-        if (!video_queue.link_pads(null, video_encoder, null, FAST)) {
+        if (!video_queue.link_pads("src", video_encoder, "sink", FAST)) {
             throw new Error(Quark.from_string("VideoRecorder"), 0,
                 "Could not link video_queue → video_encoder");
         }
         Element last_video = video_encoder;
         if (video_parser != null) {
-            if (!last_video.link_pads(null, video_parser, null, FAST)) {
+            if (!last_video.link_pads("src", video_parser, "sink", FAST)) {
                 throw new Error(Quark.from_string("VideoRecorder"), 0,
                     "Could not link video chain → h264parse");
             }
             last_video = video_parser;
         }
-        if (!last_video.link_pads(null, muxer, null, FAST)) {
+        // muxer uses request pads: video_%u, audio_%u or sink_%u depending on muxer
+        if (!last_video.link_pads("src", muxer, null, FAST)) {
             throw new Error(Quark.from_string("VideoRecorder"), 0,
                 "Could not link video chain → muxer");
         }
+        warning("VideoRecorder TIMING: link record = %lldms",
+                (GLib.get_monotonic_time() - t_link) / 1000);
 
         // Audio chain: source → volume → convert → resample → caps → queue → convert2 → encoder → parser → muxer
         // No audio processing (noise gate, compressor etc.) — pass-through for cleanest signal
