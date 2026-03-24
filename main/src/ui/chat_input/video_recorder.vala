@@ -58,6 +58,7 @@ public class VideoRecorder : GLib.Object {
     public signal void duration_changed(string text);
     public signal void max_duration_reached();
     public signal void recording_error(string message);
+    public signal void recording_stopped(string? output_path);
 
     public VideoRecorder() {
     }
@@ -172,7 +173,7 @@ public class VideoRecorder : GLib.Object {
         var app = (Dino.Ui.Application) GLib.Application.get_default();
         int64 t0 = GLib.get_monotonic_time();
         video_source = app.av_device_service.create_video_source(app.settings.msg_video_device);
-        debug("VideoRecorder TIMING: create_video_source = %lldms", (GLib.get_monotonic_time() - t0) / 1000);
+        warning("VideoRecorder TIMING: create_video_source = %lldms", (GLib.get_monotonic_time() - t0) / 1000);
         video_source.set("do-timestamp", true);
         video_convert = ElementFactory.make("videoconvert", "video-convert");
         video_scale = ElementFactory.make("videoscale", "video-scale");
@@ -317,7 +318,7 @@ public class VideoRecorder : GLib.Object {
             }
         }
 #endif
-        debug("VideoRecorder TIMING: encoder selection = %lldms", (GLib.get_monotonic_time() - t_enc) / 1000);
+        warning("VideoRecorder TIMING: encoder selection = %lldms", (GLib.get_monotonic_time() - t_enc) / 1000);
 
         if (video_encoder == null) {
             string hint = get_h264_install_hint();
@@ -337,7 +338,7 @@ public class VideoRecorder : GLib.Object {
         // Audio source for the video recording's audio track
         t0 = GLib.get_monotonic_time();
         audio_source = app.av_device_service.create_audio_source(app.settings.msg_audio_input_device);
-        debug("VideoRecorder TIMING: create_audio_source = %lldms", (GLib.get_monotonic_time() - t0) / 1000);
+        warning("VideoRecorder TIMING: create_audio_source = %lldms", (GLib.get_monotonic_time() - t0) / 1000);
         audio_convert = ElementFactory.make("audioconvert", "audio-convert");
         audio_resample = ElementFactory.make("audioresample", "audio-resample");
         audio_capsfilter = ElementFactory.make("capsfilter", "audio-caps");
@@ -450,7 +451,7 @@ public class VideoRecorder : GLib.Object {
         if (audio_parser != null) {
             pipeline.add(audio_parser);
         }
-        debug("VideoRecorder TIMING: add elements = %lldms", (GLib.get_monotonic_time() - t0) / 1000);
+        warning("VideoRecorder TIMING: add elements = %lldms", (GLib.get_monotonic_time() - t0) / 1000);
 
         // Link video source chain up to tee
         t0 = GLib.get_monotonic_time();
@@ -554,7 +555,7 @@ public class VideoRecorder : GLib.Object {
             throw new Error(Quark.from_string("VideoRecorder"), 0,
                 "Could not link muxer to sink");
         }
-        debug("VideoRecorder TIMING: link pipeline = %lldms", (GLib.get_monotonic_time() - t0) / 1000);
+        warning("VideoRecorder TIMING: link pipeline = %lldms", (GLib.get_monotonic_time() - t0) / 1000);
 
         // Store preview sink reference for the popover to access
         gtk_sink = preview_sink;
@@ -594,10 +595,10 @@ public class VideoRecorder : GLib.Object {
         // Direct PLAYING start is the reliable approach for live pipelines.
         t0 = GLib.get_monotonic_time();
         var state_ret = pipeline.set_state(State.PLAYING);
-        debug("VideoRecorder TIMING: set_state(PLAYING) = %lldms (ret=%s)",
+        warning("VideoRecorder TIMING: set_state(PLAYING) = %lldms (ret=%s)",
               (GLib.get_monotonic_time() - t0) / 1000,
               state_ret.to_string());
-        debug("VideoRecorder TIMING: TOTAL start_recording = %lldms",
+        warning("VideoRecorder TIMING: TOTAL start_recording = %lldms",
               (GLib.get_monotonic_time() - t_start) / 1000);
         is_recording = true;
         start_time = GLib.get_monotonic_time();
@@ -674,54 +675,127 @@ public class VideoRecorder : GLib.Object {
         return new Gdk.MemoryTexture(width, height, Gdk.MemoryFormat.R8G8B8A8, bytes, width * 4);
     }
 
+    // Counter for blocking pad probes — when both video + audio sources
+    // have injected EOS, the muxer will finalize and post EOS on the bus.
+    private int eos_pending = 0;
+
     public void stop_recording() {
-        int64 t_stop = GLib.get_monotonic_time();
-        debug("VideoRecorder.stop_recording: called");
+        warning("VideoRecorder.stop_recording: called");
         if (timeout_id != 0) {
             Source.remove(timeout_id);
             timeout_id = 0;
         }
-        if (pipeline != null && is_recording) {
-            // 1. Remove bus watch FIRST — prevents error callbacks during teardown
-            if (bus_watch_id != 0) {
-                Source.remove(bus_watch_id);
-                bus_watch_id = 0;
-            }
-            
-            // 2. Send EOS so mp4mux writes the moov atom (critical for valid MP4!)
-            int64 t0 = GLib.get_monotonic_time();
-            pipeline.send_event(new Event.eos());
-            
-            // 3. Wait for muxer to finalize — 10s for longer videos.
-            //    Without this, mp4mux won't write the moov atom and the file
-            //    will be unplayable on any device.
-            if (bus != null) {
-                var msg = bus.timed_pop_filtered(10 * Gst.SECOND,
+        if (pipeline == null || !is_recording) {
+            recording_stopped(null);
+            return;
+        }
+
+        is_recording = false;
+
+        // Remove the error-handling bus watch — we install our own EOS watch below
+        if (bus_watch_id != 0) {
+            Source.remove(bus_watch_id);
+            bus_watch_id = 0;
+        }
+
+        // === EOS via blocking pad probes ===
+        // Live sources (pipewiresrc, mfvideosrc, wasapi2src) IGNORE
+        // send_event(EOS). The reliable GStreamer pattern is:
+        // 1. Install a blocking probe on each source's src pad
+        // 2. In the probe callback, push EOS downstream programmatically
+        // 3. This injects EOS into the data flow from the correct thread
+        // 4. mp4mux receives EOS on both sink pads → writes moov atom → posts EOS on bus
+        int64 t_eos_start = GLib.get_monotonic_time();
+        eos_pending = 0;
+
+        Gst.Pad? v_src_pad = (video_source != null) ? video_source.get_static_pad("src") : null;
+        Gst.Pad? a_src_pad = (audio_source != null) ? audio_source.get_static_pad("src") : null;
+
+        if (v_src_pad != null) eos_pending++;
+        if (a_src_pad != null) eos_pending++;
+
+        if (eos_pending == 0) {
+            // No sources? Just kill pipeline.
+            finalize_stop(t_eos_start);
+            return;
+        }
+
+        // Watch bus for EOS from the muxer
+        Pipeline pipe = pipeline;
+        Gst.Bus? the_bus = bus;
+        string? path = current_output_path;
+        pipeline = null;
+        bus = null;
+
+        // Install blocking probes. When the probe fires, the source's
+        // streaming thread is blocked — perfect moment to inject EOS.
+        if (v_src_pad != null) {
+            v_src_pad.add_probe(
+                Gst.PadProbeType.BLOCK_DOWNSTREAM,
+                (pad, info) => {
+                    pad.get_peer().send_event(new Event.eos());
+                    debug("VideoRecorder: EOS injected on video source pad");
+                    return Gst.PadProbeReturn.REMOVE;
+                });
+        }
+        if (a_src_pad != null) {
+            a_src_pad.add_probe(
+                Gst.PadProbeType.BLOCK_DOWNSTREAM,
+                (pad, info) => {
+                    pad.get_peer().send_event(new Event.eos());
+                    debug("VideoRecorder: EOS injected on audio source pad");
+                    return Gst.PadProbeReturn.REMOVE;
+                });
+        }
+
+        // Wait for EOS in a background thread so the UI isn't blocked.
+        new Thread<void>("video-stop", () => {
+            // Wait for muxer to finalize (moov atom). 5s is generous.
+            if (the_bus != null) {
+                var msg = the_bus.timed_pop_filtered(5 * Gst.SECOND,
                     Gst.MessageType.EOS | Gst.MessageType.ERROR);
                 if (msg == null) {
-                    warning("VideoRecorder: EOS timeout after 10s — MP4 may be incomplete");
+                    warning("VideoRecorder: EOS timeout after 5s — MP4 may be incomplete");
                 } else if (msg.type == Gst.MessageType.ERROR) {
                     Error err;
                     string dbg;
                     msg.parse_error(out err, out dbg);
-                    warning("VideoRecorder: Pipeline error during finalization: %s", err.message);
+                    warning("VideoRecorder: error during finalization: %s", err.message);
                 } else {
-                    debug("VideoRecorder: EOS received, MP4 file finalized");
+                    warning("VideoRecorder: EOS received — MP4 finalized OK");
                 }
-                debug("VideoRecorder TIMING: EOS wait = %lldms", (GLib.get_monotonic_time() - t0) / 1000);
-                bus = null;
             }
-            
-            // 4. Kill pipeline — synchronously releases all device connections
-            t0 = GLib.get_monotonic_time();
+            warning("VideoRecorder TIMING: EOS wait = %lldms",
+                    (GLib.get_monotonic_time() - t_eos_start) / 1000);
+
+            // Kill pipeline
+            int64 t0 = GLib.get_monotonic_time();
+            pipe.set_state(State.NULL);
+            warning("VideoRecorder TIMING: set_state(NULL) = %lldms",
+                    (GLib.get_monotonic_time() - t0) / 1000);
+            warning("VideoRecorder TIMING: TOTAL stop_recording = %lldms",
+                    (GLib.get_monotonic_time() - t_eos_start) / 1000);
+
+            // Signal completion back on the main thread
+            Idle.add(() => {
+                cleanup_elements();
+                recording_stopped(path);
+                return false;
+            });
+        });
+    }
+
+    private void finalize_stop(int64 t_start) {
+        if (pipeline != null) {
             pipeline.set_state(State.NULL);
-            debug("VideoRecorder TIMING: set_state(NULL) = %lldms", (GLib.get_monotonic_time() - t0) / 1000);
             pipeline = null;
-            is_recording = false;
-            cleanup_elements();
-            debug("VideoRecorder TIMING: TOTAL stop_recording = %lldms", (GLib.get_monotonic_time() - t_stop) / 1000);
-            debug("VideoRecorder.stop_recording: pipeline closed");
         }
+        bus = null;
+        string? path = current_output_path;
+        cleanup_elements();
+        warning("VideoRecorder TIMING: TOTAL stop_recording = %lldms",
+                (GLib.get_monotonic_time() - t_start) / 1000);
+        recording_stopped(path);
     }
 
     public void cancel_recording() {

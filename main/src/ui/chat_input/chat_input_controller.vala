@@ -92,6 +92,29 @@ public class ChatInputController : Object {
             }
         });
 
+        // Async stop: pipeline cleanup runs in a background thread,
+        // this callback fires when the MP4 file is finalized and ready to send.
+        this.video_recorder.recording_stopped.connect((path) => {
+            debug("ChatInputController: recording_stopped signal, path=%s", path ?? "(null)");
+            chat_input.video_record_button.icon_name = "camera-video-symbolic";
+            chat_input.video_record_button.remove_css_class("destructive-action");
+            if (path != null) {
+                File f = File.new_for_path(path);
+                try {
+                    FileInfo info = f.query_info(FileAttribute.STANDARD_SIZE, FileQueryInfoFlags.NONE);
+                    debug("ChatInputController: video file size=%lld", info.get_size());
+                    if (info.get_size() > 0) {
+                        video_message_recorded(path);
+                    } else {
+                        warning("Recorded video file is empty, not sending.");
+                        FileUtils.unlink(path);
+                    }
+                } catch (Error e) {
+                    warning("Failed to check recorded video file: %s", e.message);
+                }
+            }
+        });
+
         chat_input.init(stream_interactor);
 
         reset_input_field_status();
@@ -498,29 +521,9 @@ public class ChatInputController : Object {
 
     private void stop_video_recording() {
         debug("ChatInputController.stop_video_recording: called");
-        string? path = video_recorder.current_output_path;
+        // stop_recording() is async — runs EOS + cleanup in a background thread.
+        // The recording_stopped signal fires when the MP4 is finalized.
         video_recorder.stop_recording();
-        debug("ChatInputController.stop_video_recording: pipeline closed");
-
-        chat_input.video_record_button.icon_name = "camera-video-symbolic";
-        chat_input.video_record_button.remove_css_class("destructive-action");
-
-        if (path != null) {
-            File f = File.new_for_path(path);
-            try {
-                FileInfo info = f.query_info(FileAttribute.STANDARD_SIZE, FileQueryInfoFlags.NONE);
-                debug("ChatInputController.stop_video_recording: file size=%lld", info.get_size());
-                if (info.get_size() > 0) {
-                    debug("ChatInputController.stop_video_recording: emitting video_message_recorded");
-                    video_message_recorded(path);
-                } else {
-                    warning("Recorded video file is empty, not sending.");
-                    FileUtils.unlink(path);
-                }
-            } catch (Error e) {
-                warning("Failed to check recorded video file: %s", e.message);
-            }
-        }
     }
 
     private void cancel_video_recording() {
