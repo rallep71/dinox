@@ -17,20 +17,30 @@ GstPadProbeReturn rtp_deep_copy_buffer_probe(GstPad *pad, GstPadProbeInfo *info,
     guint n = gst_buffer_n_memory(buf);
     if (n == 0) return GST_PAD_PROBE_OK;
 
-    // Pre-validate: verify every memory block is mappable before deep-copying.
-    // DMA-BUF memory recycled by PipeWire/VA-API becomes unmappable; trying to
-    // deep-copy such a buffer would SIGSEGV inside gst_buffer_copy_into.
+    // Pin every memory block by keeping it mapped during the entire deep-copy.
+    // The old validate-then-copy approach had a TOCTOU race: PipeWire could
+    // recycle DMA-BUF backing memory between our unmap and gst_buffer_copy_deep,
+    // causing SIGSEGV inside gst_buffer_copy_into / memmove.
+    GstMapInfo *maps = g_newa(GstMapInfo, n);
+    guint mapped = 0;
     for (guint i = 0; i < n; i++) {
         GstMemory *mem = gst_buffer_peek_memory(buf, i);
-        if (!mem) return GST_PAD_PROBE_DROP;
-        GstMapInfo map;
-        if (!gst_memory_map(mem, &map, GST_MAP_READ)) {
+        if (!mem || !gst_memory_map(mem, &maps[i], GST_MAP_READ)) {
+            for (guint j = 0; j < mapped; j++) {
+                gst_memory_unmap(gst_buffer_peek_memory(buf, j), &maps[j]);
+            }
             return GST_PAD_PROBE_DROP;
         }
-        gst_memory_unmap(mem, &map);
+        mapped++;
     }
 
+    // Memory is pinned — deep copy is safe
     GstBuffer *copy = gst_buffer_copy_deep(buf);
+
+    for (guint i = 0; i < mapped; i++) {
+        gst_memory_unmap(gst_buffer_peek_memory(buf, i), &maps[i]);
+    }
+
     if (copy) {
         gst_buffer_unref(buf);
         info->data = copy;
