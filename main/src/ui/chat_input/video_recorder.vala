@@ -50,6 +50,11 @@ public class VideoRecorder : GLib.Object {
     // GdkPixbuf sink element for live preview in the popover
     public Element? gtk_sink { get; private set; }
 
+    // Static encoder cache: probed once per app session, reused for all recordings.
+    // Avoids 2s+ per-encoder probe on every recording (4 encoders × 2s = 8s+ on Windows).
+    private static string? cached_h264_factory = null;
+    private static bool encoder_cache_probed = false;
+
     public signal void duration_changed(string text);
     public signal void max_duration_reached();
     public signal void recording_error(string message);
@@ -123,10 +128,11 @@ public class VideoRecorder : GLib.Object {
 
             test_pipe.set_state(State.PLAYING);
             var test_bus = ((Pipeline)test_pipe).get_bus();
-            // 2s timeout is plenty for encoding a single 160x120 frame.
-            // Previously 5s — caused 20s+ startup delay when multiple
-            // unavailable encoders were probed sequentially.
-            var msg = test_bus.timed_pop_filtered(2 * Gst.SECOND,
+            // 500ms is plenty for encoding a single 160x120 frame.
+            // Previously 2s (and before that 5s) — caused 8-20s+ startup
+            // delay when multiple unavailable encoders were probed sequentially
+            // (each timeout + NULL state-change cleanup on Windows COM/MF).
+            var msg = test_bus.timed_pop_filtered(500 * Gst.MSECOND,
                 MessageType.ERROR | MessageType.EOS);
             bool works = (msg != null && msg.type == MessageType.EOS);
             test_pipe.set_state(State.NULL);
@@ -232,51 +238,76 @@ public class VideoRecorder : GLib.Object {
         // Each encoder is validated with a 1-frame test pipeline to catch runtime failures
         // (e.g. openh264enc factory exists but the Cisco library can't initialize)
         int64 encoder_search_start = GLib.get_monotonic_time();
-        // Windows Media Foundation H.264 — native on Windows 10+, fastest option
-        video_encoder = try_create_encoder("mfh264enc", "video-encoder");
-        if (video_encoder != null) {
-            debug("Using mfh264enc (Windows Media Foundation) as H.264 encoder");
-            video_encoder.set("bitrate", (uint) 1500); // kbps (mfh264enc uses kbps)
-        }
-#if !WINDOWS
-        // VA-API / VA encoders are Linux-only (Intel/AMD GPU hardware encoding).
-        // On Windows these factories may be registered by gst-plugins-bad but
-        // always fail at runtime, wasting 2s+ per probe.
-        if (video_encoder == null) {
-            video_encoder = try_create_encoder("vaapih264enc", "video-encoder");
-        }
-        if (video_encoder == null) {
-            video_encoder = try_create_encoder("vah264enc", "video-encoder");
-        }
-#endif
-        if (video_encoder == null) {
-            video_encoder = try_create_encoder("x264enc", "video-encoder");
+
+        // Use cached encoder if already probed in this app session
+        if (encoder_cache_probed && cached_h264_factory != null) {
+            video_encoder = ElementFactory.make(cached_h264_factory, "video-encoder");
             if (video_encoder != null) {
-                // Software encoder: tune for speed and low latency
+                debug("VideoRecorder: using cached encoder '%s' (no probing needed)", cached_h264_factory);
+            } else {
+                // Cache is stale (element disappeared?) — re-probe
+                encoder_cache_probed = false;
+                cached_h264_factory = null;
+            }
+        }
+
+        if (video_encoder == null && !encoder_cache_probed) {
+            encoder_cache_probed = true;
+
+            // Windows Media Foundation H.264 — native on Windows 10+, fastest option
+            video_encoder = try_create_encoder("mfh264enc", "video-encoder");
+            if (video_encoder != null) {
+                cached_h264_factory = "mfh264enc";
+                debug("Using mfh264enc (Windows Media Foundation) as H.264 encoder");
+            }
+#if !WINDOWS
+            // VA-API / VA encoders are Linux-only (Intel/AMD GPU hardware encoding).
+            // On Windows these factories may be registered by gst-plugins-bad but
+            // always fail at runtime, wasting 500ms+ per probe.
+            if (video_encoder == null) {
+                video_encoder = try_create_encoder("vaapih264enc", "video-encoder");
+                if (video_encoder != null) cached_h264_factory = "vaapih264enc";
+            }
+            if (video_encoder == null) {
+                video_encoder = try_create_encoder("vah264enc", "video-encoder");
+                if (video_encoder != null) cached_h264_factory = "vah264enc";
+            }
+#endif
+            if (video_encoder == null) {
+                video_encoder = try_create_encoder("x264enc", "video-encoder");
+                if (video_encoder != null) cached_h264_factory = "x264enc";
+            }
+            if (video_encoder == null) {
+                video_encoder = try_create_encoder("avenc_h264", "video-encoder");
+                if (video_encoder != null) cached_h264_factory = "avenc_h264";
+            }
+            if (video_encoder == null) {
+                video_encoder = try_create_encoder("openh264enc", "video-encoder");
+                if (video_encoder != null) cached_h264_factory = "openh264enc";
+            }
+        } // end encoder probing
+
+        // Configure encoder-specific properties
+        if (video_encoder != null) {
+            string enc_name = video_encoder.get_factory() != null ? video_encoder.get_factory().get_name() : "";
+            if (enc_name == "mfh264enc") {
+                video_encoder.set("bitrate", (uint) 1500); // kbps
+            } else if (enc_name == "x264enc") {
                 video_encoder.set("speed-preset", 2); // superfast
                 video_encoder.set("tune", 4); // zerolatency
-                video_encoder.set("bitrate", 1500); // kbps (x264enc takes kbps)
+                video_encoder.set("bitrate", 1500); // kbps
                 video_encoder.set("key-int-max", 60);
-            }
-        }
-        if (video_encoder == null) {
-            // Fallback: avenc_h264 from gst-libav (ffmpeg) - available in Flatpak via ffmpeg-full extension
-            video_encoder = try_create_encoder("avenc_h264", "video-encoder");
-            if (video_encoder != null) {
+            } else if (enc_name == "avenc_h264") {
                 debug("Using avenc_h264 (ffmpeg) as H.264 encoder fallback");
-                video_encoder.set("bitrate", 1500000); // bps (avenc uses bps, not kbps)
+                video_encoder.set("bitrate", 1500000); // bps
                 video_encoder.set("max-threads", 2);
-            }
-        }
-        if (video_encoder == null) {
-            // Fallback: openh264enc from gst-plugins-bad - available in GNOME Platform runtime (Flatpak)
-            video_encoder = try_create_encoder("openh264enc", "video-encoder");
-            if (video_encoder != null) {
+            } else if (enc_name == "openh264enc") {
                 debug("Using openh264enc as H.264 encoder fallback");
                 video_encoder.set("bitrate", 1500000); // bps
-                video_encoder.set("complexity", 1);     // medium complexity
+                video_encoder.set("complexity", 1); // medium
             }
         }
+
         if (video_encoder == null) {
             // No working H.264 encoder found.
             // We do NOT fall back to VP8/WebM because most mobile XMPP clients
