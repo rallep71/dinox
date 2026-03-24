@@ -720,11 +720,20 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
             element.sync_state_with_parent();
 #if WITH_VOICE_PROCESSOR
             if (media == "audio" && plugin.echoprobe != null) {
+#if WINDOWS
+                // Skip VoiceProcessor on Windows: WASAPI2 shared mode already
+                // applies noise suppression, echo cancellation, and AGC at the
+                // driver level.  Adding our WebRTC processing on top causes
+                // double-processing artifacts and can block the audio pipeline.
+                dsp = null;
+                warning("Device %s: VoiceProcessor SKIPPED (Windows — WASAPI2 handles audio processing)", id);
+#else
                 dsp = new VoiceProcessor(plugin.echoprobe as EchoProbe, element as Gst.Audio.StreamVolume);
                 dsp.name = @"dsp_$id";
                 pipe.add(dsp);
                 dsp.sync_state_with_parent();
                 filter.link(dsp);
+#endif
             }
 #endif
             tee = Gst.ElementFactory.make("tee", @"tee_$id");

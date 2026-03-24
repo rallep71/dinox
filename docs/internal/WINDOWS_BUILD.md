@@ -342,7 +342,7 @@ meson setup build \
 
 # 4. Neu kompilieren
 ninja -C build
-ninja -C build 2>&1 | tee build_warnings.txt zum später analysieren
+
 # 5. Distribution aktualisieren (DLLs, Icons, Plugins etc.)
 bash scripts/update_dist.sh
 
