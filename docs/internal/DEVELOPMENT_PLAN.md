@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 18, 2026 (v1.1.7.7)
+> **Last Updated**: March 25, 2026 (v1.1.7.8)
 > **Current Release Line**: 1.1.7.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.7.7 |
+| **Current Version** | 1.1.7.8 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (DE/FR/ES 100%) |
 | **Build Status** | Clean |
@@ -20,6 +20,19 @@ This document is organized as a **chronological release timeline** first, follow
 ---
 
 ## Timeline (Recent Releases)
+
+### v1.1.7.8 (AV Device Settings, GStreamer Performance, Windows Call Fixes)
+- **Audio/Video device preferences**: New preferences page with persistent mic/speaker/camera selection
+- **Device deduplication**: Filters duplicate WASAPI2 devices on Windows
+- **GStreamer pipeline linking performance**: TEMPLATE_CAPS, NO_RECONFIGURE, PadLinkCheck.NOTHING — significantly faster on Windows
+- **WASAPI2 audio fixes**: S16LE capsfilter, audioresample in all paths, VoiceProcessor skip
+- **Video send bitrate fix**: Initial 1500kbps (was 256), floor 256kbps — REMB chicken-egg fix
+- **DMA-BUF TOCTOU race**: Pin memory during deep copy to prevent PipeWire SIGSEGV
+- **Video message improvements**: Blocking pad probes for fast stop, cached H.264 encoder, 640×480@24fps
+- **OMEMO partial MUC delivery**: Send succeeds even when some participants unreachable
+- **SOCKS5 proxy overhaul**: Tor/SOCKS5 coexistence, HTTP proxy bypass
+- **Windows CI**: Added gst-plugins-ugly + cantarell-fonts
+- 62 commits, 43 files changed, 20+ crash fixes
 
 ### v1.1.7.7 (AV Call Stability, Tor DNS Leak Fix, Proxy Hardening)
 - **Echo probe null dereference** (voice_processor.vala): SIGSEGV when `echo_probe == null` in `start()` — safe conditional added

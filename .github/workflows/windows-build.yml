@@ -82,6 +82,7 @@ jobs:
             mingw-w64-x86_64-glib-networking
             mingw-w64-x86_64-hicolor-icon-theme
             mingw-w64-x86_64-adwaita-icon-theme
+            mingw-w64-x86_64-cantarell-fonts
 
       # lyrebird (Tor pluggable transport: obfs4 + WebTunnel) — not in MSYS2
       - name: Build lyrebird

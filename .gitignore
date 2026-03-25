@@ -23,6 +23,9 @@ docs/internal/KAIDAN_OMEMO_FIX.md
 # Icon backup (personal backup, not project-relevant)
 icon_backup/
 
+# Archived website (offline)
+docs/archive/
+
 # Internal docs (not for public release)
 docs/internal/ejabberd.yaml
 docs/internal/CODING_STANDARDS.md

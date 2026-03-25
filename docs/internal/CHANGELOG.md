@@ -5,6 +5,66 @@ All notable changes to DinoX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.7.8] - 2026-03-25
+
+### Added — Audio/Video Device Settings
+- **Preferences page for audio/video devices**: New "Audio & Video" tab in Preferences with persistent device selection for microphone, speaker, and camera — survives app restarts
+- **Device deduplication**: Filters duplicate audio/video devices on Windows where WASAPI2 and legacy APIs expose the same hardware under different names
+- **DINOX_LOG_FILE environment variable**: Set this on Windows to redirect all debug logging to a file without modifying shell environment
+
+### Fixed — Audio/Video Calls (Windows)
+- **Audio send broken**: Decoupling queue added in `create()` prevents audio pipeline stall; device element leak in `destroy()` fixed
+- **WASAPI2 S16LE capsfilter**: Audio capsfilter must specify `format=S16LE` explicitly for WASAPI2 compatibility on Windows
+- **audioresample in all playback paths**: Added `audioresample` to voice message and call playback pipelines — fixes sample rate mismatch with WASAPI2
+- **VoiceProcessor skipped on Windows**: WASAPI2 already handles AEC/NS/AGC — running DinoX VoiceProcessor on top caused double-processing artifacts
+- **Audio crackling reduced**: rtpbin latency 100→150ms, Opus bitrate 24→48kbps, FEC status logging
+- **Video send bitrate**: Initial 256→1500 kbps, floor 128→256 kbps — fixes REMB chicken-and-egg problem where receiver never sends REMB until it gets video
+- **mfh264enc NV12 format**: Windows Media Foundation H.264 encoder now receives correct pixel format
+- **CRT invalid-parameter-handler crash**: Suppressed MSVC CRT dialog at startup via IAT-patch of GLib's `MessageBoxW`
+- **Explicit WASAPI2/MF sources**: Voice/video messages use `wasapi2src`/`mfh264enc` directly on Windows instead of auto-detection
+
+### Fixed — Audio/Video Calls (Linux)
+- **TOCTOU race in deep_copy_buffer_probe**: DMA-BUF memory pinned during copy to prevent PipeWire SIGSEGV from recycled shared memory
+- **pipewiresrc EINVAL (-22)**: Source-side capsfilter with device-negotiated caps fixes PipeWire rejection of range-based caps
+- **Video buffer deep copy**: C pad probe replaces invalid `copy-buffers` queue property — prevents SIGSEGV from recycled PipeWire shared memory
+- **Video recorder fixed caps**: Uses 640×480@30fps instead of ranges to prevent backwards caps propagation to pipewiresrc
+
+### Fixed — Audio/Video Calls (Both Platforms)
+- **Video call stability**: Multiple SIGSEGV fixes in call state sync, Jingle correctness, senders negotiation, teardown race
+- **Video message stop recording**: EOS via blocking pad probes — `stop_recording` now ~70ms instead of 3–20s timeout
+- **H.264 encoder caching**: Probe timeout reduced from 2s→500ms, encoder element cached for reuse
+- **Video message quality**: Reduced to 640×480@24fps with `add-borders` to prevent stretching
+- **Voice message click eliminated**: Smooth ramp-up for recording start
+- **Comprehensive null-dereference guards**: RTP pipeline guards for device changes during active calls
+- **Diagnostic timers removed**: Timer callbacks causing SIGSEGV on pipeline teardown eliminated
+
+### Performance — GStreamer Pipeline Linking
+- **TEMPLATE_CAPS**: Skip expensive CAPS queries during pipeline linking
+- **NO_RECONFIGURE link flags**: Prevent post-link caps cascade
+- **PadLinkCheck.NOTHING**: Explicit pad names bypass all caps queries — Windows pipeline setup significantly faster
+
+### Fixed — SOCKS5 Proxy / Tor
+- **SOCKS5 proxy overhaul**: Tor/SOCKS5 coexistence fixed, HTTP proxy bypass corrected
+
+### Fixed — OMEMO
+- **Partial MUC delivery**: Allow OMEMO message delivery when some MUC participants are unreachable instead of failing the entire send
+
+### Fixed — Windows Stability
+- **Panic wipe / DB reset**: Batch launch broken on Windows portable — fixed
+- **GStreamer plugin list**: Clean plugin dir before copy, remove deprecated directsound, add missing plugins (videotestsrc, audiotestsrc, audiomixer, videoflip, audiorate, level, wavenc)
+- **Shell pipe/redirect preserved**: Console attach no longer breaks pipe and redirect operators
+- **devices_changed null guard**: Prevent crash when monitor reports null media device
+
+### Changed — Windows CI
+- **gst-plugins-ugly**: Added to CI packages (x264, voaac codecs)
+- **cantarell-fonts**: Added to CI packages (Adwaita font fallback)
+
+### Stats
+- 62 commits, 43 files changed across RTP/calls, GStreamer, Windows platform, OMEMO, proxy
+- Major new feature: Audio/Video device preferences with persistent selection
+- Major performance improvement: GStreamer pipeline linking (TEMPLATE_CAPS, NO_RECONFIGURE)
+- 20+ crash fixes (SIGSEGV, null dereference, race conditions)
+
 ## [1.1.7.7] - 2026-03-18
 
 ### Fixed — Audio/Video Calls (Linux + Windows)
