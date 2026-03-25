@@ -258,7 +258,7 @@ public class Dino.Ui.CallWindowController : Object {
             }
         });
         peer_video_updated_handler_ids[peer_id] = peer_state.counterpart_sends_video_updated.connect((mute) => {
-            warning("RECV-VIDEO-UI: counterpart_sends_video_updated mute=%s widgets=%s videos=%s",
+            debug("RECV-VIDEO-UI: counterpart_sends_video_updated mute=%s widgets=%s videos=%s",
                     mute.to_string(), participant_widgets.has_key(peer_id).to_string(), participant_videos.has_key(peer_id).to_string());
             if (!participant_widgets.has_key(peer_id) || !participant_videos.has_key(peer_id)) return;
             if (mute) {

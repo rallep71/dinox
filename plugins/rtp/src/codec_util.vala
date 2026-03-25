@@ -229,10 +229,10 @@ public class Dino.Plugins.Rtp.CodecUtil {
         // OPUS
         if (encode == "opusenc") {
             if (payload_type != null && payload_type.parameters.has("useinbandfec", "1")) {
-                warning("OPUS-FEC: inband-fec ENABLED (useinbandfec=1 negotiated), bitrate=48000, packet-loss-percentage=10");
+                debug("OPUS-FEC: inband-fec ENABLED (useinbandfec=1 negotiated), bitrate=48000, packet-loss-percentage=10");
                 return " audio-type=voice bitrate=48000 inband-fec=true packet-loss-percentage=10";
             }
-            warning("OPUS-FEC: inband-fec DISABLED (useinbandfec=1 NOT negotiated), bitrate=48000");
+            debug("OPUS-FEC: inband-fec DISABLED (useinbandfec=1 NOT negotiated), bitrate=48000");
             return " audio-type=voice bitrate=48000";
         }
 

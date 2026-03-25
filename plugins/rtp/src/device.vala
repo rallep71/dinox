@@ -256,7 +256,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 codecs[payload_type].get_state(out enc_st, out enc_pend, 0);
                 Gst.State ct_st, ct_pend;
                 codec_tees[payload_type].get_state(out ct_st, out ct_pend, 0);
-                warning("AUDIO-CHECK[2/4] %s encode pipeline linked to tee: codec=%s encoder=%s link=%s enc_state=%s codec_tee_state=%s",
+                debug("AUDIO-CHECK[2/4] %s encode pipeline linked to tee: codec=%s encoder=%s link=%s enc_state=%s codec_tee_state=%s",
                         id, codec ?? "?",
                         codecs[payload_type].name ?? "?",
                         link_ok ? "OK" : "FAILED",
@@ -266,7 +266,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 Gst.Pad? enc_src = codecs[payload_type].get_static_pad("src");
                 if (enc_src != null) {
                     enc_src.add_probe(Gst.PadProbeType.BUFFER, (pad, info) => {
-                        warning("AUDIO-FLOW[E] %s: buffer exits encode_bin", probe_id);
+                        debug("AUDIO-FLOW[E] %s: buffer exits encode_bin", probe_id);
                         return Gst.PadProbeReturn.REMOVE;
                     });
                 } else {
@@ -288,13 +288,13 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 payloaders[payload_type][ssrc].get_state(out pay_st, out pay_pend, 0);
                 Gst.State pt_st, pt_pend;
                 payloader_tees[payload_type][ssrc].get_state(out pt_st, out pt_pend, 0);
-                warning("AUDIO-CHECK[2.5/4] %s payloader_state=%s payloader_tee_state=%s",
+                debug("AUDIO-CHECK[2.5/4] %s payloader_state=%s payloader_tee_state=%s",
                         id, pay_st.to_string(), pt_st.to_string());
                 string probe_id2 = id;
                 Gst.Pad? pt_src = payloader_tees[payload_type][ssrc].get_static_pad("sink");
                 if (pt_src != null) {
                     pt_src.add_probe(Gst.PadProbeType.BUFFER, (pad, info) => {
-                        warning("AUDIO-FLOW[F] %s: buffer reaches payloader_tee", probe_id2);
+                        debug("AUDIO-FLOW[F] %s: buffer reaches payloader_tee", probe_id2);
                         return Gst.PadProbeReturn.REMOVE;
                     });
                 }
@@ -726,7 +726,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 // driver level.  Adding our WebRTC processing on top causes
                 // double-processing artifacts and can block the audio pipeline.
                 dsp = null;
-                warning("Device %s: VoiceProcessor SKIPPED (Windows — WASAPI2 handles audio processing)", id);
+                debug("Device %s: VoiceProcessor SKIPPED (Windows — WASAPI2 handles audio processing)", id);
 #else
                 dsp = new VoiceProcessor(plugin.echoprobe as EchoProbe, element as Gst.Audio.StreamVolume);
                 dsp.name = @"dsp_$id";
@@ -780,7 +780,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
             if (media == "audio") {
                 Gst.Pad? tee_sink = tee.get_static_pad("sink");
                 Gst.Caps? negotiated = tee_sink != null ? tee_sink.get_current_caps() : null;
-                warning("AUDIO-CHECK[1/4] source chain built: %s → caps: %s (dsp=%s)",
+                debug("AUDIO-CHECK[1/4] source chain built: %s → caps: %s (dsp=%s)",
                         id, negotiated != null ? negotiated.to_string() : "NOT YET NEGOTIATED",
                         dsp != null ? "VoiceProcessor" : "NONE");
 
@@ -791,7 +791,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 Gst.Pad? el_src = element.get_static_pad("src");
                 if (el_src != null) {
                     el_src.add_probe(Gst.PadProbeType.BUFFER, (pad, info) => {
-                        warning("AUDIO-FLOW[A] %s: buffer exits wasapi2src", dev_id);
+                        debug("AUDIO-FLOW[A] %s: buffer exits wasapi2src", dev_id);
                         return Gst.PadProbeReturn.REMOVE;
                     });
                 }
@@ -801,7 +801,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 if (filt_src != null) {
                     filt_src.add_probe(Gst.PadProbeType.BUFFER, (pad, info) => {
                         Gst.Caps? c = pad.get_current_caps();
-                        warning("AUDIO-FLOW[B] %s: buffer exits capsfilter → %s", dev_id,
+                        debug("AUDIO-FLOW[B] %s: buffer exits capsfilter → %s", dev_id,
                                 c != null ? c.to_string() : "NO CAPS");
                         return Gst.PadProbeReturn.REMOVE;
                     });
@@ -810,7 +810,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                 // Probe C: data reaches tee?
                 if (tee_sink != null) {
                     tee_sink.add_probe(Gst.PadProbeType.BUFFER, (pad, info) => {
-                        warning("AUDIO-FLOW[C] %s: buffer reaches tee", dev_id);
+                        debug("AUDIO-FLOW[C] %s: buffer reaches tee", dev_id);
                         return Gst.PadProbeReturn.REMOVE;
                     });
                 }
@@ -836,7 +836,7 @@ public class Dino.Plugins.Rtp.Device : MediaDevice, Object {
                         vol_ref.get_state(out vs, out vp, 0);
                         vol_state = vs.to_string();
                     }
-                    warning("AUDIO-FLOW[D] %s 2s-check: src=%s dsp=%s vol=%s caps=%s",
+                    debug("AUDIO-FLOW[D] %s 2s-check: src=%s dsp=%s vol=%s caps=%s",
                             dev_id, el_st.to_string(), dsp_state, vol_state,
                             neg != null ? neg.to_string() : "STILL NONE");
                     return false;

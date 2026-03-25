@@ -334,7 +334,7 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
         if (pad.name.has_prefix("recv_rtp_src_")) {
             string[] split = pad.name.split("_");
             uint8 rtpid = (uint8)int.parse(split[3]);
-            warning("RECV-RTP-SRC pad %s created for stream %hhu (streams=%d)", pad.name, rtpid, streams.size);
+            debug("RECV-RTP-SRC pad %s created for stream %hhu (streams=%d)", pad.name, rtpid, streams.size);
             bool found = false;
             foreach (Stream stream in streams) {
                 if (stream.rtpid == rtpid) {
@@ -347,7 +347,7 @@ public class Dino.Plugins.Rtp.Plugin : RootInterface, VideoCallPlugin, Object {
         if (pad.name.has_prefix("send_rtp_src_")) {
             string[] split = pad.name.split("_");
             uint8 rtpid = (uint8)int.parse(split[3]);
-            warning("SEND-RTP-SRC pad %s created for stream %hhu (streams=%d)", pad.name, rtpid, streams.size);
+            debug("SEND-RTP-SRC pad %s created for stream %hhu (streams=%d)", pad.name, rtpid, streams.size);
             bool found = false;
             foreach (Stream stream in streams) {
                 if (stream.rtpid == rtpid) {

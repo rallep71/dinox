@@ -538,7 +538,7 @@ public class Dino.PeerState : Object {
     }
 
     private void on_stream_created(string media, Xep.JingleRtp.Stream stream) {
-        warning("RECV-VIDEO-SIGNAL: on_stream_created media=%s sending=%s receiving=%s",
+        debug("RECV-VIDEO-SIGNAL: on_stream_created media=%s sending=%s receiving=%s",
                 media, stream.sending.to_string(), stream.receiving.to_string());
         if (media == "video" && stream.receiving) {
             counterpart_sends_video = true;
@@ -548,14 +548,14 @@ public class Dino.PeerState : Object {
                 video_content_parameter.disconnect(video_connection_ready_extra_handler_id);
             }
             video_connection_ready_extra_handler_id = video_content_parameter.connection_ready.connect((status) => {
-                warning("RECV-VIDEO-SIGNAL: video connection_ready fired, emitting counterpart_sends_video_updated(false)");
+                debug("RECV-VIDEO-SIGNAL: video connection_ready fired, emitting counterpart_sends_video_updated(false)");
                 Idle.add(() => {
                     counterpart_sends_video_updated(false);
                     return false;
                 });
             });
         } else if (media == "video" && !stream.receiving) {
-            warning("RECV-VIDEO-SIGNAL: video stream NOT receiving! counterpart won't send video");
+            debug("RECV-VIDEO-SIGNAL: video stream NOT receiving! counterpart won't send video");
         }
 
         // Outgoing audio/video might have been muted in the meanwhile.
