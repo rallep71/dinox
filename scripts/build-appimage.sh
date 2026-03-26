@@ -797,7 +797,7 @@ create_appimage() {
     
     "$APPIMAGETOOL" --version || true
     
-    if ! "$APPIMAGETOOL" -v --no-net --updateinformation "$UPDATE_INFO" "$APPDIR" "$APPIMAGE_NAME"; then
+    if ! "$APPIMAGETOOL" -v --updateinformation "$UPDATE_INFO" "$APPDIR" "$APPIMAGE_NAME"; then
         log_error "AppImageTool failed!"
         exit 1
     fi
