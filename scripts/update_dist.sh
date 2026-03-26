@@ -317,7 +317,7 @@ if [ -d "/mingw64/lib/gstreamer-1.0" ]; then
                   isomp4 audiofx level libav \
                   videotestsrc audiotestsrc audiomixer \
                   matroska ogg vorbis flac wavparse wavenc gdkpixbuf \
-                  mpg123 alaw mulaw; do
+                  mpg123 alaw mulaw gio; do
         for f in /mingw64/lib/gstreamer-1.0/*${plugin}*.dll; do
             [ -f "$f" ] && cp "$f" dist/lib/gstreamer-1.0/
         done

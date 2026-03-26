@@ -339,6 +339,7 @@ public class VideoRecorder : GLib.Object {
         t0 = GLib.get_monotonic_time();
         audio_source = app.av_device_service.create_audio_source(app.settings.msg_audio_input_device);
         warning("VideoRecorder TIMING: create_audio_source = %lldms", (GLib.get_monotonic_time() - t0) / 1000);
+        t0 = GLib.get_monotonic_time();
         audio_convert = ElementFactory.make("audioconvert", "audio-convert");
         audio_resample = ElementFactory.make("audioresample", "audio-resample");
         audio_capsfilter = ElementFactory.make("capsfilter", "audio-caps");
@@ -364,6 +365,7 @@ public class VideoRecorder : GLib.Object {
             muxer.set("faststart", true);
         }
         sink = ElementFactory.make("filesink", "sink");
+        warning("VideoRecorder TIMING: create audio+muxer elements = %lldms", (GLib.get_monotonic_time() - t0) / 1000);
 
         current_output_path = output_path;
 

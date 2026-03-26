@@ -252,6 +252,34 @@ void main(string[] args) {
                 warning("GStreamer: MISSING element '%s' — video playback may fail!", el);
             }
         }
+
+        // Pre-warm Media Foundation and codec DLLs in a background thread.
+        // First use of mfvideosrc/mfh264enc/wasapi2src loads multiple Windows
+        // system DLLs (mfplat.dll, mfreadwrite.dll, evr.dll, d3d11.dll, etc.)
+        // which takes 5-8 seconds.  By exercising these elements at startup,
+        // the DLLs are cached process-wide and video message recording starts
+        // in ~2s instead of ~8s.
+        new Thread<void*>("gst-mf-warmup", () => {
+            int64 tw0 = GLib.get_monotonic_time();
+            // Video source — loads Media Foundation device source DLLs
+            var wv = Gst.ElementFactory.make("mfvideosrc", null);
+            if (wv != null) { wv.set_state(Gst.State.READY); wv.set_state(Gst.State.NULL); wv = null; }
+            // Video encoder — loads MF Transform DLLs
+            var we = Gst.ElementFactory.make("mfh264enc", null);
+            if (we != null) { we.set_state(Gst.State.READY); we.set_state(Gst.State.NULL); we = null; }
+            // Audio source — loads WASAPI2 DLLs
+            var wa = Gst.ElementFactory.make("wasapi2src", null);
+            if (wa != null) { wa.set_state(Gst.State.READY); wa.set_state(Gst.State.NULL); wa = null; }
+            // Audio encoder — loads libavcodec DLL
+            var waac = Gst.ElementFactory.make("avenc_aac", null);
+            waac = null;
+            // Muxer — loads isomp4 plugin DLL
+            var wmux = Gst.ElementFactory.make("mp4mux", null);
+            wmux = null;
+            debug("GStreamer MF warm-up completed in %lldms",
+                  (GLib.get_monotonic_time() - tw0) / 1000);
+            return null;
+        });
 #endif
 
         // Suppress "Locale not supported by C library" by falling back gracefully.
