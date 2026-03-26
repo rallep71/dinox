@@ -1990,12 +1990,14 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
         // Delay the actual reset to let the toast show
         Timeout.add( 2000, () => {
 #if WINDOWS
-            // On Windows, open files can't be deleted. Use a batch file that
-            // runs after this process exits (same approach as panic wipe).
+            // On Windows, open files can't be deleted while the process runs.
+            // Use a SINGLE batch file that: 1) waits for exit, 2) deletes DBs,
+            // 3) restarts dinox.exe. This avoids the race condition of two
+            // separate batch files (reset + restart) running in parallel.
             string data_dir_win = data_dir.replace("/", "\\");
             string batch_path = Path.build_filename(get_native_tmp_dir(), "dinox_reset.bat").replace("/", "\\");
             string batch_content = "@echo off\r\n";
-            batch_content += "ping 127.0.0.1 -n 2 > nul\r\n";
+            batch_content += "ping 127.0.0.1 -n 3 > nul\r\n";
             string[] db_files = { "dino.db", "dino.db-shm", "dino.db-wal",
                                    "pgp.db", "pgp.db-shm", "pgp.db-wal",
                                    "bot_registry.db", "bot_registry.db-shm", "bot_registry.db-wal",
@@ -2006,6 +2008,20 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 batch_content += "del /f /q \"%s\\%s\" 2>nul\r\n".printf(data_dir_win, f);
             }
             batch_content += "rd /s /q \"%s\\omemo\" 2>nul\r\n".printf(data_dir_win);
+
+            // Restart dinox.exe AFTER deletion is complete
+            string? exe_path = null;
+            string? exe_dir = Environment.get_variable("DINOX_EXE_DIR");
+            if (exe_dir != null) {
+                exe_path = Path.build_filename(exe_dir, "dinox.exe");
+            }
+            if (exe_path == null || !FileUtils.test(exe_path, FileTest.EXISTS)) {
+                exe_path = Environment.find_program_in_path("dinox.exe");
+            }
+            if (exe_path != null) {
+                batch_content += "start \"\" \"%s\"\r\n".printf(exe_path.replace("/", "\\"));
+            }
+
             batch_content += "(goto) 2>nul & del \"%~f0\"\r\n";
             try {
                 FileUtils.set_contents(batch_path, batch_content);
@@ -2014,6 +2030,9 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             } catch (Error e) {
                 warning("Database reset batch failed: %s", e.message);
             }
+            // Exit directly — the batch file handles restart after deletion
+            Process.exit(0);
+            return false;
 #else
             // Delete the main database file
             string db_path = Path.build_filename (data_dir, "dino.db");
@@ -2127,6 +2146,43 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
                 db.close();
             }
 
+#if WINDOWS
+            // On Windows, open files can't be deleted while the process runs.
+            // Use a single batch file: wait for exit → delete everything → restart.
+            string data_dir_win = data_dir.replace("/", "\\");
+            string config_dir_win = config_dir.replace("/", "\\");
+            string cache_dir_win = cache_dir.replace("/", "\\");
+            string batch_path = Path.build_filename(get_native_tmp_dir(), "dinox_factory_reset.bat").replace("/", "\\");
+            string batch_content = "@echo off\r\n";
+            batch_content += "ping 127.0.0.1 -n 3 > nul\r\n";
+            batch_content += "rd /s /q \"%s\" 2>nul\r\n".printf(data_dir_win);
+            batch_content += "rd /s /q \"%s\" 2>nul\r\n".printf(config_dir_win);
+            batch_content += "rd /s /q \"%s\" 2>nul\r\n".printf(cache_dir_win);
+
+            // Restart dinox.exe AFTER deletion is complete
+            string? exe_path = null;
+            string? exe_dir = Environment.get_variable("DINOX_EXE_DIR");
+            if (exe_dir != null) {
+                exe_path = Path.build_filename(exe_dir, "dinox.exe");
+            }
+            if (exe_path == null || !FileUtils.test(exe_path, FileTest.EXISTS)) {
+                exe_path = Environment.find_program_in_path("dinox.exe");
+            }
+            if (exe_path != null) {
+                batch_content += "start \"\" \"%s\"\r\n".printf(exe_path.replace("/", "\\"));
+            }
+
+            batch_content += "(goto) 2>nul & del \"%~f0\"\r\n";
+            try {
+                FileUtils.set_contents(batch_path, batch_content);
+                string[] reset_argv = {"cmd.exe", "/c", "start", "/b", "", batch_path};
+                new Subprocess.newv (reset_argv, SubprocessFlags.STDIN_PIPE | SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE);
+            } catch (Error e) {
+                warning("Factory reset batch failed: %s", e.message);
+            }
+            Process.exit(0);
+            return false;
+#else
             // Delete everything
             try {
                 delete_directory_contents (data_dir);
@@ -2148,6 +2204,7 @@ public class Dino.Ui.Application : Adw.Application, Dino.Application {
             } catch (Error err) {
                 warning ("Failed to delete cache dir: %s", err.message);
             }
+#endif
 
             // Restart the application
             restart_application( );
