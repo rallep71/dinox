@@ -69,7 +69,7 @@ public class VideoPlayerWidget : Widget {
     }
     private State state = State.EMPTY;
 
-    private Stack stack = new Stack() { transition_duration=600, transition_type=StackTransitionType.CROSSFADE, hhomogeneous=true, vhomogeneous=true, interpolate_size=false };
+    private Stack stack = new Stack() { transition_duration=150, transition_type=StackTransitionType.CROSSFADE, hhomogeneous=true, vhomogeneous=true, interpolate_size=false };
     private Overlay overlay = new Overlay();
 
     private bool show_overlay_toolbar = false;
@@ -291,19 +291,10 @@ public class VideoPlayerWidget : Widget {
         // Retry preview after the widget has been realized and mapped.
         // The initial update_widget call may fire before the widget is mapped,
         // and notify["mapped"] only fires on transitions — so a deferred retry is needed.
-        // Use short timeout (200ms) rather than Idle.add because GTK may not have
-        // mapped the widget yet during the same main loop iteration.
-        Timeout.add(200, () => {
+        // Use Idle.add so GTK finishes layout before we check viewport visibility.
+        Idle.add(() => {
             if (_disposed) return false;
             try_lazy_preview_init();
-            // If still not initialized and widget exists, try once more after 1s
-            if (!preview_initialized && !preview_generating) {
-                Timeout.add(800, () => {
-                    if (_disposed) return false;
-                    try_lazy_preview_init();
-                    return false;
-                });
-            }
             return false;
         });
     }
@@ -421,15 +412,17 @@ public class VideoPlayerWidget : Widget {
         debug("VideoPlayerWidget: generating preview thumbnail");
         temp_preview_file = yield decrypt_to_temp(encrypted_file, file_transfer.file_name, "preview_");
 
-        // Extract first frame using uridecodebin — NO playbin, NO autoaudiosink
-        // uridecodebin only decodes, it creates NO sinks → ZERO PipeWire connections
+        // Extract first frame using filesrc + decodebin — lighter than uridecodebin,
+        // avoids URI resolution overhead since we already have a local file path.
+        // NO playbin, NO autoaudiosink → ZERO PipeWire connections.
         var pipe = new Gst.Pipeline("thumb-pipe");
-        var thumb_src = ElementFactory.make("uridecodebin", "thumb-src");
+        var thumb_filesrc = ElementFactory.make("filesrc", "thumb-filesrc");
+        var thumb_decode = ElementFactory.make("decodebin", "thumb-decode");
         var vconv = ElementFactory.make("videoconvert", "thumb-vc");
         var vcaps_elem = ElementFactory.make("capsfilter", "thumb-vcaps");
         var vsink = ElementFactory.make("fakesink", "thumb-vs");
 
-        if (thumb_src == null || vconv == null || vcaps_elem == null || vsink == null) {
+        if (thumb_filesrc == null || thumb_decode == null || vconv == null || vcaps_elem == null || vsink == null) {
             debug("VideoPlayerWidget: missing GStreamer elements for thumbnail");
             show_fallback_preview();
             preview_generating = false;
@@ -439,16 +432,21 @@ public class VideoPlayerWidget : Widget {
         vcaps_elem.set("caps", Gst.Caps.from_string("video/x-raw,format=RGBA"));
         vsink.set("enable-last-sample", true);
 
-        // Only decode video streams (no audio → no autoaudiosink)
-        thumb_src.set("caps", Gst.Caps.from_string("video/x-raw"));
-        thumb_src.set("uri", temp_preview_file.get_uri());
+        thumb_filesrc.set("location", temp_preview_file.get_path());
 
-        pipe.add_many(thumb_src, vconv, vcaps_elem, vsink);
+        pipe.add_many(thumb_filesrc, thumb_decode, vconv, vcaps_elem, vsink);
+        thumb_filesrc.link(thumb_decode);
         vconv.link(vcaps_elem);
         vcaps_elem.link(vsink);
 
-        // Dynamic pad linking from uridecodebin (decoded video pads)
-        thumb_src.pad_added.connect((pad) => {
+        // Dynamic pad linking from decodebin — only link video pads
+        thumb_decode.pad_added.connect((pad) => {
+            var pad_caps = pad.get_current_caps();
+            if (pad_caps == null) pad_caps = pad.query_caps(null);
+            if (pad_caps != null && pad_caps.get_size() > 0) {
+                unowned Gst.Structure st = pad_caps.get_structure(0);
+                if (!st.get_name().has_prefix("video/")) return;
+            }
             var sink_pad = vconv.get_static_pad("sink");
             if (sink_pad != null && !sink_pad.is_linked()) {
                 pad.link(sink_pad);
