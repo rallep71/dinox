@@ -217,7 +217,7 @@ public class Dino.Ui.CallWindowController : Object {
         peer_states[peer_id] = peer_state;
 
         peer_connection_ready_handler_ids[peer_id] = peer_state.connection_ready.connect(() => {
-            if (!participant_widgets.has_key(peer_id)) return;
+            if (closing || !participant_widgets.has_key(peer_id)) return;
             call_window.set_status(peer_id, "");
             
             // Show volume controls only in group calls (more than 1 participant)
@@ -258,9 +258,9 @@ public class Dino.Ui.CallWindowController : Object {
             }
         });
         peer_video_updated_handler_ids[peer_id] = peer_state.counterpart_sends_video_updated.connect((mute) => {
+            if (closing || !participant_widgets.has_key(peer_id) || !participant_videos.has_key(peer_id)) return;
             debug("RECV-VIDEO-UI: counterpart_sends_video_updated mute=%s widgets=%s videos=%s",
                     mute.to_string(), participant_widgets.has_key(peer_id).to_string(), participant_videos.has_key(peer_id).to_string());
-            if (!participant_widgets.has_key(peer_id) || !participant_videos.has_key(peer_id)) return;
             if (mute) {
                 Conversation? conversation = stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_conversation(peer_jid.bare_jid, call.account, Conversation.Type.CHAT);
                 call_window.set_placeholder(peer_id, conversation, stream_interactor);
@@ -273,12 +273,13 @@ public class Dino.Ui.CallWindowController : Object {
             }
         });
         peer_info_received_handler_ids[peer_id] = peer_state.info_received.connect((session_info) => {
+            if (closing) return;
             if (session_info == Xmpp.Xep.JingleRtp.CallSessionInfo.RINGING) {
                 call_window.set_status(peer_id, "ringing");
             }
         });
         peer_encryption_handler_ids[peer_id] = peer_state.encryption_updated.connect((state, audio_encryption,  video_encryption) => {
-            if (!participant_widgets.has_key(peer_id) || !peer_states.has_key(peer_id)) return;
+            if (closing || !participant_widgets.has_key(peer_id) || !peer_states.has_key(peer_id)) return;
             update_encryption_indicator(participant_widgets[peer_id].encryption_button_controller, peer_states[peer_id].audio_content != null, audio_encryption, peer_states[peer_id].video_content != null, video_encryption);
         });
     }
@@ -594,12 +595,12 @@ public class Dino.Ui.CallWindowController : Object {
     private void cleanup() {
         if (cleaned_up) return;
         cleaned_up = true;
+        closing = true; // Signal all handlers to ignore events
         debug("CallWindowController.cleanup() called");
 
-        // Shut down DTMF tone pipeline immediately — GTK4 dispose doesn't
-        // guarantee child finalizers run before the GStreamer pipeline is
-        // observed as lingering in the PipeWire mixer.
+        // Shut down DTMF tone pipeline immediately
         call_window.bottom_bar.shutdown();
+        detach_all_video();
 
         // Disconnect from the singleton Calls module
         if (calls_conference_info_handler_id != 0 && SignalHandler.is_connected(calls, calls_conference_info_handler_id)) {
@@ -607,27 +608,21 @@ public class Dino.Ui.CallWindowController : Object {
         }
         calls_conference_info_handler_id = 0;
 
-        // Disconnect from call_state (breaks reference cycle)
+        // Disconnect from call_state
+        if (call_state != null) {
         if (call_state_terminated_handler_id != 0 && SignalHandler.is_connected(call_state, call_state_terminated_handler_id)) {
             call_state.disconnect(call_state_terminated_handler_id);
         }
-        call_state_terminated_handler_id = 0;
         if (call_state_peer_joined_handler_id != 0 && SignalHandler.is_connected(call_state, call_state_peer_joined_handler_id)) {
             call_state.disconnect(call_state_peer_joined_handler_id);
         }
-        call_state_peer_joined_handler_id = 0;
         if (call_state_peer_left_handler_id != 0 && SignalHandler.is_connected(call_state, call_state_peer_left_handler_id)) {
             call_state.disconnect(call_state_peer_left_handler_id);
         }
-        call_state_peer_left_handler_id = 0;
+        }
+        call_state_terminated_handler_id = call_state_peer_joined_handler_id = call_state_peer_left_handler_id = 0;
 
-        // Note: group_call signals (peer_joined/peer_left) are NOT disconnected here
-        // because GroupCall is not a GObject and doesn't support handler ID-based
-        // disconnection. GroupCall is cleaned up when handle_peer_left() nulls it out,
-        // which releases the signal delegates automatically.
-
-        // Disconnect from the singleton call_plugin to break the reference
-        // cycle that keeps this controller (and CallState's Device refs) alive.
+        // Disconnect from the singleton call_plugin
         if (devices_changed_handler_id != 0) {
             call_plugin.disconnect(devices_changed_handler_id);
             devices_changed_handler_id = 0;
@@ -667,23 +662,14 @@ public class Dino.Ui.CallWindowController : Object {
             close_timeout_id = 0;
         }
 
-        // Break the CallWindow ↔ CallWindowController reference cycle
-        // so both objects can be finalized by the GObject ref-counting system.
+        // Break references
         call_window.controller = null;
-
-        // Release our strong ref to call_state so GObject can finalize it
-        // (together with PeerState, content parameters, etc.).
         call_state = null;
 
 #if HAVE_MALLOC_TRIM
-        // First trim: return pages freed so far (pipeline, widgets).
         malloc_trim(0);
-        // Deferred trim: GObject ref-counting may finalize CallState,
-        // PeerState, and GStreamer closures asynchronously after we return.
-        // Schedule a second trim to catch those late frees.
         Timeout.add(500, () => {
             malloc_trim(0);
-            debug("malloc_trim(0) deferred after call window cleanup");
             return Source.REMOVE;
         });
 #endif
@@ -736,3 +722,4 @@ public class Dino.Ui.CallWindowController : Object {
         return jid.bare_jid.to_string();
     }
 }
+

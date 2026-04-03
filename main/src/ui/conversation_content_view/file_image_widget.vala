@@ -490,6 +490,9 @@ public class FileImageWidget : Widget {
                         return null;
                     }
                     
+                    // Pre-check for "trash" data
+                    if (data.length < 100) throw new Error(Quark.from_string("DinoX"), 0, "File too small/corrupt");
+                    
                     MemoryInputStream stream = null;
                     try {
                         uint8[] plaintext = enc.decrypt_data(data);
@@ -513,8 +516,14 @@ public class FileImageWidget : Widget {
                 }
 
                 Idle.add(() => {
-                    if (this.load_generation != gen) return false;
-                    if (cancellable.is_cancelled()) return false;
+                    // Check if widget is still alive and generation matches
+                    if (this.load_generation != gen || cancellable.is_cancelled()) return false;
+
+                    // Check if we got valid data
+                    if (result.animation == null && result.pixbuf == null) {
+                        warning("Image decoding failed to produce valid data");
+                        return false;
+                    }
 
                     if (result.animation != null && is_sticker && !result.animation.is_static_image()) {
                         var iter = result.animation.get_iter(null);
@@ -541,6 +550,9 @@ public class FileImageWidget : Widget {
 
                     if (result.pixbuf != null && result.pixbuf.get_pixels() != null) {
                         image.paintable = Texture.for_pixbuf(result.pixbuf);
+                    } else if (is_sticker || !is_sticker) {
+                        // Image was corrupted or couldn't be decoded
+                        warning("Image decoding failed to produce valid Pixbuf");
                     }
                     return false;
                 });
@@ -706,3 +718,4 @@ public class FileImageWidget : Widget {
 }
 
 }
+

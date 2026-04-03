@@ -86,6 +86,10 @@ namespace Dino.Ui {
 #endif
 
         public override void snapshot(Gtk.Snapshot snapshot) {
+            // Check if widget has a valid allocation before snapping
+            if (get_width() <= 0 || get_height() <= 0) {
+                return;
+            }
             base.snapshot(snapshot);
 
             if ((state == State.DOWNLOADING || state == State.UPLOADING) && progress_animation.value > 0.01) {
@@ -144,3 +148,4 @@ namespace Dino.Ui {
         }
     }
 }
+

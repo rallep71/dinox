@@ -173,6 +173,7 @@ public class VideoRecorder : GLib.Object {
         video_source = app.av_device_service.create_video_source(app.settings.msg_video_device);
         video_source.set("do-timestamp", true);
         video_convert = ElementFactory.make("videoconvert", "video-convert");
+
         video_scale = ElementFactory.make("videoscale", "video-scale");
         if (video_scale != null) {
             video_scale.set("add-borders", true);
@@ -305,6 +306,7 @@ public class VideoRecorder : GLib.Object {
                 video_encoder.set("tune", 4);
                 video_encoder.set("bitrate", 1500);
                 video_encoder.set("key-int-max", 60);
+                video_encoder.set("profile", 1); // 1 = baseline
             } else if (enc_name == "avenc_h264") {
                 video_encoder.set("bitrate", 1500000);
                 video_encoder.set("max-threads", 2);
@@ -364,7 +366,7 @@ public class VideoRecorder : GLib.Object {
         string[] missing = {};
         if (video_source == null) missing += "video_source (pipewiresrc/v4l2src)";
         if (video_convert == null) missing += "videoconvert (gst-plugins-base)";
-        if (video_scale == null) missing += "videoscale (gst-plugins-base)";
+        if (video_scale == null) missing += "video_scale (gst-plugins-base)";
         if (video_rate == null) missing += "videorate (gst-plugins-base)";
         if (video_capsfilter == null) missing += "capsfilter (gstreamer)";
         if (video_encoder == null) missing += "video encoder (all tested: vaapih264enc, vah264enc, x264enc, avenc_h264, openh264enc, vp8enc — none available/working)";
@@ -443,15 +445,9 @@ public class VideoRecorder : GLib.Object {
         if (audio_parser != null) {
             pipeline.add(audio_parser);
         }
-        // Link video chain — skip ALL link checks and specify explicit pad names.
-        // On Windows, gst_element_link_pads_full with null names calls
-        // gst_element_get_compatible_pad() which triggers caps queries back to
-        // mfvideosrc (Media Foundation device enumeration, ~seconds).
-        // With NOTHING flag + explicit pads, linking is just pointer assignment.
-        // Actual caps negotiation happens at set_state(PLAYING).
+        // Link video chain
         var FAST = Gst.PadLinkCheck.NOTHING;
 
-        // video_source → [src_capsfilter →] video_convert → video_scale → video_rate → video_caps → tee
         if (video_src_capsfilter != null) {
             if (!video_source.link_pads("src", video_src_capsfilter, "sink", FAST) ||
                 !video_src_capsfilter.link_pads("src", video_convert, "sink", FAST)) {
@@ -460,9 +456,9 @@ public class VideoRecorder : GLib.Object {
             }
         } else {
             if (!video_source.link_pads("src", video_convert, "sink", FAST)) {
-                throw new Error(Quark.from_string("VideoRecorder"), 0,
+            throw new Error(Quark.from_string("VideoRecorder"), 0,
                     "Could not link video source → videoconvert");
-            }
+        }
         }
         if (!video_convert.link_pads("src", video_scale, "sink", FAST) ||
             !video_scale.link_pads("src", video_rate, "sink", FAST) ||
@@ -544,8 +540,8 @@ public class VideoRecorder : GLib.Object {
             // No parser available: link encoder directly to muxer
             if (!audio_encoder.link(muxer)) {
                 throw new Error(Quark.from_string("VideoRecorder"), 0, "Could not link audio_encoder → muxer");
-            }
         }
+    }
 
         // Muxer → sink
         if (!muxer.link(sink)) {
@@ -572,9 +568,9 @@ public class VideoRecorder : GLib.Object {
                     Idle.add(() => {
                         cancel_recording();
                         recording_error(user_msg);
-                        return false;
-                    });
-                }
+                return false;
+            });
+    }
                 return false; // stop watching — we're cancelling
             } else if (msg.type == MessageType.WARNING) {
                 Error warn;
@@ -825,3 +821,4 @@ public class VideoRecorder : GLib.Object {
 }
 
 }
+
