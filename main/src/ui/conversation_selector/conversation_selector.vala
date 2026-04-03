@@ -19,6 +19,8 @@ public class ConversationSelector : Widget {
     // Prevents add_conversation from re-creating a row during the async yield.
     private HashSet<Conversation> removing_conversations = new HashSet<Conversation>(Conversation.hash_func, Conversation.equals_func);
 
+    private bool ignore_selection_changes = false;
+
     public ConversationSelector init(StreamInteractor stream_interactor) {
         this.stream_interactor = stream_interactor;
         list_box.set_parent(this);
@@ -55,6 +57,7 @@ public class ConversationSelector : Widget {
 
         // Use row_selected for single-click selection (GTK4 row_activated only fires on double-click/Enter)
         list_box.row_selected.connect((row) => {
+            if (ignore_selection_changes) return;
             debug("ConversationSelector: list_box.row_selected triggered");
             if (row != null) {
                 row_activated(row);
@@ -80,7 +83,11 @@ public class ConversationSelector : Widget {
         if (!rows.has_key(conversation)) {
             add_conversation(conversation);
         }
+        
+        bool prev_ignore = ignore_selection_changes;
+        ignore_selection_changes = true;
         list_box.select_row(rows[conversation]);
+        ignore_selection_changes = prev_ignore;
     }
 
     private void on_content_item_received(ContentItem item, Conversation conversation) {
@@ -146,19 +153,30 @@ public class ConversationSelector : Widget {
 
     private void select_fallback_conversation(Conversation conversation) {
         if (!rows.has_key(conversation)) return;
-        if (list_box.get_selected_row() == rows[conversation]) {
-            int index = rows[conversation].get_index();
-            ListBoxRow? next_select_row = list_box.get_row_at_index(index + 1);
-            if (next_select_row == null) {
-                next_select_row = list_box.get_row_at_index(index - 1);
+        
+        Dino.Ui.Application app = (Dino.Ui.Application) GLib.Application.get_default();
+        bool is_active_conversation = false;
+        if (app != null && app.controller != null && app.controller.conversation != null) {
+            if (app.controller.conversation.equals(conversation)) {
+                is_active_conversation = true;
             }
-            if (next_select_row != null) {
-                list_box.select_row(next_select_row);
-                row_activated(next_select_row);
-            } else {
-                // Last conversation being removed — deselect so the UI can
-                // switch to the "no active conversations" placeholder.
-                list_box.select_row(null);
+        }
+        
+        if (is_active_conversation) {
+            if (list_box.get_selected_row() == rows[conversation]) {
+                int index = rows[conversation].get_index();
+                ListBoxRow? next_select_row = list_box.get_row_at_index(index + 1);
+                if (next_select_row == null) {
+                    next_select_row = list_box.get_row_at_index(index - 1);
+                }
+                if (next_select_row != null) {
+                    list_box.select_row(next_select_row);
+                    row_activated(next_select_row);
+                } else {
+                    // Last conversation being removed — deselect so the UI can
+                    // switch to the "no active conversations" placeholder.
+                    list_box.select_row(null);
+                }
             }
         }
     }
@@ -177,9 +195,25 @@ public class ConversationSelector : Widget {
             // two concurrent calls could both pass has_key() before unset()
             rows.unset(conversation, out conversation_row);
 
+            conversation_row.set_selectable(false);
+
             yield conversation_row.colapse();
             if (conversation_row.get_parent() == list_box) {
+                // Ignore selection changes while we remove the row, so GTK doesn't
+                // force a selection change on us.
+                ignore_selection_changes = true;
+                
+                // Remember current selected row to restore it
+                ListBoxRow? current_selection = list_box.get_selected_row();
+                
                 list_box.remove(conversation_row);
+                
+                // Restore selection if GTK changed it during remove
+                if (current_selection != null && current_selection != conversation_row) {
+                    list_box.select_row(current_selection);
+                }
+                
+                ignore_selection_changes = false;
             }
         }
 

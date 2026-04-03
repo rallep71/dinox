@@ -9,7 +9,7 @@ namespace Dino.Ui {
 public class MainWindowController : Object {
 
     private StreamInteractor stream_interactor;
-    private Conversation? conversation;
+    public Conversation? conversation { get; private set; }
     private Application app;
     private Database db;
     private MainWindow window;
@@ -25,7 +25,7 @@ public class MainWindowController : Object {
         this.db = db;
 
         stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).conversation_deactivated.connect(check_unset_conversation);
-        stream_interactor.account_removed.connect(check_unset_conversation);
+        stream_interactor.account_removed.connect((_) => check_unset_conversation());
 
         SimpleAction jump_to_conversatio_message_action = new SimpleAction("jump-to-conversation-message", new VariantType.tuple(new VariantType[]{VariantType.INT32, VariantType.INT32}));
         jump_to_conversatio_message_action.activate.connect((variant) => {
@@ -174,8 +174,13 @@ public class MainWindowController : Object {
         Dino.Ui.UiTiming.log_ms("MainWindowController.select_conversation: total", t0_us);
     }
 
-    private void check_unset_conversation() {
+    private void check_unset_conversation(Conversation? deactivated_conversation = null) {
         if (stream_interactor.get_module<ConversationManager>(ConversationManager.IDENTITY).get_active_conversations().size == 0) {
+            unset_conversation();
+        } else if (deactivated_conversation != null && this.conversation != null && this.conversation.equals(deactivated_conversation)) {
+            // The currently active conversation was deactivated, but there are others left.
+            // Clear the view immediately. The conversation_selector will pick a fallback
+            // conversation shortly and trigger a select_conversation().
             unset_conversation();
         }
     }

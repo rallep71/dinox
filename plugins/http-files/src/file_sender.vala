@@ -259,7 +259,10 @@ public class HttpFileSender : FileSender, Object {
     }
 
     public async long get_file_size_limit(Conversation conversation) {
-        long? max_size = max_file_sizes[conversation.account];
+        long? max_size = null;
+        lock (max_file_sizes) {
+            max_size = max_file_sizes[conversation.account];
+        }
         if (max_size != null) {
             return max_size;
         }

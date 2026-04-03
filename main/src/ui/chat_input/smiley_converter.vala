@@ -10,7 +10,6 @@ class SmileyConverter {
 
     private TextView text_input;
     private static HashMap<string, string> smiley_translations = new HashMap<string, string>();
-    private Regex whitespace_regex = /\s/;
 
     static construct {
         smiley_translations[":)"] = "🙂";
@@ -48,25 +47,40 @@ class SmileyConverter {
     private void check_convert() {
         if (!Dino.Application.get_default().settings.convert_utf8_smileys) return;
 
-        TextIter? start_iter;
-        text_input.buffer.get_start_iter(out start_iter);
-        TextIter? cursor_iter;
+        TextIter cursor_iter;
         text_input.buffer.get_iter_at_mark(out cursor_iter, text_input.buffer.get_insert());
-        if (start_iter == null || cursor_iter == null) return;
-
-        string text = text_input.buffer.get_text(start_iter, cursor_iter, true);
 
         foreach (string smiley in smiley_translations.keys) {
-            if (text.has_suffix(smiley)) {
-                if (text.length == smiley.length || whitespace_regex.match(text[text.length - smiley.length - 1].to_string())) {
-                    TextIter? end_iter;
-                    text_input.buffer.get_end_iter(out end_iter);
-                    if (end_iter == null) continue;
-
-                    TextIter smiley_start_iter = cursor_iter;
-                    smiley_start_iter.backward_chars(smiley.length);
-                    text_input.buffer.delete(ref smiley_start_iter, ref cursor_iter);
+            int smiley_chars = (int)smiley.length;
+            
+            TextIter start_iter = cursor_iter;
+            if (!start_iter.backward_chars(smiley_chars)) {
+                // If we couldn't go back enough chars, but we're at the start, check if the remaining text matches
+                TextIter start_of_buffer;
+                text_input.buffer.get_start_iter(out start_of_buffer);
+                string remaining_text = text_input.buffer.get_text(start_of_buffer, cursor_iter, true);
+                if (remaining_text == smiley) {
+                    text_input.buffer.delete(ref start_of_buffer, ref cursor_iter);
                     text_input.buffer.insert_text(ref cursor_iter, smiley_translations[smiley], smiley_translations[smiley].length);
+                    break;
+                }
+                continue;
+            }
+
+            string text = text_input.buffer.get_text(start_iter, cursor_iter, true);
+            if (text == smiley) {
+                bool is_whitespace_before = true;
+
+                TextIter before_iter = start_iter;
+                if (before_iter.backward_char()) {
+                    unichar c = before_iter.get_char();
+                    is_whitespace_before = c.isspace();
+                }
+
+                if (is_whitespace_before) {
+                    text_input.buffer.delete(ref start_iter, ref cursor_iter);
+                    text_input.buffer.insert_text(ref cursor_iter, smiley_translations[smiley], smiley_translations[smiley].length);
+                    break;
                 }
             }
         }

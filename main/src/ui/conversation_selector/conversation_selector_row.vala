@@ -742,11 +742,12 @@ public class ConversationSelectorRow : ListBoxRow {
         popover.set_parent(this);
         popover.set_pointing_to({ (int)x, (int)y, 1, 1 });
         popover.closed.connect(() => {
+            var current_popover = popover;
             Idle.add(() => {
-                if (popover.get_parent() != null) {
-                    popover.unparent();
+                if (current_popover.get_parent() != null) {
+                    current_popover.unparent();
                 }
-                if (active_popover == popover) {
+                if (active_popover == current_popover) {
                     active_popover = null;
                 }
                 return false;

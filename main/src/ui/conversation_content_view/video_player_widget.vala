@@ -409,6 +409,14 @@ public class VideoPlayerWidget : Widget {
     }
 
     private async void generate_preview(File encrypted_file) {
+        if (file_transfer.size > 104857600) { // > 100 MB
+            debug("VideoPlayerWidget: File too large for preview generation (%lld bytes)", (int64)file_transfer.size);
+            show_fallback_preview();
+            preview_generating = false;
+            preview_initialized = true;
+            return;
+        }
+
         debug("VideoPlayerWidget: generating preview thumbnail");
         temp_preview_file = yield decrypt_to_temp(encrypted_file, file_transfer.file_name, "preview_");
 
