@@ -14,8 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Video Compatibility**: Improved video encoding compatibility for calls.
 - **UI Improvements**: Fixed various UI bugs including conversation list selection issues and edge cases.
 
-### Cleanup
-- Removed internal agent conversation logs from the repository.
+
 
 ## [1.1.8.0] - 2026-03-26
 
