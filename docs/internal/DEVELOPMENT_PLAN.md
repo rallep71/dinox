@@ -1,6 +1,6 @@
 # DinoX - Development Plan
 
-> **Last Updated**: March 26, 2026 (v1.1.8.0)
+> **Last Updated**: April 4, 2026 (v1.1.8.1)
 > **Current Release Line**: 1.1.8.x
 
 This document is organized as a **chronological release timeline** first, followed by a **forward-looking roadmap**.
@@ -11,7 +11,7 @@ This document is organized as a **chronological release timeline** first, follow
 
 | Metric | Status |
 |--------|--------|
-| **Current Version** | 1.1.8.0 |
+| **Current Version** | 1.1.8.1 |
 | **XEPs Implemented** | ~78 |
 | **Languages** | 47 (DE/FR/ES 100%) |
 | **Build Status** | Clean |
